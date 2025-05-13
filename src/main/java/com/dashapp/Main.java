@@ -16,10 +16,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Load the main application view
-        URL mainViewUrl = getClass().getResource("/com/dashapp/fxml/HomeView.fxml");
-        if (mainViewUrl == null) {
-            throw new IllegalStateException("FXML file not found: /com/dashapp/fxml/HomeView.fxml");
-        }
+        URL mainViewUrl = getClass().getResource("/com/dashapp/fxml/MainView.fxml");
+
         FXMLLoader loader = new FXMLLoader(mainViewUrl);
         Parent root = loader.load();
 

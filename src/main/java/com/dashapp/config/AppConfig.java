@@ -7,7 +7,7 @@ public class AppConfig {
     public static final String APP_TITLE = "Dash App - JavaFX Version";
     
     // Data storage settings
-    public static final String DATA_DIR = "src/main/resources/data";
+    public static final String DATA_DIR = "src/main/resources/com/dashapp/data";
     public static final String USERS_CSV_PATH = DATA_DIR + "/users.csv";
     
     // Create data directory if it doesn't exist

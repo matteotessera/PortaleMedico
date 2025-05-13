@@ -27,6 +27,11 @@ public class ViewNavigator {
         mainController = controller;
     }
 
+    public static MainController getMainController() {
+        return mainController;
+    }
+
+
     /**
      * Load and switch to a view
      * @param fxml The name of the FXML file to load
