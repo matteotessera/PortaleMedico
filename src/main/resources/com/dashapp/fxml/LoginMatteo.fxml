@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane prefHeight="500" prefWidth="600" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <!-- Box login dimensioni fisse, non si espande -->
+      <StackPane maxHeight="382.0" maxWidth="338.0" minHeight="350" minWidth="300" prefHeight="382.0" prefWidth="338.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #ddd; -fx-border-radius: 20;">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="349.0" prefWidth="326.0" spacing="20" style="-fx-padding: 60 35 20 35;">
+               <children>
+                  <Text style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Login">
+                     <font>
+                        <Font size="46.0" />
+                     </font></Text>
+                  <VBox prefHeight="48" prefWidth="217" spacing="5" style="-fx-padding: 10 0 0 0;">
+                     <children>
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Username" />
+                        <TextField prefHeight="30" promptText="Inserisci username" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="5" style="-fx-padding: 0 0 20 0;">
+                     <children>
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Password" />
+                        <PasswordField prefHeight="30" promptText="Inserisci password" />
+                     </children>
+                  </VBox>
+                  <Button prefHeight="35" prefWidth="160" style="-fx-background-color: #ff7f50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Accedi" />
+                  <Label style="-fx-font-size: 11px; -fx-text-fill: #666;" text="Non hai un account? Registrati qui" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+
+      <!-- Cerchio arancione sopra la box -->
+      <Circle fill="#ff7f50" radius="37.0" stroke="transparent" translateY="-30" StackPane.alignment="TOP_CENTER" />
+   </children>
+</StackPane>
