@@ -69,13 +69,14 @@ public class ViewNavigator {
         loadView("RegisterView.fxml");
     }
 
+
     /**
      * Navigate to the dashboard view (protected)
      * Will redirect to login if not authenticated
      */
     public static void navigateToDashboard() {
         if (isAuthenticated()) {
-            loadView("DashboardView.fxml");
+            loadView("DashboardViewEma.fxml");
         } else {
             navigateToLogin();
         }
