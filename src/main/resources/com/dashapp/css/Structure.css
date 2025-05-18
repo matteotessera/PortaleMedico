@@ -1,0 +1,55 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Sidebar VBox */
+.sidebar-vbox {
+    -fx-background-color: white;
+    -fx-padding: 30 15 15 15; /* top right bottom left */
+    -fx-spacing: 20;
+    -fx-alignment: TOP_LEFT;
+    -fx-pref-width: 220;
+}
+
+/* Accordion e TitledPane */
+.accordion,
+.titled-pane,
+.titled-pane > .title {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+}
+
+/* Contenuto TitledPane (VBox interno) */
+.titled-pane .content VBox {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-spacing: 10;
+}
+
+/* Titolo TitledPane testo */
+.titled-pane > .title {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+/* Label interne con margine a sinistra */
+.sidebar-label {
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 0 15; /* solo padding a sinistra */
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: black;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 15px; /* stessa dimensione del titolo */
+    -fx-padding: 0 0 0 15; /* padding sinistro come le label */
+    -fx-cursor: hand;
+}
+
+/* Hover effetto */
+.sidebar-button:hover {
+    -fx-text-fill: #555;
+}

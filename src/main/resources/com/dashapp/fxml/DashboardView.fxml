@@ -7,8 +7,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox spacing="20.0" styleClass="container" xmlns="http://javafx.com/javafx/16" 
-      xmlns:fx="http://javafx.com/fxml/1" 
+<VBox spacing="20.0" styleClass="container" xmlns="http://javafx.com/javafx/16"
+      xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.dashapp.controller.DashboardController">
    <children>
       <Label text="Dashboard" textAlignment="CENTER">
@@ -17,7 +17,7 @@
          </font>
       </Label>
       <Label fx:id="welcomeLabel" text="Welcome to your dashboard!" wrapText="true" />
-      <Label text="This is a protected dashboard page. Only logged-in users can see this." 
+      <Label text="This is a protected dashboard page. Only logged-in users can see this."
              wrapText="true" />
       <HBox spacing="20.0">
          <children>
@@ -29,7 +29,7 @@
                         <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <Button mnemonicParsing="false" text="Details" />
+                  <Button mnemonicParsing="false" text="Details" fx:id="statDetails" onAction="#handleStatDetails" />
                </children>
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -68,7 +68,7 @@
       <HBox spacing="10.0">
          <children>
             <Button mnemonicParsing="false" onAction="#handleViewProfile" text="View Profile" />
-            <Button mnemonicParsing="false" onAction="#handleLogout" styleClass="button-secondary" 
+            <Button mnemonicParsing="false" onAction="#handleLogout" styleClass="button-secondary"
                     text="Logout" />
          </children>
          <VBox.margin>

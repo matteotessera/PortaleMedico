@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:controller="com.dashapp.controller.MainControllerTeo" prefHeight="600" prefWidth="1000" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <left>
+        <VBox fx:id="sidebarVBox" prefHeight="550.0" prefWidth="161.0" styleClass="sidebar-vbox">
+            <padding>
+                <Insets />
+            </padding>
+            <Accordion fx:id="sidebarAccordion" prefHeight="177.0" prefWidth="130.0">
+                <panes>
+                    <TitledPane expanded="false" text="Medici">
+                        <VBox>
+                            <Button styleClass="sidebar-button" text="Crea medico" />
+                            <Button styleClass="sidebar-button" text="Da sistemare medico" />
+                        </VBox>
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                    </TitledPane>
+
+                    <TitledPane expanded="false" prefWidth="144.0" text="Pazienti">
+                        <VBox spacing="10">
+                            <Button styleClass="sidebar-button" text="Crea medico" />
+                            <Button styleClass="sidebar-button" text="Da sistemare medico" />
+                        </VBox>
+                    </TitledPane>
+
+                    <TitledPane expanded="false" text="Farmaci">
+                        <VBox spacing="10">
+                            <Button styleClass="sidebar-button" text="Crea medico" />
+                            <Button styleClass="sidebar-button" text="Da sistemare medico" />
+                        </VBox>
+                    </TitledPane>
+                </panes>
+            </Accordion>
+        </VBox>
+    </left>
+
+    <center>
+        <AnchorPane fx:id="contentPane" />
+    </center>
+
+    <top>
+        <VBox fx:id="navBarContainer" style="-fx-pref-height: 80; -fx-background-color: #1b4965;" styleClass="nav-container" BorderPane.alignment="CENTER" />
+    </top>
+
+</BorderPane>
