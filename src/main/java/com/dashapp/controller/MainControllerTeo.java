@@ -5,7 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
+import java.util.Stack;
 
 public class MainControllerTeo {
 
@@ -13,7 +16,7 @@ public class MainControllerTeo {
     private BorderPane mainContainer;
 
     @FXML
-    private AnchorPane contentPane;
+    private StackPane stackPane;
 
     @FXML
     private VBox sidebarVBox;
@@ -23,11 +26,15 @@ public class MainControllerTeo {
     @FXML
     public void initialize() {
         if(!NavigatorView.isAuthenticated()){
-            sidebarVBox.setVisible(false);
+            hideSidebar();
         }
     }
 
+    public void hideSidebar() {
+        mainContainer.setLeft(null);
+    }
+
     public void setContent(Node content) {
-        contentPane.getChildren().setAll(content);
+        stackPane.getChildren().setAll(content);
     }
 }
