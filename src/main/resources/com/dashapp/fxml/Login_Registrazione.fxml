@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
-
 
 <StackPane prefHeight="500" prefWidth="700" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.Login_Registrazione">
 
@@ -20,12 +19,15 @@
 
             <!-- Cerchietto sopra -->
             <StackPane alignment="CENTER">
-                <Circle radius="25" fill="#7ed957">
+                <Circle fill="#7ed957" radius="25">
                     <StackPane.margin>
-                        <Insets top="-35"/>
+                        <Insets top="-35" />
                     </StackPane.margin>
                 </Circle>
-                <Text text="🔒" style="-fx-font-size: 20px; -fx-fill: white;" />
+                <Text style="-fx-font-size: 20px; -fx-fill: white;" text="🔒">
+               <StackPane.margin>
+                  <Insets top="-35.0" />
+               </StackPane.margin></Text>
             </StackPane>
 
             <Text style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Login" />
@@ -38,6 +40,9 @@
                 <font>
                     <Font size="14.0" />
                 </font>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
             </Button>
 
         </VBox>
@@ -51,12 +56,15 @@
 
             <!-- Cerchietto sopra -->
             <StackPane alignment="CENTER">
-                <Circle radius="25" fill="#2d8bba">
+                <Circle fill="#2d8bba" radius="25">
                     <StackPane.margin>
-                        <Insets top="-35"/>
+                        <Insets top="-35" />
                     </StackPane.margin>
                 </Circle>
-                <Text text="📝" style="-fx-font-size: 20px; -fx-fill: white;" />
+                <Text style="-fx-font-size: 20px; -fx-fill: white;" text="📝">
+               <StackPane.margin>
+                  <Insets top="-35.0" />
+               </StackPane.margin></Text>
             </StackPane>
 
             <Text style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Registrazione" />

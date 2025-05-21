@@ -45,6 +45,7 @@ public class DashboardMedicController {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoard/" + fxml));
                         AnchorPane newPane = loader.load();
 
+
                         Object controller = loader.getController();
                         if (controller instanceof OverlayPaneAware) {                           //se il controller implementa il metodo setOverlayPane, allora...
                                 ((OverlayPaneAware) controller).setOverlayPane(overlayPane);

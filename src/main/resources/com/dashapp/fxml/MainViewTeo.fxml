@@ -2,9 +2,11 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane fx:controller="com.dashapp.controller.MainControllerTeo" prefHeight="600" prefWidth="1000" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="mainContainer" prefHeight="600" prefWidth="1000" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.MainControllerTeo">
     <left>
         <VBox fx:id="sidebarVBox" prefHeight="550.0" prefWidth="161.0" styleClass="sidebar-vbox">
             <padding>
@@ -41,11 +43,45 @@
     </left>
 
     <center>
-        <AnchorPane fx:id="contentPane" />
+        <StackPane fx:id="stackPane" />
     </center>
 
     <top>
-        <VBox fx:id="navBarContainer" style="-fx-pref-height: 80; -fx-background-color: #1b4965;" styleClass="nav-container" BorderPane.alignment="CENTER" />
+        <VBox fx:id="navBarContainer" style="-fx-pref-height: 80; -fx-background-color: #1b4965;" styleClass="nav-container" BorderPane.alignment="CENTER">
+         <children>
+             <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="10.0">
+                 <padding>
+                     <Insets bottom="0" left="20" right="30" top="0" />
+                 </padding>
+                 <children>
+                     <!-- Logo a sinistra -->
+                     <ImageView fitHeight="55.0" fitWidth="237.0" pickOnBounds="true" preserveRatio="true">
+                         <image>
+                             <Image url="@../images/logo.png" />
+                         </image>
+                     </ImageView>
+
+                     <!-- Spaziatore elastico: senza larghezza fissa, solo hgrow -->
+                     <Region HBox.hgrow="ALWAYS" />
+
+                     <!-- HBox con Logout e icona profilo a destra -->
+                     <HBox alignment="CENTER_RIGHT" spacing="20.0">
+                         <children>
+                             <Label text="Logout" textFill="WHITE">
+                                 <font>
+                                     <Font name="System Bold" size="16.0" />
+                                 </font>
+                             </Label>
+                             <ImageView fitHeight="28.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                     <Image url="@../images/user.png" />
+                                 </image>
+                             </ImageView>
+                         </children>
+                     </HBox>
+                 </children>
+             </HBox>
+         </children></VBox>
     </top>
 
 </BorderPane>
