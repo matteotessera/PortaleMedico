@@ -37,6 +37,7 @@ public class NavigatorView {
             URL fxmlUrl = Main.class.getResource("/com/dashapp/fxml/" + fxml);
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Node view = loader.load();
+
             mainController.setContent(view);
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,9 +45,8 @@ public class NavigatorView {
         }
     }
 
-    public static void navigateToLogin() {
-        loadView("LoginView.fxml");
-    }
+    //NAVIGAZIONE PAGINE
+    public static void navigateToLogin() { loadView("LoginView.fxml");}           //ci andrebbe LoginView
 
     public static void navigateToRegister() {
         loadView("RegisterView.fxml");
@@ -56,7 +56,24 @@ public class NavigatorView {
         loadView("Login_Registrazione.fxml");
     }
 
+    public static void navigateToAddFarmaci(){ loadView("DashBoard/AddFarmaci.fxml");}
+
+    public static void navigateToDashboardMedic(){ loadView("Dashboard/DashboardViewMedic.fxml");}
+
+
+    //GESTIONE LOGIN
+    public static void setAuthenticatedUser(String username) {
+        authenticatedUser = username;
+    }
+
+    public static String getAuthenticatedUser() {
+        return authenticatedUser;
+    }
+
     public static boolean isAuthenticated() {
         return authenticatedUser != null;
     }
+
+
+
 }

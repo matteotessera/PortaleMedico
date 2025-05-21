@@ -42,4 +42,5 @@ public class MainController {
     public void updateNavBar(boolean isAuthenticated) {
         navBar.updateAuthStatus(isAuthenticated, ViewNavigator.getAuthenticatedUser());
     }
+
 }

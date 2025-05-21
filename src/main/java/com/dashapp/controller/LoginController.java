@@ -3,6 +3,7 @@ package com.dashapp.controller;
 import com.dashapp.Main;
 import com.dashapp.model.User;
 import com.dashapp.model.UserRepository;
+import com.dashapp.view.NavigatorView;
 import com.dashapp.view.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -38,10 +39,12 @@ public class LoginController {
         }
         
         User user = userRepository.getUser(username);
-        if (user != null && user.checkPassword(password)) {
+        if (user != null && user.checkPassword(password) ) {
             // Login successful
-            ViewNavigator.setAuthenticatedUser(username);
-            ViewNavigator.navigateToDashboard();
+
+            NavigatorView.setAuthenticatedUser(username);
+            NavigatorView.navigateToDashboardMedic();
+
         } else {
             showError("Invalid username or password");
         }
@@ -49,7 +52,7 @@ public class LoginController {
     
     @FXML
     private void handleRegister() {
-        ViewNavigator.navigateToRegister();
+        NavigatorView.navigateToRegister();
     }
     
     private void showError(String message) {
