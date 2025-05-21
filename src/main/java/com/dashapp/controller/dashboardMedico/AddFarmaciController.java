@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 public class AddFarmaciController implements OverlayPaneAware {
 
@@ -16,7 +17,7 @@ public class AddFarmaciController implements OverlayPaneAware {
     @FXML
     private Button registraFarmacoButton;
 
-    private AnchorPane overlayPane;
+    private Pane overlayPane;
 
     @FXML
     private void initialize() {
@@ -44,7 +45,7 @@ public class AddFarmaciController implements OverlayPaneAware {
 
     }
 
-    public void setOverlayPane(AnchorPane pane){
+    public void setOverlayPane(Pane pane){
         this.overlayPane = pane;
     }
 

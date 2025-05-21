@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.StackPane?>
 <ScrollPane fitToWidth="true" hbarPolicy="AS_NEEDED" minHeight="-Infinity" minWidth="-Infinity" pannable="true" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.DashboardMedicController">
    <content>
       <GridPane hgap="20" prefHeight="800" prefWidth="1000" vgap="20">
@@ -109,7 +110,7 @@
                   </ImageView>
                   <Label text="Vedi tutti i pazienti" />
                </HBox>
-               <HBox alignment="CENTER_LEFT" spacing="10">
+               <HBox alignment="CENTER_LEFT" onMouseClicked="#showAddPazienti" spacing="10">
                   <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20" onMouseClicked="#showAddPazienti">
                      <image>
                         <Image url="@../../images/plus.png" />
@@ -117,7 +118,7 @@
                   </ImageView>
                   <Label text="Prendi in carico un paziente" />
                </HBox>
-               <AnchorPane fx:id="overlayPanePazienti" prefHeight="200.0" prefWidth="200.0" />
+               <AnchorPane  fx:id="overlayPanePazienti"/>
             </children>
          </VBox>
       
@@ -145,7 +146,7 @@
                   </ImageView>
                   <Label text="Vedi tutti i farmaci" />
                </HBox>
-               <HBox alignment="CENTER_LEFT" spacing="10">
+               <HBox alignment="CENTER_LEFT" onMouseClicked="#showAddFarmaci" spacing="10">
                   <ImageView fx:id="plusIcon2" fitHeight="20.0" fitWidth="20" onMouseClicked="#showAddFarmaci">
                      <image>
                         <Image url="@../../images/plus.png" />
@@ -153,7 +154,7 @@
                   </ImageView>
                   <Label text="Aggiungi un farmaco" />
                </HBox>
-               <AnchorPane fx:id="overlayPaneFarmaci" prefHeight="200.0" prefWidth="200.0" />
+               <AnchorPane fx:id="overlayPaneFarmaci" />
             </children>
          </VBox>
       
@@ -182,14 +183,14 @@
                   <Label text="Vedi tutte le terapie" />
                </HBox>
                <HBox alignment="CENTER_LEFT" spacing="10">
-                  <ImageView fx:id="plusIcon3" fitHeight="20" fitWidth="20">
+                  <ImageView fx:id="plusIcon3" fitHeight="20" fitWidth="20" onMouseClicked="#showAddTerapia">
                      <image>
                         <Image url="@../../images/plus.png" />
                      </image>
                   </ImageView>
-                  <Label text="Aggiungi una terapia" />
+                  <Label onMouseClicked="#showAddTerapia" text="Aggiungi una terapia" />
                </HBox>
-               <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+               <AnchorPane fx:id="overlayPaneTerapia" />
             </children>
          </VBox>
       

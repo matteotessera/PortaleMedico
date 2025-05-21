@@ -7,35 +7,26 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-public class AddPazientiController implements OverlayPaneAware {
+public class AddTerapiaController implements OverlayPaneAware {
 
     private Pane overlayPane;
 
     @FXML
-    private TextField nomePazienteField;
+    private DatePicker inizioField;
     @FXML
-    private TextField cognomePazienteField;
+    private DatePicker fineField;
     @FXML
-    private DatePicker dataPazienteField;
+    private TextField nomeFarmacoField;
     @FXML
-    private TextField telefonoField;
+    private TextField nrAssunzioniField;
     @FXML
-    private TextField emailField;
+    private TextField doseGiornalieraField;
     @FXML
-    private TextField codiceFiscaleField;
+    private TextField indicazioniFarmacoField;
     @FXML
-    private TextField viaField;
-
+    private TextField noteTerapiaField;
     @FXML
-    private TextField comuneField;
-    @FXML
-    private TextField provinciaField;
-    @FXML
-    private TextField nazioneField;
-
-
-    @FXML
-    private Button registraPazienteButton;
+    private Button registraTerapiaButton;
 
     @FXML
     private void exit(javafx.event.ActionEvent event) {
@@ -48,14 +39,20 @@ public class AddPazientiController implements OverlayPaneAware {
         }
     }
 
-
     public void setOverlayPane(Pane pane){
         this.overlayPane = pane;
     }
 
     @FXML
-    private void registraPaziente(){
+    private void registraTerapia(){
 
     }
+
+
+
+
+
+
+
 
 }
