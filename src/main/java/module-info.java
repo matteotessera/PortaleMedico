@@ -5,6 +5,8 @@ module com.dashapp {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
+    requires com.google.gson;
+
 
     opens com.dashapp.controller to javafx.fxml;
     opens com.dashapp.model to javafx.fxml;
