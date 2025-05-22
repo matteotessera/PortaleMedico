@@ -20,8 +20,8 @@
          </columnConstraints>
       
          <rowConstraints>
-            <RowConstraints maxHeight="388.0000305175781" minHeight="199.0" percentHeight="25.0" prefHeight="388.0000305175781" />
-            <RowConstraints maxHeight="286.0" minHeight="96.99996948242188" percentHeight="25.0" prefHeight="96.99996948242188" />
+            <RowConstraints  percentHeight="25.0" prefHeight="388.0000305175781" />
+            <RowConstraints percentHeight="25.0" prefHeight="96.99996948242188" />
             <RowConstraints percentHeight="25.0" />
          </rowConstraints>
       
