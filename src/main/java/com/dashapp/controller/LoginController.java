@@ -52,7 +52,7 @@ public class LoginController {
             // Login successful
 
             NavigatorView.setAuthenticatedUser(username);
-            NavigatorView.navigateToDashboard();
+            ViewNavigator.navigateToDashboard();
         } else {
             showError("Email o password non corretti");
         }
