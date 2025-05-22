@@ -44,6 +44,15 @@ public class NavigatorView {
         }
     }
 
+    /**
+     * Set the authenticated user
+     * @param username The username of the authenticated user
+     */
+    public static void setAuthenticatedUser(String username) {
+        authenticatedUser = username;
+        //mainController.updateNavBar(isAuthenticated());  era il comando per mettere il nome dell'utente loggat sulla navbar
+    }
+
     public static void navigateToLogin() {
         loadView("LoginView.fxml");
     }

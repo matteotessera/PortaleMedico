@@ -6,12 +6,12 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane prefHeight="500" prefWidth="600" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane prefHeight="500" prefWidth="600" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.LoginController">
    <children>
       <!-- Box login dimensioni fisse, non si espande -->
-      <StackPane maxHeight="418.0" maxWidth="338.0" minHeight="418.0" minWidth="300" prefHeight="418.0" prefWidth="338.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #ddd; -fx-border-radius: 20;">
+      <StackPane maxHeight="441.0" maxWidth="338.0" minHeight="418.0" minWidth="300" prefHeight="441.0" prefWidth="338.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #ddd; -fx-border-radius: 20;">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="404.0" prefWidth="336.0" spacing="20.0" style="-fx-padding: 60 35 20 35;">
+            <VBox alignment="TOP_CENTER" prefHeight="447.0" prefWidth="336.0" spacing="20.0" style="-fx-padding: 60 35 20 35;">
                <children>
 
                   <!-- Cerchio arancione sopra la box -->
@@ -29,16 +29,22 @@
                   <VBox prefHeight="48" prefWidth="217" spacing="5" style="-fx-padding: 10 0 0 0;">
                      <children>
                         <Label style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Email" />
-                        <TextField prefHeight="30" promptText="Inserisci email" />
+                        <TextField fx:id="emailField" prefHeight="30" promptText="Inserisci email" />
                      </children>
                   </VBox>
                   <VBox spacing="5" style="-fx-padding: 0 0 20 0;">
                      <children>
                         <Label style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Password" />
-                        <PasswordField prefHeight="30" promptText="Inserisci password" />
+                        <PasswordField fx:id="passwordField" prefHeight="30" promptText="Inserisci password" />
                      </children>
                   </VBox>
-                  <Button prefHeight="35" prefWidth="160" style="-fx-background-color: #ff7f50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Accedi" />
+                  <Button onAction="#handleLogin" prefHeight="35" prefWidth="160" style="-fx-background-color: #ff7f50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Accedi">
+                     </Button>
+                  <Label fx:id="statusLabel" managed="true" styleClass="alert-danger" text="Status message goes here" visible="false" wrapText="true">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Label>
                </children>
             </VBox>
          </children>
