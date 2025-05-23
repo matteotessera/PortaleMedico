@@ -1,12 +1,9 @@
 package com.dashapp.controller.dashboardMedico;
 
-import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
@@ -42,7 +39,7 @@ public class DashboardMedicController {
 
         public void showOverlay(String fxml, Pane overlayPane){                   //inserire file da renderizzare, nome del pannello in cui renderizzarlo (nome == fixid)
                 try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoard/" + fxml));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/" + fxml));
                         AnchorPane newPane = loader.load();
 
 

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.DashboardPatientController">
+   <content>
+      <GridPane hgap="20" prefHeight="800" prefWidth="1000" vgap="20">
+      
+                <padding>
+              <Insets bottom="20" left="20" right="20" top="20" />
+          </padding>
+      
+                <columnConstraints>
+              <ColumnConstraints percentWidth="50" />
+              <ColumnConstraints percentWidth="50" />
+          </columnConstraints>
+      
+                <rowConstraints>
+              <RowConstraints percentHeight="25" />
+              <RowConstraints percentHeight="37.5" />
+              <RowConstraints percentHeight="37.5" />
+          </rowConstraints>
+      
+                   <!-- HEADER BLU: occupa entrambe le colonne -->
+          <VBox spacing="15" style="-fx-background-color: #34bccc; -fx-background-radius: 20; -fx-padding: 20;" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0">
+              <children>
+                  <HBox alignment="CENTER_LEFT" spacing="20">
+                      <ImageView fx:id="profileImage" fitHeight="80" fitWidth="80" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../../images/profile.png" />
+                          </image>
+                  </ImageView>
+                      <VBox alignment="CENTER_LEFT" spacing="5">
+                          <Label style="-fx-text-fill: white;" text="Benvenuto">
+                              <font>
+                                  <Font name="System Bold" size="16" />
+                              </font>
+                          </Label>
+                          <Label fx:id="doctorName" style="-fx-text-fill: white;" text="Emanuele Girardello">
+                              <font>
+                                  <Font name="System Bold" size="20" />
+                              </font>
+                          </Label>
+                      </VBox>
+                  </HBox>
+      
+                           <HBox alignment="CENTER_LEFT" spacing="30" translateX="14.0">
+                      <VBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1010.0" spacing="5">
+                          <ImageView fitHeight="46.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                  <Image url="@../../images/agenda.png" />
+                              </image>
+                          </ImageView>
+                          <Label style="-fx-text-fill: white;" text="CONSULTA IL TUO FASCICOLO MEDICO" />
+                      </VBox>
+                      <VBox alignment="CENTER" spacing="5" />
+                      <VBox alignment="CENTER" spacing="5" />
+                      <ImageView fx:id="patientsIcon" fitHeight="40" fitWidth="40" />
+                  </HBox>
+              </children>
+          </VBox>
+      
+                   <!-- CARD PAZIENTI -->
+          <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-padding: 20;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+              <children>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                      <ImageView fx:id="patientsCardIcon" fitHeight="40" fitWidth="40">
+                          <image>
+                              <Image url="@../../images/mask.png" />
+                          </image>
+                  </ImageView>
+                      <Label text="Registrazioni Glicemiche">
+                          <font>
+                              <Font name="System Bold" size="18" />
+                          </font>
+                      </Label>
+                  </HBox>
+                  <Label text="!FLAG Oggi devi ancora registrare la tua glicemia!!" />
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                      <ImageView fx:id="eyeIcon1" fitHeight="20" fitWidth="20">
+                          <image>
+                              <Image url="@../../images/view.png" />
+                          </image>
+                  </ImageView>
+                      <Label text="Vedi cronologia rilevazioni" />
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                      <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20" onMouseClicked="#showAddGlicemia">
+                          <image>
+                              <Image url="@../../images/plus.png" />
+                          </image>
+                  </ImageView>
+                      <Label onMouseClicked="#showAddGlicemia" text="Registra la tua rilevazione glicemica giornaliera" />
+                  </HBox>
+               <AnchorPane fx:id="overlayPaneGlicemia" prefHeight="200.0" prefWidth="200.0" />
+              </children>
+          </VBox>
+      
+                   <!-- CARD FARMACI -->
+          <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-padding: 20;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <children>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                      <ImageView fx:id="medsCardIcon" fitHeight="40" fitWidth="40">
+                          <image>
+                              <Image url="@../../images/capsules.png" />
+                          </image>
+                  </ImageView>
+                      <Label text="Farmaci e Sintomi">
+                          <font>
+                              <Font name="System Bold" size="18" />
+                          </font>
+                      </Label>
+                  </HBox>
+                  <Label prefHeight="27.0" prefWidth="408.0" text="Registera eventuali Sintomi e le tue assunzioni giornaliere " wrapText="true" />
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                      <ImageView fx:id="eyeIcon2" fitHeight="20" fitWidth="20">
+                          <image>
+                              <Image url="@../../images/view.png" />
+                          </image>
+                  </ImageView>
+                      <Label text="Vedi tutti i farmaci" />
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                      <ImageView fx:id="plusIcon2" fitHeight="20" fitWidth="20" onMouseClicked="#showAddAssunzione">
+                          <image>
+                              <Image url="@../../images/plus.png" />
+                          </image>
+                  </ImageView>
+                      <Label onMouseClicked="#showAddAssunzione" text="Registra assunzione di un farmaco" />
+                  </HBox>
+               <HBox prefHeight="25.0" prefWidth="394.0" spacing="10.0">
+                  <children>
+                     <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#showAddSintomo" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../../images/plus.png" />
+                        </image>
+                     </ImageView>
+                     <Label onMouseClicked="#showAddSintomo" text="Registra sintomi" />
+                  </children>
+               </HBox>
+               <AnchorPane fx:id="overlayPaneAssunzioniSintomi" prefHeight="200.0" prefWidth="200.0" />
+              </children>
+          </VBox>
+      
+                   <!-- CARD TERAPIE: occupa entrambe le colonne -->
+          <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-padding: 20;" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+              <children>
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                      <ImageView fx:id="therapiesCardIcon" fitHeight="40" fitWidth="40">
+                          <image>
+                              <Image url="@../../images/therapy.png" />
+                          </image>
+                  </ImageView>
+                      <Label text="Terapie">
+                          <font>
+                              <Font name="System Bold" size="18" />
+                          </font>
+                      </Label>
+                  </HBox>
+                  <Label text="Hai 5 terapie assegnate" />
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                      <ImageView fx:id="eyeIcon3" fitHeight="20" fitWidth="20">
+                          <image>
+                              <Image url="@../../images/view.png" />
+                          </image>
+                  </ImageView>
+                      <Label text="Vedi tutte le terapie" />
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10" />
+               <AnchorPane fx:id="overlayPaneTerapia" prefHeight="200.0" prefWidth="200.0" />
+              </children>
+          </VBox>
+      
+            </GridPane>
+   </content>
+</ScrollPane>

@@ -1,7 +1,5 @@
 package com.dashapp.controller;
 
-import com.dashapp.view.NavigatorView;
-import com.dashapp.view.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,7 +17,7 @@ public class HomeControllerTeo {
 
         MainControllerTeo mainController = loader.getController();
 
-        FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoard/DashboardViewMedic.fxml"));
+        FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/DashboardViewPatient.fxml"));
         Node loginView = loginLoader.load();
 
         mainController.setContent(loginView);
