@@ -6,6 +6,7 @@ public class User {
     private String password;
     private boolean isAdmin;
 
+
     /**
      * Constructor for creating a user with username and password
      *

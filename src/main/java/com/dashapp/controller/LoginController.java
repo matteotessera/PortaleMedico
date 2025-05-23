@@ -3,7 +3,6 @@ package com.dashapp.controller;
 import com.dashapp.Main;
 import com.dashapp.model.User;
 import com.dashapp.model.UserRepository;
-import com.dashapp.view.NavigatorView;
 import com.dashapp.view.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -12,7 +11,7 @@ import javafx.scene.control.TextField;
 
 public class LoginController {
     @FXML
-    private TextField emailField;
+    private TextField usernameField;
     
     @FXML
     private PasswordField passwordField;
@@ -30,7 +29,7 @@ public class LoginController {
     
     @FXML
     private void handleLogin() {
-        String username = emailField.getText();
+        String username = usernameField.getText();
         String password = passwordField.getText();
         
         if (username.isEmpty() && password.isEmpty()) {
@@ -46,13 +45,14 @@ public class LoginController {
             return;
         }
 
-        
+
         User user = userRepository.getUser(username);
         if (user != null && user.checkPassword(password)) {
             // Login successful
 
             NavigatorView.setAuthenticatedUser(username);
-            ViewNavigator.navigateToDashboard();
+            NavigatorView.navigateToDashboardMedic();
+
         } else {
             showError("Email o password non corretti");
         }
@@ -60,7 +60,7 @@ public class LoginController {
     
     @FXML
     private void handleRegister() {
-        ViewNavigator.navigateToRegister();
+        NavigatorView.navigateToRegister();
     }
     
     private void showError(String message) {

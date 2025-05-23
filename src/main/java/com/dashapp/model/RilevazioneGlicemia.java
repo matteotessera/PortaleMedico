@@ -8,9 +8,15 @@ import java.time.LocalTime;
 public class RilevazioneGlicemia {
 
 
-        public enum TipoComorbidita {
-            PREPASTO,
-            POSTPASTO,
+        public enum TipoRilevazione {
+            PREPRANDIALE,
+            POSTPRANDIALE,
+
+        }
+        public enum TipoPasto {
+            COLAZIONE,
+            PRANZO,
+            CENA
         }
 
 
@@ -18,22 +24,24 @@ public class RilevazioneGlicemia {
         private LocalDate data;      // formato consigliato: "yyyy-MM-dd"
         private LocalTime ora;       // formato consigliato: "HH:mm"
         private double valore;
-        private TipoComorbidita tipo;
+        private TipoRilevazione tipo;
+        private TipoPasto tipoPasto;
         private String idPaziente;
 
         // Costruttore
-        public RilevazioneGlicemia(String idRilevazione, LocalDate data, LocalTime ora, double valore, TipoComorbidita tipo, String idPaziente) {
+        public RilevazioneGlicemia(String idRilevazione, LocalDate data, LocalTime ora, double valore, TipoRilevazione tipo, TipoPasto tipoPasto, String idPaziente) {
             this.idRilevazione = idRilevazione;
             this.data = data;
             this.ora = ora;
             this.valore = valore;
             this.tipo = tipo;
+            this.tipoPasto = tipoPasto;
             this.idPaziente = idPaziente;
         }
 
         // Metodo statico di factory
-        public static RilevazioneGlicemia create(String idRilevazione, LocalDate data, LocalTime ora, double valore, TipoComorbidita tipo, String idPaziente) {
-            return new RilevazioneGlicemia(idRilevazione, data, ora, valore, tipo, idPaziente);
+        public static RilevazioneGlicemia create(String idRilevazione, LocalDate data, LocalTime ora, double valore, TipoRilevazione tipo, TipoPasto tipoPasto, String idPaziente) {
+            return new RilevazioneGlicemia(idRilevazione, data, ora, valore, tipo, tipoPasto, idPaziente);
         }
 
         // Getter (opzionali, utili per accedere ai campi)
@@ -53,7 +61,7 @@ public class RilevazioneGlicemia {
             return valore;
         }
 
-        public TipoComorbidita getTipo() {
+        public TipoRilevazione getTipo() {
             return tipo;
         }
 
@@ -78,8 +86,12 @@ public class RilevazioneGlicemia {
             this.valore = valore;
         }
 
-        public void setTipo(TipoComorbidita tipo) {
+        public void setTipo(TipoRilevazione tipo) {
             this.tipo = tipo;
+        }
+
+        public void setTipoPasto(TipoPasto tipo) {
+            this.tipoPasto = tipo;
         }
 
         public void setIdPaziente(String idPaziente) {

@@ -44,15 +44,6 @@ public class NavigatorView {
         }
     }
 
-    /**
-     * Set the authenticated user
-     * @param username The username of the authenticated user
-     */
-    public static void setAuthenticatedUser(String username) {
-        authenticatedUser = username;
-        //mainController.updateNavBar(isAuthenticated());  era il comando per mettere il nome dell'utente loggat sulla navbar
-    }
-
     public static void navigateToLogin() {
         loadView("LoginView.fxml");
     }
@@ -63,6 +54,20 @@ public class NavigatorView {
 
     public static void navigateToLoginRegistrazione() {
         loadView("Login_Registrazione.fxml");
+    }
+
+    public static void navigateToAddFarmaci(){ loadView("DashBoard/AddFarmaci.fxml");}
+
+    public static void navigateToDashboardMedic(){ loadView("Dashboard/DashboardViewMedic.fxml");}
+
+
+    //GESTIONE LOGIN
+    public static void setAuthenticatedUser(String username) {
+        authenticatedUser = username;
+    }
+
+    public static String getAuthenticatedUser() {
+        return authenticatedUser;
     }
 
     public static boolean isAuthenticated() {
