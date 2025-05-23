@@ -10,7 +10,7 @@ public class Test extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/dashapp/fxml/RegisterViewTeo.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/dashapp/fxml/MainViewTeo.fxml"));
 
         Scene scene = new Scene(root);
         stage.setTitle("Test FXML");

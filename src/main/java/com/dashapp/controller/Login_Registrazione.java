@@ -10,4 +10,5 @@ public class Login_Registrazione {
     private void handleLogin(){
         NavigatorView.navigateToLogin();
     }
+
 }

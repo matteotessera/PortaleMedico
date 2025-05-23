@@ -19,7 +19,7 @@ public class HomeControllerTeo {
 
         MainControllerTeo mainController = loader.getController();
 
-        FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/LoginMatteo.fxml"));
+        FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoard/DashboardViewMedic.fxml"));
         Node loginView = loginLoader.load();
 
         mainController.setContent(loginView);

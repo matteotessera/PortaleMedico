@@ -3,14 +3,20 @@ package com.dashapp.controller;
 import com.dashapp.Main;
 import com.dashapp.model.User;
 import com.dashapp.model.UserRepository;
+import com.dashapp.services.LoginService;
 import com.dashapp.view.NavigatorView;
 import com.dashapp.view.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.application.Platform;
+
 
 public class LoginController {
+
+    private LoginService loginService = new LoginService();
+
     @FXML
     private TextField emailField;
     
@@ -30,32 +36,36 @@ public class LoginController {
     
     @FXML
     private void handleLogin() {
-        String username = emailField.getText();
+        statusLabel.setVisible(true);
+        String email = emailField.getText().trim();
         String password = passwordField.getText();
-        
-        if (username.isEmpty() && password.isEmpty()) {
+
+        if (email.isEmpty() && password.isEmpty()) {
             showError("Email e password non inseriti");
             return;
         }
-        if(username.isEmpty()){
+        if (email.isEmpty()) {
             showError("Email non inserita");
             return;
         }
-        if(password.isEmpty()){
+        if (password.isEmpty()) {
             showError("Password non inserita");
             return;
         }
 
-        
-        User user = userRepository.getUser(username);
-        if (user != null && user.checkPassword(password)) {
-            // Login successful
+        statusLabel.setText("Login in corso...");
 
-            NavigatorView.setAuthenticatedUser(username);
-            ViewNavigator.navigateToDashboard();
-        } else {
-            showError("Email o password non corretti");
-        }
+        loginService.login(email, password).thenAccept(success -> {
+            Platform.runLater(() -> {
+                if (success) {
+                    statusLabel.setText("Login effettuato! Ruolo: " + loginService.getUserRole());
+                    System.out.println("ok");
+                } else {
+                    statusLabel.setText("Login fallito, controlla email e password.");
+                }
+            });
+        });
+
     }
     
     @FXML

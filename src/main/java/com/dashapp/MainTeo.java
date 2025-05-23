@@ -16,7 +16,7 @@ public class MainTeo extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Load the main application view
-        URL mainViewUrl = getClass().getResource("/com/dashapp/fxml/HomeViewTeo.fxml");
+        URL mainViewUrl = getClass().getResource("/com/dashapp/fxml/LoginMatteo.fxml");
 
         FXMLLoader loader = new FXMLLoader(mainViewUrl);
         Parent root = loader.load();
