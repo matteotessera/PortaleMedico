@@ -1,41 +1,34 @@
 package com.dashapp.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 public class Sintomo {
 
-    private String idSintomo;
-    private LocalDate data;
-    private LocalTime ora;
+    private String id;
+    private LocalDateTime data;  // ora è inclusa qui
     private String descrizione;
     private String idPaziente;
 
     // Costruttore
-    public Sintomo(String idSintomo, LocalDate data, LocalTime ora, String descrizione, String idPaziente) {
-        this.idSintomo = idSintomo;
+    public Sintomo(String id, LocalDateTime data, String descrizione, String idPaziente) {
+        this.id = id;
         this.data = data;
-        this.ora = ora;
         this.descrizione = descrizione;
         this.idPaziente = idPaziente;
     }
 
     // Metodo statico di factory
-    public static Sintomo create(String idSintomo, LocalDate data, LocalTime ora, String descrizione, String idPaziente) {
-        return new Sintomo(idSintomo, data, ora, descrizione, idPaziente);
+    public static Sintomo create(String id, LocalDateTime data, String descrizione, String idPaziente) {
+        return new Sintomo(id, data, descrizione, idPaziente);
     }
 
     // Getter
-    public String getIdSintomo() {
-        return idSintomo;
+    public String getId() {
+        return id;
     }
 
-    public LocalDate getData() {
+    public LocalDateTime getData() {
         return data;
-    }
-
-    public LocalTime getOra() {
-        return ora;
     }
 
     public String getDescrizione() {
@@ -47,16 +40,12 @@ public class Sintomo {
     }
 
     // Setter
-    public void setIdSintomo(String idSintomo) {
-        this.idSintomo = idSintomo;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
-    }
-
-    public void setOra(LocalTime ora) {
-        this.ora = ora;
     }
 
     public void setDescrizione(String descrizione) {
@@ -67,4 +56,3 @@ public class Sintomo {
         this.idPaziente = idPaziente;
     }
 }
-

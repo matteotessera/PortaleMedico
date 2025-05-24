@@ -1,7 +1,6 @@
 package com.dashapp.controller;
 
 import com.dashapp.view.NavigatorView;
-import com.dashapp.view.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;

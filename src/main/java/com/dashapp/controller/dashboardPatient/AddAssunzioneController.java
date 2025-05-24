@@ -2,7 +2,7 @@ package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
 import com.dashapp.model.AddController;
-import com.dashapp.model.AssunzioneFarmaco;
+//import com.dashapp.model.AssunzioneFarmaco;        da toigliere commento
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -68,8 +68,8 @@ public class AddAssunzioneController extends AddController{
             return;
         }
 
-
-        AssunzioneFarmaco assunzione = new AssunzioneFarmaco("1", data, ora, quantita, "1", "1");
+        //DA SISTEMARE
+        //AssunzioneFarmaco assunzione = new AssunzioneFarmaco("1", data, ora, quantita, "1", "1");
     }
 
 

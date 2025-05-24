@@ -44,6 +44,8 @@ public class NavigatorView {
         }
     }
 
+
+
     public static void navigateToLogin() {
         loadView("LoginView.fxml");
     }

@@ -5,12 +5,20 @@ import com.dashapp.model.User;
 import com.dashapp.model.UserRepository;
 import com.dashapp.view.NavigatorView;
 import com.dashapp.controller.MainControllerTeo;
+import com.dashapp.model.*;
+import com.dashapp.services.DataService;
+import com.dashapp.services.LoginService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.application.Platform;
+
 
 public class LoginController {
+
+    private LoginService loginService = new LoginService();
+
     @FXML
     private TextField emailField;
     
@@ -30,14 +38,15 @@ public class LoginController {
     
     @FXML
     private void handleLogin() {
-        String email = emailField.getText();
+        statusLabel.setVisible(true);
+        String email = emailField.getText().trim();
         String password = passwordField.getText();
-        
+
         if (email.isEmpty() && password.isEmpty()) {
             showError("Email e password non inseriti");
             return;
         }
-        if(email.isEmpty()){
+        if (email.isEmpty()) {
             showError("Email non inserita");
             return;
         }
@@ -46,24 +55,23 @@ public class LoginController {
             return;
         }
 
+        statusLabel.setText("Login in corso...");
 
-        User user = userRepository.getUser(email);
-        if (user != null && user.checkPassword(password)) {
-            // Login successful
+        loginService.login(email, password).thenAccept(success -> {
+            Platform.runLater(() -> {
+                if (success) {
+                    statusLabel.setText("Login effettuato! Ruolo: " + loginService.getUserRole());
+                    NavigatorView.getMainController().viewSidebar();
+                    NavigatorView.setAuthenticatedUser(email);
+                    NavigatorView.navigateToDashboardMedic();
+                } else {
+                    statusLabel.setText("Login fallito, controlla email e password.");
+                }
+            });
+        });
 
-            NavigatorView.getMainController().viewSidebar();
-            NavigatorView.setAuthenticatedUser(email);
-            NavigatorView.navigateToDashboardMedic();
-
-        } else {
-            showError("Email o password non corretti");
-        }
     }
-    
-    @FXML
-    private void handleRegister() {
-        NavigatorView.navigateToRegister();
-    }
+
     
     private void showError(String message) {
         statusLabel.setText(message);

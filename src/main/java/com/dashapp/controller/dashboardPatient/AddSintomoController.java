@@ -2,7 +2,7 @@ package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
 import com.dashapp.model.AddController;
-import com.dashapp.model.AssunzioneFarmaco;
+//  com.dashapp.model.AssunzioneFarmaco;           da togliere commento
 import com.dashapp.model.Sintomo;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -10,7 +10,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
@@ -43,9 +45,9 @@ public class AddSintomoController extends AddController {
 
         String descrizione = descrizioneField.getText();
 
-
-        Sintomo sintomo = new Sintomo("1", data, ora, descrizione, "1");
-        System.out.println(sintomo.getData());
+        //DA SISTEMARE
+        //Sintomo sintomo = new Sintomo("1", date_time, descrizione, "1");
+        //System.out.println(sintomo.getData());
     }
 
 
