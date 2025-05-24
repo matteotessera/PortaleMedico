@@ -3,7 +3,8 @@ package com.dashapp.controller;
 import com.dashapp.Main;
 import com.dashapp.model.User;
 import com.dashapp.model.UserRepository;
-import com.dashapp.view.ViewNavigator;
+import com.dashapp.view.NavigatorView;
+import com.dashapp.controller.MainControllerTeo;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -11,7 +12,7 @@ import javafx.scene.control.TextField;
 
 public class LoginController {
     @FXML
-    private TextField usernameField;
+    private TextField emailField;
     
     @FXML
     private PasswordField passwordField;
@@ -29,14 +30,14 @@ public class LoginController {
     
     @FXML
     private void handleLogin() {
-        String username = usernameField.getText();
+        String email = emailField.getText();
         String password = passwordField.getText();
         
-        if (username.isEmpty() && password.isEmpty()) {
+        if (email.isEmpty() && password.isEmpty()) {
             showError("Email e password non inseriti");
             return;
         }
-        if(username.isEmpty()){
+        if(email.isEmpty()){
             showError("Email non inserita");
             return;
         }
@@ -46,11 +47,12 @@ public class LoginController {
         }
 
 
-        User user = userRepository.getUser(username);
+        User user = userRepository.getUser(email);
         if (user != null && user.checkPassword(password)) {
             // Login successful
 
-            NavigatorView.setAuthenticatedUser(username);
+            NavigatorView.getMainController().viewSidebar();
+            NavigatorView.setAuthenticatedUser(email);
             NavigatorView.navigateToDashboardMedic();
 
         } else {

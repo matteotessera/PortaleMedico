@@ -56,9 +56,9 @@ public class NavigatorView {
         loadView("Login_Registrazione.fxml");
     }
 
-    public static void navigateToAddFarmaci(){ loadView("DashBoard/AddFarmaci.fxml");}
+    public static void navigateToAddFarmaci(){ loadView("DashBoardMedic/AddFarmaci.fxml");}
 
-    public static void navigateToDashboardMedic(){ loadView("Dashboard/DashboardViewMedic.fxml");}
+    public static void navigateToDashboardMedic(){ loadView("DashBoardMedic/DashboardViewMedic.fxml");}
 
 
     //GESTIONE LOGIN
@@ -73,4 +73,6 @@ public class NavigatorView {
     public static boolean isAuthenticated() {
         return authenticatedUser != null;
     }
+
+
 }

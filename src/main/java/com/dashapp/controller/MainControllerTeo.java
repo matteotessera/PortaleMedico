@@ -22,6 +22,9 @@ public class MainControllerTeo {
     @FXML
     private VBox sidebarVBox;
 
+    @FXML
+    private Node leftPanel;
+
 
 
     @FXML
@@ -34,8 +37,15 @@ public class MainControllerTeo {
     }
 
     public void hideSidebar() {
+        leftPanel = mainContainer.getLeft();
         mainContainer.setLeft(null);
     }
+
+    public void viewSidebar() {
+        mainContainer.setLeft(leftPanel);
+    }
+
+
 
     public void setContent(Node content) {
         stackPane.getChildren().setAll(content);
