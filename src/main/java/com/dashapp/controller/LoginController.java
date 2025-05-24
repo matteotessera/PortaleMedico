@@ -1,10 +1,9 @@
 package com.dashapp.controller;
 
 import com.dashapp.Main;
-import com.dashapp.model.User;
-import com.dashapp.model.UserRepository;
+import com.dashapp.model.*;
+import com.dashapp.services.DataService;
 import com.dashapp.services.LoginService;
-import com.dashapp.view.NavigatorView;
 import com.dashapp.view.ViewNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
