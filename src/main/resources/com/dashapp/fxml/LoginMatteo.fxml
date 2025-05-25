@@ -6,10 +6,10 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane prefHeight="500" prefWidth="600" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.LoginController">
+<StackPane prefHeight="500" prefWidth="600" style="-fx-background-image: url('https://media-public.canva.com/BO16k/MAE-xKBO16k/1/s2.jpg'); -fx-background-repeat: no-repeat; -fx-background-position: center center; -fx-background-size: cover;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.LoginController">
    <children>
       <!-- Box login dimensioni fisse, non si espande -->
-      <StackPane maxHeight="441.0" maxWidth="338.0" minHeight="418.0" minWidth="300" prefHeight="441.0" prefWidth="338.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #ddd; -fx-border-radius: 20;">
+      <StackPane maxHeight="441.0" maxWidth="338.0" minHeight="418.0" minWidth="300" prefHeight="441.0" prefWidth="338.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 30, 0, 0, 8);;">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="447.0" prefWidth="336.0" spacing="20.0" style="-fx-padding: 60 35 20 35;">
                <children>
@@ -28,7 +28,7 @@
                      </VBox.margin></Text>
                   <VBox prefHeight="48" prefWidth="217" spacing="5" style="-fx-padding: 10 0 0 0;">
                      <children>
-                        <Label style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Email" />
+                        <Label prefHeight="17.0" prefWidth="38.0" style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Email" />
                         <TextField fx:id="emailField" prefHeight="30" promptText="Inserisci email" />
                      </children>
                   </VBox>

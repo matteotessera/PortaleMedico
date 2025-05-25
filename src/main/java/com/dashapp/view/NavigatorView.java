@@ -64,8 +64,8 @@ public class NavigatorView {
 
 
     //GESTIONE LOGIN
-    public static void setAuthenticatedUser(String username) {
-        authenticatedUser = username;
+    public static void setAuthenticatedUser(String email) {
+        authenticatedUser = email;
     }
 
     public static String getAuthenticatedUser() {

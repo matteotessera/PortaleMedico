@@ -6,7 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="mainContainer" prefHeight="600" prefWidth="1000" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.MainControllerTeo">
+<BorderPane fx:id="mainContainer" prefHeight="600" prefWidth="1000" style="
+    -fx-background-image: url('https://media-public.canva.com/BO16k/MAE-xKBO16k/1/s2.jpg');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center center;" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.MainControllerTeo">
     <left>
         <VBox fx:id="sidebarVBox" prefHeight="550.0" prefWidth="161.0" styleClass="sidebar-vbox">
             <padding>
@@ -43,13 +47,13 @@
     </left>
 
     <center>
-        <StackPane fx:id="stackPane" />
+        <StackPane fx:id="stackPane" style="-fx-border-image-repeat: no repeat; -fx-background-size: cover; -fx-background-position: center center;" />
     </center>
 
     <top>
         <VBox fx:id="navBarContainer" style="-fx-pref-height: 80; -fx-background-color: #1b4965;" styleClass="nav-container" BorderPane.alignment="CENTER">
          <children>
-             <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="10.0">
+             <HBox alignment="CENTER_LEFT" prefHeight="130.0" prefWidth="1000.0" spacing="10.0">
                  <padding>
                      <Insets bottom="0" left="20" right="30" top="0" />
                  </padding>
@@ -62,7 +66,7 @@
                      </ImageView>
 
                      <!-- Spaziatore elastico: senza larghezza fissa, solo hgrow -->
-                     <Region HBox.hgrow="ALWAYS" />
+                     <Region prefHeight="101.0" prefWidth="591.0" HBox.hgrow="ALWAYS" />
 
                      <!-- HBox con Logout e icona profilo a destra -->
                      <HBox alignment="CENTER_RIGHT" spacing="20.0">

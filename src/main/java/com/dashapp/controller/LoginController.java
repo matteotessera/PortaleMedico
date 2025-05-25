@@ -56,20 +56,28 @@ public class LoginController {
         }
 
         statusLabel.setText("Login in corso...");
+        statusLabel.setStyle("-fx-text-fill: green;");
 
         loginService.login(email, password).thenAccept(success -> {
             Platform.runLater(() -> {
                 if (success) {
-                    statusLabel.setText("Login effettuato! Ruolo: " + loginService.getUserRole());
+                    showMessage("Login effettuato con successo!");
+                    //statusLabel.setText("Login effettuato! Ruolo: " + loginService.getUserRole());
                     NavigatorView.getMainController().viewSidebar();
                     NavigatorView.setAuthenticatedUser(email);
                     NavigatorView.navigateToDashboardMedic();
                 } else {
-                    statusLabel.setText("Login fallito, controlla email e password.");
+                    showError("Email o password non corretti");
                 }
             });
         });
 
+    }
+
+    private void showMessage(String message){
+        statusLabel.setText(message);
+        statusLabel.setStyle("-fx-text-fill: green;");
+        statusLabel.setVisible(true);
     }
 
     

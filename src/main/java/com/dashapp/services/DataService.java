@@ -43,6 +43,8 @@ public class DataService {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
+
+
         if (response.statusCode() == 200) {
             String json = response.body();
             return parseUtenteWithDate(json);
@@ -279,6 +281,11 @@ public class DataService {
         Utente utente = new Utente();
         utente.setId(obj.get("id").getAsInt());
         utente.setNome(obj.get("nome").getAsString());
+        utente.setCognome(obj.get("cognome").getAsString());
+        utente.setRuolo(obj.get("ruolo").getAsString());
+        utente.setCodFiscale(obj.get("cod_fiscale").getAsString());
+        utente.setTelefono(obj.get("telefono").getAsString());
+        utente.setIndirizzo(obj.get("indirizzo").getAsString());
         utente.setEmail(obj.get("email").getAsString());
 
         // supponendo che la data si chiami "dataNascita" nel JSON e sia in formato ISO yyyy-MM-dd
@@ -301,6 +308,11 @@ public class DataService {
             Utente utente = new Utente();
             utente.setId(obj.get("id").getAsInt());
             utente.setNome(obj.get("nome").getAsString());
+            utente.setCognome(obj.get("cognome").getAsString());
+            utente.setRuolo(obj.get("ruolo").getAsString());
+            utente.setCodFiscale(obj.get("cod_fiscale").getAsString());
+            utente.setTelefono(obj.get("telefono").getAsString());
+            utente.setIndirizzo(obj.get("indirizzo").getAsString());
             utente.setEmail(obj.get("email").getAsString());
 
             if (obj.has("dataNascita") && !obj.get("dataNascita").isJsonNull()) {

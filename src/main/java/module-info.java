@@ -7,6 +7,7 @@ module com.dashapp {
     requires java.sql;
     requires com.google.gson;
     requires java.net.http;
+    requires java.desktop;
 
     opens com.dashapp.controller to javafx.fxml;
     opens com.dashapp.model to javafx.fxml, com.google.gson;  // <-- qui apri anche a Gson
