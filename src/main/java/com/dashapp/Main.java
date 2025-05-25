@@ -1,6 +1,5 @@
 package com.dashapp;
 
-import com.dashapp.model.UserRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,12 +10,10 @@ import java.net.URL;
 
 public class Main extends Application {
 
-    private static UserRepository userRepository = new UserRepository();
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Load the main application view
-        URL mainViewUrl = getClass().getResource("/com/dashapp/fxml/MainView.fxml");
+        URL mainViewUrl = getClass().getResource("/com/dashapp/fxml/HomeView.fxml");
 
         FXMLLoader loader = new FXMLLoader(mainViewUrl);
         Parent root = loader.load();
@@ -33,17 +30,11 @@ public class Main extends Application {
         }
 
         // Configure and show the stage
-        primaryStage.setTitle("Dash App - JavaFX Version");
+        primaryStage.setTitle("Portale Medico");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    /**
-     * Get the application-wide user repository
-     */
-    public static UserRepository getUserRepository() {
-        return userRepository;
-    }
 
     public static void main(String[] args) {
         launch(args);

@@ -1,7 +1,7 @@
 package com.dashapp.view;
 
 import com.dashapp.Main;
-import com.dashapp.controller.MainControllerTeo;
+import com.dashapp.controller.MainController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 
@@ -10,7 +10,7 @@ import java.net.URL;
 
 public class NavigatorView {
     // Reference to the main controller
-    private static MainControllerTeo mainController;
+    private static MainController mainController;
 
     // Current authenticated username
     private static String authenticatedUser = null;
@@ -19,11 +19,11 @@ public class NavigatorView {
      * Set the main controller reference
      * @param controller The MainController instance
      */
-    public static void setMainController(MainControllerTeo controller) {
+    public static void setMainController(MainController controller) {
         mainController = controller;
     }
 
-    public static MainControllerTeo getMainController() {
+    public static MainController getMainController() {
         return mainController;
     }
 
@@ -42,20 +42,6 @@ public class NavigatorView {
             e.printStackTrace();
             System.err.println("Error loading view: " + fxml);
         }
-    }
-
-
-
-    public static void navigateToLogin() {
-        loadView("LoginView.fxml");
-    }
-
-    public static void navigateToRegister() {
-        loadView("RegisterView.fxml");
-    }
-
-    public static void navigateToLoginRegistrazione() {
-        loadView("Login_Registrazione.fxml");
     }
 
     public static void navigateToAddFarmaci(){ loadView("DashBoardMedic/AddFarmaci.fxml");}

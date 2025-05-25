@@ -1,46 +1,53 @@
 package com.dashapp.controller;
 
-import com.dashapp.view.ViewNavigator;
-import com.dashapp.view.components.NavBar;
+import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class MainController {
+
     @FXML
     private BorderPane mainContainer;
 
     @FXML
-    private VBox navBarContainer;
+    private StackPane stackPane;
 
-    private NavBar navBar;
+    @FXML
+    private VBox sidebarVBox;
+
+    @FXML
+    private Node leftPanel;
+
+    @FXML
+    private Label utenteLabel;
+
+
 
     @FXML
     public void initialize() {
-        // Set up the navigation bar
-        navBar = new NavBar();
-        navBarContainer.getChildren().add(navBar);
+        if(!NavigatorView.isAuthenticated()){
+            hideSidebar();
+        }
 
-        // Register this controller with the ViewNavigator
-        ViewNavigator.setMainController(this);
-
-        // Load the home view by default
-        ViewNavigator.navigateToHome();
+        NavigatorView.setMainController(this);
     }
 
-    /**
-     * Set the content of the main area
-     */
+    public void hideSidebar() {
+        leftPanel = mainContainer.getLeft();
+        mainContainer.setLeft(null);
+    }
+
+    public void viewSidebar() {
+        mainContainer.setLeft(leftPanel);
+    }
+
+
+
     public void setContent(Node content) {
-        mainContainer.setCenter(content);
+        stackPane.getChildren().setAll(content);
     }
-
-    /**
-     * Update the navigation bar based on authentication status
-     */
-    public void updateNavBar(boolean isAuthenticated) {
-        navBar.updateAuthStatus(isAuthenticated, ViewNavigator.getAuthenticatedUser());
-    }
-
 }

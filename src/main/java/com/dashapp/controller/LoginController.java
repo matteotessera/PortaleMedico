@@ -1,12 +1,6 @@
 package com.dashapp.controller;
 
-import com.dashapp.Main;
-import com.dashapp.model.User;
-import com.dashapp.model.UserRepository;
 import com.dashapp.view.NavigatorView;
-import com.dashapp.controller.MainControllerTeo;
-import com.dashapp.model.*;
-import com.dashapp.services.DataService;
 import com.dashapp.services.LoginService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -28,11 +22,9 @@ public class LoginController {
     @FXML
     private Label statusLabel;
     
-    private UserRepository userRepository;
-    
+
     @FXML
     public void initialize() {
-        userRepository = Main.getUserRepository();
         statusLabel.setVisible(false);
     }
     

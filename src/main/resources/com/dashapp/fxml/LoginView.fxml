@@ -1,62 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" maxWidth="400.0" prefHeight="321.0" prefWidth="290.0" style="-fx-padding: 50; -fx-border-color: white; -fx-border-radius: 40;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.LoginController">
+<StackPane prefHeight="500" prefWidth="600" style="-fx-background-image: url('https://media-public.canva.com/BO16k/MAE-xKBO16k/1/s2.jpg'); -fx-background-repeat: no-repeat; -fx-background-position: center center; -fx-background-size: cover;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.LoginController">
    <children>
-      <Label text="Login" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-         <VBox.margin>
-            <Insets bottom="20.0" />
-         </VBox.margin>
-      </Label>
-      <Label fx:id="statusLabel" managed="true" styleClass="alert-danger" text="Status message goes here" visible="false" wrapText="true">
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-      </Label>
-      <VBox spacing="10.0">
+      <!-- Box login dimensioni fisse, non si espande -->
+      <StackPane maxHeight="441.0" maxWidth="338.0" minHeight="418.0" minWidth="300" prefHeight="441.0" prefWidth="338.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 30, 0, 0, 8);;">
          <children>
-            <Label prefHeight="30.0" prefWidth="54.0" styleClass="form-label" text="Username" />
-            <TextField fx:id="usernameField" prefWidth="188.0" promptText="Username" styleClass="form-control" />
+            <VBox alignment="TOP_CENTER" prefHeight="447.0" prefWidth="336.0" spacing="20.0" style="-fx-padding: 60 35 20 35;">
+               <children>
+
+                  <!-- Cerchio arancione sopra la box -->
+                  <Circle fill="#ff7f50" radius="30.0" stroke="transparent">
+                     <VBox.margin>
+                        <Insets top="-30.0" />
+                     </VBox.margin></Circle>
+                  <Text style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Login">
+                     <font>
+                        <Font size="46.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Text>
+                  <VBox prefHeight="48" prefWidth="217" spacing="5" style="-fx-padding: 10 0 0 0;">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="38.0" style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Email" />
+                        <TextField fx:id="emailField" prefHeight="30" promptText="Inserisci email" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="5" style="-fx-padding: 0 0 20 0;">
+                     <children>
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Password" />
+                        <PasswordField fx:id="passwordField" prefHeight="30" promptText="Inserisci password" />
+                     </children>
+                  </VBox>
+                  <Button onAction="#handleLogin" prefHeight="35" prefWidth="160" style="-fx-background-color: #ff7f50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Accedi">
+                     </Button>
+                  <Label fx:id="statusLabel" managed="true" styleClass="alert-danger" text="Status message goes here" visible="false" wrapText="true">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
          </children>
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-      </VBox>
-      <VBox spacing="10.0">
-         <children>
-            <Label styleClass="form-label" text="Password" />
-            <PasswordField fx:id="passwordField" promptText="Enter password" styleClass="form-control" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="20.0" />
-         </VBox.margin>
-      </VBox>
-      <Button defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogin" text="Login">
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-      </Button>
-      <HBox alignment="CENTER">
-         <children>
-            <Label text="Don't have an account? " />
-            <Hyperlink onAction="#handleRegister" text="Register" />
-         </children>
-      </HBox>
-      <StackPane prefHeight="150.0" prefWidth="200.0" />
+      </StackPane>
    </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-   <styleClass>
-      <String fx:value="container" />
-      <String fx:value="card" />
-   </styleClass>
-</VBox>
+</StackPane>

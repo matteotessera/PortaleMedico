@@ -1,37 +1,30 @@
 package com.dashapp.controller;
 
-import com.dashapp.view.ViewNavigator;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class HomeController {
+
     @FXML
-    private Button loginButton;
-    
-    @FXML
-    private Button registerButton;
-    
-    @FXML
-    public void initialize() {
-        // If we're already authenticated, hide login/register buttons
-        if (ViewNavigator.isAuthenticated()) {
-            loginButton.setVisible(false);
-            registerButton.setVisible(false);
-        }
-    }
-    
-    @FXML
-    private void handleLogin() {
-        ViewNavigator.navigateToLogin();
-    }
-    
-    @FXML
-    private void handleRegister() {
-        ViewNavigator.navigateToRegister();
-    }
-    
-    @FXML
-    private void handleDashboard() {
-        ViewNavigator.navigateToDashboard();
+    private void handleLoginRegistrazione(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/MainView.fxml"));
+        Parent mainRoot = loader.load();
+
+        MainController mainController = loader.getController();
+
+
+        FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/LoginView.fxml"));
+        Node loginView = loginLoader.load();
+
+        mainController.setContent(loginView);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        stage.getScene().setRoot(mainRoot);
     }
 }
