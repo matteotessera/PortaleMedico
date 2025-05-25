@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <BorderPane fx:id="mainContainer" prefHeight="600" prefWidth="1000" style="     -fx-background-image: url('https://media-public.canva.com/BO16k/MAE-xKBO16k/1/s2.jpg');     -fx-background-repeat: no-repeat;     -fx-background-size: cover;     -fx-background-position: center center;" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.MainController">
@@ -68,31 +69,30 @@
                      <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="232.0" spacing="20.0">
                          <children>
                              <!-- Bottone Logout -->
-                             <Label text="Logout" textFill="WHITE">
+                             <Label fx:id="logoutLabel" textFill="WHITE">
                                  <font>
                                      <Font name="System Bold" size="16.0" />
                                  </font>
                              </Label>
 
-                             <!-- Label nome utente -->
-                             <Label fx:id="utenteLabel" textFill="WHITE">
-                                 <font>
-                                     <Font name="System Bold" size="16.0" />
-                                 </font>
-                             </Label>
 
-                             <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                             <ImageView fx:id="messageButton" visible="false" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                      <Image url="@../images/message.png" />
                                  </image>
                              </ImageView>
 
-                             <!-- Icona utente -->
-                             <ImageView fitHeight="28.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                     <Image url="@../images/user.png" />
-                                 </image>
-                             </ImageView>
+                             <StackPane fx:id="utenteCirclePane" visible="false">
+                                 <children>
+                                     <Circle fx:id="cerchioNavbar" fill="WHITE" radius="19.0" stroke="WHITE" strokeType="INSIDE" />
+                                     <Label fx:id="utenteLabel" textFill="BLACK">
+                                         <font>
+                                             <Font name="System Bold" size="16.0" />
+                                         </font>
+                                     </Label>
+                                 </children>
+                             </StackPane>
+
                          </children>
                      </HBox>
                  </children>

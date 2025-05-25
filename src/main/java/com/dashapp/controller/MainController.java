@@ -1,12 +1,18 @@
 package com.dashapp.controller;
 
+import com.dashapp.model.Utente;
+import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class MainController {
 
@@ -25,14 +31,28 @@ public class MainController {
     @FXML
     private Label utenteLabel;
 
+    @FXML
+    private Label logoutLabel;
+
+    @FXML
+    private Circle cerchioNavbar;
+
+    @FXML
+    private StackPane utenteCirclePane;
+
+    @FXML
+    private ImageView messageButton;
+
 
 
     @FXML
-    public void initialize() {
+    public void initialize() throws Exception {
+        utenteCirclePane.setVisible(false);
+        logoutLabel.setText("");
+
         if(!NavigatorView.isAuthenticated()){
             hideSidebar();
         }
-
         NavigatorView.setMainController(this);
     }
 
@@ -45,9 +65,31 @@ public class MainController {
         mainContainer.setLeft(leftPanel);
     }
 
-
-
     public void setContent(Node content) {
         stackPane.getChildren().setAll(content);
+    }
+
+    //SCRIVO SULLA NAVBAR L'INIZIALE DEL NOME E DEL COGNOME DOPO IL LOGIN
+    public void mostraTextNavbar() throws Exception {
+        DataService ds = new DataService();
+        String email = NavigatorView.getAuthenticatedUser();
+        Utente u = ds.getUtenteByEmail(email);
+
+        char nome = u.getNome().toUpperCase().charAt(0);
+        char cognome = u.getCognome().toUpperCase().charAt(0);
+
+        utenteLabel.setText(nome + "" + cognome);
+        utenteLabel.setStyle("-fx-text-fill: #1b4965;");
+
+        logoutLabel.setText("Logout");
+
+        // Rendo visibile il cerchio con il testo
+        utenteCirclePane.setVisible(true);
+        messageButton.setVisible(true);
+    }
+
+    public void EliminaTextNavbar() {
+        utenteLabel.setText(null);
+        logoutLabel.setText(null);
     }
 }

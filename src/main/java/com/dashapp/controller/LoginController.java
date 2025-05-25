@@ -1,5 +1,7 @@
 package com.dashapp.controller;
 
+import com.dashapp.model.Utente;
+import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
 import com.dashapp.services.LoginService;
 import javafx.fxml.FXML;
@@ -57,13 +59,35 @@ public class LoginController {
                     //statusLabel.setText("Login effettuato! Ruolo: " + loginService.getUserRole());
                     NavigatorView.getMainController().viewSidebar();
                     NavigatorView.setAuthenticatedUser(email);
-                    NavigatorView.navigateToDashboardMedic();
+                    try {
+                        NavigatorView.textNavbar();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    try {
+                        navigate(email);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    //NavigatorView.navigateToDashboardMedic();
                 } else {
                     showError("Email o password non corretti");
                 }
             });
         });
 
+    }
+
+    private void navigate(String email) throws Exception {
+        DataService ds = new DataService();
+        Utente u = ds.getUtenteByEmail(email);
+
+        if(u.getRuolo().equals("medico")){
+            NavigatorView.navigateToDashboardMedic();
+        }else{
+            NavigatorView.navigateToDashboardPatient();
+        }
     }
 
     private void showMessage(String message){

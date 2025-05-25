@@ -44,9 +44,18 @@ public class NavigatorView {
         }
     }
 
-    public static void navigateToAddFarmaci(){ loadView("DashBoardMedic/AddFarmaci.fxml");}
+    public static void navigateToAddFarmaci(){
+        loadView("DashBoardMedic/AddFarmaci.fxml");
+    }
 
-    public static void navigateToDashboardMedic(){ loadView("DashBoardMedic/DashboardViewMedic.fxml");}
+    public static void navigateToDashboardMedic(){
+        loadView("DashBoardMedic/DashboardViewMedic.fxml");
+    }
+
+    public static void navigateToDashboardPatient(){
+        loadView("DashBoardPatient/DashboardViewPatient.fxml");
+    }
+
 
 
     //GESTIONE LOGIN
@@ -60,6 +69,16 @@ public class NavigatorView {
 
     public static boolean isAuthenticated() {
         return authenticatedUser != null;
+    }
+
+    public static void textNavbar() throws Exception {
+        MainController m = NavigatorView.getMainController();
+
+        if (isAuthenticated()) {
+            m.mostraTextNavbar();  // se autenticato, mostra il testo personalizzato
+        } else {
+            m.EliminaTextNavbar(); // se non autenticato, elimina testo
+        }
     }
 
 
