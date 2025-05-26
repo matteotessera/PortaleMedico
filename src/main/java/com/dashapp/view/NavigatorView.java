@@ -60,6 +60,10 @@ public class NavigatorView {
         loadView("CambioPassword.fxml");
     }
 
+    public static void navigateToLogin(){
+        loadView("LoginView.fxml");
+    }
+
 
 
     //GESTIONE LOGIN

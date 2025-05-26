@@ -55,27 +55,23 @@ public class LoginController {
         loginService.login(email, password).thenAccept(success -> {
             Platform.runLater(() -> {
                 if (success) {
-                    showMessage("Login effettuato con successo!");
-                    //statusLabel.setText("Login effettuato! Ruolo: " + loginService.getUserRole());
-                    NavigatorView.getMainController().viewSidebar();
                     NavigatorView.setAuthenticatedUser(email);
-                    try {
-                        NavigatorView.textNavbar();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
 
                     //se la password è <6 vuoldire che è il primo accesso e l'utente deve cambire password
                     if(password.length() < 6){
-                        NavigatorView.navigateToDashboardMedic();
+                        NavigatorView.navigateToChangePassword();
                     }else {
+
+                        showMessage("Login effettuato con successo!");
+
+                        NavigatorView.getMainController().viewSidebar();
                         try {
                             navigate(email);
+                            NavigatorView.textNavbar();
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
                     }
-                    //NavigatorView.navigateToDashboardMedic();
                 } else {
                     showError("Email o password non corretti");
                 }
