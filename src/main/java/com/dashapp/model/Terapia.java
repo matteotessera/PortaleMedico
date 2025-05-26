@@ -1,30 +1,65 @@
 package com.dashapp.model;
 
+import java.time.LocalDate;
 
 public class Terapia {
-
-    private String idTerapia;
-    private String dataInizio;
-    private String dataFine;
+    private int id;
+    private LocalDate dataInizio;
+    private LocalDate dataFine;
     private String note;
-    private String idMedico;
-    private String idPaziente;
+    private int idPaziente;
 
-    // Costruttore
-    public Terapia(String idTerapia, String dataInizio, String dataFine,
-                   String note, String idMedico, String idPaziente) {
-        this.idTerapia = idTerapia;
+    // Costruttore vuoto
+    public Terapia() {}
+
+    // Costruttore completo
+    public Terapia(int id, LocalDate dataInizio, LocalDate dataFine, String note, int idPaziente) {
+        this.id = id;
         this.dataInizio = dataInizio;
         this.dataFine = dataFine;
         this.note = note;
-        this.idMedico = idMedico;
         this.idPaziente = idPaziente;
     }
 
-    // Metodo statico create
-    public static Terapia create(String idTerapia, String dataInizio, String dataFine,
-                                 String note, String idMedico, String idPaziente) {
-        return new Terapia(idTerapia, dataInizio, dataFine, note, idMedico, idPaziente);
+    // Getter e Setter
+
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public LocalDate getDataInizio() {
+        return dataInizio;
+    }
+
+    public void setDataInizio(LocalDate dataInizio) {
+        this.dataInizio = dataInizio;
+    }
+
+    public LocalDate getDataFine() {
+        return dataFine;
+    }
+
+    public void setDataFine(LocalDate dataFine) {
+        this.dataFine = dataFine;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public int getIdPaziente() {
+        return idPaziente;
+    }
+
+    public void setIdPaziente(int idPaziente) {
+        this.idPaziente = idPaziente;
+    }
 }

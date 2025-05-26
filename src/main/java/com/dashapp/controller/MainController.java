@@ -1,5 +1,6 @@
 package com.dashapp.controller;
 
+import com.dashapp.model.Terapia;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
@@ -54,6 +55,7 @@ public class MainController {
             hideSidebar();
         }
         NavigatorView.setMainController(this);
+
     }
 
     public void hideSidebar() {
