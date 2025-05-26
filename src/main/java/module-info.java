@@ -12,7 +12,7 @@ module com.dashapp {
     opens com.dashapp.controller to javafx.fxml;
     opens com.dashapp.model to javafx.fxml, com.google.gson;  // <-- qui apri anche a Gson
     opens com.dashapp.view to javafx.fxml;
-    opens com.dashapp.config to javafx.fxml;
+    //opens com.dashapp.config to javafx.fxml;
 
     exports com.dashapp;
     opens com.dashapp.controller.dashboardMedico to javafx.fxml;

@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 
@@ -28,24 +29,24 @@ public class DashboardMedicController {
         private StackPane mainContent;
         @FXML
         private Label doctorName;
+        @FXML
+        private StackPane utenteCirclePane;
+        @FXML
+        private Circle cerchioNavbar;
+        @FXML
+        private Label utenteLabel;
+
+
+
 
 
         private Parent originalContent;
 
 
 
-        public void initialize() {              //Andra messo showAllFarmaci invece di showAddFarmaci
+        public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
 
-                //PER IMPOSTARE NOME MEDICO SULLA DASHBOARD
-                try {
-                        ds=new DataService();
-                        String email = NavigatorView.getAuthenticatedUser();
-                        Utente utente = ds.getUtenteByEmail(email);
-                        doctorName.setText("Dr. "+utente.getNome()+" "+utente.getCognome());
-                } catch (Exception e) {
-                        e.printStackTrace();
-                        // eventualmente mostrare alert o loggare errore
-                }
+                mostraTextMeico();
 
                 if (!mainContent.getChildren().isEmpty()) {
                         originalContent = (Parent) mainContent.getChildren().get(0);
@@ -109,12 +110,25 @@ public class DashboardMedicController {
                 } catch (IOException e) {
                         e.printStackTrace();
                 }
-
-
         }
 
+        //Metodo per la visualizzazione del nome del medico e dell'immagine con iniziali nome e cognome
+        public void mostraTextMeico() throws Exception {
+                DataService ds = new DataService();
+                String email = NavigatorView.getAuthenticatedUser();
 
+                Utente u = ds.getUtenteByEmail(email);
+                doctorName.setText("Dr. "+u.getNome()+" "+u.getCognome());
 
+                char nome = u.getNome().toUpperCase().charAt(0);
+                char cognome = u.getCognome().toUpperCase().charAt(0);
+
+                utenteLabel.setText(nome + "" + cognome);
+                utenteLabel.setStyle("-fx-text-fill: #1b4965;");
+
+                // Rendo visibile il cerchio con il testo
+                utenteCirclePane.setVisible(true);
+        }
 
 
 
