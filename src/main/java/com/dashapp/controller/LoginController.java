@@ -65,10 +65,15 @@ public class LoginController {
                         throw new RuntimeException(e);
                     }
 
-                    try {
-                        navigate(email);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                    //se la password è <6 vuoldire che è il primo accesso e l'utente deve cambire password
+                    if(password.length() < 6){
+                        NavigatorView.navigateToDashboardMedic();
+                    }else {
+                        try {
+                            navigate(email);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     //NavigatorView.navigateToDashboardMedic();
                 } else {
