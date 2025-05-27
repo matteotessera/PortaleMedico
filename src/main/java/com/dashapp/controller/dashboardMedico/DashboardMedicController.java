@@ -36,11 +36,9 @@ public class DashboardMedicController {
         @FXML
         private Label utenteLabel;
 
-
-
-
-
         private Parent originalContent;
+
+        private BoxDashboardController controller;
 
 
 
@@ -53,12 +51,9 @@ public class DashboardMedicController {
                 }
         }
 
-        public void showAddFarmaci(){
-               showOverlay("AddFarmaci.fxml", overlayPaneFarmaci);
-        }
 
 
-        public void showAddPazienti() throws IOException {
+        public void mostraBox() throws IOException {
                 //showOverlay("AddPazienti.fxml", overlayPanePazienti);
 
                 // Rimuovo tutto dal mainContent
@@ -68,12 +63,45 @@ public class DashboardMedicController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/BoxDashboard.fxml"));
                 Parent newContent = loader.load();
 
-                BoxDashboardController controller = loader.getController();
+                controller = loader.getController();
                 controller.setDashboardController(this);
 
                 // Aggiungo il nuovo contenuto
                 mainContent.getChildren().add(newContent);
         }
+
+        public void aggiungiFarmaco() throws IOException {
+                if (controller == null) {
+                        mostraBox();
+                }
+                controller.aggiungiFarmaco();
+        }
+
+
+        public void listaPazienti() throws IOException {
+
+                if (controller == null) {
+                        mostraBox();
+                }
+                controller.listaPazienti();
+        }
+
+        public void assegnazioneMedPaz() throws IOException {
+
+                if (controller == null) {
+                        mostraBox();
+                }
+                controller.assegnazioneMedPaz();
+        }
+
+        public void listaFarmaci() throws IOException {
+
+                if (controller == null) {
+                        mostraBox();
+                }
+                controller.listaFarmaci();
+        }
+
 
 
         public void showAddTerapia(){
@@ -86,6 +114,7 @@ public class DashboardMedicController {
                 if (originalContent != null) {
                         mainContent.getChildren().add(originalContent);
                 }
+                controller = null;  // forza a ricaricare BoxDashboard quando serve
         }
 
 

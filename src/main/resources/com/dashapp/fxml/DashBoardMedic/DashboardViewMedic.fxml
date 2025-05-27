@@ -182,8 +182,8 @@
                                 <font>
                                     <Font size="15.0" />
                                 </font></Label>
-                            <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="eyeIcon1" fitHeight="16.0" fitWidth="20">
+                            <HBox alignment="CENTER_LEFT" spacing="10"  onMouseClicked="#listaPazienti">
+                                <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaPazienti">
                                     <image>
                                         <Image url="@../../images/occhioArancio.png" />
                                     </image>
@@ -196,8 +196,8 @@
                                     <Insets left="50.0" />
                                 </padding>
                             </HBox>
-                            <HBox alignment="CENTER_LEFT" onMouseClicked="#showAddPazienti" spacing="10">
-                                <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20" onMouseClicked="#showAddPazienti">
+                            <HBox alignment="CENTER_LEFT" onMouseClicked="#assegnazioneMedPaz" spacing="10">
+                                <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20" onMouseClicked="#assegnazioneMedPaz">
                                     <image>
                                         <Image url="@../../images/piuArancio.png" />
                                     </image>
@@ -236,8 +236,8 @@
                                 <font>
                                     <Font size="15.0" />
                                 </font></Label>
-                            <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="eyeIcon2" fitHeight="16.0" fitWidth="20">
+                            <HBox alignment="CENTER_LEFT" spacing="10" onMouseClicked="#listaFarmaci">
+                                <ImageView fx:id="eyeIcon2" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaFarmaci">
                                     <image>
                                         <Image url="@../../images/occhioViola.png" />
                                     </image>
@@ -250,8 +250,8 @@
                                     <Insets left="50.0" />
                                 </VBox.margin>
                             </HBox>
-                            <HBox alignment="CENTER_LEFT" onMouseClicked="#showAddFarmaci" spacing="10">
-                                <ImageView fx:id="plusIcon2" fitHeight="20.0" fitWidth="20" onMouseClicked="#showAddFarmaci">
+                            <HBox alignment="CENTER_LEFT" onMouseClicked="#aggiungiFarmaco" spacing="10">
+                                <ImageView fx:id="plusIcon2" fitHeight="20.0" fitWidth="20" onMouseClicked="#aggiungiFarmaco">
                                     <image>
                                         <Image url="@../../images/piuViola.png" />
                                     </image>

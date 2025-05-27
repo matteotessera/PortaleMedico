@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddFarmaciController">
-   <children>
-      <VBox alignment="TOP_CENTER" layoutX="4.0" layoutY="5.0" prefHeight="251.0" prefWidth="422.0" spacing="10.0">
+<AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddFarmaciController">
+<children>
+<VBox alignment="TOP_CENTER" prefHeight="447.0" prefWidth="336.0" spacing="20.0" style="-fx-padding: 60 35 20 35;">
          <children>
-            <Label alignment="CENTER" text="AGGIUNGERE I DATI DEL FARMACO">
+
+            <!-- Cerchio arancione sopra la box -->
+            <Text style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Aggiungi famraco">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font size="46.0" />
                </font>
-            </Label>
-            <TextField fx:id="nomeFarmacoField" prefHeight="0.0" prefWidth="100.0" promptText="Nome Farmaco">
                <VBox.margin>
-                  <Insets top="50.0" />
+                  <Insets />
+               </VBox.margin></Text>
+            <VBox prefHeight="48" prefWidth="217" spacing="5" style="-fx-padding: 10 0 0 0;">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="38.0" style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Nome" />
+                  <TextField fx:id="emailField" prefHeight="30" promptText="Inserisci nome" />
+               </children>
+            </VBox>
+            <VBox spacing="5" style="-fx-padding: 0 0 20 0;">
+               <children>
+                  <Label style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Descrizione" />
+                  <TextField promptText="Inserisci descrizione" />
+               </children>
+            </VBox>
+            <Button prefHeight="35" prefWidth="160" style="-fx-background-color: #ff7f50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Agigungi">
+            </Button>
+            <Label fx:id="statusLabel" managed="true" styleClass="alert-danger" text="Status message goes here" visible="false" wrapText="true">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
                </VBox.margin>
-            </TextField>
-            <TextField fx:id="descrizioneFarmacoField" promptText="Descrizione" />
-            <Button fx:id="registraFarmacoButton" alignment="CENTER" mnemonicParsing="false" onAction="#registraFarmaco" text="Registra farmaco" />
-            <Button fx:id="esci" mnemonicParsing="false" onAction="#exit" text="Esci" />
+            </Label>
          </children>
-         <padding>
-            <Insets top="30.0" />
-         </padding>
       </VBox>
    </children>
 </AnchorPane>
