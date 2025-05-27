@@ -10,14 +10,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
+
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
 public class BoxDashboardController {
 
     @FXML
-    private HBox bodyContainer;
+    private VBox bodyContainer;
 
     @FXML
     private Label LabelBoxDashboard;
@@ -52,9 +55,19 @@ public class BoxDashboardController {
             return;
         }
 
+        String textButton = "Prendi in carico";
+        tabella(utenti, textButton, Color.web("#53FF45"));
+
+        textButton = "Paziente già assegnato";
+        tabella(utenti, textButton, Color.web("#34bccc"));
+
         LabelBoxDashboard.setText("Gestione assegnazione utenti");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px");
 
+
+    }
+
+    private void tabella(List<Utente> utenti, String textButton, Color color){
         VBox listaUtentiBox = new VBox(2);
         listaUtentiBox.setPrefWidth(2000);
 
@@ -102,8 +115,11 @@ public class BoxDashboardController {
             Label emailLabel = creaCell(u.getEmail(), emailWidth);
             Label telLabel = creaCell(u.getTelefono(), telWidth);
 
-            Button prendiInCaricoButton = new Button("Prendi in carico");
-            prendiInCaricoButton.setStyle("-fx-background-color: #34bccc; -fx-text-fill: white;");
+            Button prendiInCaricoButton = new Button(textButton);
+            prendiInCaricoButton.setStyle(
+                    "-fx-background-color: " + toHex(color) + ";" +
+                            "-fx-text-fill: white;"
+            );
             prendiInCaricoButton.setPrefWidth(azioneWidth);
             prendiInCaricoButton.setOnAction(e -> {
                 System.out.println("Preso in carico: " + u.getNome() + " " + u.getCognome());
@@ -116,9 +132,16 @@ public class BoxDashboardController {
             listaUtentiBox.getChildren().add(rigaUtente);
         }
 
-        bodyContainer.getChildren().clear();
         bodyContainer.getChildren().add(listaUtentiBox);
     }
+
+    private String toHex(Color color) {
+        return String.format("#%02X%02X%02X",
+                (int)(color.getRed()*255),
+                (int)(color.getGreen()*255),
+                (int)(color.getBlue()*255));
+    }
+
 
     // Metodo di utilità per intestazione
     private Label creaHeader(String text, double width) {

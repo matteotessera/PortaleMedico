@@ -44,6 +44,10 @@ public class MainController {
     @FXML
     private ImageView messageButton;
 
+    @FXML
+    private VBox navBarContainer;
+
+
 
 
     @FXML
@@ -93,5 +97,13 @@ public class MainController {
     public void EliminaTextNavbar() {
         utenteLabel.setText(null);
         logoutLabel.setText(null);
+    }
+
+    public void nascondiNavbar() {
+        navBarContainer.setVisible(false);
+    }
+
+    public void mostraNavbar() {
+        navBarContainer.setVisible(true);
     }
 }
