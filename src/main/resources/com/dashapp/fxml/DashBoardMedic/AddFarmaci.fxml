@@ -1,43 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddFarmaciController">
-<children>
-<VBox alignment="TOP_CENTER" prefHeight="447.0" prefWidth="336.0" spacing="20.0" style="-fx-padding: 60 35 20 35;">
-         <children>
+<AnchorPane prefHeight="542.0" prefWidth="932.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddFarmaciController">
 
-            <!-- Cerchio arancione sopra la box -->
-            <Text style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Aggiungi famraco">
-               <font>
-                  <Font size="46.0" />
-               </font>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin></Text>
-            <VBox prefHeight="48" prefWidth="217" spacing="5" style="-fx-padding: 10 0 0 0;">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="38.0" style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Nome" />
-                  <TextField fx:id="emailField" prefHeight="30" promptText="Inserisci nome" />
-               </children>
-            </VBox>
-            <VBox spacing="5" style="-fx-padding: 0 0 20 0;">
-               <children>
-                  <Label style="-fx-font-size: 12px; -fx-text-fill: #333;" text="Descrizione" />
-                  <TextField promptText="Inserisci descrizione" />
-               </children>
-            </VBox>
-            <Button prefHeight="35" prefWidth="160" style="-fx-background-color: #ff7f50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Agigungi">
-            </Button>
-            <Label fx:id="statusLabel" managed="true" styleClass="alert-danger" text="Status message goes here" visible="false" wrapText="true">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </Label>
-         </children>
+   <children>
+      <VBox spacing="20.0" style="-fx-padding: 40 30 20 30;">
+
+         <!-- Titolo -->
+         <Text fill="#cb6ce6" style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Aggiungi Farmaco">
+            <font>
+               <Font size="32.0" />
+            </font>
+         </Text>
+
+         <!-- Nome farmaco -->
+         <VBox spacing="5">
+            <Label text="Nome Farmaco" />
+            <TextField fx:id="nomeFarmacoField" prefHeight="23.0" promptText="Inserisci nome farmaco" />
+         </VBox>
+
+         <Label text="Compila i campi facoltativi per generare automaticamente la descrizione." textFill="#cb6ce6">
+            <font>
+               <Font name="System Bold" size="13.0" />
+            </font>
+         </Label>
+
+         <!-- Selezione campi -->
+         <GridPane hgap="15" vgap="15">
+            <columnConstraints>
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+            </columnConstraints>
+
+            <!-- Riga 1 -->
+            <children>
+               <VBox spacing="5" GridPane.columnIndex="0">
+                  <Label text="Principio Attivo" />
+                  <ComboBox fx:id="principioComboBox" maxWidth="Infinity" promptText="Seleziona principio attivo" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="1">
+                  <Label text="Forma Farmaceutica" />
+                  <ComboBox fx:id="formaComboBox" maxWidth="Infinity" promptText="Seleziona forma farmaceutica" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="2">
+                  <Label text="Posologia" />
+                  <ComboBox fx:id="posologiaComboBox" maxWidth="Infinity" promptText="Seleziona posologia" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="3">
+                  <Label text="Indicazioni terapeutiche" />
+                  <ComboBox fx:id="indicazioniComboBox" maxWidth="Infinity" promptText="Seleziona indicazione terapeutica" />
+               </VBox>
+
+               <!-- Riga 2 -->
+               <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                  <Label text="Controindicazioni" />
+                  <ComboBox fx:id="controindicazioniComboBox" maxWidth="Infinity" promptText="Seleziona controindicazioni" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label text="Effetti indesiderati" />
+                  <ComboBox fx:id="effettiComboBox" maxWidth="Infinity" promptText="Seleziona effetti indesiderati" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Label text="Interazioni" />
+                  <ComboBox fx:id="interazioniComboBox" maxWidth="Infinity" promptText="Seleziona interazioni" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <Label text="Conservazione" />
+                  <ComboBox fx:id="conservazioneComboBox" maxWidth="Infinity" promptText="Seleziona conservazione" />
+               </VBox>
+            </children>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+         </GridPane>
+
+         <!-- Descrizione automatica -->
+         <VBox spacing="5">
+            <Label text="Descrizione" />
+            <TextArea fx:id="descrizioneArea" editable="true" prefHeight="120" />
+         </VBox>
+
+         <!-- Bottone -->
+         <Button fx:id="aggiungiButton" prefHeight="29.0" prefWidth="186.0" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Aggiungi" />
       </VBox>
    </children>
 </AnchorPane>
