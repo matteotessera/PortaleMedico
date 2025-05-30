@@ -13,6 +13,7 @@ public class Utente {
     private String email;
     private String telefono;
     private String indirizzo;
+    private String genere;
 
     // Costruttore vuoto
     public Utente() {}
@@ -20,7 +21,7 @@ public class Utente {
     // Costruttore completo
     public Utente(int id, String password, String ruolo, String nome, String cognome,
                   String codFiscale, LocalDate dataNascita, String email,
-                  String telefono, String indirizzo) {
+                  String telefono, String indirizzo, String genere) {
         this.id = id;
         this.password = password;
         this.ruolo = ruolo;
@@ -31,6 +32,7 @@ public class Utente {
         this.email = email;
         this.telefono = telefono;
         this.indirizzo = indirizzo;
+        this.genere = genere;
     }
 
     // Getter e Setter
@@ -111,7 +113,15 @@ public class Utente {
         return indirizzo;
     }
 
-    public void setIndirizzo(String indirizzo) {
+    public void setIndirizzo(String indirizzo){
         this.indirizzo = indirizzo;
+    }
+
+    public void setGenere(String genere){
+        this.genere = genere;
+    }
+
+    public String getGenere(){
+        return genere;
     }
 }

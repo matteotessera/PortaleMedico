@@ -517,7 +517,7 @@ public class DataService {
 
     }
 
-    public void addUtente(String password, String ruolo, String nome, String cognome, String codFiscale, LocalDate dataNascita, String email, String telefono, String indirizzo) throws Exception {
+    public void addUtente(String password, String ruolo, String nome, String cognome, String codFiscale, LocalDate dataNascita, String email, String telefono, String indirizzo, String genere) throws Exception {
         String url = API_URL + "add_utente.php";
 
         // Converto la data di nascita in stringa (formato ISO yyyy-MM-dd)
@@ -533,9 +533,10 @@ public class DataService {
                         "\"dataNascita\":\"%s\", " +
                         "\"email\":\"%s\", " +
                         "\"telefono\":\"%s\", " +
+                        "\"genere\":\"%s\", " +
                         "\"indirizzo\":\"%s\"" +
                         "}",
-                password, ruolo, nome, cognome, codFiscale, dataNascitaStr, email, telefono, indirizzo
+                password, ruolo, nome, cognome, codFiscale, dataNascitaStr, email, telefono, genere, indirizzo
         );
 
         post(url, json);
@@ -661,6 +662,7 @@ public class DataService {
         utente.setTelefono(obj.get("telefono").getAsString());
         utente.setIndirizzo(obj.get("indirizzo").getAsString());
         utente.setEmail(obj.get("email").getAsString());
+        utente.setGenere(obj.get("genere").getAsString());
 
         // supponendo che la data si chiami "dataNascita" nel JSON e sia in formato ISO yyyy-MM-dd
         if (obj.has("data_nascita") && !obj.get("data_nascita").isJsonNull()) {
@@ -688,6 +690,7 @@ public class DataService {
             utente.setTelefono(obj.get("telefono").getAsString());
             utente.setIndirizzo(obj.get("indirizzo").getAsString());
             utente.setEmail(obj.get("email").getAsString());
+            utente.setGenere(obj.get("genere").getAsString());
 
             if (obj.has("data_nascita") && !obj.get("data_nascita").isJsonNull()) {
                 String dataStr = obj.get("data_nascita").getAsString();
