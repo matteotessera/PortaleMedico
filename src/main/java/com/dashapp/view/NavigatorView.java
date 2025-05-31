@@ -48,9 +48,7 @@ public class NavigatorView {
         loadView("DashBoardMedic/AddFarmaci.fxml");
     }
 
-    public static void navigateToDashboardMedic(){
-        loadView("DashBoardMedic/DashboardViewMedic.fxml");
-    }
+    public static void navigateToDashboardMedic(){  loadView("DashBoardMedic/DashboardViewMedic.fxml"); }       //!!! TEMPORANEAMENTE MESSO DASHBOARD PATIENT
 
     public static void navigateToDashboardPatient(){
         loadView("DashBoardPatient/DashboardViewPatient.fxml");

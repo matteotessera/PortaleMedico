@@ -1,46 +1,127 @@
 package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
+import com.dashapp.model.Utente;
+import com.dashapp.services.DataService;
+import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 
+
 public class DashboardPatientController {
 
+    private DataService ds;
+
     @FXML
-    private AnchorPane overlayPaneAssunzioniSintomi;
+    private AnchorPane overlayPaneFarmaci;
     @FXML
-    private AnchorPane overlayPaneGlicemia;
+    private AnchorPane overlayPanePazienti;
     @FXML
     private AnchorPane overlayPaneTerapia;
+    @FXML
+    private StackPane mainContent;
+    @FXML
+    private Label doctorName;
+    @FXML
+    private StackPane utenteCirclePane;
+    @FXML
+    private Circle cerchioNavbar;
+    @FXML
+    private Label utenteLabel;
 
-    public void initialize() {              //Andra messo showAllFarmaci invece di showAddFarmaci
-        showAddAssunzione();
+    private Parent originalContent;
 
+    private BoxDashboardControllerPatient controller;
+
+
+
+    public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
+
+        mostraTextPaziente();
+
+        if (!mainContent.getChildren().isEmpty()) {
+            originalContent = (Parent) mainContent.getChildren().get(0);
+        }
     }
 
-    public void showAddAssunzione(){
-        showOverlay("AddAssunzione.fxml", overlayPaneAssunzioniSintomi);
+
+
+    public void mostraBox() throws Exception {
+        //showOverlay("AddPazienti.fxml", overlayPanePazienti);
+
+        // Rimuovo tutto dal mainContent
+        mainContent.getChildren().clear();
+
+        // Carico il nuovo contenuto da FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/BoxDashboardPatient.fxml"));
+        Parent newContent = loader.load();
+
+        controller = loader.getController();
+        controller.setDashboardController(this);
+
+        // Aggiungo il nuovo contenuto
+        mainContent.getChildren().add(newContent);
     }
-    public void showAddSintomo(){
-        showOverlay("AddSintomo.fxml", overlayPaneAssunzioniSintomi);
+
+
+    //FUNZIONI DEI BOTTONI
+    public void ListaRilevazioni() throws Exception {
+
+        if (controller == null) {
+            mostraBox();
+        }
+        controller.listaRilevazioni();
     }
-    public void showAddGlicemia(){
-        showOverlay("AddRilevazioneGlicemia.fxml", overlayPaneGlicemia);
+    public void aggiungiRilevazione() throws Exception {
+
+        if (controller == null) {
+            mostraBox();
+        }
+        controller.aggiungiRilevazione();
+    }
+
+
+    public void listaAssunzioni() throws Exception {
+
+        if (controller == null) {
+            mostraBox();
+        }
+        controller.listaAssunzioni();
     }
 
 
 
+    public void showAddTerapia(){
+        showOverlay("AddTerapia.fxml", overlayPaneTerapia);
+    }
+
+
+
+
+
+    //_________
+    @FXML
+    public void backToDashboard() {
+        mainContent.getChildren().clear();
+        if (originalContent != null) {
+            mainContent.getChildren().add(originalContent);
+        }
+        controller = null;  // forza a ricaricare BoxDashboard quando serve
+    }
 
 
     public void showOverlay(String fxml, Pane overlayPane){                   //inserire file da renderizzare, nome del pannello in cui renderizzarlo (nome == fixid)
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/" + fxml));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/" + fxml));
             AnchorPane newPane = loader.load();
-
 
             Object controller = loader.getController();
             if (controller instanceof OverlayPaneAware) {                           //se il controller implementa il metodo setOverlayPane, allora...
@@ -58,8 +139,24 @@ public class DashboardPatientController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    //Metodo per la visualizzazione del nome del medico e dell'immagine con iniziali nome e cognome
+    public void mostraTextPaziente() throws Exception {
+        DataService ds = new DataService();
+        String email = NavigatorView.getAuthenticatedUser();
 
+        Utente u = ds.getUtenteByEmail(email);
+        doctorName.setText("Dr. "+u.getNome()+" "+u.getCognome());
+
+        char nome = u.getNome().toUpperCase().charAt(0);
+        char cognome = u.getCognome().toUpperCase().charAt(0);
+
+        utenteLabel.setText(nome + "" + cognome);
+        utenteLabel.setStyle("-fx-text-fill: #1b4965;");
+
+        // Rendo visibile il cerchio con il testo
+        utenteCirclePane.setVisible(true);
     }
 
 
