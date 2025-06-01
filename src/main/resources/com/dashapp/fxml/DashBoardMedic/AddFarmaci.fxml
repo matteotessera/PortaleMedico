@@ -7,7 +7,7 @@
 <AnchorPane prefHeight="542.0" prefWidth="932.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddFarmaciController">
 
    <children>
-      <VBox spacing="20.0" style="-fx-padding: 40 30 20 30;">
+      <VBox prefWidth="934.0" spacing="20.0" style="-fx-padding: 40 30 20 30;">
 
          <!-- Titolo -->
          <Text fill="#cb6ce6" style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Aggiungi Farmaco">
@@ -85,6 +85,7 @@
                <RowConstraints />
             </rowConstraints>
          </GridPane>
+         <Button fx:id="generaDescrizioneButton" layoutX="40.0" layoutY="486.0" onMouseClicked="#generaDescrizione" prefHeight="13.0" prefWidth="149.0" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Genera descrzione" />
 
          <!-- Descrizione automatica -->
          <VBox spacing="5">
@@ -93,7 +94,7 @@
          </VBox>
 
          <!-- Bottone -->
-         <Button fx:id="aggiungiButton" prefHeight="29.0" prefWidth="186.0" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Aggiungi" />
+         <Button fx:id="aggiungiFarmaco" onMouseClicked="#registraFarmaco" prefHeight="37.0" prefWidth="305.0" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Aggiungi" />
       </VBox>
    </children>
 </AnchorPane>
