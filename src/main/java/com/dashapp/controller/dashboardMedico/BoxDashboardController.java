@@ -180,6 +180,7 @@ public class BoxDashboardController {
             Label nomeLabel = creaCell(f.getNome(), nomeWidth);
             Label descrizioneLabel = creaCell(f.getDescrizione(), descrizioneWidth);
 
+            // Bottone Azione
             Button azioneButton = new Button(textButton);
             azioneButton.setStyle(
                     "-fx-background-color: " + toHex(color) + ";" +
@@ -190,7 +191,18 @@ public class BoxDashboardController {
                 System.out.println("Azione su farmaco: " + f.getNome());
             });
 
-            rigaFarmaco.getChildren().addAll(nomeLabel, descrizioneLabel, azioneButton);
+            // Bottone Elimina
+            Button eliminaButton = new Button("Elimina");
+            eliminaButton.setStyle(
+                    "-fx-background-color: #d9534f;" +  // rosso tipo Bootstrap danger
+                            "-fx-text-fill: white;"
+            );
+            eliminaButton.setPrefWidth(azioneWidth);
+            eliminaButton.setOnAction(e -> {
+                System.out.println("Eliminazione farmaco: " + f.getNome());
+            });
+
+            rigaFarmaco.getChildren().addAll(nomeLabel, descrizioneLabel, azioneButton, eliminaButton);
             listaFarmaciBox.getChildren().add(rigaFarmaco);
         }
 
