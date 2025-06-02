@@ -1,50 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
+<AnchorPane prefHeight="589.0" prefWidth="934.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddTerapiaController">
 
-<AnchorPane prefHeight="363.0" prefWidth="489.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddTerapiaController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="33.0" layoutY="32.0" prefHeight="251.0" prefWidth="422.0" spacing="10.0">
-         <children>
-            <Label alignment="CENTER" text="AGGIUNGERE I DATI SULLA TERAPIA">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <DatePicker fx:id="inizioField" promptText="Data di inizio Terapia" HBox.hgrow="ALWAYS" />
-                  <DatePicker fx:id="fineField" promptText="Data di fine Terapia" />
-               </children>
-            </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <TextField fx:id="farmacoField" promptText="Farmaco" HBox.hgrow="ALWAYS" />
-               </children>
-            </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <TextField fx:id="nrAssunzioniField" promptText="Nr di Assunzioni Giornaliere" HBox.hgrow="ALWAYS" />
-                  <TextField fx:id="doseGiornalieraField" promptText="Dose Giornaliera" HBox.hgrow="ALWAYS" />
-               </children>
-            </HBox>
-            <TextField fx:id="indicazioniFarmacoField" promptText="Indicazioni sul farmaco" />
-            <TextField fx:id="noteTerapiaFied" promptText="Note sulla terapia" />
-            <Button fx:id="registraTerapiaButton" alignment="CENTER" mnemonicParsing="false" onAction="#registraTerapia" prefWidth="300.0" text="Registra Terapia" />
-            <Button fx:id="esci" mnemonicParsing="false" onAction="#exit" prefWidth="200.0" text="Esci" />
-         </children>
-         <padding>
-            <Insets top="30.0" />
-         </padding>
+      <VBox prefHeight="589.0" prefWidth="934.0" spacing="20.0" style="-fx-padding: 40 30 20 30;">
+
+         <!-- Titolo -->
+         <Text fill="#ff914d" style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Crea Terapia">
+            <font>
+               <Font size="32.0" />
+            </font>
+         </Text>
+
+         <!-- Sezione paziente e farmaco -->
+         <Text fill="#ff914d" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Dati paziente e farmaco">
+            <font>
+               <Font name="System Bold" size="11.0" />
+            </font></Text>
+
+         <GridPane hgap="15" vgap="15">
+            <columnConstraints>
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+            </columnConstraints>
+
+            <children>
+               <VBox spacing="5" GridPane.columnIndex="0">
+                  <Label text="Paziente" />
+                  <ComboBox fx:id="sceltaPaziente" maxWidth="Infinity" promptText="Seleziona paziente" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="1">
+                  <Label text="Farmaco" />
+                  <ComboBox fx:id="sceltaFarmaco" maxWidth="Infinity" promptText="Seleziona farmaco" />
+               </VBox>
+
+            </children>
+
+            <rowConstraints>
+               <RowConstraints />
+            </rowConstraints>
+         </GridPane>
+
+         <Separator />
+
+         <!-- Sezione dettagli terapia -->
+         <Text fill="#ff914d" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Dettagli terapia" />
+
+         <GridPane hgap="15" vgap="15">
+            <columnConstraints>
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+            </columnConstraints>
+
+            <children>
+               <VBox spacing="5" GridPane.columnIndex="0">
+                  <Label text="Numero assunzioni giornaliere" />
+                  <TextField fx:id="nAssunzioniField" maxWidth="Infinity" promptText="Inserisci n. assunzioni" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="1">
+                  <Label text="Dose" />
+                  <TextField fx:id="doseField" maxWidth="Infinity" promptText="Inserisci dose" />
+               </VBox>
+
+
+               <VBox spacing="5" GridPane.columnIndex="2">
+                  <Label text="Indicazioni" />
+                  <ComboBox fx:id="sceltaIndicazioni" maxWidth="Infinity" promptText="Seleziona indicazioni" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                  <Label text="Data inizio terapia" />
+                  <DatePicker fx:id="dataInizioPicker" prefHeight="30.0" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label text="Data fine terapia" />
+                  <DatePicker fx:id="dataFinePicker" prefHeight="30.0" />
+               </VBox>
+            </children>
+
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+         </GridPane>
+
+         <Separator />
+
+         <!-- Sezione note -->
+         <Text fill="#ff914d" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Note aggiuntive" />
+
+         <VBox spacing="5">
+            <Label text="Note" />
+            <TextArea fx:id="descrizioneArea" editable="true" prefHeight="61.0" prefWidth="874.0" />
+         </VBox>
+
+         <!-- Bottone -->
+         <Button fx:id="assegnaTerapia" onMouseClicked="#assegnaTerapia" prefHeight="37.0" prefWidth="305.0" style="-fx-background-color: #ff914d; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Assegna terapia" />
       </VBox>
    </children>
 </AnchorPane>

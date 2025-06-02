@@ -49,9 +49,20 @@ public class AddFarmaciController extends AddController {
 
     @FXML
     private void initialize() {
+        //setto i placeholder dei ComboBox
+        principioComboBox.setPromptText("Seleziona principio attivo");
+        formaComboBox.setPromptText("Seleziona forma farmaceutica");
+        posologiaComboBox.setPromptText("Seleziona posologia");
+        indicazioniComboBox.setPromptText("Seleziona indicazioni");
+        controindicazioniComboBox.setPromptText("Seleziona controindicazioni");
+        effettiComboBox.setPromptText("Seleziona effetti indesiderati");
+        interazioniComboBox.setPromptText("Seleziona interazioni");
+        conservazioneComboBox.setPromptText("Seleziona conservazione");
+
         opzioniComboBox();
     }
 
+    //metodo di registrazione di un farmaco
     @FXML
     private void registraFarmaco() {
         if (isEmpty(nomeFarmacoField.getText()) || isEmpty(descrizioneArea.getText())) {
@@ -59,7 +70,7 @@ public class AddFarmaciController extends AddController {
             return;
         }
 
-        String descrizione = descrizioneArea.getText();
+        String descrizione = descrizioneArea.getText().replaceAll("[\\r\\n]+", " ");
         String nome = nomeFarmacoField.getText();
 
         try {
@@ -73,22 +84,23 @@ public class AddFarmaciController extends AddController {
         }
     }
 
+    //una volta aggiunto il farmaco, vengono azzerati tutti i campi di input
     private void pulisciCampi() {
         nomeFarmacoField.clear();
         descrizioneArea.clear();
-        principioComboBox.setValue(null);
-        formaComboBox.setValue(null);
-        posologiaComboBox.setValue(null);
-        indicazioniComboBox.setValue(null);
-        controindicazioniComboBox.setValue(null);
-        effettiComboBox.setValue(null);
-        interazioniComboBox.setValue(null);
-        conservazioneComboBox.setValue(null);
+        principioComboBox.getSelectionModel().clearSelection();
+        formaComboBox.getSelectionModel().clearSelection();
+        posologiaComboBox.getSelectionModel().clearSelection();
+        indicazioniComboBox.getSelectionModel().clearSelection();
+        controindicazioniComboBox.getSelectionModel().clearSelection();
+        effettiComboBox.getSelectionModel().clearSelection();
+        interazioniComboBox.getSelectionModel().clearSelection();
+        conservazioneComboBox.getSelectionModel().clearSelection();
     }
 
 
 
-        private boolean isEmpty(String s) {
+    private boolean isEmpty(String s) {
         return s == null || s.trim().isEmpty();
     }
 

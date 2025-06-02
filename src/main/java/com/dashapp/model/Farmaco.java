@@ -2,24 +2,24 @@ package com.dashapp.model;
 
     public class Farmaco {
 
-        private String id;
+        private int id;
         private String nome;
         private String descrizione;
 
         // Costruttore
-        public Farmaco(String id, String nome, String descrizione) {
+        public Farmaco(int id, String nome, String descrizione) {
             this.id = id;
             this.nome = nome;
             this.descrizione = descrizione;
         }
 
         // Metodo statico di factory
-        public static Farmaco create(String id, String nome, String descrizione) {
+        public static Farmaco create(int id, String nome, String descrizione) {
             return new Farmaco(id, nome, descrizione);
         }
 
         // Getter
-        public String getId() {
+        public int getId() {
             return id;
         }
 
@@ -32,7 +32,7 @@ package com.dashapp.model;
         }
 
         // Setter
-        public void setId(String id) {
+        public void setId(int id) {
             this.id = id;
         }
 

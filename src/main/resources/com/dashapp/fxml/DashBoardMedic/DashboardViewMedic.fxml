@@ -54,7 +54,7 @@
 
                     <!-- Testi a fianco -->
                     <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="67.0">
-                        <Label fx:id="numeroLabel" text="5" textFill="WHITE">
+                        <Label fx:id="numeroPazienti" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
@@ -79,7 +79,7 @@
 
                     <!-- Testi a fianco -->
                     <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="67.0">
-                        <Label fx:id="numeroLabel" text="12" textFill="WHITE">
+                        <Label fx:id="numeroFarmaci" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
@@ -104,7 +104,7 @@
 
                     <!-- Testi a fianco -->
                     <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="67.0">
-                        <Label fx:id="numeroLabel" text="18" textFill="WHITE">
+                        <Label fx:id="numeroTerapie" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
@@ -126,7 +126,7 @@
 
                     <!-- Testi a fianco -->
                     <VBox alignment="CENTER_LEFT">
-                        <Label fx:id="numeroLabel" text="5" textFill="WHITE">
+                        <Label fx:id="numeroLabel" text="df" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>

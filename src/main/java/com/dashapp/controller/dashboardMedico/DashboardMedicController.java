@@ -35,6 +35,12 @@ public class DashboardMedicController {
         private Circle cerchioNavbar;
         @FXML
         private Label utenteLabel;
+        @FXML
+        public Label numeroPazienti;
+        @FXML
+        public Label numeroFarmaci;
+        @FXML
+        public Label numeroTerapie;
 
         private Parent originalContent;
 
@@ -42,10 +48,18 @@ public class DashboardMedicController {
 
 
 
+
         public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
+                ds = new DataService();
+
+                String email = NavigatorView.getAuthenticatedUser();
+                int id = ds.getUtenteByEmail(email).getId();
+                numeroPazienti.setText(String.valueOf(ds.getPazientiByMedico(id).length));
+                numeroFarmaci.setText(String.valueOf(ds.getFarmaci().length));
+
+                //DA rendere dinamico, altrmenti rimane fisso da qunado si avvia il portale
 
                 mostraTextMeico();
-
                 if (!mainContent.getChildren().isEmpty()) {
                         originalContent = (Parent) mainContent.getChildren().get(0);
                 }
@@ -103,9 +117,11 @@ public class DashboardMedicController {
         }
 
 
-
-        public void showAddTerapia(){
-                showOverlay("AddTerapia.fxml", overlayPaneTerapia);
+        public void showAddTerapia() throws IOException {
+                if (controller == null) {
+                        mostraBox();
+                }
+                controller.aggiungiTerapia();
         }
 
         @FXML
@@ -118,32 +134,8 @@ public class DashboardMedicController {
         }
 
 
-        public void showOverlay(String fxml, Pane overlayPane){                   //inserire file da renderizzare, nome del pannello in cui renderizzarlo (nome == fixid)
-                try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/" + fxml));
-                        AnchorPane newPane = loader.load();
-
-                        Object controller = loader.getController();
-                        if (controller instanceof OverlayPaneAware) {                           //se il controller implementa il metodo setOverlayPane, allora...
-                                ((OverlayPaneAware) controller).setOverlayPane(overlayPane);
-                        }
-
-                        // Pulisce contenuti vecchi e aggiunge il nuovo pane
-                        overlayPane.getChildren().clear();
-
-                        overlayPane.getChildren().add(newPane);
-                        overlayPane.setVisible(true);
-                        overlayPane.setPickOnBounds(true); // per catturare eventi (es. click)
-
-
-                } catch (IOException e) {
-                        e.printStackTrace();
-                }
-        }
-
         //Metodo per la visualizzazione del nome del medico e dell'immagine con iniziali nome e cognome
         public void mostraTextMeico() throws Exception {
-                DataService ds = new DataService();
                 String email = NavigatorView.getAuthenticatedUser();
 
                 Utente u = ds.getUtenteByEmail(email);

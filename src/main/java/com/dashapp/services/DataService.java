@@ -130,7 +130,7 @@ public class DataService {
 
     }
 
-    public Utente[] getPazientiByMedico(String idMedico) throws Exception {
+    public Utente[] getPazientiByMedico(int idMedico) throws Exception {
 
         String url = API_URL + "get_pazienti_con_medico.php?idMedico=" + idMedico;
 
@@ -790,7 +790,7 @@ public class DataService {
     private Farmaco parseFarmacoFromJson(String json) {
         JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
 
-        String id = obj.has("id") ? obj.get("id").getAsString() : null;
+        int id = obj.has("id") ? obj.get("id").getAsInt() : -1;
         String nome = obj.has("nome") ? obj.get("nome").getAsString() : null;
         String descrizione = obj.has("descrizione") ? obj.get("descrizione").getAsString() : null;
 
@@ -804,7 +804,7 @@ public class DataService {
         for (JsonElement elem : jsonArray) {
             JsonObject obj = elem.getAsJsonObject();
 
-            String id = obj.has("id") ? obj.get("id").getAsString() : null;
+            int id = obj.has("id") ? obj.get("id").getAsInt() : -1;
             String nome = obj.has("nome") ? obj.get("nome").getAsString() : null;
             String descrizione = obj.has("descrizione") ? obj.get("descrizione").getAsString() : null;
 

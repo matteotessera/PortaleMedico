@@ -8,7 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -19,6 +21,7 @@ import javafx.scene.paint.Color;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class BoxDashboardController {
 
@@ -82,7 +85,7 @@ public class BoxDashboardController {
         }
 
         String textButton = "Vedi";
-        String titolo = "lista farmaci";
+        String titolo = "Lista farmaci";
         tabellaFarmaci(titolo, farmaco, textButton, Color.web("#34bccc"));
 
         LabelBoxDashboard.setText("TUTTI I FARMACI");
@@ -129,13 +132,27 @@ public class BoxDashboardController {
 
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addFarmacoContent);
+    }
 
+    public void aggiungiTerapia() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("AGGIUNGI TERAPIA");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setAlignment(Pos.CENTER);
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/AddTerapia.fxml"));
+        Parent addFarmacoContent = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(addFarmacoContent);
     }
 
 
     private void tabellaFarmaci(String titolo, List<Farmaco> farmaci, String textButton, Color color) {
         // Titolo della tabella
-        Label titoloTabella = new Label(textButton);
+        Label titoloTabella = new Label(titolo);
         titoloTabella.setStyle(
                 "-fx-font-size: 18px;" +
                         "-fx-font-weight: bold;" +
@@ -148,32 +165,34 @@ public class BoxDashboardController {
         );
         titoloTabella.setMaxWidth(Double.MAX_VALUE);
         titoloTabella.setAlignment(Pos.CENTER_LEFT);
-        titoloTabella.setText(titolo);
-
 
         VBox listaFarmaciBox = new VBox(2);
         listaFarmaciBox.setPrefWidth(1000);
         listaFarmaciBox.setSpacing(5);
 
-        double nomeWidth = 200;
+        double nomeWidth = 80;
         double descrizioneWidth = 600;
-        double azioneWidth = 160;
+        double azioneWidth = 90;
+        double spazioTraBottoni = 10;
 
         // Intestazione
-        HBox intestazione = new HBox(10);
+        HBox intestazione = new HBox(spazioTraBottoni);
         intestazione.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 8;");
         intestazione.setAlignment(Pos.CENTER_LEFT);
 
         Label nomeHeader = creaHeader("Nome", nomeWidth);
         Label descrizioneHeader = creaHeader("Descrizione", descrizioneWidth);
-        Label azioneHeader = creaHeader("Azione", azioneWidth);
+
+        // Larghezza intestazione azione = due bottoni + spazio tra loro
+        double azioneTotalWidth = azioneWidth * 2 + spazioTraBottoni;
+        Label azioneHeader = creaHeader("Azione", azioneTotalWidth);
 
         intestazione.getChildren().addAll(nomeHeader, descrizioneHeader, azioneHeader);
         listaFarmaciBox.getChildren().add(intestazione);
 
         // Riga per ogni farmaco
         for (Farmaco f : farmaci) {
-            HBox rigaFarmaco = new HBox(10);
+            HBox rigaFarmaco = new HBox(spazioTraBottoni);
             rigaFarmaco.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
             rigaFarmaco.setAlignment(Pos.CENTER_LEFT);
 
@@ -194,12 +213,28 @@ public class BoxDashboardController {
             // Bottone Elimina
             Button eliminaButton = new Button("Elimina");
             eliminaButton.setStyle(
-                    "-fx-background-color: #d9534f;" +  // rosso tipo Bootstrap danger
+                    "-fx-background-color: #d9534f;" +
                             "-fx-text-fill: white;"
             );
             eliminaButton.setPrefWidth(azioneWidth);
             eliminaButton.setOnAction(e -> {
-                System.out.println("Eliminazione farmaco: " + f.getNome());
+
+                String titoloAlert = "Conferma eliminazione";
+                String text = "Sei sicuro di eliminare il farmaco " + f.getNome() +"?";
+
+                Optional<ButtonType> result = alertEliminazione(titoloAlert, text);
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    try {
+                        ds.deleteFarmaco(f.getId());
+                        System.out.println("Farmaco eliminato");
+                        listaFarmaci();
+
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    System.out.println("Eliminazione annullata");
+                }
             });
 
             rigaFarmaco.getChildren().addAll(nomeLabel, descrizioneLabel, azioneButton, eliminaButton);
@@ -212,6 +247,7 @@ public class BoxDashboardController {
 
         bodyContainer.getChildren().addAll(titoloTabella, listaFarmaciBox);
     }
+
 
 
 
@@ -329,4 +365,13 @@ public class BoxDashboardController {
         HBox.setHgrow(label, Priority.ALWAYS);
         return label;
     }
+
+    public Optional<ButtonType> alertEliminazione(String titolo, String contenuto) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenuto);
+        return alert.showAndWait();
+    }
+
 }
