@@ -260,8 +260,8 @@
                                     <Insets left="50.0" />
                                 </VBox.margin>
                             </HBox>
-                            <HBox alignment="CENTER_LEFT"  spacing="10">
-                                <ImageView fx:id="plusIcon2" fitHeight="20.0" fitWidth="20" >
+                            <HBox alignment="CENTER_LEFT" onMouseClicked="#aggiungiAssunzione" spacing="10">
+                                <ImageView fx:id="plusIcon2" fitHeight="20.0" fitWidth="20">
                                     <image>
                                         <Image url="@../../images/piuViola.png" />
                                     </image>
@@ -276,7 +276,7 @@
                             </HBox>
                      <HBox alignment="CENTER_LEFT" layoutX="80.0" layoutY="142.0" spacing="10">
                         <children>
-                           <ImageView fx:id="plusIcon21" fitHeight="20.0" fitWidth="20" >
+                           <ImageView fx:id="plusIcon21" fitHeight="20.0" fitWidth="20">
                               <image>
                                  <Image url="@../../images/piuViola.png" />
                               </image>

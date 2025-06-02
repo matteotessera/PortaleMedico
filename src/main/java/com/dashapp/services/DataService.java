@@ -389,7 +389,7 @@ public class DataService {
 
     }
 
-    public Assunzione[] getAssunizoniPaziente(int idPaziente) throws Exception {
+    public Assunzione[] getAssunzioniPaziente(int idPaziente) throws Exception {
 
         String url = API_URL + "get_assunzioni_paziente.php?idPaziente=" + idPaziente ;
 
@@ -642,7 +642,7 @@ public class DataService {
         if (response.statusCode() == 200) {
             System.out.println("Oggetto inviato con successo: " + response.body());
         } else {
-            throw new RuntimeException("Errore invio oggetto: HTTP " + response.statusCode());
+            throw new RuntimeException("Errore invio oggetto: HTTP " + response.statusCode() + json);
         }
 
     }
@@ -866,7 +866,8 @@ public class DataService {
             assunzione.setId(obj.get("id").getAsInt());
             if (obj.has("data") && !obj.get("data").isJsonNull()) {
                 String dataStr = obj.get("data").getAsString();
-                assunzione.setData(LocalDateTime.parse(dataStr));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                assunzione.setData(LocalDateTime.parse(dataStr, formatter));
             }
             assunzione.setIdAssociazioneFarmaco(obj.get("id_associazione_farmaco").getAsInt());
             assunzione.setStato(obj.get("stato").getAsString());

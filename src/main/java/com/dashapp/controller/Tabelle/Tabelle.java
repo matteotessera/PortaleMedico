@@ -12,6 +12,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Tabelle {
@@ -206,12 +208,17 @@ public class Tabelle {
 
         listaUtentiBox.getChildren().add(intestazione);
 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         for (Assunzione a : assunzioni) {
+            LocalDateTime data = a.getData();
+            String dataFormattata = data.format(formatter);
+
             HBox rigaUtente = new HBox(10);
             rigaUtente.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
             rigaUtente.setAlignment(Pos.CENTER_LEFT);
 
-            Label dataLabel = creaCell(a.getData().toString(), dataWidth);
+            Label dataLabel = creaCell(dataFormattata, dataWidth);
             Label statoLabel = creaCell(a.getStato(), statoWidth);
             Label doseLabel = creaCell(String.valueOf(a.getDose()), doseWidth);
 

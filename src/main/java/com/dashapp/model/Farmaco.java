@@ -40,6 +40,10 @@ package com.dashapp.model;
             this.nome = nome;
         }
 
+        public String toString(){
+            return this.nome;
+        }
+
         public void setDescrizione(String descrizione) {
             this.descrizione = descrizione;
         }

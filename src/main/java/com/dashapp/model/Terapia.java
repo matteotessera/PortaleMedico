@@ -62,4 +62,9 @@ public class Terapia {
     public void setIdPaziente(int idPaziente) {
         this.idPaziente = idPaziente;
     }
+
+    @Override
+    public String toString() {
+        return (this.id) + ": " + this.note;
+    }
 }

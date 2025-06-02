@@ -96,6 +96,13 @@ public class DashboardPatientController {
         }
         controller.listaAssunzioni();
     }
+    public void aggiungiAssunzione() throws Exception {
+
+        if (controller == null) {
+            mostraBox();
+        }
+        controller.aggiungiAssunzione();
+    }
 
 
 

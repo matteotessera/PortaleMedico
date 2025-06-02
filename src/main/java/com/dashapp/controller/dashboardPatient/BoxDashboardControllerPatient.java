@@ -88,7 +88,7 @@ public class BoxDashboardControllerPatient {
 
         List<Assunzione> assunzioni;
         try {
-            assunzioni = List.of(ds.getAssunizoniPaziente(u.getId()));
+            assunzioni = List.of(ds.getAssunzioniPaziente(u.getId()));
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -98,7 +98,7 @@ public class BoxDashboardControllerPatient {
         String titolo = "lista assunzioni";
         tabella.tabellaAssunzioni(titolo, assunzioni, textButton, Color.web("#34bccc"), bodyContainer);
 
-        LabelBoxDashboard.setText("TUTTI I FARMACI");
+        LabelBoxDashboard.setText("TUTTE LE TUE ASSUNZIONI");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
     }
@@ -114,10 +114,25 @@ public class BoxDashboardControllerPatient {
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/AddRilevazioneGlicemia.fxml"));
-        Parent addFarmacoContent = loader.load();
+        Parent addRilevzioneContent = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer
-        bodyContainer.getChildren().add(addFarmacoContent);
+        bodyContainer.getChildren().add(addRilevzioneContent);
+    }
+
+    public void aggiungiAssunzione() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("AGGIUNGI ASSUNZIONE FARMACO");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setAlignment(Pos.CENTER);
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/AddAssunzione.fxml"));
+        Parent addAssunzioneContent = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(addAssunzioneContent);
     }
 
 }
