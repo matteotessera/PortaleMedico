@@ -9,8 +9,8 @@ public class RilevazioneGlicemia {
 
 
         public enum TipoRilevazione {
-            PREPRANDIALE,
-            POSTPRANDIALE,
+            POST,
+            PRE,
 
         }
         public enum TipoPasto {

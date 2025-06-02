@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 //    DataService dataService = new DataService();
 //    try {
@@ -471,17 +472,19 @@ public class DataService {
 
     // setter
 
-    public void addRilevazionePaziente(int valore, String tipo, int idPaziente) throws Exception {
+    public void addRilevazionePaziente(double valore, String tipo, int idPaziente) throws Exception {
 
         String url = API_URL + "add_rilevazione.php";
 
         LocalDateTime now = LocalDateTime.now();
         String dataOra = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); // formato 2025-05-24T10:15:30
+        String valoreFormattato = String.format(Locale.US, "%f", valore);
 
         // Costruisci JSON manualmente
         String json = String.format(
-                "{\"valore\": %d, \"tipo\": \"%s\", \"id_paziente\": %d, \"data\": \"%s\"}",
-                valore, tipo, idPaziente, dataOra
+
+                "{\"valore\": %s, \"tipo\": \"%s\", \"id_paziente\": %d, \"data\": \"%s\"}",
+                valoreFormattato, tipo, idPaziente, dataOra
         );
 
         post(url, json);

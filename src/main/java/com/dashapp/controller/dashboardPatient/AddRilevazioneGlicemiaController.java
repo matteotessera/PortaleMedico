@@ -75,9 +75,9 @@ public class AddRilevazioneGlicemiaController extends AddController {
 
         Rilevazione rilevazione = new Rilevazione("10", dataField.getValue().atTime(orario), valoreField.getText(), tipoPasto.toString(), String.valueOf(BoxDashboardControllerPatient.u.getId()));
         System.out.println("valoreInt: " + valoreInt);
-        System.out.println("tipo: " + tipoPasto.toString());
+        System.out.println("tipo: " + tipoPasto.toString().toLowerCase());
         System.out.println("id utentwe: " + BoxDashboardControllerPatient.u.getId());
-        ds.addRilevazionePaziente(valoreInt, tipoPasto.toString(), BoxDashboardControllerPatient.u.getId());
+        ds.addRilevazionePaziente(valore, tipoRilevazione.toString().toLowerCase(), BoxDashboardControllerPatient.u.getId());
 
     }
 
