@@ -1,5 +1,6 @@
 package com.dashapp.controller;
 
+import com.dashapp.model.Terapia;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
@@ -28,6 +29,18 @@ public class LoginController {
     @FXML
     public void initialize() {
         statusLabel.setVisible(false);
+
+        DataService d = new DataService();
+        try {
+            d.addRilevazione(100.89, "pre", 2, "colazione");
+            System.out.println("ok");
+        } catch (Exception e) {
+            System.out.println("non va");
+            throw new RuntimeException(e);
+
+        }
+
+
     }
     
     @FXML

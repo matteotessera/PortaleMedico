@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 //    DataService dataService = new DataService();
 //    try {
@@ -349,6 +350,26 @@ public class DataService {
 
     }
 
+    public Terapia[] getTerapieMedico(int idMedico) throws Exception {
+
+        String url = API_URL + "get_terapie_medico.php?id_medico=" + idMedico ;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseTerapieManuale(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+
+    }
+
     public Terapia getTerapiaById(int id) throws Exception {
 
         String url = API_URL + "get_terapia_by_id.php?id=" + id ;
@@ -469,9 +490,15 @@ public class DataService {
 
     }
 
+    public int getNumeroTerapieMedico(int idMedico) throws Exception {
+
+        return getTerapieMedico(idMedico).length;
+
+    }
+
     // setter
 
-    public void addRilevazionePaziente(int valore, String tipo, int idPaziente) throws Exception {
+    public void addRilevazione(double valore, String tipo, int idPaziente, String pasto) throws Exception {
 
         String url = API_URL + "add_rilevazione.php";
 
@@ -479,9 +506,10 @@ public class DataService {
         String dataOra = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); // formato 2025-05-24T10:15:30
 
         // Costruisci JSON manualmente
-        String json = String.format(
-                "{\"valore\": %d, \"tipo\": \"%s\", \"id_paziente\": %d, \"data\": \"%s\"}",
-                valore, tipo, idPaziente, dataOra
+
+        String json = String.format(Locale.US,
+                "{\"valore\": %.6f, \"tipo\": \"%s\", \"id_paziente\": %d, \"data\": \"%s\", \"pasto\": \"%s\"}",
+                valore, tipo, idPaziente, dataOra, pasto
         );
 
         post(url, json);
@@ -648,6 +676,62 @@ public class DataService {
 
     }
 
+    // delete
+
+    public void deleteFarmaco(int idFarmaco) throws Exception {
+
+        String url = API_URL + "delete_farmaco.php";
+
+        String json = String.format(
+                "{\"id\": %d}", idFarmaco
+        );
+
+        delete(url, json);
+
+    }
+
+    public void deleteAssegnazioneMedico(int idPaziente) throws Exception {
+
+        String url = API_URL + "delete_assegnazione_medico.php";
+
+        String json = String.format(
+                "{\"id_paziente\": %d}", idPaziente
+        );
+
+        delete(url, json);
+
+    }
+
+    public void deleteTerapia(String idTerapia) throws Exception {
+
+        String url = API_URL + "delete_terapia.php";
+
+        String json = String.format(
+                "{\"id\": %d}", idTerapia
+        );
+
+        delete(url, json);
+
+    }
+
+    private void delete(String url, String json) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            System.out.println("Cancellazione avvenuta con successo: " + response.body());
+        } else {
+            throw new RuntimeException("Errore nella cancellazione dell'oggetto: HTTP " + response.statusCode() + json);
+        }
+    }
+
     // parser dati
 
     private Utente parseUtenteWithDate(String json) {
@@ -778,7 +862,9 @@ public class DataService {
             String tipo = obj.get("tipo").getAsString();
             String idPaziente = obj.get("id_paziente").getAsString();
 
-            rilevazioni.add(new Rilevazione(id, data, valore, tipo, idPaziente));
+            String pasto = obj.get("pasto").getAsString();
+
+            rilevazioni.add(new Rilevazione(id, data, valore, tipo, idPaziente, pasto));
         }
 
         return rilevazioni.toArray(new Rilevazione[0]);

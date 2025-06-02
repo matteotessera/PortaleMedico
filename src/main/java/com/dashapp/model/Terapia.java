@@ -65,6 +65,13 @@ public class Terapia {
 
     @Override
     public String toString() {
-        return (this.id) + ": " + this.note;
+        return "Terapia{" +
+                "id=" + id +
+                ", dataInizio=" + dataInizio +
+                ", dataFine=" + dataFine +
+                ", note='" + note + '\'' +
+                ", idPaziente=" + idPaziente +
+                '}';
     }
+
 }

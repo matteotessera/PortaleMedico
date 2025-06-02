@@ -9,19 +9,21 @@ public class Rilevazione {
     private String valore;
     private String tipo;
     private String idPaziente;
+    private String pasto;
 
     // Costruttore
-    public Rilevazione(String id, LocalDateTime data, String valore, String tipo, String idPaziente) {
+    public Rilevazione(String id, LocalDateTime data, String valore, String tipo, String idPaziente, String pasto) {
         this.id = id;
         this.data = data;
         this.valore = valore;
         this.tipo = tipo;
         this.idPaziente = idPaziente;
+        this.pasto = pasto;
     }
 
     // Factory method
-    public static Rilevazione create(String id, LocalDateTime data, String valore, String tipo, String idPaziente) {
-        return new Rilevazione(id, data, valore, tipo, idPaziente);
+    public static Rilevazione create(String id, LocalDateTime data, String valore, String tipo, String idPaziente, String pasto) {
+        return new Rilevazione(id, data, valore, tipo, idPaziente, pasto);
     }
 
     // Getter
@@ -45,6 +47,8 @@ public class Rilevazione {
         return idPaziente;
     }
 
+    public String getPasto() { return pasto; }
+
     // Setter
     public void setId(String id) {
         this.id = id;
@@ -65,4 +69,6 @@ public class Rilevazione {
     public void setIdPaziente(String idPaziente) {
         this.idPaziente = idPaziente;
     }
+
+    public void setPasto(String pasto) { this.pasto = pasto; }
 }

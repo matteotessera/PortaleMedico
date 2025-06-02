@@ -13,9 +13,9 @@ import com.google.gson.JsonObject;
 
 public class LoginService {
 
-    private boolean isLogged = false;
-    private int userId = -1;
-    private String userRole = null;
+    private static boolean isLogged = false;
+    private static int userId = -1;
+    private static String userRole = null;
 
     private static final String LOGIN_URL = "http://3.123.253.157/api/login.php";
 
@@ -78,6 +78,12 @@ public class LoginService {
                 return false;
             }
         });
+    }
+
+    public static void logOut(){
+        isLogged = false;
+        userId = -1;
+        userRole = null;
     }
 
     private String encode(String value) {
