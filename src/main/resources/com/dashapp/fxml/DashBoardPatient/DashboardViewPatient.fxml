@@ -310,7 +310,7 @@
                                     </font>
                                 </Label>
                             </HBox>
-                            <Label text="Hai x terapie assegnate">
+                            <Label text="Hai x terapie assegnate" fx:id="terapieLabel">
                                 <VBox.margin>
                                     <Insets left="50.0" />
                                 </VBox.margin>

@@ -3,6 +3,7 @@ package com.dashapp.controller.dashboardPatient;
 import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
+import com.dashapp.services.LoginService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,8 @@ import java.io.IOException;
 
 
 public class DashboardPatientController {
+    @FXML
+    private Label terapieLabel;
 
     private DataService ds;
 
@@ -44,7 +47,9 @@ public class DashboardPatientController {
 
 
     public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
-
+        LoginService l = new LoginService();
+        DataService d = new DataService();
+        terapieLabel.setText("Hai " + d.getNumeroTerapieMedico(l.getUserId()) + " terapie assegnate");
         mostraTextPaziente();
 
         if (!mainContent.getChildren().isEmpty()) {

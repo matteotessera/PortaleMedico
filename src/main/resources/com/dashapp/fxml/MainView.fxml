@@ -69,7 +69,8 @@
                      <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="232.0" spacing="20.0">
                          <children>
                              <!-- Bottone Logout -->
-                             <Label fx:id="logoutLabel" textFill="WHITE">
+                             <Label fx:id="logoutLabel" textFill="WHITE"
+                                    onMouseClicked="#handleLogoutClick">
                                  <font>
                                      <Font name="System Bold" size="16.0" />
                                  </font>

@@ -3,12 +3,14 @@ package com.dashapp.controller;
 import com.dashapp.model.Terapia;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
+import com.dashapp.services.LoginService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -105,5 +107,11 @@ public class MainController {
 
     public void mostraNavbar() {
         navBarContainer.setVisible(true);
+    }
+
+    public void handleLogoutClick() {
+        LoginService logninService = new LoginService();
+        logninService.logOut();
+        // da cambiare la view
     }
 }
