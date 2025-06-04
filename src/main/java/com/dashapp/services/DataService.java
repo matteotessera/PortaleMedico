@@ -405,6 +405,7 @@ public class DataService {
             String json = response.body();
             return parseAssunzioniManuale(json);
         } else {
+            System.out.println("Corpo della risposta errore: " + response.body());
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
 
