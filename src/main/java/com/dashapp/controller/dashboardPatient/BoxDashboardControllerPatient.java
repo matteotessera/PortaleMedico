@@ -2,10 +2,7 @@ package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.Tabelle.Tabelle;
 import com.dashapp.controller.dashboardMedico.DashboardMedicController;
-import com.dashapp.model.Assunzione;
-import com.dashapp.model.Farmaco;
-import com.dashapp.model.Rilevazione;
-import com.dashapp.model.Utente;
+import com.dashapp.model.*;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
@@ -88,6 +85,7 @@ public class BoxDashboardControllerPatient {
 
         List<Assunzione> assunzioni;
         try {
+            System.out.println(u.getId());
             assunzioni = List.of(ds.getAssunzioniPaziente(u.getId()));
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,6 +97,27 @@ public class BoxDashboardControllerPatient {
         tabella.tabellaAssunzioni(titolo, assunzioni, textButton, Color.web("#34bccc"), bodyContainer);
 
         LabelBoxDashboard.setText("TUTTE LE TUE ASSUNZIONI");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setAlignment(Pos.CENTER);
+    }
+
+    public void listaTerapie(){
+        bodyContainer.getChildren().clear();
+
+        List<Terapia> terapie;
+        try {
+            System.out.println(u.getId());
+            terapie = List.of(ds.getTerapiePaziente(u.getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        String textButton = "Vedi";
+        String titolo = "lista terapie";
+        tabella.tabellaTerapie(titolo, terapie, textButton, Color.web("#34bccc"), bodyContainer);
+
+        LabelBoxDashboard.setText("TUTTE LE TUE TERAPIE");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
     }

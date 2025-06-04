@@ -63,15 +63,10 @@
                             </StackPane>
 
                             <!-- Testi a fianco -->
-                            <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="67.0">
-                                <Label fx:id="numeroLabel" text="5" textFill="WHITE">
+                            <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="126.0">
+                                <Label fx:id="descrizioneLabel" prefHeight="83.0" prefWidth="98.0" text="accedi al fasciolo" textFill="WHITE" wrapText="true">
                                     <font>
-                                        <Font name="System Bold" size="24.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="descrizioneLabel" prefHeight="20.0" prefWidth="63.0" text="Pazienti" textFill="WHITE">
-                                    <font>
-                                        <Font size="14" />
+                                        <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
                             </VBox>
@@ -81,57 +76,10 @@
                             <!-- Quadrato stondato con immagine -->
                             <StackPane>
                                 <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
-                                <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
-                                    <image>
-                                        <Image url="@../../images/farmaco.png" />
-                                    </image></ImageView>
-                            </StackPane>
-
-                            <!-- Testi a fianco -->
-                            <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="67.0">
-                                <Label fx:id="numeroLabel" text="12" textFill="WHITE">
-                                    <font>
-                                        <Font name="System Bold" size="24.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="descrizioneLabel" text="Farmaci" textFill="WHITE">
-                                    <font>
-                                        <Font size="14" />
-                                    </font>
-                                </Label>
-                            </VBox>
-                        </HBox>
-
-                        <HBox alignment="CENTER_LEFT" spacing="10">
-                            <!-- Quadrato stondato con immagine -->
-                            <StackPane>
-                                <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
-                                <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
-                                    <image>
-                                        <Image url="@../../images/terapia.png" />
-                                    </image></ImageView>
-                            </StackPane>
-
-                            <!-- Testi a fianco -->
-                            <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="67.0">
-                                <Label fx:id="numeroLabel" text="18" textFill="WHITE">
-                                    <font>
-                                        <Font name="System Bold" size="24.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="descrizioneLabel" text="Terapie" textFill="WHITE">
-                                    <font>
-                                        <Font size="14" />
-                                    </font>
-                                </Label>
-                            </VBox>
-                        </HBox>
-
-                        <HBox alignment="CENTER_LEFT" spacing="10">
-                            <!-- Quadrato stondato con immagine -->
-                            <StackPane>
-                                <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
-                                <ImageView fx:id="iconaImageView" fitHeight="40" fitWidth="40" />
+                                <ImageView fx:id="iconaImageView" fitHeight="40" fitWidth="40">
+                           <image>
+                              <Image url="@../../images/message.png" />
+                           </image></ImageView>
                             </StackPane>
 
                             <!-- Testi a fianco -->
@@ -185,7 +133,7 @@
                                     </opaqueInsets>
                                 </Label>
                             </HBox>
-                            <Label text="!FLAG che ti dice se devi registrare oggi">
+                            <Label fx:id="FlagRilevazioniLabel" text="!FLAG che ti dice se devi registrare oggi">
                                 <VBox.margin>
                                     <Insets left="50.0" />
                                 </VBox.margin>
@@ -317,27 +265,13 @@
                                 <font>
                                     <Font size="15.0" />
                                 </font></Label>
-                            <HBox alignment="CENTER_LEFT" spacing="10">
+                            <HBox alignment="CENTER_LEFT" onMouseClicked="#listaTerapie" spacing="10">
                                 <ImageView fx:id="eyeIcon3" fitHeight="16.0" fitWidth="20">
                                     <image>
                                         <Image url="@../../images/occhioVerde.png" />
                                     </image>
                                 </ImageView>
                                 <Label text="Vedi tutte le terapie">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>
-                            <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="plusIcon3" fitHeight="20" fitWidth="20" onMouseClicked="#showAddTerapia">
-                                    <image>
-                                        <Image url="@../../images/piuVerde.png" />
-                                    </image>
-                                </ImageView>
-                                <Label onMouseClicked="#showAddTerapia" text="Aggiungi una terapia">
                                     <font>
                                         <Font size="15.0" />
                                     </font></Label>

@@ -3,22 +3,26 @@ package com.dashapp.controller.Tabelle;
 import com.dashapp.model.Assunzione;
 import com.dashapp.model.Farmaco;
 import com.dashapp.model.Rilevazione;
+import com.dashapp.model.Terapia;
+import com.dashapp.services.DataService;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Tabelle {
 
-
+    private DataService ds;
 
     public void tabellaFarmaci(String titolo, List<Farmaco> farmaci, String textButton, Color color, VBox bodyContainer) {
         // Titolo della tabella
@@ -142,6 +146,7 @@ public class Tabelle {
             Label tipoLabel = creaCell(r.getTipo(), tipoWidth);
 
 
+
             Button prendiInCaricoButton = new Button(textButton);
             prendiInCaricoButton.setStyle(
                     "-fx-background-color: " + toHex(color) + ";" +
@@ -168,6 +173,8 @@ public class Tabelle {
     }
 
     public void tabellaAssunzioni(String titolo, List<Assunzione> assunzioni, String textButton, Color color, VBox bodyContainer){
+        ds = new DataService();
+
         Label titoloTabella = new Label();
         titoloTabella.setText(titolo);
         titoloTabella.setStyle(
@@ -190,6 +197,7 @@ public class Tabelle {
         double dataWidth = 120;
         double statoWidth = 120;
         double doseWidth = 150;
+        double farmacoWidth = 150;
         double azioneWidth = 150;
 
 
@@ -200,6 +208,7 @@ public class Tabelle {
         Label dataHeader = creaHeader("data", dataWidth);
         Label statoHeader = creaHeader("stato", statoWidth);
         Label doseHeader = creaHeader("dose", doseWidth);
+        Label farmacoHeader = creaHeader("farmaco", farmacoWidth);
 
 
         intestazione.getChildren().addAll(
@@ -214,6 +223,11 @@ public class Tabelle {
             LocalDateTime data = a.getData();
             String dataFormattata = data.format(formatter);
 
+            //DA FARE
+            //associazioneFarmaco = ds.getAssociazioneFarmacoByID( a.getIdAssociazioneFarmaco)
+            //farmaco = ds.getFarmacoById(ass.getIdFarmaco);
+
+
             HBox rigaUtente = new HBox(10);
             rigaUtente.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
             rigaUtente.setAlignment(Pos.CENTER_LEFT);
@@ -221,6 +235,7 @@ public class Tabelle {
             Label dataLabel = creaCell(dataFormattata, dataWidth);
             Label statoLabel = creaCell(a.getStato(), statoWidth);
             Label doseLabel = creaCell(String.valueOf(a.getDose()), doseWidth);
+
 
 
             Button prendiInCaricoButton = new Button(textButton);
@@ -248,7 +263,94 @@ public class Tabelle {
         bodyContainer.getChildren().add(listaUtentiBox);
     }
 
+    public void tabellaTerapie(String titolo, List<Terapia> terapie, String textButton, Color color, VBox bodyContainer){
+        ds = new DataService();
 
+        Label titoloTabella = new Label();
+        titoloTabella.setText(titolo);
+        titoloTabella.setStyle(
+                "-fx-font-size: 18px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: #222;" +
+                        "-fx-background-color: #f0f0f0;" +
+                        "-fx-padding: 10;" +
+                        "-fx-border-color: #d0d0d0;" +
+                        "-fx-border-width: 0 0 1 0;" +
+                        "-fx-border-style: solid;"
+        );
+        titoloTabella.setMaxWidth(Double.MAX_VALUE);
+        titoloTabella.setAlignment(Pos.CENTER_LEFT);
+
+        VBox listaUtentiBox = new VBox(2);
+        listaUtentiBox.setPrefWidth(2000);
+        listaUtentiBox.setSpacing(5);
+
+        double dataInizioWidth = 120;
+        double dataFineWidth = 120;
+        double noteWidth = 150;
+        double azioneWidth = 150;
+
+
+        HBox intestazione = new HBox(10);
+        intestazione.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 8;");
+        intestazione.setAlignment(Pos.CENTER_LEFT);
+
+        Label inizioHeader = creaHeader("Inzio", dataInizioWidth);
+        Label fineHeader = creaHeader("Fine", dataFineWidth);
+        Label noteHeader = creaHeader("note", noteWidth);
+
+
+
+        intestazione.getChildren().addAll(
+               inizioHeader, fineHeader, noteHeader
+        );
+
+        listaUtentiBox.getChildren().add(intestazione);
+
+
+
+        for (Terapia t : terapie) {
+            LocalDate dataInizio = t.getDataInizio();
+            LocalDate dataFine = t.getDataFine();
+
+
+
+
+
+            HBox rigaUtente = new HBox(10);
+            rigaUtente.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
+            rigaUtente.setAlignment(Pos.CENTER_LEFT);
+
+            Label dataLabel = creaCell(dataInizio.toString(), dataInizioWidth);
+            Label statoLabel = creaCell(dataFine.toString(), dataFineWidth);
+            Label doseLabel = creaCell(String.valueOf(t.getNote()), noteWidth);
+
+
+
+            Button prendiInCaricoButton = new Button(textButton);
+            prendiInCaricoButton.setStyle(
+                    "-fx-background-color: " + toHex(color) + ";" +
+                            "-fx-text-fill: white;"
+            );
+            prendiInCaricoButton.setPrefWidth(azioneWidth);
+            prendiInCaricoButton.setOnAction(e -> {
+                System.out.println("Preso in carico: " + t.getNote());
+            });
+
+            rigaUtente.getChildren().addAll(
+                    dataLabel, statoLabel, doseLabel, prendiInCaricoButton
+            );
+
+            listaUtentiBox.getChildren().add(rigaUtente);
+        }
+
+        // Margine tra una tabella e l'altra
+        VBox.setMargin(titoloTabella, new javafx.geometry.Insets(20, 0, 5, 0));
+        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(0, 0, 20, 0));
+
+        bodyContainer.getChildren().add(titoloTabella);
+        bodyContainer.getChildren().add(listaUtentiBox);
+    }
 
     private String toHex(Color color) {
         return String.format("#%02X%02X%02X",

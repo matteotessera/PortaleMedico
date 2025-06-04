@@ -425,6 +425,7 @@ public class DataService {
             String json = response.body();
             return parseAssunzioniManuale(json);
         } else {
+            System.out.println("Corpo della risposta errore: " + response.body());
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
 
@@ -498,12 +499,13 @@ public class DataService {
 
     // setter
 
-    public void addRilevazione(double valore, String tipo, int idPaziente, String pasto) throws Exception {
+    public void addRilevazionePaziente(double valore, String tipo, int idPaziente, String pasto) throws Exception {
 
         String url = API_URL + "add_rilevazione.php";
 
         LocalDateTime now = LocalDateTime.now();
         String dataOra = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); // formato 2025-05-24T10:15:30
+        String valoreFormattato = String.format(Locale.US, "%f", valore);
 
         // Costruisci JSON manualmente
 

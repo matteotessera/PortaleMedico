@@ -1,6 +1,7 @@
 package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
+import com.dashapp.model.Rilevazione;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.services.LoginService;
@@ -15,6 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 
 public class DashboardPatientController {
@@ -23,11 +25,7 @@ public class DashboardPatientController {
 
     private DataService ds;
 
-    @FXML
-    private AnchorPane overlayPaneFarmaci;
-    @FXML
-    private AnchorPane overlayPanePazienti;
-    @FXML
+
     private AnchorPane overlayPaneTerapia;
     @FXML
     private StackPane mainContent;
@@ -44,6 +42,12 @@ public class DashboardPatientController {
 
     private BoxDashboardControllerPatient controller;
 
+    @FXML
+    private Label numeroFarmaci;
+    @FXML
+    private Label FlagRilevazioniLabel;
+
+    public Utente u;
 
 
     public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
@@ -55,6 +59,26 @@ public class DashboardPatientController {
         if (!mainContent.getChildren().isEmpty()) {
             originalContent = (Parent) mainContent.getChildren().get(0);
         }
+
+        ds = new DataService();
+
+        String email = NavigatorView.getAuthenticatedUser();
+        u = ds.getUtenteByEmail(email);
+
+        Rilevazione[] rilevazioniUtente = ds.getRilevazioniUtente(u.getId());
+
+        LocalDate oggi = LocalDate.now();
+        int count = 0;
+
+        for (Rilevazione rilevazione : rilevazioniUtente) {
+            LocalDate dataRilevazione = rilevazione.getData().toLocalDate();
+            if (dataRilevazione.equals(oggi)) {
+                count++;
+            }
+        }
+
+        FlagRilevazioniLabel.setText("Oggi hai eseguito " + count + " rilevazion" + (count == 1 ? "e" : "i"));
+
     }
 
 
@@ -107,6 +131,14 @@ public class DashboardPatientController {
             mostraBox();
         }
         controller.aggiungiAssunzione();
+    }
+
+    public void listaTerapie() throws Exception {
+
+        if (controller == null) {
+            mostraBox();
+        }
+        controller.listaTerapie();
     }
 
 
@@ -170,6 +202,10 @@ public class DashboardPatientController {
         // Rendo visibile il cerchio con il testo
         utenteCirclePane.setVisible(true);
     }
+
+
+
+
 
 
 

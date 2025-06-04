@@ -27,7 +27,7 @@ import java.util.Optional;
 
 public class AddAssunzioneController extends AddController{
 
-    private Pane overlayPane;
+
 
     @FXML
     private ComboBox<String> farmacoAssuntoBox;
@@ -49,6 +49,7 @@ public class AddAssunzioneController extends AddController{
 
 
         List<Terapia> terapiePaziente= List.of(ds.getTerapiePaziente(BoxDashboardControllerPatient.u.getId()));
+
         ObservableList<Terapia> optionsTerapie = FXCollections.observableArrayList(terapiePaziente);
         terapiaIdBox.setItems(optionsTerapie);
 
@@ -118,8 +119,10 @@ public class AddAssunzioneController extends AddController{
 
         List<String> farmaci = new ArrayList<>();
         for (AssociazioneFarmaco a : associazioni) {
+
             Farmaco f = ds.getFarmacoById(a.getIdFarmaco());
-            farmaci.add(f.toString()); // oppure f.getNome() se non hai sovrascritto toString()
+            farmaci.add(f.toString());
+
         }
 
         ObservableList<String> options = FXCollections.observableArrayList(farmaci);
