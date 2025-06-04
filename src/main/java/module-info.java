@@ -17,4 +17,6 @@ module com.dashapp {
     exports com.dashapp;
     opens com.dashapp.controller.dashboardMedico to javafx.fxml;
     opens com.dashapp.controller.dashboardPatient to javafx.fxml;
+    opens com.dashapp.controller.dashboardAdmin to javafx.fxml;
+
 }
