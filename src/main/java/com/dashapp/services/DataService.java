@@ -2,6 +2,7 @@ package com.dashapp.services;
 
 import com.dashapp.model.*;
 import com.google.gson.*;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -42,7 +43,6 @@ public class DataService {
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
 
 
         if (response.statusCode() == 200) {
@@ -332,7 +332,7 @@ public class DataService {
 
     public Terapia[] getTerapiePaziente(int idPaziente) throws Exception {
 
-        String url = API_URL + "get_terapie_paziente.php?idPaziente=" + idPaziente ;
+        String url = API_URL + "get_terapie_paziente.php?idPaziente=" + idPaziente;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -352,7 +352,7 @@ public class DataService {
 
     public Terapia[] getTerapieMedico(int idMedico) throws Exception {
 
-        String url = API_URL + "get_terapie_medico.php?id_medico=" + idMedico ;
+        String url = API_URL + "get_terapie_medico.php?id_medico=" + idMedico;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -372,7 +372,7 @@ public class DataService {
 
     public Terapia getTerapiaById(int id) throws Exception {
 
-        String url = API_URL + "get_terapia_by_id.php?id=" + id ;
+        String url = API_URL + "get_terapia_by_id.php?id=" + id;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -392,7 +392,7 @@ public class DataService {
 
     public AssociazioneFarmaco[] getAssociazioniFarmaciByTerapia(int idTerapia) throws Exception {
 
-        String url = API_URL + "get_associazioni_farmaci_by_id_terapia.php?idTerapia=" + idTerapia ;
+        String url = API_URL + "get_associazioni_farmaci_by_id_terapia.php?idTerapia=" + idTerapia;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -410,9 +410,29 @@ public class DataService {
 
     }
 
+    public AssociazioneFarmaco getAssociazioneFarmacoById(int id) throws Exception {
+
+        String url = API_URL + "get_associazione_farmaco_by_id.php?id=" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseAssociazioneFarmacoManuale(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+
+    }
+
     public Assunzione[] getAssunzioniPaziente(int idPaziente) throws Exception {
 
-        String url = API_URL + "get_assunzioni_paziente.php?idPaziente=" + idPaziente ;
+        String url = API_URL + "get_assunzioni_paziente.php?idPaziente=" + idPaziente;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -432,7 +452,7 @@ public class DataService {
 
     public Assunzione[] getAssunzioniTerapia(int idTerapia) throws Exception {
 
-        String url = API_URL + "get_assunzioni_terapia.php?idTerapia=" + idTerapia ;
+        String url = API_URL + "get_assunzioni_terapia.php?idTerapia=" + idTerapia;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -452,7 +472,7 @@ public class DataService {
 
     public Assunzione[] getAssunzioniAssociazioneFarmaco(int idAssociazioneFarmaco) throws Exception {
 
-        String url = API_URL + "get_assunzioni_associazione_farmaco.php?idAssociazioneFarmaco=" + idAssociazioneFarmaco ;
+        String url = API_URL + "get_assunzioni_associazione_farmaco.php?idAssociazioneFarmaco=" + idAssociazioneFarmaco;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -472,7 +492,7 @@ public class DataService {
 
     public Assunzione getAssunzioneById(int id) throws Exception {
 
-        String url = API_URL + "get_assunzione_by_id.php?id=" + id ;
+        String url = API_URL + "get_assunzione_by_id.php?id=" + id;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -714,6 +734,18 @@ public class DataService {
 
     }
 
+    public void deleteAssociazioneFarmaco(String idAssociazioneFarmaco) throws Exception {
+
+        String url = API_URL + "delete_associazione_farmaco.php";
+
+        String json = String.format(
+                "{\"id\": %d}", idAssociazioneFarmaco
+        );
+
+        delete(url, json);
+
+    }
+
     private void delete(String url, String json) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
 
@@ -940,6 +972,22 @@ public class DataService {
         }
 
         return associazioniFarmaci.toArray(new AssociazioneFarmaco[0]);
+    }
+
+    private AssociazioneFarmaco parseAssociazioneFarmacoManuale(String json) {
+
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+
+        AssociazioneFarmaco associazioneFarmaco = new AssociazioneFarmaco();
+
+        associazioneFarmaco.setId(obj.get("id").getAsInt());
+        associazioneFarmaco.setIdTerapia(obj.get("id_terapia").getAsInt());
+        associazioneFarmaco.setIdFarmaco(obj.get("id_farmaco").getAsInt());
+        associazioneFarmaco.setNumeroAssunzioni(obj.get("numero_assunzioni").getAsInt());
+        associazioneFarmaco.setDose(obj.get("dose").getAsInt());
+
+        return associazioneFarmaco;
+
     }
 
     private Assunzione[] parseAssunzioniManuale(String json) {
