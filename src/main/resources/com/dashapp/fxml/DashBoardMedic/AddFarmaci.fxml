@@ -7,14 +7,7 @@
 <AnchorPane prefHeight="542.0" prefWidth="932.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddFarmaciController">
 
    <children>
-      <VBox prefWidth="934.0" spacing="20.0" style="-fx-padding: 40 30 20 30;">
-
-         <!-- Titolo -->
-         <Text fill="#cb6ce6" style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Aggiungi Farmaco">
-            <font>
-               <Font size="32.0" />
-            </font>
-         </Text>
+      <VBox prefWidth="934.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
 
          <!-- Nome farmaco -->
          <VBox spacing="5">

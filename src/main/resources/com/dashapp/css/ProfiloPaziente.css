@@ -1,0 +1,38 @@
+.tab-pane {
+    -fx-background-color: transparent !important;
+}
+
+.tab-pane .tab-content-area {
+    -fx-background-color: transparent !important;
+    -fx-padding: 10;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent !important;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #ff914d !important;
+    -fx-text-fill: white !important;
+    -fx-border-color: transparent !important;
+    -fx-effect: null !important;
+}
+
+.tab-pane .tab {
+    -fx-background-color: transparent !important;
+    -fx-text-fill: #444 !important;
+}
+
+.tab-pane .tab:hover {
+    -fx-background-color: #ffe0cc !important;
+    -fx-cursor: hand !important;
+}
+
+.tab-pane .tab:focused {
+    -fx-focus-color: transparent !important;
+    -fx-faint-focus-color: transparent !important;
+}
+
+.anchor-pane, .vbox, .grid-pane {
+    -fx-background-color: transparent !important;
+}

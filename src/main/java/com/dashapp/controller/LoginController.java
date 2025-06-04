@@ -50,6 +50,7 @@ public class LoginController {
             return;
         }
 
+
         statusLabel.setText("Login in corso...");
         statusLabel.setStyle("-fx-text-fill: green;");
 

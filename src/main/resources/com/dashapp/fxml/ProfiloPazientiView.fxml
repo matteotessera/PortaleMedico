@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="494.0" prefWidth="934.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.ProfiloPaziente">
+
+    <children>
+        <VBox style="-fx-padding: 0 30 20 0;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" VBox.vgrow="ALWAYS">
+            <HBox spacing="10" />
+            <TabPane prefWidth="904.0" stylesheets="@../css/ProfiloPaziente.css" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                <tabs>
+                    <Tab text="Profilo">
+                        <content>
+                            <AnchorPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                                <children>
+                                    <VBox spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" VBox.vgrow="ALWAYS">
+                                        <children>
+                                            <Label text="Anagrafica paziente" textFill="#ff914d">
+                                                <font>
+                                                    <Font name="System Bold" size="16.0" />
+                                                </font>
+                                            </Label>
+                                            <GridPane hgap="20" prefHeight="200.0" prefWidth="824.0" vgap="15" VBox.vgrow="ALWAYS">
+                                                <columnConstraints>
+                                                    <ColumnConstraints percentWidth="50" />
+                                                    <ColumnConstraints percentWidth="50" />
+                                                </columnConstraints>
+                                                <children>
+                                                    <!-- Riga 1 -->
+                                                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                        <Label text="Nome" textFill="#444">
+                                                            <font>
+                                                                <Font size="14" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="nomeField" editable="false" style="-fx-background-radius: 4;" />
+                                                    </VBox>
+                                                    <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                                        <Label text="Cognome" textFill="#444">
+                                                            <font>
+                                                                <Font size="14" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="cognomeField" editable="false" style="-fx-background-radius: 4;" />
+                                                    </VBox>
+
+                                                    <!-- Riga 2 -->
+                                                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                        <Label text="Data di Nascita" textFill="#444">
+                                                            <font>
+                                                                <Font size="14" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="dataNascitaField" editable="false" style="-fx-background-radius: 4;" />
+                                                    </VBox>
+                                                    <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                        <Label text="Codice Fiscale" textFill="#444">
+                                                            <font>
+                                                                <Font size="14" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="codiceFiscaleField" editable="false" style="-fx-background-radius: 4;" />
+                                                    </VBox>
+
+                                                    <!-- Riga 3 -->
+                                                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                                        <Label text="Genere" textFill="#444">
+                                                            <font>
+                                                                <Font size="14" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="genereField" editable="false" style="-fx-background-radius: 4;" />
+                                                    </VBox>
+                                                    <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                        <Label text="Indirizzo" textFill="#444">
+                                                            <font>
+                                                                <Font size="14" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="indirizzoField" editable="false" style="-fx-background-radius: 4;" />
+                                                    </VBox>
+
+                                                    <!-- Riga 4 -->
+                                                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                                                        <Label text="Email" textFill="#444">
+                                                            <font>
+                                                                <Font size="14" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="emailField" editable="false" style="-fx-background-radius: 4;" />
+                                                    </VBox>
+                                                    <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                                        <Label text="Telefono" textFill="#444">
+                                                            <font>
+                                                                <Font size="14" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="telefonoField" editable="false" style="-fx-background-radius: 4;" />
+                                                    </VBox>
+                                                </children>
+                                    <rowConstraints>
+                                       <RowConstraints />
+                                       <RowConstraints />
+                                       <RowConstraints />
+                                       <RowConstraints />
+                                    </rowConstraints>
+                                            </GridPane>
+                                        </children>
+                                        <padding>
+                                            <Insets left="20.0" right="20.0" />
+                                        </padding>
+                                    </VBox>
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Cartella medica">
+                        <content>
+                            <AnchorPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
+                        </content>
+                    </Tab>
+                    <Tab text="Chat">
+                        <content>
+                            <AnchorPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                                <children>
+                                    <VBox spacing="20.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="20.0" VBox.vgrow="ALWAYS" />
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                </tabs>
+            </TabPane>
+        </VBox>
+    </children>
+</AnchorPane>

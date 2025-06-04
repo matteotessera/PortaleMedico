@@ -305,12 +305,12 @@
                                 </VBox.margin>
                             </HBox>
                             <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="plusIcon3" fitHeight="20" fitWidth="20" onMouseClicked="#showAddTerapia">
+                                <ImageView fx:id="plusIcon3" fitHeight="20" fitWidth="20" onMouseClicked="#aggiungiTerapia">
                                     <image>
                                         <Image url="@../../images/piuVerde.png" />
                                     </image>
                                 </ImageView>
-                                <Label onMouseClicked="#showAddTerapia" text="Aggiungi una terapia">
+                                <Label onMouseClicked="#aggiungiTerapia" text="Aggiungi una terapia">
                                     <font>
                                         <Font size="15.0" />
                                     </font></Label>

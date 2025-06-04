@@ -4,20 +4,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="589.0" prefWidth="934.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddTerapiaController">
+<AnchorPane prefHeight="538.0" prefWidth="934.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddTerapiaController">
 
    <children>
-      <VBox prefHeight="589.0" prefWidth="934.0" spacing="20.0" style="-fx-padding: 40 30 20 30;">
-
-         <!-- Titolo -->
-         <Text fill="#ff914d" style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Crea Terapia">
-            <font>
-               <Font size="32.0" />
-            </font>
-         </Text>
+      <VBox prefHeight="547.0" prefWidth="934.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
 
          <!-- Sezione paziente e farmaco -->
-         <Text fill="#ff914d" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Dati paziente e farmaco">
+         <Text fill="#7ed957" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Dati paziente e farmaco">
             <font>
                <Font name="System Bold" size="11.0" />
             </font></Text>
@@ -51,7 +44,7 @@
          <Separator />
 
          <!-- Sezione dettagli terapia -->
-         <Text fill="#ff914d" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Dettagli terapia" />
+         <Text fill="#7ed957" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Dettagli terapia" />
 
          <GridPane hgap="15" vgap="15">
             <columnConstraints>
@@ -98,7 +91,7 @@
          <Separator />
 
          <!-- Sezione note -->
-         <Text fill="#ff914d" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Note aggiuntive" />
+         <Text fill="#7ed957" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Note aggiuntive" />
 
          <VBox spacing="5">
             <Label text="Note" />
@@ -106,7 +99,7 @@
          </VBox>
 
          <!-- Bottone -->
-         <Button fx:id="assegnaTerapia" onMouseClicked="#assegnaTerapia" prefHeight="37.0" prefWidth="305.0" style="-fx-background-color: #ff914d; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Assegna terapia" />
+         <Button fx:id="assegnaTerapia" onMouseClicked="#assegnaTerapia" prefHeight="37.0" prefWidth="305.0" style="-fx-background-color: #7ed957; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Assegna terapia" textFill="#7ed957" />
       </VBox>
    </children>
 </AnchorPane>

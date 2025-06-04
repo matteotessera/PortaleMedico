@@ -2,6 +2,7 @@ package com.dashapp.view;
 
 import com.dashapp.Main;
 import com.dashapp.controller.MainController;
+import com.dashapp.model.Utente;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 
@@ -14,6 +15,8 @@ public class NavigatorView {
 
     // Current authenticated username
     private static String authenticatedUser = null;
+
+    private static Utente paziente = null;
 
     /**
      * Set the main controller reference
@@ -69,9 +72,18 @@ public class NavigatorView {
         authenticatedUser = email;
     }
 
+    public static void setUtenteSelezionato(Utente pazient){
+        paziente = pazient;
+    }
+
     public static String getAuthenticatedUser() {
         return authenticatedUser;
     }
+
+    public static Utente getUtenteSelezionato(){
+        return paziente;
+    }
+
 
     public static boolean isAuthenticated() {
         return authenticatedUser != null;

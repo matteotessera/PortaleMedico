@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -50,38 +49,21 @@
         <VBox prefHeight="482.0" prefWidth="674.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.rowIndex="1">
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="10">
-                    <ImageView fx:id="patientsCardIcon" fitHeight="40.0" fitWidth="40.0">
-                        <image>
-                            <Image url="@../../images/patient.png" />
-                        </image>
-                    </ImageView>
-                    <Label text="Anagrafica" textFill="#ff914d">
-                        <font>
-                            <Font name="System Bold" size="20.0" />
-                        </font>
-                        <opaqueInsets>
-                            <Insets />
-                        </opaqueInsets>
-                    </Label>
+                     <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="149.0" text="Anagrafica" />
+                     <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="152.0" text="Cartella clinica" />
+                     <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="112.0" text="Chat" />
                 </HBox>
-                <Label text="Gestione pazienti">
-                    <VBox.margin>
-                        <Insets left="50.0" />
-                    </VBox.margin>
-                    <font>
-                        <Font size="15.0" />
-                    </font></Label>
                 <VBox spacing="20" style="-fx-padding: 20;">
                     <Label text="Anagrafica Paziente" textFill="#333333">
                         <font>
-                            <Font name="System Bold" size="18.0"/>
+                            <Font name="System Bold" size="18.0" />
                         </font>
                     </Label>
 
                     <GridPane hgap="20" vgap="15">
                         <columnConstraints>
-                            <ColumnConstraints percentWidth="50"/>
-                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50" />
+                            <ColumnConstraints percentWidth="50" />
                         </columnConstraints>
 
                         <!-- Riga 1 -->
@@ -89,90 +71,120 @@
                             <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                 <Label text="Nome" textFill="#444">
                                     <font>
-                                        <Font size="14"/>
+                                        <Font size="14" />
                                     </font>
                                 </Label>
-                                <TextField promptText="Inserisci nome" style="-fx-background-radius: 8;"/>
+                                <TextField fx:id="nomeField" promptText="Inserisci nome" style="-fx-background-radius: 8;" />
                             </VBox>
 
                             <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
                                 <Label text="Cognome" textFill="#444">
                                     <font>
-                                        <Font size="14"/>
+                                        <Font size="14" />
                                     </font>
                                 </Label>
-                                <TextField promptText="Inserisci cognome" style="-fx-background-radius: 8;"/>
+                                <TextField fx:id="cognomeField" promptText="Inserisci cognome" style="-fx-background-radius: 8;" />
                             </VBox>
 
                             <!-- Riga 2 -->
                             <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
                                 <Label text="Data di Nascita" textFill="#444">
                                     <font>
-                                        <Font size="14"/>
+                                        <Font size="14" />
                                     </font>
                                 </Label>
-                                <TextField promptText="gg/mm/aaaa" style="-fx-background-radius: 8;"/>
+                                <DatePicker fx:id="dataNascitaField" prefHeight="26.0" prefWidth="300.0" promptText="gg/mm/aaaa" style="-fx-background-radius: 8;" />
                             </VBox>
 
                             <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                 <Label text="Codice Fiscale" textFill="#444">
                                     <font>
-                                        <Font size="14"/>
+                                        <Font size="14" />
                                     </font>
                                 </Label>
-                                <TextField promptText="Inserisci codice fiscale" style="-fx-background-radius: 8;"/>
+                                <TextField fx:id="codiceFiscaleField" promptText="Inserisci codice fiscale" style="-fx-background-radius: 8;" />
                             </VBox>
 
                             <!-- Riga 3 -->
                             <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
                                 <Label text="Telefono" textFill="#444">
                                     <font>
-                                        <Font size="14"/>
+                                        <Font size="14" />
                                     </font>
                                 </Label>
-                                <TextField promptText="Inserisci numero" style="-fx-background-radius: 8;"/>
+                                <TextField fx:id="telefonoField" promptText="Inserisci numero" style="-fx-background-radius: 8;" />
                             </VBox>
 
                             <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                 <Label text="Email" textFill="#444">
                                     <font>
-                                        <Font size="14"/>
+                                        <Font size="14" />
                                     </font>
                                 </Label>
-                                <TextField promptText="Inserisci email" style="-fx-background-radius: 8;"/>
+                                <TextField fx:id="emailField" promptText="Inserisci email" style="-fx-background-radius: 8;" />
                             </VBox>
 
                             <!-- Riga 4 -->
                             <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="3">
                                 <Label text="Indirizzo" textFill="#444">
                                     <font>
-                                        <Font size="14"/>
+                                        <Font size="14" />
                                     </font>
                                 </Label>
-                                <TextField promptText="Via, numero civico" style="-fx-background-radius: 8;"/>
+                                <TextField fx:id="indirizzoField" promptText="Via, numero civico" style="-fx-background-radius: 8;" />
                             </VBox>
 
                             <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                <Label text="Città" textFill="#444">
+                                <Label text="Genere" textFill="#444">
                                     <font>
-                                        <Font size="14"/>
+                                        <Font size="14" />
                                     </font>
                                 </Label>
-                                <TextField promptText="Inserisci città" style="-fx-background-radius: 8;"/>
+                                <TextField fx:id="genereField" promptText="Inserisci genere" style="-fx-background-radius: 8;" />
+                            </VBox>
+
+                            <!-- Riga 4 -->
+                            <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                                <Label text="Password" textFill="#444">
+                                    <font>
+                                        <Font size="14" />
+                                    </font>
+                                </Label>
+                                <PasswordField fx:id="passwordField" promptText="Inserisci password" style="-fx-background-radius: 8;" />
+                            </VBox>
+
+                            <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                <Label text="Conferma password" textFill="#444">
+                                    <font>
+                                        <Font size="14" />
+                                    </font>
+                                </Label>
+                                <PasswordField fx:id="confermaPasswordField" promptText="Inserisci conferma password" style="-fx-background-radius: 8;" />
                             </VBox>
                         </children>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
                     </GridPane>
                 </VBox>
+                  <Button mnemonicParsing="false" onMouseClicked="#aggiungiUtente" text="Button" />
 
             </children>
+
                <StackPane.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </StackPane.margin>
         </VBox>
 
+
     </StackPane>
 
 </VBox>
+
 
     </content>
 </ScrollPane>
