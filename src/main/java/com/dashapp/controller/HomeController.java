@@ -1,5 +1,7 @@
 package com.dashapp.controller;
 
+import com.dashapp.Main;
+import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,8 +19,9 @@ public class HomeController {
 
         MainController mainController = loader.getController();
 
-
         FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/LoginView.fxml"));
+
+
         Node loginView = loginLoader.load();
 
         mainController.setContent(loginView);

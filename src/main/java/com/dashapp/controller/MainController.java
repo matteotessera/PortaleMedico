@@ -1,6 +1,5 @@
 package com.dashapp.controller;
 
-import com.dashapp.model.Terapia;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.services.LoginService;
@@ -8,13 +7,10 @@ import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class MainController {
@@ -30,6 +26,9 @@ public class MainController {
 
     @FXML
     private Node leftPanel;
+
+    @FXML
+    private Node topPanel;
 
     @FXML
     private Label utenteLabel;
@@ -64,6 +63,20 @@ public class MainController {
 
     }
 
+    public void nascondiComponentiMain(){
+        hideSidebar();
+        hideNavbar();
+    }
+
+    public void hideNavbar() {
+        topPanel = mainContainer.getTop();
+        mainContainer.setTop(null);
+    }
+
+    public void viewNavbar() {
+        mainContainer.setTop(topPanel);
+    }
+
     public void hideSidebar() {
         leftPanel = mainContainer.getLeft();
         mainContainer.setLeft(null);
@@ -72,6 +85,7 @@ public class MainController {
     public void viewSidebar() {
         mainContainer.setLeft(leftPanel);
     }
+
 
     public void setContent(Node content) {
         stackPane.getChildren().setAll(content);
@@ -96,7 +110,7 @@ public class MainController {
         messageButton.setVisible(true);
     }
 
-    public void EliminaTextNavbar() {
+    public void eliminaTextNavbar() {
         utenteLabel.setText(null);
         logoutLabel.setText(null);
     }

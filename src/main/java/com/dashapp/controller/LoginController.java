@@ -87,7 +87,7 @@ public class LoginController {
         Utente u = ds.getUtenteByEmail(email);
 
         if(u.getRuolo().equals("medico")){
-            NavigatorView.navigateToDashboardPatient();
+            NavigatorView.navigateToDashboardMedic();
         }else{
             NavigatorView.navigateToDashboardPatient();
         }

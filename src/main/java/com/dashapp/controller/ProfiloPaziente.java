@@ -3,9 +3,12 @@ package com.dashapp.controller;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 
 public class ProfiloPaziente {
@@ -29,8 +32,10 @@ public class ProfiloPaziente {
     private Utente u;
 
     public void initialize(){
+
         u = NavigatorView.getUtenteSelezionato();
         riempiCampi();
+
     }
 
     public void riempiCampi(){
@@ -44,3 +49,4 @@ public class ProfiloPaziente {
         telefonoField.setText(u.getTelefono());
     }
 }
+

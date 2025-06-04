@@ -65,6 +65,10 @@ public class NavigatorView {
         loadView("LoginView.fxml");
     }
 
+    public static void navigateToHome(){
+        loadView("HomeView.fxml");
+    }
+
 
 
     //GESTIONE LOGIN
@@ -95,7 +99,7 @@ public class NavigatorView {
         if (isAuthenticated()) {
             m.mostraTextNavbar();  // se autenticato, mostra il testo personalizzato
         } else {
-            m.EliminaTextNavbar(); // se non autenticato, elimina testo
+            m.eliminaTextNavbar(); // se non autenticato, elimina testo
         }
     }
 

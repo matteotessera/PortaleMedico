@@ -8,6 +8,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
+import com.dashapp.controller.MainController;
+import com.dashapp.view.NavigatorView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -84,6 +86,10 @@ public class LoginService {
         isLogged = false;
         userId = -1;
         userRole = null;
+        MainController mc = NavigatorView.getMainController();
+        mc.nascondiComponentiMain();
+        NavigatorView.setAuthenticatedUser(null);
+        NavigatorView.navigateToHome();
     }
 
     private String encode(String value) {
