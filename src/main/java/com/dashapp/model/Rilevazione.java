@@ -11,6 +11,16 @@ public class Rilevazione {
     private String idPaziente;
     private String pasto;
 
+    public enum TipoRilevazione {
+        POST,
+        PRE,
+
+    }
+    public enum TipoPasto {
+        COLAZIONE,
+        PRANZO,
+        CENA
+    }
     // Costruttore
     public Rilevazione(String id, LocalDateTime data, String valore, String tipo, String idPaziente, String pasto) {
         this.id = id;

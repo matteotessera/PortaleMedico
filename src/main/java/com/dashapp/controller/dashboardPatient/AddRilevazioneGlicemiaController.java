@@ -2,7 +2,7 @@ package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.model.AddController;
 import com.dashapp.model.Rilevazione;
-import com.dashapp.model.RilevazioneGlicemia;
+
 import com.dashapp.services.DataService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -17,9 +17,9 @@ public class AddRilevazioneGlicemiaController extends AddController {
 
 
     @FXML
-    private ComboBox<RilevazioneGlicemia.TipoPasto> pastoBox;
+    private ComboBox<Rilevazione.TipoPasto> pastoBox;
     @FXML
-    private ComboBox<RilevazioneGlicemia.TipoRilevazione> quandoBox;
+    private ComboBox<Rilevazione.TipoRilevazione> quandoBox;
     @FXML
     private TextField valoreField;
     @FXML
@@ -32,8 +32,8 @@ public class AddRilevazioneGlicemiaController extends AddController {
 
     public void initialize() {
 
-        pastoBox.setItems(FXCollections.observableArrayList(RilevazioneGlicemia.TipoPasto.values()));
-        quandoBox.setItems(FXCollections.observableArrayList(RilevazioneGlicemia.TipoRilevazione.values()));
+        pastoBox.setItems(FXCollections.observableArrayList(Rilevazione.TipoPasto.values()));
+        quandoBox.setItems(FXCollections.observableArrayList(Rilevazione.TipoRilevazione.values()));
         ds = new DataService();
 
     }
@@ -44,8 +44,8 @@ public class AddRilevazioneGlicemiaController extends AddController {
     @FXML
     private void aggiungiRilevazione() throws Exception {
         // crea nuovo tipo RilevazioneGlicemia
-        RilevazioneGlicemia.TipoPasto tipoPasto = this.pastoBox.getValue();
-        RilevazioneGlicemia.TipoRilevazione tipoRilevazione = this.quandoBox.getValue();
+        Rilevazione.TipoPasto tipoPasto = this.pastoBox.getValue();
+        Rilevazione.TipoRilevazione tipoRilevazione = this.quandoBox.getValue();
 
         Double valore;
         int valoreInt = 10;
@@ -65,11 +65,8 @@ public class AddRilevazioneGlicemiaController extends AddController {
             return; // oppure mostra un alert per l'utente
         }
 
-        Rilevazione rilevazione = new Rilevazione("10", dataField.getValue().atTime(orario), valoreField.getText(), tipoPasto.toString(), String.valueOf(BoxDashboardControllerPatient.u.getId()), "colazione"); // da aggiungere il pasto tra "colazione" "pranzo" o "cena"
-        System.out.println("valoreInt: " + valoreInt);
-        System.out.println("tipo: " + tipoPasto.toString().toLowerCase());
-        System.out.println("id utentwe: " + BoxDashboardControllerPatient.u.getId());
-      //DA FARE  ds.addRilevazionePaziente(valore, tipoRilevazione.toString().toLowerCase(), BoxDashboardControllerPatient.u.getId());
+
+        ds.addRilevazionePaziente(valore, tipoRilevazione.toString().toLowerCase(), BoxDashboardControllerPatient.u.getId(), tipoPasto.toString().toLowerCase());
 
     }
 
