@@ -4,7 +4,9 @@ import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
 import com.dashapp.model.AddController;
 //  com.dashapp.model.AssunzioneFarmaco;           da togliere commento
 import com.dashapp.model.Sintomo;
+import com.dashapp.services.DataService;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -28,11 +30,12 @@ public class AddSintomoController extends AddController {
     @FXML
     private TextField descrizioneField;
 
+    private DataService ds;
 
 
     @FXML
-    private void registraSintomo(){
-
+    private void registraSintomo() throws Exception {
+        ds = new DataService();
         LocalDate data = dataField.getValue();
 
         LocalTime ora;
@@ -45,9 +48,7 @@ public class AddSintomoController extends AddController {
 
         String descrizione = descrizioneField.getText();
 
-        //DA SISTEMARE
-        //Sintomo sintomo = new Sintomo("1", date_time, descrizione, "1");
-        //System.out.println(sintomo.getData());
+        ds.addSintomoPaziente(descrizione, BoxDashboardControllerPatient.u.getId());
     }
 
 

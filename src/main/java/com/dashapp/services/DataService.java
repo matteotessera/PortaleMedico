@@ -410,6 +410,28 @@ public class DataService {
 
     }
 
+    public AssociazioneFarmaco getAssociazioneFarmacoById(int id) throws Exception {
+
+        String url = API_URL + "get_associazione_farmaco_by_id.php?id=" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseAssociazioneFarmacoManuale(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+
+    }
+
+
+
     public Assunzione[] getAssunzioniPaziente(int idPaziente) throws Exception {
 
         String url = API_URL + "get_assunzioni_paziente.php?idPaziente=" + idPaziente ;
@@ -944,6 +966,22 @@ public class DataService {
         return associazioniFarmaci.toArray(new AssociazioneFarmaco[0]);
     }
 
+    private AssociazioneFarmaco parseAssociazioneFarmacoManuale(String json) {
+
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+
+        AssociazioneFarmaco associazioneFarmaco = new AssociazioneFarmaco();
+
+        associazioneFarmaco.setId(obj.get("id").getAsInt());
+        associazioneFarmaco.setIdTerapia(obj.get("id_terapia").getAsInt());
+        associazioneFarmaco.setIdFarmaco(obj.get("id_farmaco").getAsInt());
+        associazioneFarmaco.setNumeroAssunzioni(obj.get("numero_assunzioni").getAsInt());
+        associazioneFarmaco.setDose(obj.get("dose").getAsInt());
+
+        return associazioneFarmaco;
+
+    }
+
     private Assunzione[] parseAssunzioniManuale(String json) {
 
         JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
@@ -971,6 +1009,8 @@ public class DataService {
         return assunzioni.toArray(new Assunzione[0]);
 
     }
+
+
 
     private Assunzione parseAssunzioneManuale(String json) {
 

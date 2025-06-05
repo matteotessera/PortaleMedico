@@ -65,7 +65,14 @@ public class DashboardPatientController {
         String email = NavigatorView.getAuthenticatedUser();
         u = ds.getUtenteByEmail(email);
 
-        Rilevazione[] rilevazioniUtente = ds.getRilevazioniUtente(u.getId());
+        Rilevazione[] rilevazioniUtente;
+        try {
+            rilevazioniUtente = ds.getRilevazioniUtente(u.getId());
+        } catch (RuntimeException e) {
+            // Se la chiamata fallisce (es. 404), consideriamo che non ci siano rilevazioni
+            System.out.println("Nessuna rilevazione trovata per l'utente ID " + u.getId() + ": " + e.getMessage());
+            rilevazioniUtente = new Rilevazione[0]; // array vuoto
+        }
 
         LocalDate oggi = LocalDate.now();
         int count = 0;
@@ -140,6 +147,23 @@ public class DashboardPatientController {
         }
         controller.listaTerapie();
     }
+
+    public void aggiungiSintomo() throws Exception {
+
+        if (controller == null) {
+            mostraBox();
+        }
+        controller.aggiungiSintomo();
+    }
+
+    public void listaSintomi() throws Exception {
+
+        if (controller == null) {
+            mostraBox();
+        }
+        controller.listaSintomi();
+    }
+
 
 
 

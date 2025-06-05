@@ -1,9 +1,6 @@
 package com.dashapp.controller.Tabelle;
 
-import com.dashapp.model.Assunzione;
-import com.dashapp.model.Farmaco;
-import com.dashapp.model.Rilevazione;
-import com.dashapp.model.Terapia;
+import com.dashapp.model.*;
 import com.dashapp.services.DataService;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -172,7 +169,7 @@ public class Tabelle {
         bodyContainer.getChildren().add(listaUtentiBox);
     }
 
-    public void tabellaAssunzioni(String titolo, List<Assunzione> assunzioni, String textButton, Color color, VBox bodyContainer){
+    public void tabellaAssunzioni(String titolo, List<Assunzione> assunzioni, String textButton, Color color, VBox bodyContainer) throws Exception {
         ds = new DataService();
 
         Label titoloTabella = new Label();
@@ -212,7 +209,7 @@ public class Tabelle {
 
 
         intestazione.getChildren().addAll(
-                dataHeader, statoHeader, doseHeader
+                dataHeader, farmacoHeader,  doseHeader, statoHeader
         );
 
         listaUtentiBox.getChildren().add(intestazione);
@@ -223,9 +220,9 @@ public class Tabelle {
             LocalDateTime data = a.getData();
             String dataFormattata = data.format(formatter);
 
-            //DA FARE
-            //associazioneFarmaco = ds.getAssociazioneFarmacoByID( a.getIdAssociazioneFarmaco)
-            //farmaco = ds.getFarmacoById(ass.getIdFarmaco);
+
+            AssociazioneFarmaco associazioneFarmaco = ds.getAssociazioneFarmacoById( a.getIdAssociazioneFarmaco());
+            Farmaco farmaco = ds.getFarmacoById(associazioneFarmaco.getIdFarmaco());
 
 
             HBox rigaUtente = new HBox(10);
@@ -234,7 +231,9 @@ public class Tabelle {
 
             Label dataLabel = creaCell(dataFormattata, dataWidth);
             Label statoLabel = creaCell(a.getStato(), statoWidth);
-            Label doseLabel = creaCell(String.valueOf(a.getDose()), doseWidth);
+            Label farmacoLabel = creaCell(farmaco.getNome(), farmacoWidth);
+            Label doseLabel = creaCell(String.valueOf(associazioneFarmaco.getDose()), doseWidth);
+
 
 
 
@@ -249,7 +248,7 @@ public class Tabelle {
             });
 
             rigaUtente.getChildren().addAll(
-                    dataLabel, statoLabel, doseLabel, prendiInCaricoButton
+                    dataLabel, farmacoLabel, doseLabel, statoLabel, prendiInCaricoButton
             );
 
             listaUtentiBox.getChildren().add(rigaUtente);
@@ -339,6 +338,95 @@ public class Tabelle {
 
             rigaUtente.getChildren().addAll(
                     dataLabel, statoLabel, doseLabel, prendiInCaricoButton
+            );
+
+            listaUtentiBox.getChildren().add(rigaUtente);
+        }
+
+        // Margine tra una tabella e l'altra
+        VBox.setMargin(titoloTabella, new javafx.geometry.Insets(20, 0, 5, 0));
+        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(0, 0, 20, 0));
+
+        bodyContainer.getChildren().add(titoloTabella);
+        bodyContainer.getChildren().add(listaUtentiBox);
+    }
+
+    public void tabellaSintomo(String titolo, List<Sintomo> sintomo, String textButton, Color color, VBox bodyContainer){
+        ds = new DataService();
+
+        Label titoloTabella = new Label();
+        titoloTabella.setText(titolo);
+        titoloTabella.setStyle(
+                "-fx-font-size: 18px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: #222;" +
+                        "-fx-background-color: #f0f0f0;" +
+                        "-fx-padding: 10;" +
+                        "-fx-border-color: #d0d0d0;" +
+                        "-fx-border-width: 0 0 1 0;" +
+                        "-fx-border-style: solid;"
+        );
+        titoloTabella.setMaxWidth(Double.MAX_VALUE);
+        titoloTabella.setAlignment(Pos.CENTER_LEFT);
+
+        VBox listaUtentiBox = new VBox(2);
+        listaUtentiBox.setPrefWidth(2000);
+        listaUtentiBox.setSpacing(5);
+
+        double dataWidth = 120;
+        double descrizioneWidth = 120;
+
+        double azioneWidth = 150;
+
+
+        HBox intestazione = new HBox(10);
+        intestazione.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 8;");
+        intestazione.setAlignment(Pos.CENTER_LEFT);
+
+        Label inizioHeader = creaHeader("Data", dataWidth);
+        Label fineHeader = creaHeader("Descrizone", descrizioneWidth);
+
+
+
+
+        intestazione.getChildren().addAll(
+                inizioHeader, fineHeader
+        );
+
+        listaUtentiBox.getChildren().add(intestazione);
+
+
+
+        for (Sintomo s : sintomo) {
+            LocalDateTime data = s.getData();
+
+
+
+
+
+
+            HBox rigaUtente = new HBox(10);
+            rigaUtente.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
+            rigaUtente.setAlignment(Pos.CENTER_LEFT);
+
+            Label dataLabel = creaCell(data.toString(), dataWidth);
+            Label descLabel = creaCell(s.getDescrizione(), descrizioneWidth);
+
+
+
+
+            Button prendiInCaricoButton = new Button(textButton);
+            prendiInCaricoButton.setStyle(
+                    "-fx-background-color: " + toHex(color) + ";" +
+                            "-fx-text-fill: white;"
+            );
+            prendiInCaricoButton.setPrefWidth(azioneWidth);
+            prendiInCaricoButton.setOnAction(e -> {
+                System.out.println("Preso in carico: " + s.getDescrizione());
+            });
+
+            rigaUtente.getChildren().addAll(
+                    dataLabel, descLabel, prendiInCaricoButton
             );
 
             listaUtentiBox.getChildren().add(rigaUtente);
