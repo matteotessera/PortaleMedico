@@ -1,11 +1,18 @@
 package com.dashapp.controller.dashboardAdmin;
 
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
+import org.apache.pdfbox.pdmodel.interactive.form.PDField;
+
 import com.dashapp.model.AddController;
 import com.dashapp.services.DataService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.util.Random;
 
@@ -95,11 +102,49 @@ public class AddUtentiController extends AddController {
         try {
             ds.addUtente(password, ruolo, nome, cognome, codiceFiscale, dataNascita, email, telefono, indirizzo, genere);
             showSuccess("Utente aggiunto correttamente.");
+
+            String templatePath = "/com/dashapp/fileCredenziali/template.pdf";  // percorso nel resources
+            String outputFileName = "fileCredenziali/Diary_credenziali_" + nome + cognome + ".pdf";
+            creaFileCredenziali(templatePath, outputFileName, email, password);
+
         } catch (Exception e) {
             e.printStackTrace();
             showError("Errore durante il salvataggio dell'utente nel database.");
         }
 
+    }
+
+    public void creaFileCredenziali (String templateResourcePath, String outputFileName, String username, String password) throws IOException {
+        InputStream templateStream = com.dashapp.test.TestPdfBox.class.getResourceAsStream(templateResourcePath);
+        if (templateStream == null) {
+            throw new IOException("Template PDF non trovato: " + templateResourcePath);
+        }
+
+        try (PDDocument pdfDocument = PDDocument.load(templateStream)) {
+            PDAcroForm acroForm = pdfDocument.getDocumentCatalog().getAcroForm();
+
+            if (acroForm != null) {
+                PDField usernameField = acroForm.getField("EmailField");
+                PDField passwordField = acroForm.getField("PasswordField");
+
+                if (usernameField != null) {
+                    usernameField.setValue(username);
+                } else {
+                    System.err.println("Campo 'username' non trovato nel PDF");
+                }
+                if (passwordField != null) {
+                    passwordField.setValue(password);
+                } else {
+                    System.err.println("Campo 'password' non trovato nel PDF");
+                }
+
+                acroForm.flatten();  // rende il form non modificabile
+            } else {
+                System.err.println("Il PDF non contiene un modulo interattivo");
+            }
+
+            pdfDocument.save(outputFileName);
+        }
     }
 
 

@@ -48,7 +48,7 @@
     </center>
 
     <top>
-        <VBox fx:id="navBarContainer" style="-fx-pref-height: 80; -fx-background-color: #1b4965;" styleClass="nav-container" BorderPane.alignment="CENTER">
+        <VBox fx:id="navBarContainer" style="-fx-pref-height: 80; -fx-background-color: #1e3746;" styleClass="nav-container" BorderPane.alignment="CENTER">
          <children>
              <HBox alignment="CENTER_LEFT" prefHeight="130.0" prefWidth="1000.0" spacing="10.0">
                  <padding>
@@ -69,15 +69,14 @@
                      <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="232.0" spacing="20.0">
                          <children>
                              <!-- Bottone Logout -->
-                             <Label fx:id="logoutLabel" textFill="WHITE"
-                                    onMouseClicked="#handleLogoutClick">
+                             <Label fx:id="logoutLabel" onMouseClicked="#handleLogoutClick" textFill="WHITE">
                                  <font>
                                      <Font name="System Bold" size="16.0" />
                                  </font>
                              </Label>
 
 
-                             <ImageView fx:id="messageButton" visible="false" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                             <ImageView fx:id="messageButton" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                      <Image url="@../images/message.png" />
                                  </image>
