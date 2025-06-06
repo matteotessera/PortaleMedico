@@ -1,24 +1,18 @@
 package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.Tabelle.Tabelle;
-import com.dashapp.controller.dashboardMedico.DashboardMedicController;
 import com.dashapp.model.*;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -180,6 +174,21 @@ public class BoxDashboardControllerPatient {
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/AddSintomo.fxml"));
+        Parent addAssunzioneContent = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(addAssunzioneContent);
+    }
+
+    public void fascicoloPaziente()throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("FASCICOLO MEDICO");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setAlignment(Pos.CENTER);
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/FascicoloPaziente.fxml"));
         Parent addAssunzioneContent = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer

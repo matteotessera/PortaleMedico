@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.dashapp.controller.dashboardPatient.fascicolo.FascicoloPazienteController" xmlns:fx="http://javafx.com/fxml/1" >
+   <children>
+      <VBox layoutX="14.0" layoutY="14.0" prefHeight="574.0" prefWidth="575.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="441.0">
+               <children>
+                  <Label text="FASCICOLO MEDICO" textFill="#ffa218">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="Hpatologie" alignment="CENTER" onMouseClicked="#showPatologie" prefHeight="100.0" prefWidth="200.0" text="Patologie" textFill="#ffa218">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="Hterapie" alignment="CENTER" onMouseClicked="#showTerapie" prefHeight="100.0" prefWidth="200.0" text="Terapie" textFill="#ffa218">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="Hsintomi" alignment="CENTER" onMouseClicked="#showSintomi" prefHeight="100.0" prefWidth="200.0" text="Sintomi" textFill="#ffa218">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <AnchorPane fx:id="contentPane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

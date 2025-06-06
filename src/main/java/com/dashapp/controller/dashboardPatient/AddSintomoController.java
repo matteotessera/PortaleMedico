@@ -17,39 +17,68 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class AddSintomoController extends AddController {
 
 
 
-    @FXML
-    private DatePicker dataField;
-    @FXML
-    private TextField oraField;
+
     @FXML
     private TextField descrizioneField;
 
+    @FXML
+    private ComboBox<String> SintomiBox;
+
     private DataService ds;
 
+    @FXML
+    private void initialize(){
+
+        SintomiBox.getItems().addAll(sintomiDiabeteTipo2);
+
+        // Aggiunge un listener per la selezione
+        SintomiBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                descrizioneField.setText(newValue); // Esempio: riempire automaticamente il campo descrizione
+            }
+        });
+
+    }
 
     @FXML
     private void registraSintomo() throws Exception {
         ds = new DataService();
-        LocalDate data = dataField.getValue();
 
-        LocalTime ora;
-        try {
-            ora = LocalTime.parse(this.oraField.getText()); // formato: "HH:mm" o "HH:mm:ss"
-        } catch (DateTimeParseException e) {
-            System.err.println("Errore: orario non valido");
-            return; // oppure mostra un alert per l'utente
-        }
 
         String descrizione = descrizioneField.getText();
 
         ds.addSintomoPaziente(descrizione, BoxDashboardControllerPatient.u.getId());
+
     }
+
+
+
+
+
+    List<String> sintomiDiabeteTipo2 = Arrays.asList(
+            "Aumento della sete",
+            "Minzione frequente",
+            "Fame eccessiva",
+            "Perdita di peso inspiegabile",
+            "Visione offuscata",
+            "Affaticamento",
+            "Lenta guarigione delle ferite",
+            "Infezioni frequenti",
+            "Formicolio o intorpidimento a mani e piedi",
+            "Pelle secca o prurito",
+            "Irritabilità",
+            "Alito fruttato"
+    );
+
+
 
 
 
