@@ -104,7 +104,7 @@
                         <Font size="14" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="passwordField" prefHeight="23.0" prefWidth="458.0" />
+                  <PasswordField fx:id="passwordField" disable="true" prefHeight="23.0" prefWidth="458.0" />
                   <HBox alignment="CENTER_LEFT" spacing="10">
                      <Button text="Genera password" onAction="#generaPasswordCasuale" style="-fx-background-color: #cb6ce6; -fx-text-fill: white; -fx-background-radius: 12;" />
                   </HBox>
