@@ -5,10 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.fascicolo.TabPatologieController">
+<AnchorPane prefHeight="129.0" prefWidth="242.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.fascicolo.TabPatologieController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="149.0" layoutY="34.0" spacing="15.0">
+      <VBox layoutX="8.0" layoutY="7.0" prefHeight="286.0" prefWidth="348.0" spacing="15.0">
          <children>
             <Accordion fx:id="patologieAccordion" />
             <Button fx:id="addPatologiaButton" mnemonicParsing="false" onAction="#aggiungiPatologia" prefHeight="25.0" prefWidth="200.0" text="AGGIUNGI PATOLOGIA" VBox.vgrow="ALWAYS" />

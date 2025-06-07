@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.dashapp.controller.dashboardPatient.fascicolo.FascicoloPazienteController" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.fascicolo.FascicoloPazienteController">
    <children>
       <VBox layoutX="14.0" layoutY="14.0" prefHeight="574.0" prefWidth="575.0">
          <children>
@@ -22,17 +21,17 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="Hpatologie" alignment="CENTER" onMouseClicked="#showPatologie" prefHeight="100.0" prefWidth="200.0" text="Patologie" textFill="#ffa218">
+                  <Label fx:id="Hpatologie" alignment="CENTER" onMouseClicked="#showPatologie" prefHeight="50.0" prefWidth="200.0" text="Patologie" textFill="#ffa218">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="Hterapie" alignment="CENTER" onMouseClicked="#showTerapie" prefHeight="100.0" prefWidth="200.0" text="Terapie" textFill="#ffa218">
+                  <Label fx:id="Hterapie" alignment="CENTER" onMouseClicked="#showTerapie" prefHeight="50.0" prefWidth="200.0" text="Terapie" textFill="#ffa218">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="Hsintomi" alignment="CENTER" onMouseClicked="#showSintomi" prefHeight="100.0" prefWidth="200.0" text="Sintomi" textFill="#ffa218">
+                  <Label fx:id="Hsintomi" alignment="CENTER" onMouseClicked="#showSintomi" prefHeight="50.0" prefWidth="200.0" text="Sintomi" textFill="#ffa218">
                      <font>
                         <Font size="18.0" />
                      </font>

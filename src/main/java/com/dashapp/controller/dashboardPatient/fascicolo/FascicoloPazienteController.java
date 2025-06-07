@@ -30,9 +30,11 @@ public class FascicoloPazienteController {
 
     @FXML
     void showPatologie() throws IOException {
+        Hpatologie.setStyle("-fx-font-weight: bold; -fx-background-color: #ffd448; -fx-border-color: #987505; -fx-border-width: 1;");
         contentPane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/Fascicolo/TabPatologie.fxml"));
         Parent showPatologieContent = loader.load();
+        contentPane.getStylesheets().add(getClass().getResource("/com/dashapp/css/fascicoloPaziente.css").toExternalForm());
         contentPane.getChildren().add(showPatologieContent);
     }
 

@@ -5,12 +5,14 @@ import com.dashapp.model.Patologia;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TabPatologieController {
 
@@ -35,20 +37,38 @@ public class TabPatologieController {
        for (Patologia p : patologie) {
             // Crea contenuto visuale per ogni patologia
             VBox content = new VBox(5);
+            Button eliminaButton = new Button("Elimina");
+            eliminaButton.getStyleClass().add("eliminaButton");
             content.setPadding(new Insets(10));
             content.getChildren().addAll(
                     new Label("Diagnosi dal: " + p.getDataDiagnosi()),
-                    new Label("Note: " + p.getNote())
+                    new Label("Note: " + p.getNote()),
+                    eliminaButton
             );
 
             // Crea TitledPane con titolo = nome patologia
             TitledPane pane = new TitledPane(p.getNomePatologia(), content);
 
-            // associ la patologia p al pane
+
             pane.setUserData(p);
 
-            // Aggiungi al tuo Accordion
+
             patologieAccordion.getPanes().add(pane);
+
+           eliminaButton.setOnAction(e -> {
+               //Aggiungi eliminazione da DB
+               Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+               alert.setTitle("Conferma eliminazione");
+               alert.setHeaderText("Sei sicuro di voler eliminare questa patologia?");
+               alert.setContentText(p.getNomePatologia());
+
+               // Mostra la finestra e aspetta la risposta
+               Optional<ButtonType> result = alert.showAndWait();
+               if (result.isPresent() && result.get() == ButtonType.OK){
+                   patologieAccordion.getPanes().remove(pane);
+               }
+           });
+
         }
     }
 
@@ -62,6 +82,8 @@ public class TabPatologieController {
 
 
         VBox contenuto = new VBox(8);
+        contenuto.getStyleClass().add("vbox-contenuto");
+
         contenuto.setPadding(new Insets(10));
         contenuto.getChildren().addAll(
                 new Label("Nome Patologia:"), nomeField,
@@ -69,6 +91,8 @@ public class TabPatologieController {
                 new Label("Note:"), noteArea,
                 salvaButton
         );
+
+
 
         TitledPane nuovaPatologiaPane = new TitledPane("Nuova Patologia", contenuto);
         patologieAccordion.getPanes().add(nuovaPatologiaPane);
