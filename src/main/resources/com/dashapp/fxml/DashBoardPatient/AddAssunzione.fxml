@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="264.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddAssunzioneController">
+<AnchorPane prefHeight="264.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddAssunzioneController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="8.0" layoutY="10.0" prefHeight="243.0" prefWidth="395.0" spacing="10.0">
+      <VBox alignment="TOP_CENTER" layoutX="64.0" layoutY="10.0" prefHeight="243.0" prefWidth="395.0" spacing="10.0">
          <children>
             <Label text="REGISTRA ASSUNZONE FARMACO">
                <font>

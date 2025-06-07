@@ -193,6 +193,7 @@ public class BoxDashboardControllerPatient {
 
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addAssunzioneContent);
+
     }
 
 }

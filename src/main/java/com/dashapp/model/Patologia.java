@@ -3,17 +3,19 @@ package com.dashapp.model;
 import java.time.LocalDate;
 
 public class Patologia {
+    private int id;
     private int pazienteId;
     private String nomePatologia;
     private LocalDate dataDiagnosi;
     private String note;
 
 
-    public Patologia(int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) {
+    public Patologia(int id, int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) {
         this.pazienteId = pazienteId;
         this.nomePatologia = nomePatologia;
         this.dataDiagnosi = dataDiagnosi;
         this.note = note;
+        this.id = id;
     }
 
     // Getter e Setter
@@ -48,5 +50,9 @@ public class Patologia {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public int getId(){
+        return id;
     }
 }

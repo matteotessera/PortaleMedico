@@ -31,14 +31,54 @@
     -fx-pref-width: 300px;
 }
 
+
 #addPatologiaButton{
     fx-text-fill: white;
         -fx-font-weight: bold;
-        -fx-background-color: #ff9800;
+        -fx-background-color: #ad343e;
+}
+#addSintomoButton{
+    fx-text-fill: white;
+        -fx-font-weight: bold;
+        -fx-background-color: #9caf39;
+}
+#addTerapiaButton{
+    fx-text-fill: white;
+        -fx-font-weight: bold;
+        -fx-background-color: #f2af29;
 }
 
-.eliminaButton{
+
+.eliminaButtonPatologia{
         fx-text-fill: white;
             -fx-font-weight: bold;
-            -fx-background-color: #ff9800;
+            -fx-background-color: #ad343e;
+}
+.eliminaButtonSintomo{
+        fx-text-fill: white;
+            -fx-font-weight: bold;
+            -fx-background-color: #9caf39;
+}
+.eliminaButtonTerapia{
+        fx-text-fill: white;
+            -fx-font-weight: bold;
+            -fx-background-color: #f2af29;
+}
+
+.salvaButtonPatologia{
+     fx-text-fill: white;
+                -fx-font-weight: bold;
+                -fx-background-color: #ad343e;
+}
+
+.salvaButtonSintomo{
+     fx-text-fill: white;
+                -fx-font-weight: bold;
+                -fx-background-color: #9caf39;
+}
+
+.salvaButtonTerapia{
+     fx-text-fill: white;
+                -fx-font-weight: bold;
+                -fx-background-color: #f2af29;
 }

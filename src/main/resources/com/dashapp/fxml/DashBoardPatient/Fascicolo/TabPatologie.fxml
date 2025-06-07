@@ -10,7 +10,7 @@
       <VBox layoutX="8.0" layoutY="7.0" prefHeight="286.0" prefWidth="348.0" spacing="15.0">
          <children>
             <Accordion fx:id="patologieAccordion" />
-            <Button fx:id="addPatologiaButton" mnemonicParsing="false" onAction="#aggiungiPatologia" prefHeight="25.0" prefWidth="200.0" text="AGGIUNGI PATOLOGIA" VBox.vgrow="ALWAYS" />
+            <Button fx:id="addPatologiaButton" mnemonicParsing="false" onAction="#aggiungiPatologia" prefHeight="25.0" prefWidth="187.0" text="AGGIUNGI PATOLOGIA" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </children>

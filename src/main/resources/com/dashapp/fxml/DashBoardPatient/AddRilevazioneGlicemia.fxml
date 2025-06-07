@@ -12,10 +12,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="305.0" prefWidth="483.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddRilevazioneGlicemiaController">
    <children>
-      <VBox layoutX="24.0" prefHeight="296.0" prefWidth="436.0">
+      <VBox alignment="TOP_CENTER" layoutX="24.0" prefHeight="296.0" prefWidth="436.0">
          <children>
             <GridPane hgap="20.0" vgap="30.0">
               <columnConstraints>

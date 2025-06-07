@@ -29,6 +29,12 @@ public class LoginController {
     @FXML
     public void initialize() {
         statusLabel.setVisible(false);
+
+        // Esegui handleLogin premendo Enter in emailField
+        emailField.setOnAction(event -> handleLogin());
+
+        // Esegui handleLogin premendo Enter in passwordField
+        passwordField.setOnAction(event -> handleLogin());
     }
     
     @FXML

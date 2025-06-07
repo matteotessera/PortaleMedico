@@ -22,23 +22,29 @@ public class TabPatologieController {
     @FXML
     private Accordion patologieAccordion;
 
-    // private List<Patologia> listaPatologie;
+    private List<Patologia> listaPatologie;
 
     public void initialize() {
 
         //listaPatologie = ds.caricaPatologiePerPaziente();
 
-        List<Patologia> patologie = new ArrayList<>();
+        listaPatologie = new ArrayList<>();
 
-        patologie.add(new Patologia(1, "Ipertensione", LocalDate.of(2020, 5, 12), "Controllata con farmaci ACE-inibitori."));
-        patologie.add(new Patologia(1, "Asma bronchiale", LocalDate.of(2018, 3, 20), "Attacchi occasionali, uso di broncodilatatori."));
-        patologie.add(new Patologia(1, "Celiachia", LocalDate.of(2022, 10, 1), "Dieta priva di glutine da allora."));
+        listaPatologie.add(new Patologia(1, 1, "Ipertensione", LocalDate.of(2020, 5, 12), "Controllata con farmaci ACE-inibitori."));
+        listaPatologie.add(new Patologia(2, 1, "Asma bronchiale", LocalDate.of(2018, 3, 20), "Attacchi occasionali, uso di broncodilatatori."));
+        listaPatologie.add(new Patologia(3, 1, "Celiachia", LocalDate.of(2022, 10, 1), "Dieta priva di glutine da allora."));
 
-       for (Patologia p : patologie) {
-            // Crea contenuto visuale per ogni patologia
+        aggiornaAccordion();
+
+    }
+
+    private void aggiornaAccordion() {
+        patologieAccordion.getPanes().clear();
+
+        for (Patologia p : listaPatologie) {
             VBox content = new VBox(5);
             Button eliminaButton = new Button("Elimina");
-            eliminaButton.getStyleClass().add("eliminaButton");
+            eliminaButton.getStyleClass().add("eliminaButtonPatologia");
             content.setPadding(new Insets(10));
             content.getChildren().addAll(
                     new Label("Diagnosi dal: " + p.getDataDiagnosi()),
@@ -46,29 +52,23 @@ public class TabPatologieController {
                     eliminaButton
             );
 
-            // Crea TitledPane con titolo = nome patologia
             TitledPane pane = new TitledPane(p.getNomePatologia(), content);
-
-
             pane.setUserData(p);
 
+            eliminaButton.setOnAction(e -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Conferma eliminazione");
+                alert.setHeaderText("Sei sicuro di voler eliminare questa patologia?");
+                alert.setContentText(p.getNomePatologia());
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    listaPatologie.remove(p);
+                    aggiornaAccordion();
+                }
+            });
 
             patologieAccordion.getPanes().add(pane);
-
-           eliminaButton.setOnAction(e -> {
-               //Aggiungi eliminazione da DB
-               Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-               alert.setTitle("Conferma eliminazione");
-               alert.setHeaderText("Sei sicuro di voler eliminare questa patologia?");
-               alert.setContentText(p.getNomePatologia());
-
-               // Mostra la finestra e aspetta la risposta
-               Optional<ButtonType> result = alert.showAndWait();
-               if (result.isPresent() && result.get() == ButtonType.OK){
-                   patologieAccordion.getPanes().remove(pane);
-               }
-           });
-
         }
     }
 
@@ -78,7 +78,7 @@ public class TabPatologieController {
         TextField nomeField = new TextField();
         DatePicker dataDiagnosiPicker = new DatePicker();
         TextArea noteArea = new TextArea();
-        Button salvaButton = new Button("Salva");
+        Button salvaButton = new Button("SalvaButtonPatologia");
 
 
         VBox contenuto = new VBox(8);
@@ -114,17 +114,11 @@ public class TabPatologieController {
             nuovaPatologiaPane.setText(nome);
 
             // (opzionale) Salva nel database o aggiungilo a una lista
-            Patologia nuova = new Patologia(BoxDashboardControllerPatient.u.getId(), nome, data, note);
+            Patologia nuova = new Patologia(10, BoxDashboardControllerPatient.u.getId(), nome, data, note);
             nuovaPatologiaPane.setUserData(nuova);
 
-            // Rimuovi form e sostituisci con visualizzazione "statica"
-            VBox visualizzazione = new VBox(8);
-            visualizzazione.setPadding(new Insets(10));
-            visualizzazione.getChildren().addAll(
-                    new Label("Diagnosi dal: " + data),
-                    new Label("Note: " + note)
-            );
-            nuovaPatologiaPane.setContent(visualizzazione);
+            listaPatologie.add(nuova);
+            aggiornaAccordion();
         });
     }
 
