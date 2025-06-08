@@ -139,22 +139,22 @@ public class BoxDashboardControllerPatient {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("AGGIUNGI RILEVAZIONE GLICEMICA");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #ff914d");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/AddRilevazioneGlicemia.fxml"));
-        Parent addRilevzioneContent = loader.load();
+        Parent addRilevazioneContent = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer
-        bodyContainer.getChildren().add(addRilevzioneContent);
+        bodyContainer.getChildren().add(addRilevazioneContent);
     }
 
     public void aggiungiAssunzione() throws IOException {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("AGGIUNGI ASSUNZIONE FARMACO");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #cb6ce6");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
 
 
@@ -168,9 +168,10 @@ public class BoxDashboardControllerPatient {
     public void aggiungiSintomo() throws IOException {
         bodyContainer.getChildren().clear();
 
-        LabelBoxDashboard.setText("AGGIUNGI ASSUNZIONE FARMACO");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setText("AGGIUNGI SINTOMO");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #0078ff");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
+
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/AddSintomo.fxml"));
@@ -184,15 +185,15 @@ public class BoxDashboardControllerPatient {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("FASCICOLO MEDICO");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: black");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/FascicoloPaziente.fxml"));
-        Parent addAssunzioneContent = loader.load();
+        Parent fascicolo = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer
-        bodyContainer.getChildren().add(addAssunzioneContent);
+        bodyContainer.getChildren().add(fascicolo);
 
     }
 

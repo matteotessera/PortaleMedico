@@ -181,7 +181,7 @@
                                         <Image url="@../../images/farmaco.png" />
                                     </image>
                                 </ImageView>
-                                <Label text="Farmaci e Sintomi" textFill="#cb6ce6">
+                                <Label text="Assunzioni Farmaci" textFill="#cb6ce6">
                                     <font>
                                         <Font name="System Bold" size="20.0" />
                                     </font>
@@ -271,10 +271,10 @@
                         <children>
                            <ImageView fx:id="therapiesCardIcon1" fitHeight="40" fitWidth="40">
                               <image>
-                                 <Image url="@../../images/terapia.png" />
+                                 <Image url="@../../images/sintomi.png" />
                               </image>
                            </ImageView>
-                           <Label text="Sintomi" textFill="#38a2ff">
+                           <Label text="Sintomi" textFill="#0078ff">
                               <font>
                                  <Font name="System Bold" size="20.0" />
                               </font>

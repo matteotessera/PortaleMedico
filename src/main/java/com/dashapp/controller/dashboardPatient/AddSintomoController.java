@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
@@ -27,7 +28,7 @@ public class AddSintomoController extends AddController {
 
 
     @FXML
-    private TextField descrizioneField;
+    private TextArea descrizioneField;
 
     @FXML
     private ComboBox<String> SintomiBox;
@@ -64,12 +65,14 @@ public class AddSintomoController extends AddController {
 
 
     List<String> sintomiDiabeteTipo2 = Arrays.asList(
+            "Spossatezza",
+            "Nausea",
+            "Mal di Testa",
             "Aumento della sete",
             "Minzione frequente",
             "Fame eccessiva",
             "Perdita di peso inspiegabile",
             "Visione offuscata",
-            "Affaticamento",
             "Lenta guarigione delle ferite",
             "Infezioni frequenti",
             "Formicolio o intorpidimento a mani e piedi",

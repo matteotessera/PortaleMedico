@@ -11,74 +11,88 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="305.0" prefWidth="483.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddRilevazioneGlicemiaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddRilevazioneGlicemiaController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="24.0" prefHeight="296.0" prefWidth="436.0">
+      <VBox prefHeight="399.0" prefWidth="934.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
          <children>
-            <GridPane hgap="20.0" vgap="30.0">
+            <Label text="Dati Rilevazione" textFill="#ff914d">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <GridPane hgap="20.0" prefWidth="1000.0" vgap="30.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="310.40001220703124" minWidth="10.0" prefWidth="285.6000244140625" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="352.1999969482422" minWidth="10.0" prefWidth="283.9999755859374" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1000.0" minWidth="10.0" prefWidth="1000.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1000.0" minWidth="10.0" prefWidth="1000.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <VBox prefHeight="48.0" prefWidth="227.0" spacing="5.0">
+                  <VBox prefHeight="48.0" prefWidth="1000.0" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <children>
                         <Label text="Tipologia di pasto" />
-                        <ComboBox fx:id="pastoBox" prefWidth="200.0" promptText="pasto" />
+                        <ComboBox fx:id="pastoBox" prefWidth="1000.0" promptText="pasto" />
                      </children>
                      <GridPane.margin>
                         <Insets bottom="15.0" />
                      </GridPane.margin>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="1">
+                  <VBox prefHeight="47.0" prefWidth="1000.0" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <children>
-                        <Label text="Tipologia rilevazione" />
-                        <ComboBox fx:id="quandoBox" prefHeight="26.0" prefWidth="200.0" promptText="Prima/Dopo (2h)" />
+                        <Label text="Indicare quando è stata effettuata la rilevazione" />
+                        <ComboBox fx:id="quandoBox" prefHeight="26.0" prefWidth="1000.0" promptText="Prima/Dopo (2h)" />
                      </children>
                      <GridPane.margin>
                         <Insets bottom="15.0" />
                      </GridPane.margin>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.rowIndex="1">
+                  <VBox prefHeight="200.0" prefWidth="1000.0" spacing="5.0" GridPane.rowIndex="1">
                      <children>
                         <Label text="Data" />
-                        <DatePicker fx:id="dataField" prefWidth="200.0" promptText="Data rilevazione" />
+                        <DatePicker fx:id="dataField" prefWidth="1000.0" promptText="Data rilevazione" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <VBox prefHeight="200.0" prefWidth="1000.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Label text="Orario" />
-                        <TextField fx:id="orarioField" prefHeight="26.0" prefWidth="159.0" promptText="Orario rilevazione" />
+                        <TextField fx:id="orarioField" prefHeight="26.0" prefWidth="1000.0" promptText="Orario rilevazione" />
                      </children>
+                  </VBox>
+                  <VBox prefHeight="30.0" prefWidth="1000.0" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                     <children>
+                        <Label text="Valore (mg/dl)" VBox.vgrow="ALWAYS" />
+                        <TextField fx:id="valoreField" promptText="vaore rilevazione in (milligrammi / decilitro)" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
                   </VBox>
                </children>
                <padding>
                   <Insets bottom="9.0" />
                </padding>
             </GridPane>
-            <VBox prefHeight="97.0" prefWidth="406.0" spacing="5.0">
+            <VBox alignment="CENTER" prefHeight="86.0" prefWidth="1000.0" spacing="5.0">
                <children>
-                  <Label text="Valore" VBox.vgrow="ALWAYS" />
-                  <TextField fx:id="valoreField" promptText="vaore rilevazione" />
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#aggiungiRilevazione" prefWidth="200.0" text="Aggiungi">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#aggiungiRilevazione" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: ff914d; -fx-background-radius: 20;" text="Aggiungi" textFill="WHITE">
                      <VBox.margin>
-                        <Insets top="30.0" />
+                        <Insets />
                      </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                   </Button>
                </children>
-               <padding>
-                  <Insets top="20.0" />
-               </padding>
             </VBox>
          </children>
-         <padding>
-            <Insets left="30.0" top="30.0" />
-         </padding>
       </VBox>
    </children>
 </AnchorPane>

@@ -11,27 +11,57 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="264.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddAssunzioneController">
+<AnchorPane prefHeight="474.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddAssunzioneController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="64.0" layoutY="10.0" prefHeight="243.0" prefWidth="395.0" spacing="10.0">
+      <VBox prefHeight="474.0" prefWidth="932.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
          <children>
-            <Label text="REGISTRA ASSUNZONE FARMACO">
+            <Label style="-fx-text-fill: #cb6ce6;" text="Terapia e Farmaco">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ComboBox fx:id="terapiaIdBox" prefWidth="400.0" promptText="Selezionare Terapia" />
-            <ComboBox fx:id="farmacoAssuntoBox" maxWidth="600.0" prefWidth="150.0" promptText="Farmaco assunto" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </ComboBox>
-            <DatePicker fx:id="dataField" prefWidth="400.0" promptText="data" />
-            <TextField fx:id="oraField" promptText="Ora" />
-            <TextField fx:id="quantitaField" promptText="Quantità" />
-            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+            <VBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="932.0" spacing="10.0">
                <children>
-                  <Button maxWidth="300.0" mnemonicParsing="false" onAction="#registraAssunzione" text="Registra Assunzione" HBox.hgrow="ALWAYS" />
+                  <Label text="Specificare la terapia " />
+                  <ComboBox fx:id="terapiaIdBox" prefWidth="1000.0" promptText="Selezionare Terapia" />
+                  <Label text="Specificare il farmaco assunto">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <ComboBox fx:id="farmacoAssuntoBox" prefWidth="1000.0" promptText="Farmaco assunto" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </ComboBox>
+               </children>
+            </VBox>
+            <Label text="Dati assunzione" textFill="#cb6ce6">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="36.0" prefWidth="902.0" spacing="10.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Data del assunzione" />
+                        <DatePicker fx:id="dataField" prefWidth="400.0" promptText="data" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Orario del assunzione" />
+                        <TextField fx:id="oraField" promptText="Ora" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label text="Quantità di farmaco assunta" />
+            <TextField fx:id="quantitaField" promptText="Quantità" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button maxWidth="300.0" mnemonicParsing="false" onAction="#registraAssunzione" prefHeight="37.0" prefWidth="305.0" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Registra Assunzione" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>

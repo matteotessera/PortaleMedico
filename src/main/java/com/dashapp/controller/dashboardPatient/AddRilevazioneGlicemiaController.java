@@ -48,7 +48,7 @@ public class AddRilevazioneGlicemiaController extends AddController {
         Rilevazione.TipoRilevazione tipoRilevazione = this.quandoBox.getValue();
 
         Double valore;
-        int valoreInt = 10;
+
         try {
             valore = Double.parseDouble(this.valoreField.getText());
 
