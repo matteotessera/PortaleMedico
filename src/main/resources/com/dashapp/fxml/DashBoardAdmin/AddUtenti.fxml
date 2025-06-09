@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="413.0" prefWidth="934.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardAdmin.AddUtentiController">
+
+   <children>
+      <VBox alignment="CENTER" prefHeight="390.0" prefWidth="934.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
+
+         <GridPane hgap="20" prefHeight="244.0" prefWidth="844.0" vgap="15.0" VBox.vgrow="ALWAYS">
+            <columnConstraints>
+               <ColumnConstraints percentWidth="50" />
+               <ColumnConstraints percentWidth="50" />
+            </columnConstraints>
+            <children>
+               <!-- Riga 1 -->
+               <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                  <Label text="Nome" textFill="#444">
+                     <font>
+                        <Font size="14" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nomeField" style="-fx-background-radius: 4;" />
+               </VBox>
+               <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                  <Label text="Cognome" textFill="#444">
+                     <font>
+                        <Font size="14" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="cognomeField"  style="-fx-background-radius: 4;" />
+               </VBox>
+
+               <!-- Riga 2 -->
+               <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                  <Label text="Data di Nascita" textFill="#444">
+                     <font>
+                        <Font size="14" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="dataField" prefHeight="23.0" prefWidth="451.0" />
+               </VBox>
+               <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label text="Codice Fiscale" textFill="#444">
+                     <font>
+                        <Font size="14" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="codiceFiscaleField"  style="-fx-background-radius: 4;" />
+               </VBox>
+
+               <!-- Riga 3 -->
+               <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                  <Label text="Genere" textFill="#444">
+                     <font>
+                        <Font size="14" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="genereComboBox" prefHeight="23.0" prefWidth="461.0" />
+               </VBox>
+               <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label text="Indirizzo" textFill="#444">
+                     <font>
+                        <Font size="14" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="indirizzoField"  style="-fx-background-radius: 4;" />
+               </VBox>
+
+               <!-- Riga 4 -->
+               <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                  <Label text="Email" textFill="#444">
+                     <font>
+                        <Font size="14" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="emailField"  style="-fx-background-radius: 4;" />
+               </VBox>
+               <VBox prefHeight="0.0" prefWidth="392.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <Label text="Telefono" textFill="#444">
+                     <font>
+                        <Font size="14" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="telefonoField"  style="-fx-background-radius: 4;" />
+               </VBox>
+
+               <!-- Riga 5 -->
+               <VBox prefHeight="0.0" prefWidth="392.0" spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                  <Label text="Ruolo" textFill="#444">
+                     <font>
+                        <Font size="14" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="ruoloComboBox" prefHeight="23.0" prefWidth="458.0" />
+               </VBox>
+
+               <VBox prefHeight="0.0" prefWidth="392.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Label text="Password primo accesso" textFill="#444">
+                     <font>
+                        <Font size="14" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="passwordField" disable="true" prefHeight="23.0" prefWidth="458.0" />
+                  <HBox alignment="CENTER_LEFT" spacing="10">
+                     <Button text="Genera password" onAction="#generaPasswordCasuale" style="-fx-background-color: #cb6ce6; -fx-text-fill: white; -fx-background-radius: 12;" />
+                  </HBox>
+               </VBox>
+            </children>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+         </GridPane>
+
+         <!-- Bottone -->
+         <Button fx:id="aggiungiUtente" onMouseClicked="#aggiungiUtente" prefHeight="60.0" prefWidth="188.0" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Crea utente">
+            <VBox.margin>
+               <Insets top="20.0" />
+            </VBox.margin></Button>
+         <Label fx:id="statoAggiungiUtente" visible="false" prefHeight="15.0" prefWidth="260.0" />
+      </VBox>
+   </children>
+</AnchorPane>

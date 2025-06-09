@@ -57,6 +57,10 @@ public class NavigatorView {
         loadView("DashBoardPatient/DashboardViewPatient.fxml");
     }
 
+    public static void navigateToDashboardAdmin(){
+        loadView("DashBoardAdmin/DashboardViewAdmin.fxml");
+    }
+
     public static void navigateToChangePassword(){
         loadView("CambioPassword.fxml");
     }

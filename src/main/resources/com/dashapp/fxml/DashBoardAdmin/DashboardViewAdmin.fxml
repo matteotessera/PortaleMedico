@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardAdmin.DashboardAdminController">
+    <content>
+<VBox prefWidth="713.0" spacing="0">
+
+    <!-- HEADER FISSO -->
+    <VBox prefHeight="214.0" prefWidth="674.0" spacing="15" style="-fx-background-color: #34bccc; -fx-background-radius: 0 0 20 20; -fx-padding: 20;">
+        <children>
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <StackPane fx:id="utenteCirclePane" visible="false">
+                    <children>
+                        <Circle fx:id="cerchioNavbar" fill="WHITE" radius="30.0" stroke="WHITE" strokeType="INSIDE" />
+                        <Label fx:id="utenteLabel" textFill="BLACK">
+                            <font>
+                                <Font name="System Bold" size="18.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </StackPane>
+                <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="178.0">
+                    <Label contentDisplay="BOTTOM" style="-fx-text-fill: white;" text="Benvenuto">
+                        <font>
+                            <Font name="System Bold" size="16" />
+                        </font>
+                    </Label>
+                    <Label fx:id="doctorName" alignment="TOP_LEFT" style="-fx-text-fill: white;">
+                        <font>
+                            <Font name="System Bold" size="20" />
+                        </font>
+                    </Label>
+                </VBox>
+            </HBox>
+
+            <Region VBox.vgrow="ALWAYS" />
+
+            <HBox alignment="CENTER_LEFT">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <!-- Quadrato stondato con immagine -->
+                    <StackPane>
+                        <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
+                        <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
+                     <image>
+                        <Image url="@../../images/patient.png" />
+                     </image></ImageView>
+                    </StackPane>
+
+                    <!-- Testi a fianco -->
+                    <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="67.0">
+                        <Label fx:id="numeroPazienti" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="descrizioneLabel" prefHeight="20.0" prefWidth="63.0" text="Pazienti" textFill="WHITE">
+                            <font>
+                                <Font size="14" />
+                            </font>
+                        </Label>
+                    </VBox>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <!-- Quadrato stondato con immagine -->
+                    <StackPane>
+                        <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
+                        <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
+                     <image>
+                        <Image url="@../../images/farmaco.png" />
+                     </image></ImageView>
+                    </StackPane>
+
+                    <!-- Testi a fianco -->
+                    <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="67.0">
+                        <Label fx:id="numeroFarmaci" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="descrizioneLabel" text="Farmaci" textFill="WHITE">
+                            <font>
+                                <Font size="14" />
+                            </font>
+                        </Label>
+                    </VBox>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="10" />
+
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <!-- Quadrato stondato con immagine -->
+                    <StackPane>
+                        <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
+                        <ImageView fx:id="iconaImageView" fitHeight="40" fitWidth="40" />
+                    </StackPane>
+
+                    <!-- Testi a fianco -->
+                    <VBox alignment="CENTER_LEFT">
+                        <Label fx:id="numeroLabel" text="df" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="descrizioneLabel" text="Messaggi" textFill="WHITE">
+                            <font>
+                                <Font size="14" />
+                            </font>
+                        </Label>
+                    </VBox>
+                </HBox>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
+                <!-- altre icone statistiche qui -->
+            </HBox>
+        </children>
+      <VBox.margin>
+         <Insets left="20.0" right="20.0" top="20.0" />
+      </VBox.margin>
+    </VBox>
+
+    <!-- CONTENUTO VARIABILE -->
+    <StackPane fx:id="mainContent" VBox.vgrow="ALWAYS">
+                <GridPane fx:id="dashboardGrid" hgap="20.0" maxWidth="Infinity" vgap="20">
+
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </padding>
+
+                    <!-- CARD PAZIENTI -->
+                    <VBox prefWidth="327.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.rowIndex="1">
+                        <children>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <ImageView fx:id="patientsCardIcon" fitHeight="40.0" fitWidth="40.0">
+                                    <image>
+                                        <Image url="@../../images/patient.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Utenti" textFill="#ff914d">
+                                    <font>
+                                        <Font name="System Bold" size="20.0" />
+                                    </font>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                </Label>
+                            </HBox>
+                            <Label text="Gestione utenti">
+                                <VBox.margin>
+                                    <Insets left="50.0" />
+                                </VBox.margin>
+                                <font>
+                                    <Font size="15.0" />
+                                </font></Label>
+                            <HBox alignment="CENTER_LEFT" onMouseClicked="#listaUtenti" spacing="10">
+                                <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaUtenti">
+                                    <image>
+                                        <Image url="@../../images/occhioArancio.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Vedi tutti gli utenti">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font></Label>
+                                <padding>
+                                    <Insets left="50.0" />
+                                </padding>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" onMouseClicked="#aggiungiUtente" spacing="10">
+                                <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20" onMouseClicked="#aggiungiUtente">
+                                    <image>
+                                        <Image url="@../../images/piuArancio.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Aggiungi utente">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font></Label>
+                                <VBox.margin>
+                                    <Insets left="50.0" />
+                                </VBox.margin>
+                            </HBox>
+                            <AnchorPane fx:id="overlayPanePazienti" />
+                        </children>
+                    </VBox>
+
+                    <!-- CARD FARMACI -->
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <children>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <ImageView fx:id="medsCardIcon" fitHeight="40" fitWidth="40">
+                                    <image>
+                                        <Image url="@../../images/farmaco.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Farmaci" textFill="#cb6ce6">
+                                    <font>
+                                        <Font name="System Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <Label text="Gestione farmaci">
+                                <VBox.margin>
+                                    <Insets left="50.0" />
+                                </VBox.margin>
+                                <font>
+                                    <Font size="15.0" />
+                                </font></Label>
+                            <HBox alignment="CENTER_LEFT" onMouseClicked="#listaFarmaci" spacing="10">
+                                <ImageView fx:id="eyeIcon2" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaFarmaci">
+                                    <image>
+                                        <Image url="@../../images/occhioViola.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Vedi tutti i farmaci">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font></Label>
+                                <VBox.margin>
+                                    <Insets left="50.0" />
+                                </VBox.margin>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" onMouseClicked="#aggiungiFarmaco" spacing="10">
+                                <ImageView fx:id="plusIcon2" fitHeight="20.0" fitWidth="20" onMouseClicked="#aggiungiFarmaco">
+                                    <image>
+                                        <Image url="@../../images/piuViola.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Aggiungi farmaco">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font></Label>
+                                <VBox.margin>
+                                    <Insets left="50.0" />
+                                </VBox.margin>
+                            </HBox>
+                            <AnchorPane fx:id="overlayPaneFarmaci" />
+                        </children>
+                    </VBox>
+
+                    <VBox prefWidth="327.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.rowIndex="2">
+                        <children>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <ImageView fx:id="patientsCardIcon" fitHeight="40.0" fitWidth="40.0">
+                                    <image>
+                                        <Image url="@../../images/patient.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Utenti" textFill="#ff914d">
+                                    <font>
+                                        <Font name="System Bold" size="20.0" />
+                                    </font>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                </Label>
+                            </HBox>
+                            <Label text="Gestione utenti">
+                                <VBox.margin>
+                                    <Insets left="50.0" />
+                                </VBox.margin>
+                                <font>
+                                    <Font size="15.0" />
+                                </font></Label>
+                            <HBox alignment="CENTER_LEFT" onMouseClicked="#listaUtenti" spacing="10">
+                                <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaUtenti">
+                                    <image>
+                                        <Image url="@../../images/occhioArancio.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Vedi tutti gli utenti">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font></Label>
+                                <padding>
+                                    <Insets left="50.0" />
+                                </padding>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT"  spacing="10">
+                                <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20" >
+                                    <image>
+                                        <Image url="@../../images/piuArancio.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Aggiungi utente">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font></Label>
+                                <VBox.margin>
+                                    <Insets left="50.0" />
+                                </VBox.margin>
+                            </HBox>
+                            <AnchorPane fx:id="overlayPanePazienti" />
+                        </children>
+                    </VBox>
+
+                    <VBox prefWidth="327.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <children>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <ImageView fx:id="patientsCardIcon" fitHeight="40.0" fitWidth="40.0">
+                                    <image>
+                                        <Image url="@../../images/patient.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="Gestione primo accesso" textFill="#ff914d">
+                                    <font>
+                                        <Font name="System Bold" size="20.0" />
+                                    </font>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                </Label>
+                            </HBox>
+                            <Label text="Genera un messaggio con la password per il primo utilizzo">
+                                <VBox.margin>
+                                    <Insets left="50.0" />
+                                </VBox.margin>
+                                <font>
+                                    <Font size="15.0" />
+                                </font></Label>
+                            <HBox alignment="CENTER_LEFT"  spacing="10">
+                                <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20" >
+                                    <image>
+                                        <Image url="@../../images/occhioArancio.png" />
+                                    </image>
+                                </ImageView>
+                                <Label text="...">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font></Label>
+                                <padding>
+                                    <Insets left="50.0" />
+                                </padding>
+                            </HBox>
+                            <AnchorPane fx:id="overlayPanePazienti" />
+                        </children>
+                    </VBox>
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50" />
+                        <ColumnConstraints percentWidth="50" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                </GridPane>
+    </StackPane>
+
+</VBox>
+
+    </content>
+</ScrollPane>

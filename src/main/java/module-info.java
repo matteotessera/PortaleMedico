@@ -8,6 +8,7 @@ module com.dashapp {
     requires com.google.gson;
     requires java.net.http;
     requires java.desktop;
+    requires org.apache.pdfbox;
 
     opens com.dashapp.controller to javafx.fxml;
     opens com.dashapp.model to javafx.fxml, com.google.gson;  // <-- qui apri anche a Gson
@@ -18,4 +19,6 @@ module com.dashapp {
     opens com.dashapp.controller.dashboardMedico to javafx.fxml;
     opens com.dashapp.controller.dashboardPatient to javafx.fxml;
     opens com.dashapp.controller.dashboardPatient.fascicolo to javafx.fxml;
+    opens com.dashapp.controller.dashboardAdmin to javafx.fxml;
+
 }

@@ -1,4 +1,4 @@
-package com.dashapp.controller.dashboardMedico;
+package com.dashapp.controller.dashboardAdmin;
 
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
@@ -14,7 +14,7 @@ import javafx.scene.shape.Circle;
 import java.io.IOException;
 
 
-public class DashboardMedicController {
+public class DashboardAdminController {
 
         private DataService ds;
 
@@ -46,8 +46,6 @@ public class DashboardMedicController {
         private BoxDashboardController controller;
 
 
-
-
         public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
                 ds = new DataService();
 
@@ -64,16 +62,12 @@ public class DashboardMedicController {
                 }
         }
 
-
-
         public void mostraBox() throws IOException {
-                //showOverlay("AddPazienti.fxml", overlayPanePazienti);
-
                 // Rimuovo tutto dal mainContent
                 mainContent.getChildren().clear();
 
                 // Carico il nuovo contenuto da FXML
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/BoxDashboard.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardAdmin/BoxDashboard.fxml"));
                 Parent newContent = loader.load();
 
                 controller = loader.getController();
@@ -90,21 +84,19 @@ public class DashboardMedicController {
                 controller.aggiungiFarmaco();
         }
 
-
-        public void listaPazienti() throws IOException {
-
+        public void aggiungiUtente()throws IOException {
                 if (controller == null) {
                         mostraBox();
                 }
-                controller.listaPazienti();
+                controller.aggiungiUtente();
         }
 
-        public void assegnazioneMedPaz() throws Exception {
+        public void listaUtenti() throws IOException {
 
                 if (controller == null) {
                         mostraBox();
                 }
-                controller.assegnazioneMedPaz();
+                controller.listaUtenti();
         }
 
         public void listaFarmaci() throws IOException {
@@ -115,13 +107,6 @@ public class DashboardMedicController {
                 controller.listaFarmaci();
         }
 
-
-        public void aggiungiTerapia() throws IOException {
-                if (controller == null) {
-                        mostraBox();
-                }
-                controller.aggiungiTerapia();
-        }
 
         @FXML
         public void backToDashboard() {

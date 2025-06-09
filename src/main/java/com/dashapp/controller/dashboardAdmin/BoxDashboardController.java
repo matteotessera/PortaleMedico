@@ -1,4 +1,4 @@
-package com.dashapp.controller.dashboardMedico;
+package com.dashapp.controller.dashboardAdmin;
 
 import com.dashapp.model.Farmaco;
 import com.dashapp.model.Utente;
@@ -17,7 +17,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +29,7 @@ public class BoxDashboardController {
     @FXML
     private Label LabelBoxDashboard;
 
-    private DashboardMedicController dashboardController;
+    private DashboardAdminController dashboardController;
 
     private DataService ds;
 
@@ -40,7 +39,7 @@ public class BoxDashboardController {
         ds = new DataService();
     }
 
-    public void setDashboardController(DashboardMedicController dashboardController) {
+    public void setDashboardController(DashboardAdminController dashboardController) {
         this.dashboardController = dashboardController;
     }
 
@@ -51,7 +50,7 @@ public class BoxDashboardController {
         }
     }
 
-    public void listaPazienti(){
+    public void listaUtenti(){
         bodyContainer.getChildren().clear();
 
         List<Utente> utenti;
@@ -68,6 +67,20 @@ public class BoxDashboardController {
 
         LabelBoxDashboard.setText("Lista pazienti");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #ff914d; ");
+    }
+
+    public void aggiungiUtente() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("Aggiungi utente");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardAdmin/AddUtenti.fxml"));
+        Parent addFarmacoContent = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(addFarmacoContent);
     }
 
 
@@ -90,37 +103,6 @@ public class BoxDashboardController {
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
     }
 
-
-
-    public void assegnazioneMedPaz() throws Exception {
-        bodyContainer.getChildren().clear();
-
-        List<Utente> pazientiSenzaMedico = List.of(ds.getPazientiSenzaMedico());
-        int idMedico = ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getId();
-        System.out.println("Medico: "+idMedico);
-        List<Utente> pazientiAssegnati = List.of(ds.getPazientiByMedico(idMedico));
-
-        for(Utente u: pazientiAssegnati){
-            System.out.println(u.getNome()+" "+u.getCognome());
-        }
-
-        for(Utente u: pazientiAssegnati){
-            System.out.println("PAziente: "+u.getNome() + " "+ u.getCognome()+"\n");
-        }
-
-
-        String textButton = "Prendi in carico";
-        String titolo = "Pazienti senza assegnazione medica";
-        tabellaUtenti(titolo, pazientiSenzaMedico, textButton, Color.web("#34bccc"));
-
-        textButton = "A tuo carico";
-        titolo = "Pazienti assegnati a te";
-        tabellaUtenti(titolo, pazientiAssegnati, textButton, Color.web("#588157"));
-
-        LabelBoxDashboard.setText("Gestione assegnazione pazienti");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #ff914d; ");
-    }
-
     public void aggiungiFarmaco() throws IOException {
         bodyContainer.getChildren().clear();
 
@@ -128,21 +110,7 @@ public class BoxDashboardController {
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/AddFarmaci.fxml"));
-        Parent addFarmacoContent = loader.load();
-
-        // Aggiungo il contenuto caricato al bodyContainer
-        bodyContainer.getChildren().add(addFarmacoContent);
-    }
-
-    public void aggiungiTerapia() throws IOException {
-        bodyContainer.getChildren().clear();
-
-        LabelBoxDashboard.setText("Aggiungi terapia");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #7ed957;");
-
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/AddTerapia.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardAdmin/AddFarmaci.fxml"));
         Parent addFarmacoContent = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer
@@ -154,7 +122,7 @@ public class BoxDashboardController {
 
         LabelBoxDashboard.setText("\uD83E\uDC14 Torna ai pazienti");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
-        LabelBoxDashboard.setOnMouseClicked(event -> listaPazienti());
+        LabelBoxDashboard.setOnMouseClicked(event -> listaUtenti());
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloPazientiView.fxml"));
         Parent addFarmacoContent = loader.load();
@@ -162,7 +130,6 @@ public class BoxDashboardController {
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addFarmacoContent);
     }
-
 
     private void tabellaFarmaci(String titolo, List<Farmaco> farmaci, String textButton, Color color) {
         // Titolo della tabella
@@ -254,7 +221,6 @@ public class BoxDashboardController {
                 }
             });
 
-
             rigaFarmaco.getChildren().addAll(nomeLabel, descrizioneLabel, azioneButton, eliminaButton);
             listaFarmaciBox.getChildren().add(rigaFarmaco);
         }
@@ -275,8 +241,6 @@ public class BoxDashboardController {
     private void tabellaUtenti(String titolo, List<Utente> utenti, String textButton, Color color){
 
         Label titoloTabella = new Label();
-        Boolean buttonDissocia = false;
-
 
         if(titolo != null){
             titoloTabella.setText(titolo);
@@ -347,79 +311,18 @@ public class BoxDashboardController {
                             "-fx-text-fill: white;"
             );
             buttonUtente.setPrefWidth(azioneWidth);
-
-            //Compare un nuovo button di eliminazione
-            Button eliminaButton = new Button("Dissocia");
-            if(textButton.equals("A tuo carico")){
-                buttonDissocia =true;
-                eliminaButton.setStyle(
-                        "-fx-background-color: #d9534f;" +
-                                "-fx-text-fill: white;"
-                );
-                eliminaButton.setPrefWidth(azioneWidth);
-                eliminaButton.setOnAction(e -> {
-
-                    String titoloAlert = "Conferma eliminazione";
-                    String text = "Sei sicuro di disocciare " + u.getNome() + " "+u.getCognome() +"?";
-
-                    Optional<ButtonType> result = alertEliminazione(titoloAlert, text);
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
-                        try {
-                            ds.deleteAssegnazioneMedico(u.getId());
-                            System.out.println("Il paziente è stato disassociato");
-                            assegnazioneMedPaz();
-
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    } else {
-                        System.out.println("Eliminazione annullata");
-                    }
-                });
-
-            }
-
-
             buttonUtente.setOnAction(e -> {
-
-                // Azione tasto VEDI
-                if(textButton.equals("Vedi")){
                     NavigatorView.setUtenteSelezionato(u);
                     try {
                         vediPofiloPaziente();
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
-                }
-
-                // Azione tasto VEDI
-                else if (textButton.equals("Prendi in carico")){
-                    NavigatorView.setUtenteSelezionato(u);
-                    int idMedico;
-                    try {
-                        idMedico = ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getId();
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    try {
-                        ds.assegnazioneMedico(idMedico, u.getId());
-                        assegnazioneMedPaz();
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
             });
 
-            if(buttonDissocia){
-                rigaUtente.getChildren().addAll(
-                        nomeLabel, cognomeLabel, cfLabel, nascitaLabel, indirizzoLabel, emailLabel, telLabel, buttonUtente, eliminaButton
-                );
-            }else{
-                rigaUtente.getChildren().addAll(
-                        nomeLabel, cognomeLabel, cfLabel, nascitaLabel, indirizzoLabel, emailLabel, telLabel, buttonUtente
-                );
-            }
-
+            rigaUtente.getChildren().addAll(
+                    nomeLabel, cognomeLabel, cfLabel, nascitaLabel, indirizzoLabel, emailLabel, telLabel, buttonUtente
+            );
 
             listaUtentiBox.getChildren().add(rigaUtente);
         }

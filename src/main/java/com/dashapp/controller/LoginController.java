@@ -94,8 +94,10 @@ public class LoginController {
 
         if(u.getRuolo().equals("medico")){
             NavigatorView.navigateToDashboardMedic();
-        }else{
+        }else if(u.getRuolo().equals("paziente")){
             NavigatorView.navigateToDashboardPatient();
+        }else if(u.getRuolo().equals("admin")){
+            NavigatorView.navigateToDashboardAdmin();
         }
     }
 
