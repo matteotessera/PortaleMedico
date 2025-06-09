@@ -95,7 +95,7 @@
 
          <VBox spacing="5">
             <Label text="Note" />
-            <TextArea fx:id="descrizioneArea" editable="true" prefHeight="61.0" prefWidth="874.0" />
+            <TextArea fx:id="note" editable="true" prefHeight="61.0" prefWidth="874.0" />
          </VBox>
 
          <!-- Bottone -->

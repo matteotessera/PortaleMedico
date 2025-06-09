@@ -99,7 +99,7 @@ public class DashboardMedicController {
                 controller.listaPazienti();
         }
 
-        public void assegnazioneMedPaz() throws IOException {
+        public void assegnazioneMedPaz() throws Exception {
 
                 if (controller == null) {
                         mostraBox();

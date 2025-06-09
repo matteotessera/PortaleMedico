@@ -92,24 +92,30 @@ public class BoxDashboardController {
 
 
 
-    public void assegnazioneMedPaz() {
+    public void assegnazioneMedPaz() throws Exception {
         bodyContainer.getChildren().clear();
 
-        List<Utente> utenti;
-        try {
-            utenti = List.of(ds.getUtenti());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
+        List<Utente> pazientiSenzaMedico = List.of(ds.getPazientiSenzaMedico());
+        int idMedico = ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getId();
+        System.out.println("Medico: "+idMedico);
+        List<Utente> pazientiAssegnati = List.of(ds.getPazientiByMedico(idMedico));
+
+        for(Utente u: pazientiAssegnati){
+            System.out.println(u.getNome()+" "+u.getCognome());
         }
+
+        for(Utente u: pazientiAssegnati){
+            System.out.println("PAziente: "+u.getNome() + " "+ u.getCognome()+"\n");
+        }
+
 
         String textButton = "Prendi in carico";
         String titolo = "Pazienti senza assegnazione medica";
-        tabellaUtenti(titolo, utenti, textButton, Color.web("#34bccc"));
+        tabellaUtenti(titolo, pazientiSenzaMedico, textButton, Color.web("#34bccc"));
 
-        textButton = "Già assegnato";
-        titolo = "Pazienti già assegnati ad un medico";
-        tabellaUtenti(titolo, utenti, textButton, Color.web("#588157"));
+        textButton = "A tuo carico";
+        titolo = "Pazienti assegnati a te";
+        tabellaUtenti(titolo, pazientiAssegnati, textButton, Color.web("#588157"));
 
         LabelBoxDashboard.setText("Gestione assegnazione pazienti");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #ff914d; ");
@@ -248,6 +254,7 @@ public class BoxDashboardController {
                 }
             });
 
+
             rigaFarmaco.getChildren().addAll(nomeLabel, descrizioneLabel, azioneButton, eliminaButton);
             listaFarmaciBox.getChildren().add(rigaFarmaco);
         }
@@ -268,6 +275,8 @@ public class BoxDashboardController {
     private void tabellaUtenti(String titolo, List<Utente> utenti, String textButton, Color color){
 
         Label titoloTabella = new Label();
+        Boolean buttonDissocia = false;
+
 
         if(titolo != null){
             titoloTabella.setText(titolo);
@@ -338,18 +347,79 @@ public class BoxDashboardController {
                             "-fx-text-fill: white;"
             );
             buttonUtente.setPrefWidth(azioneWidth);
+
+            //Compare un nuovo button di eliminazione
+            Button eliminaButton = new Button("Dissocia");
+            if(textButton.equals("A tuo carico")){
+                buttonDissocia =true;
+                eliminaButton.setStyle(
+                        "-fx-background-color: #d9534f;" +
+                                "-fx-text-fill: white;"
+                );
+                eliminaButton.setPrefWidth(azioneWidth);
+                eliminaButton.setOnAction(e -> {
+
+                    String titoloAlert = "Conferma eliminazione";
+                    String text = "Sei sicuro di disocciare " + u.getNome() + " "+u.getCognome() +"?";
+
+                    Optional<ButtonType> result = alertEliminazione(titoloAlert, text);
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        try {
+                            ds.deleteAssegnazioneMedico(u.getId());
+                            System.out.println("Il paziente è stato disassociato");
+                            assegnazioneMedPaz();
+
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    } else {
+                        System.out.println("Eliminazione annullata");
+                    }
+                });
+
+            }
+
+
             buttonUtente.setOnAction(e -> {
-                NavigatorView.setUtenteSelezionato(u);
-                try {
-                    vediPofiloPaziente();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+
+                // Azione tasto VEDI
+                if(textButton.equals("Vedi")){
+                    NavigatorView.setUtenteSelezionato(u);
+                    try {
+                        vediPofiloPaziente();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+                // Azione tasto VEDI
+                else if (textButton.equals("Prendi in carico")){
+                    NavigatorView.setUtenteSelezionato(u);
+                    int idMedico;
+                    try {
+                        idMedico = ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getId();
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    try {
+                        ds.assegnazioneMedico(idMedico, u.getId());
+                        assegnazioneMedPaz();
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             });
 
-            rigaUtente.getChildren().addAll(
-                    nomeLabel, cognomeLabel, cfLabel, nascitaLabel, indirizzoLabel, emailLabel, telLabel, buttonUtente
-            );
+            if(buttonDissocia){
+                rigaUtente.getChildren().addAll(
+                        nomeLabel, cognomeLabel, cfLabel, nascitaLabel, indirizzoLabel, emailLabel, telLabel, buttonUtente, eliminaButton
+                );
+            }else{
+                rigaUtente.getChildren().addAll(
+                        nomeLabel, cognomeLabel, cfLabel, nascitaLabel, indirizzoLabel, emailLabel, telLabel, buttonUtente
+                );
+            }
+
 
             listaUtentiBox.getChildren().add(rigaUtente);
         }

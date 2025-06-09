@@ -312,12 +312,12 @@ public class BoxDashboardController {
             );
             buttonUtente.setPrefWidth(azioneWidth);
             buttonUtente.setOnAction(e -> {
-                NavigatorView.setUtenteSelezionato(u);
-                try {
-                    vediPofiloPaziente();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                    NavigatorView.setUtenteSelezionato(u);
+                    try {
+                        vediPofiloPaziente();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
             });
 
             rigaUtente.getChildren().addAll(

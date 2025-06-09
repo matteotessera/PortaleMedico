@@ -3,9 +3,11 @@ package com.dashapp.services;
 import com.dashapp.model.*;
 import com.google.gson.*;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -110,6 +112,28 @@ public class DataService {
 
     }
 
+    public Utente[] getPazientiAssegnati() throws Exception {
+
+        String url = API_URL + "get_pazientiAssegnati.php";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseUtentiManuale(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+
+    }
+
+
+
     public Utente[] getPazienti() throws Exception {
 
         String url = API_URL + "get_pazienti.php";
@@ -132,7 +156,7 @@ public class DataService {
 
     public Utente[] getPazientiByMedico(int idMedico) throws Exception {
 
-        String url = API_URL + "get_pazienti_con_medico.php?idMedico=" + idMedico;
+        String url = API_URL + "get_pazienti_by_medico.php?idMedico=" + idMedico;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -193,6 +217,26 @@ public class DataService {
 
     public Farmaco getFarmacoById(int id) throws Exception {
         String url = API_URL + "get_farmaco_by_id.php?id=" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseFarmacoFromJson(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+    }
+
+    public Farmaco getFarmacoByNome(String nome) throws Exception {
+        String url = API_URL + "get_farmaco_by_nome.php?nome=" + URLEncoder.encode(nome, StandardCharsets.UTF_8);
+        System.out.println("URL chiamato: " + url);
+
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -573,27 +617,44 @@ public class DataService {
 
     }
 
-    public void addTerapia(LocalDate dataInizio, LocalDate dataFine, String note, int id_paziente) throws Exception {
+    public void addTerapia(
+            LocalDate dataInizio,
+            LocalDate dataFine,
+            String note,
+            int idPaziente,
+            int idFarmaco,
+            int numeroAssunzioni,
+            String dose
+    ) throws Exception {
 
         String url = API_URL + "add_terapia.php";
 
         String dataInizioStr = dataInizio.toString();
-
         String dataFineStr = dataFine.toString();
 
+        // Costruisco il JSON senza il campo "indicazioni"
         String json = String.format(
                 "{" +
-                        "\"data_inizio\":\"%s\", " +
-                        "\"data_fine\":\"%s\", " +
-                        "\"note\":\"%s\", " +
-                        "\"id_paziente\":%d" +
+                        "\"id_paziente\": %d, " +
+                        "\"id_farmaco\": %d, " +
+                        "\"numero_assunzioni\": %d, " +
+                        "\"dose\": \"%s\", " +
+                        "\"data_inizio\": \"%s\", " +
+                        "\"data_fine\": \"%s\", " +
+                        "\"note\": \"%s\"" +
                         "}",
-                dataInizioStr, dataFineStr, note, id_paziente
+                idPaziente,
+                idFarmaco,
+                numeroAssunzioni,
+                dose.replace("\"", "\\\""),         // escape eventuali virgolette nel testo
+                dataInizioStr,
+                dataFineStr,
+                note.replace("\"", "\\\"")
         );
 
         post(url, json);
-
     }
+
 
     public void updatePassword(int id, String password) throws Exception {
 
