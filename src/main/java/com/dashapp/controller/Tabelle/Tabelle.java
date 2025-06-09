@@ -113,10 +113,11 @@ public class Tabelle {
         listaUtentiBox.setPrefWidth(2000);
         listaUtentiBox.setSpacing(5);
 
-        double dataWidth = 120;
-        double valoreWidth = 120;
-        double tipoWidth = 150;
-        double azioneWidth = 150;
+        double dataWidth = 1000;
+        double valoreWidth = 1000;
+        double tipoWidth = 1000;
+        double pastoWidth = 1000;
+        double azioneWidth = 1000;
 
         HBox intestazione = new HBox(10);
         intestazione.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 8;");
@@ -125,10 +126,12 @@ public class Tabelle {
         Label dataHeader = creaHeader("data", dataWidth);
         Label valoreHeader = creaHeader("valore", valoreWidth);
         Label tipoHeader = creaHeader("tipo", tipoWidth);
+        Label pastoHeader = creaHeader("pasto", pastoWidth);
+        Label fillHeader = creaHeader("", pastoWidth);
 
 
         intestazione.getChildren().addAll(
-                dataHeader, valoreHeader, tipoHeader
+                dataHeader, valoreHeader, tipoHeader, pastoHeader, fillHeader
         );
 
         listaUtentiBox.getChildren().add(intestazione);
@@ -141,6 +144,7 @@ public class Tabelle {
             Label dataLabel = creaCell(r.getData().toString(), dataWidth);
             Label cognomeLabel = creaCell(r.getValore(), valoreWidth);
             Label tipoLabel = creaCell(r.getTipo(), tipoWidth);
+            Label pastoLabel = creaCell(r.getPasto(), pastoWidth);
 
 
 
@@ -155,7 +159,7 @@ public class Tabelle {
             });
 
             rigaUtente.getChildren().addAll(
-                    dataLabel, cognomeLabel, tipoLabel, prendiInCaricoButton
+                    dataLabel, cognomeLabel, tipoLabel, pastoLabel, prendiInCaricoButton
             );
 
             listaUtentiBox.getChildren().add(rigaUtente);
@@ -191,11 +195,11 @@ public class Tabelle {
         listaUtentiBox.setPrefWidth(2000);
         listaUtentiBox.setSpacing(5);
 
-        double dataWidth = 120;
-        double statoWidth = 120;
-        double doseWidth = 150;
-        double farmacoWidth = 150;
-        double azioneWidth = 150;
+        double dataWidth = 1000;
+        double statoWidth = 1000;
+        double doseWidth = 1000;
+        double farmacoWidth = 1000;
+        double azioneWidth = 1000;
 
 
         HBox intestazione = new HBox(10);
@@ -206,10 +210,11 @@ public class Tabelle {
         Label statoHeader = creaHeader("stato", statoWidth);
         Label doseHeader = creaHeader("dose", doseWidth);
         Label farmacoHeader = creaHeader("farmaco", farmacoWidth);
+        Label fillHeader= creaHeader("", farmacoWidth);
 
 
         intestazione.getChildren().addAll(
-                dataHeader, farmacoHeader,  doseHeader, statoHeader
+                dataHeader, farmacoHeader,  doseHeader, statoHeader, fillHeader
         );
 
         listaUtentiBox.getChildren().add(intestazione);
@@ -284,10 +289,10 @@ public class Tabelle {
         listaUtentiBox.setPrefWidth(2000);
         listaUtentiBox.setSpacing(5);
 
-        double dataInizioWidth = 120;
-        double dataFineWidth = 120;
-        double noteWidth = 150;
-        double azioneWidth = 150;
+        double dataInizioWidth = 1000;
+        double dataFineWidth = 1000;
+        double noteWidth = 1000;
+        double azioneWidth = 1000;
 
 
         HBox intestazione = new HBox(10);
@@ -297,11 +302,12 @@ public class Tabelle {
         Label inizioHeader = creaHeader("Inzio", dataInizioWidth);
         Label fineHeader = creaHeader("Fine", dataFineWidth);
         Label noteHeader = creaHeader("note", noteWidth);
+        Label fillHeader = creaHeader("", noteWidth);
 
 
 
         intestazione.getChildren().addAll(
-               inizioHeader, fineHeader, noteHeader
+               inizioHeader, fineHeader, noteHeader, fillHeader
         );
 
         listaUtentiBox.getChildren().add(intestazione);
@@ -373,10 +379,9 @@ public class Tabelle {
         listaUtentiBox.setPrefWidth(2000);
         listaUtentiBox.setSpacing(5);
 
-        double dataWidth = 120;
-        double descrizioneWidth = 120;
-
-        double azioneWidth = 150;
+        double dataWidth = 1000;
+        double descrizioneWidth = 1000;
+        double azioneWidth = 1000;
 
 
         HBox intestazione = new HBox(10);
@@ -385,12 +390,12 @@ public class Tabelle {
 
         Label inizioHeader = creaHeader("Data", dataWidth);
         Label fineHeader = creaHeader("Descrizone", descrizioneWidth);
-
+        Label fillHeader = creaHeader("", descrizioneWidth);
 
 
 
         intestazione.getChildren().addAll(
-                inizioHeader, fineHeader
+                inizioHeader, fineHeader, fillHeader
         );
 
         listaUtentiBox.getChildren().add(intestazione);
@@ -452,6 +457,7 @@ public class Tabelle {
     private Label creaHeader(String text, double width) {
         Label label = new Label(text);
         label.setStyle("-fx-font-weight: bold;");
+
         label.setPrefWidth(width);
         label.setAlignment(Pos.CENTER_LEFT);
         return label;
@@ -461,6 +467,7 @@ public class Tabelle {
     private Label creaCell(String text, double width) {
         Label label = new Label(text != null ? text : "-");
         label.setPrefWidth(width);
+
         label.setAlignment(Pos.CENTER_LEFT);
         label.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(label, Priority.ALWAYS);

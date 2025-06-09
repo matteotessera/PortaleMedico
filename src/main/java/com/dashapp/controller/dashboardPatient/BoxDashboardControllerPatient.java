@@ -67,7 +67,7 @@ public class BoxDashboardControllerPatient {
         String titolo = "lista rilevazioni";
         tabella.tabellaRilevazioni(titolo, rilevazioni, textButton, Color.web("#34bccc"), bodyContainer);
 
-        LabelBoxDashboard.setText("TUTTI I PAZIENTI");
+        LabelBoxDashboard.setText("TUTTE LE TUE RILEVAZIONI PASSATE");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
     }
@@ -128,7 +128,7 @@ public class BoxDashboardControllerPatient {
         String titolo = "lista terapie";
         tabella.tabellaSintomo(titolo, sintomi, textButton, Color.web("#34bccc"), bodyContainer);
 
-        LabelBoxDashboard.setText("TUTTE I TUOI SINTOMI PASSATI:");
+        LabelBoxDashboard.setText("TUTTI I TUOI SINTOMI PASSATI:");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
     }

@@ -78,7 +78,8 @@ public class TabPatologieController {
         TextField nomeField = new TextField();
         DatePicker dataDiagnosiPicker = new DatePicker();
         TextArea noteArea = new TextArea();
-        Button salvaButton = new Button("SalvaButtonPatologia");
+        Button salvaButton = new Button("Salva");
+        salvaButton.getStyleClass().add("salvaButtonPatologia");
 
 
         VBox contenuto = new VBox(8);
