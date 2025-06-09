@@ -37,13 +37,14 @@ public class AddAssunzioneController extends AddController{
     private TextField oraField;
     @FXML
     private TextField quantitaField;            //NON NECESSARIA< prende valore automaticamente
+
     @FXML
     private ComboBox<Terapia> terapiaIdBox;
 
     private DataService ds;
     public void initialize() throws Exception {
 
-
+        quantitaField.setEditable(false);
         //Popola la comboBox
         ds = new DataService();
 
@@ -62,6 +63,16 @@ public class AddAssunzioneController extends AddController{
                 }
             }
         });
+
+        farmacoAssuntoBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                try {
+                    updateDoseField(terapiaIdBox.getValue().getId());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @FXML
@@ -70,13 +81,7 @@ public class AddAssunzioneController extends AddController{
         //logica
 
 
-        Double quantita;
-        try {
-            quantita = Double.parseDouble(this.quantitaField.getText());
-        } catch (NumberFormatException e) {
-            System.err.println("Errore: valore glicemia non valido");
-            return; // oppure mostra un alert
-        }
+
 
         LocalTime ora;
         try {
@@ -118,6 +123,7 @@ public class AddAssunzioneController extends AddController{
         List<AssociazioneFarmaco> associazioni = List.of(ds.getAssociazioniFarmaciByTerapia(terapiaId));
 
         List<String> farmaci = new ArrayList<>();
+
         for (AssociazioneFarmaco a : associazioni) {
 
             Farmaco f = ds.getFarmacoById(a.getIdFarmaco());
@@ -127,6 +133,30 @@ public class AddAssunzioneController extends AddController{
 
         ObservableList<String> options = FXCollections.observableArrayList(farmaci);
         farmacoAssuntoBox.setItems(options);
+
+
+
+    }
+
+    private void updateDoseField(int terapiaId) throws Exception {
+        int dose = 0;
+        List<AssociazioneFarmaco> associazioni = List.of(ds.getAssociazioniFarmaciByTerapia(terapiaId));
+        String farmacoSelezionato = farmacoAssuntoBox.getValue();
+        Farmaco FarmacoSelezionato = ds.getFarmacoByNome(farmacoSelezionato);
+
+        Optional<AssociazioneFarmaco> match = associazioni.stream()
+                .filter(a -> a.getIdFarmaco() == FarmacoSelezionato.getId())
+                .findFirst();
+
+        if (match.isPresent()) {
+            dose = match.get().getDose();
+            // Ad esempio, aggiorni un campo testo:
+            quantitaField.setText(String.valueOf(dose) + "mg");
+        } else {
+            quantitaField.clear();
+        }
+
+
     }
 
 }
