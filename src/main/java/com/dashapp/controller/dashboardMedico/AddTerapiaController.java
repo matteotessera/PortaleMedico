@@ -5,15 +5,18 @@ import com.dashapp.model.Farmaco;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.CheckComboBox;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class AddTerapiaController extends AddController {
+
 
     @FXML
     private ComboBox sceltaPaziente;
@@ -24,7 +27,7 @@ public class AddTerapiaController extends AddController {
     @FXML
     private TextField doseField;
     @FXML
-    private ComboBox sceltaIndicazioni;
+    private CheckComboBox sceltaIndicazioni;
     @FXML
     private DatePicker dataInizioPicker;
     @FXML
@@ -32,6 +35,7 @@ public class AddTerapiaController extends AddController {
     @FXML
     private TextArea note;
     @FXML
+    public Label statusLabel;
 
     private DataService ds;
 
@@ -81,9 +85,28 @@ public class AddTerapiaController extends AddController {
                 "In caso di febbre",
                 "Non interrompere senza consulto medico"
         };
-
         sceltaIndicazioni.getItems().addAll(indicazioniAssunzione);
+
+        // Mette le indicazioni suggerite dalla box nella textArea
+        sceltaIndicazioni.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> {
+            StringBuilder selectedItems = new StringBuilder();
+            for (Object item : sceltaIndicazioni.getCheckModel().getCheckedItems()) {
+                selectedItems.append(item).append(", ");
+            }
+            if (selectedItems.length() > 0) {
+                // Rimuove l'ultima virgola e spazio finale
+                selectedItems.setLength(selectedItems.length() - 2);
+            }
+            // Aggiorna la TextArea
+            note.setText(selectedItems.toString());
+
+            // Nasconde il testo visibile nella CheckComboBox
+            sceltaIndicazioni.setTitle("");
+        });
+
     }
+
+
 
     public void assegnaTerapia() throws Exception {
         if(checkCampiValidi()){
@@ -91,8 +114,11 @@ public class AddTerapiaController extends AddController {
 
             int idPaziente = pazienteMap.get(selectedNomeCompleto);
             int dose = Integer.parseInt(doseField.getText());
+            int nAssunzioni = Integer.parseInt(nAssunzioniField.getText());
             int idFarmaco = ds.getFarmacoByNome(sceltaFarmaco.getSelectionModel().getSelectedItem().toString()).getId();
-            ds.addTerapia(dataInizioPicker.getValue(), dataFinePicker.getValue(), note.getText(), idPaziente, idFarmaco, dose, nAssunzioniField.getText());
+            ds.addTerapia(dataInizioPicker.getValue(), dataFinePicker.getValue(), note.getText(), idPaziente, idFarmaco, nAssunzioni, dose);
+            showMessage("Terapia assegnata con successo!");
+            clearForm();
         }
 
     }
@@ -101,40 +127,59 @@ public class AddTerapiaController extends AddController {
         String messaggioErrore = "";
 
         if (sceltaPaziente.getValue() == null) {
-            messaggioErrore += "- Seleziona un paziente\n";
+            messaggioErrore += "Seleziona un paziente\n";
         }
         if (sceltaFarmaco.getValue() == null) {
-            messaggioErrore += "- Seleziona un farmaco\n";
+            messaggioErrore += "Seleziona un farmaco\n";
         }
         if (nAssunzioniField.getText() == null || nAssunzioniField.getText().trim().isEmpty()) {
-            messaggioErrore += "- Inserisci il numero di assunzioni\n";
+            messaggioErrore += "Inserisci il numero di assunzioni\n";
         }
         if (doseField.getText() == null || doseField.getText().trim().isEmpty()) {
-            messaggioErrore += "- Inserisci la dose\n";
-        }
-        if (sceltaIndicazioni.getValue() == null) {
-            messaggioErrore += "- Seleziona le indicazioni\n";
+            messaggioErrore += "Inserisci la dose\n";
         }
         if (dataInizioPicker.getValue() == null) {
-            messaggioErrore += "- Seleziona una data di inizio\n";
+            messaggioErrore += "Seleziona una data di inizio\n";
         }
         if (dataFinePicker.getValue() == null) {
-            messaggioErrore += "- Seleziona una data di fine\n";
+            messaggioErrore += "Seleziona una data di fine\n";
         }
         if (note.getText() == null || note.getText().trim().isEmpty()) {
-            messaggioErrore += "- Inserisci una descrizione\n";
+            messaggioErrore += "Inserisci una nota\n";
+        }
+        if (dataInizioPicker.getValue() != null && dataFinePicker.getValue() != null) {
+            if (dataFinePicker.getValue().isBefore(dataInizioPicker.getValue())) {
+                messaggioErrore += "La data di fine deve essere successiva alla data di inizio\n";
+            }
         }
 
         if (!messaggioErrore.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Campi mancanti");
-            alert.setHeaderText("Devi compilare tutti i campi richiesti:");
+            alert.setTitle("Errore");
+            alert.setHeaderText("Errora");
             alert.setContentText(messaggioErrore);
             alert.showAndWait();
             return false;
         }
 
         return true;
+    }
+
+    private void clearForm() {
+        sceltaPaziente.getSelectionModel().clearSelection();
+        sceltaFarmaco.getSelectionModel().clearSelection();
+        sceltaIndicazioni.getCheckModel().clearChecks();
+        nAssunzioniField.clear();
+        doseField.clear();
+        dataInizioPicker.setValue(null);
+        dataFinePicker.setValue(null);
+        note.clear();
+    }
+
+    private void showMessage(String message){
+        statusLabel.setText(message);
+        statusLabel.setStyle("-fx-text-fill: green;");
+        statusLabel.setVisible(true);
     }
 
 }

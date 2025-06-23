@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="542.0" prefWidth="932.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardAdmin.AddFarmaciController">
+   <children>
+      <HBox layoutX="332.0" layoutY="189.0" />
+   </children>
+</AnchorPane>

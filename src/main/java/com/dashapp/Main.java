@@ -30,7 +30,7 @@ public class Main extends Application {
         }
 
         // Configure and show the stage
-        primaryStage.setTitle("Portale Medico");
+        primaryStage.setTitle("Diary");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

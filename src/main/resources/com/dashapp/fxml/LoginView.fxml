@@ -18,25 +18,25 @@
                   <!-- Cerchio con logo login -->
                   <StackPane fx:id="utenteCirclePane">
                      <children>
-                        <Circle fx:id="cerchioNavbar" fill="CORAL" radius="33.0" smooth="false" stroke="transparent" strokeType="INSIDE">
+                        <Circle fx:id="cerchioNavbar" fill="WHITE" radius="33.0" smooth="false" stroke="transparent" strokeType="INSIDE">
                            <StackPane.margin>
                               <Insets />
                            </StackPane.margin></Circle>
-                        <ImageView fitHeight="33.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="65.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/login.png" />
+                              <Image url="@../images/SimboloLogo.png" />
                            </image>
                         </ImageView>
 
                      </children>
                      <VBox.margin>
-                        <Insets top="-45.0" />
+                        <Insets top="-40.0" />
                      </VBox.margin>
                   </StackPane>
 
-                  <Text style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Login">
+                  <Text fill="#1e3746" style="-fx-font-size: 25px; -fx-font-weight: bold;" text="Login">
                      <font>
-                        <Font size="46.0" />
+                        <Font name="System Bold" size="46.0" />
                      </font>
                      <VBox.margin>
                         <Insets />
@@ -53,7 +53,7 @@
                         <PasswordField fx:id="passwordField" prefHeight="30" promptText="Inserisci password" />
                      </children>
                   </VBox>
-                  <Button onAction="#handleLogin" prefHeight="44.0" prefWidth="168.0" style="-fx-background-color: #ff7f50; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Accedi">
+                  <Button onAction="#handleLogin" prefHeight="40.0" prefWidth="168.0" style="-fx-background-color: #bd1522; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Accedi">
                      </Button>
                   <Label fx:id="statusLabel" managed="true" styleClass="alert-danger" text="Status message goes here" visible="false" wrapText="true">
                      <VBox.margin>
