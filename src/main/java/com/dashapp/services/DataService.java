@@ -669,6 +669,18 @@ public class DataService {
 
     }
 
+    public void updateFarmaco(int id, String nome, String descrizione) throws Exception {
+
+        String url = API_URL + "update_farmaco.php";
+
+        String json = String.format(
+                "{\"id\":%d, \"nome\":\"%s\", \"descrizione\":\"%s\"}",
+                id, nome, descrizione
+        );
+
+        post(url, json);
+    }
+
     public void assegnazioneMedico(int idMedico, int idPaziente) throws Exception {
 
         String url = API_URL + "assegnazione_medico.php";
