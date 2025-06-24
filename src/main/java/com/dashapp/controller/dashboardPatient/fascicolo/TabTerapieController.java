@@ -80,6 +80,11 @@ public class TabTerapieController {
                 // Mostra la finestra e aspetta la risposta
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK){
+                    try {
+                        ds.deleteTerapiaConcomitante(t.getId());
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
                     terapieAccordion.getPanes().remove(pane);
                 }
             });

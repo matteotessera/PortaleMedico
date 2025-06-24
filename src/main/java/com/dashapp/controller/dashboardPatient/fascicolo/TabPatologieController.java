@@ -2,6 +2,7 @@ package com.dashapp.controller.dashboardPatient.fascicolo;
 
 import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.Patologia;
+import com.dashapp.services.DataService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -24,16 +25,16 @@ public class TabPatologieController {
 
     private List<Patologia> listaPatologie;
 
-    public void initialize() {
+    private DataService ds;
+    private int idPaziente;
+    public void initialize() throws Exception {
 
         //listaPatologie = ds.caricaPatologiePerPaziente();
+        ds = new DataService();
 
-        listaPatologie = new ArrayList<>();
+        idPaziente = BoxDashboardControllerPatient.u.getId();
 
-        listaPatologie.add(new Patologia(1, 1, "Ipertensione", LocalDate.of(2020, 5, 12), "Controllata con farmaci ACE-inibitori."));
-        listaPatologie.add(new Patologia(2, 1, "Asma bronchiale", LocalDate.of(2018, 3, 20), "Attacchi occasionali, uso di broncodilatatori."));
-        listaPatologie.add(new Patologia(3, 1, "Celiachia", LocalDate.of(2022, 10, 1), "Dieta priva di glutine da allora."));
-
+        listaPatologie = List.of(ds.getPatologieByPaziente(idPaziente));
         aggiornaAccordion();
 
     }
@@ -63,6 +64,11 @@ public class TabPatologieController {
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
+                    try {
+                        ds.deletePatologia(p.getId());
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
                     listaPatologie.remove(p);
                     aggiornaAccordion();
                 }
@@ -114,11 +120,18 @@ public class TabPatologieController {
             // Aggiorna titolo del TitledPane
             nuovaPatologiaPane.setText(nome);
 
-            // (opzionale) Salva nel database o aggiungilo a una lista
-            Patologia nuova = new Patologia(10, BoxDashboardControllerPatient.u.getId(), nome, data, note);
-            nuovaPatologiaPane.setUserData(nuova);
+            try {
+                ds.addPatologia(BoxDashboardControllerPatient.u.getId(), nome, data, note);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
 
-            listaPatologie.add(nuova);
+            try {
+                listaPatologie = List.of(ds.getPatologieByPaziente(idPaziente));
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+
             aggiornaAccordion();
         });
     }
