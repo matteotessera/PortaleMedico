@@ -673,7 +673,7 @@ public class DataService {
 
         // Costruisci JSON manualmente
         String json = String.format(
-                "{\"paziente_id\":%d, \"nome_farmaco\":\"%s\", \"data_inizio\":\"%s\", \"data_fine\":\"%s\", \"frequenza\":\"%s\", \"dose\":\"%s\", \"indicazioni\":\"%s\"}",
+                "{\"paziente_id\":%d, \"farmaco\":\"%s\", \"data_inizio\":\"%s\", \"data_fine\":\"%s\", \"frequenza\":\"%s\", \"dose\":\"%s\", \"indicazioni\":\"%s\"}",
                 pazienteId, nomeFarmaco, dataInizioStr, dataFineStr, frequenza, dose, indicazioniSafe
         );
 
