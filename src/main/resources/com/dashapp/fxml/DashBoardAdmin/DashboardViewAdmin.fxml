@@ -98,7 +98,10 @@
                     <!-- Quadrato stondato con immagine -->
                     <StackPane>
                         <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
-                        <ImageView fx:id="iconaImageView" fitHeight="40" fitWidth="40" />
+                        <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
+                           <image>
+                              <Image url="@../../images/messaggi.png" />
+                           </image></ImageView>
                     </StackPane>
 
                     <!-- Testi a fianco -->
@@ -283,8 +286,8 @@
                                     <Insets left="50.0" />
                                 </padding>
                             </HBox>
-                            <HBox alignment="CENTER_LEFT"  spacing="10">
-                                <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20" >
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20">
                                     <image>
                                         <Image url="@../../images/piuArancio.png" />
                                     </image>
@@ -325,8 +328,8 @@
                                 <font>
                                     <Font size="15.0" />
                                 </font></Label>
-                            <HBox alignment="CENTER_LEFT"  spacing="10">
-                                <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20" >
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20">
                                     <image>
                                         <Image url="@../../images/occhioArancio.png" />
                                     </image>

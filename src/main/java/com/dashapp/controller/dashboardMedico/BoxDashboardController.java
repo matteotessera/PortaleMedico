@@ -143,10 +143,10 @@ public class BoxDashboardController {
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/AddTerapia.fxml"));
-        Parent addFarmacoContent = loader.load();
+        Parent addTerapiaContent = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer
-        bodyContainer.getChildren().add(addFarmacoContent);
+        bodyContainer.getChildren().add(addTerapiaContent);
     }
 
     public void vediPofiloPaziente() throws IOException {
@@ -157,6 +157,20 @@ public class BoxDashboardController {
         LabelBoxDashboard.setOnMouseClicked(event -> listaPazienti());
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloPazientiView.fxml"));
+        Parent addProfiloContent = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(addProfiloContent);
+    }
+
+    public void vediFarmaco() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("\uD83E\uDC14 Torna ai farmaci");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
+        LabelBoxDashboard.setOnMouseClicked(event -> listaFarmaci());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/FarmaciView.fxml"));
         Parent addFarmacoContent = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer
@@ -224,7 +238,12 @@ public class BoxDashboardController {
             );
             azioneButton.setPrefWidth(azioneWidth);
             azioneButton.setOnAction(e -> {
-                System.out.println("Azione su farmaco: " + f.getNome());
+                NavigatorView.setFarmacoSelezionato(f);
+                try {
+                    vediFarmaco();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             });
 
             // Bottone Elimina

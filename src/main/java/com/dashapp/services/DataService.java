@@ -646,7 +646,7 @@ public class DataService {
             int idPaziente,
             int idFarmaco,
             int numeroAssunzioni,
-            String dose
+            int dose
     ) throws Exception {
 
         String url = API_URL + "add_terapia.php";
@@ -660,7 +660,7 @@ public class DataService {
                         "\"id_paziente\": %d, " +
                         "\"id_farmaco\": %d, " +
                         "\"numero_assunzioni\": %d, " +
-                        "\"dose\": \"%s\", " +
+                        "\"dose\": %d, " +
                         "\"data_inizio\": \"%s\", " +
                         "\"data_fine\": \"%s\", " +
                         "\"note\": \"%s\"" +
@@ -668,7 +668,7 @@ public class DataService {
                 idPaziente,
                 idFarmaco,
                 numeroAssunzioni,
-                dose.replace("\"", "\\\""),         // escape eventuali virgolette nel testo
+                dose,
                 dataInizioStr,
                 dataFineStr,
                 note.replace("\"", "\\\"")
@@ -689,6 +689,18 @@ public class DataService {
 
         post(url, json);
 
+    }
+
+    public void updateFarmaco(int id, String nome, String descrizione) throws Exception {
+
+        String url = API_URL + "update_farmaco.php";
+
+        String json = String.format(
+                "{\"id\":%d, \"nome\":\"%s\", \"descrizione\":\"%s\"}",
+                id, nome, descrizione
+        );
+
+        post(url, json);
     }
 
     public void assegnazioneMedico(int idMedico, int idPaziente) throws Exception {
@@ -756,7 +768,7 @@ public class DataService {
         if (response.statusCode() == 200) {
             System.out.println("Oggetto inviato con successo: " + response.body());
         } else {
-            throw new RuntimeException("Errore invio oggetto: HTTP " + response.statusCode() + json);
+            throw new RuntimeException("Errore invio oggetto: HTTP " + response.statusCode() + json );
         }
 
     }

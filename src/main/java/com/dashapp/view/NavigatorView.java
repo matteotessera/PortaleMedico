@@ -2,6 +2,7 @@ package com.dashapp.view;
 
 import com.dashapp.Main;
 import com.dashapp.controller.MainController;
+import com.dashapp.model.Farmaco;
 import com.dashapp.model.Utente;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,6 +18,8 @@ public class NavigatorView {
     private static String authenticatedUser = null;
 
     private static Utente paziente = null;
+    private static Farmaco farmaco = null;
+
 
     /**
      * Set the main controller reference
@@ -80,16 +83,24 @@ public class NavigatorView {
         authenticatedUser = email;
     }
 
-    public static void setUtenteSelezionato(Utente pazient){
-        paziente = pazient;
-    }
-
     public static String getAuthenticatedUser() {
         return authenticatedUser;
     }
 
+    public static void setUtenteSelezionato(Utente pazient){
+        paziente = pazient;
+    }
+
     public static Utente getUtenteSelezionato(){
         return paziente;
+    }
+
+    public static void setFarmacoSelezionato(Farmaco farmac){
+        farmaco = farmac;
+    }
+
+    public static Farmaco getFarmacoSelezionato(){
+        return farmaco;
     }
 
 
