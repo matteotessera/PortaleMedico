@@ -488,4 +488,19 @@ public class BoxDashboardController {
         return alert.showAndWait();
     }
 
+
+    public void mostraMessaggi() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("Casella Messaggi");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/MessaggiView.fxml"));
+        Parent addMessContent = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(addMessContent);
+    }
+
 }

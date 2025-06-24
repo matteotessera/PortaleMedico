@@ -66,9 +66,9 @@ public class Terapia {
     @Override
     public String toString() {
         return "Terapia:" + id + "\n" +
-                ", dataInizio: " + dataInizio + "\n" +
-                ", dataFine:" + dataFine + "\n" +
-                ", note:'" + note + '\''
+                "\u2022 dataInizio: " + dataInizio + "\n" +
+                "\u2022 dataFine:" + dataFine + "\n" +
+                "\u2022 note:'" + note + '\''
                ;
     }
 

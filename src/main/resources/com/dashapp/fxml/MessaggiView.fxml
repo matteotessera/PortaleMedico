@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="474.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.messaggiController">
+   <children>
+      <VBox prefHeight="474.0" prefWidth="932.0">
+         <children>
+            <ListView fx:id="listView" prefHeight="486.0" prefWidth="932.0" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

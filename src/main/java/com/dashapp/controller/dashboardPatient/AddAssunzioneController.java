@@ -177,12 +177,19 @@ public class AddAssunzioneController extends AddController{
             Farmaco farmaco = entry.getKey();
             StatoFarmaco stato = entry.getValue();
 
-            sb.append(farmaco.getNome())
-                    .append(" : ")
-                    .append(stato.getStato())
-                    .append(" (mancano ")
-                    .append(stato.getAssunzioniRimaste())
-                    .append(" assunzioni)\n");
+            if(stato.getStato() == "da assumere") {
+                sb.append(farmaco.getNome())
+                        .append(" : ")
+                        .append(stato.getStato())
+                        .append(" (" + stato.getAssunzioniRimaste())
+                        .append(stato.getAssunzioniRimaste()>1 ? " assunzioni)" : " assunzione)\n");
+            }else{
+                sb.append(farmaco.getNome())
+                        .append(" : ")
+                        .append(stato.getStato())
+                        .append(" ✓ \n");
+
+            }
         }
         return sb.toString();
     }

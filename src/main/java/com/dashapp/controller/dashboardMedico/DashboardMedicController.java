@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
@@ -44,6 +45,8 @@ public class DashboardMedicController {
         public Label numeroFarmaci;
         @FXML
         public Label numeroTerapie;
+        @FXML
+        public HBox messaggiBox;
 
         private Parent originalContent;
 
@@ -131,6 +134,14 @@ public class DashboardMedicController {
                         mostraBox();
                 }
                 controller.aggiungiTerapia();
+        }
+
+
+        public void mostraMessaggi() throws IOException{
+                if (controller == null) {
+                        mostraBox();
+                }
+                controller.mostraMessaggi();
         }
 
         @FXML

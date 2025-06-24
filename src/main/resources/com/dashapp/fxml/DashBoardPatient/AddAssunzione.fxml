@@ -72,8 +72,14 @@
             <VBox alignment="CENTER">
                <children>
                   <Label text="OGGI DEVI ASSUMERE:" textFill="#cb6ce6" />
-                  <TextArea fx:id="farmaciDaAssumere" prefHeight="200.0" prefWidth="200.0" />
+                  <TextArea fx:id="farmaciDaAssumere" prefHeight="200.0" prefWidth="250.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></TextArea>
                </children>
+               <HBox.margin>
+                  <Insets right="30.0" />
+               </HBox.margin>
             </VBox>
          </children>
       </HBox>
