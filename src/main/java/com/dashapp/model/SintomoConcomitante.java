@@ -6,7 +6,7 @@ public class SintomoConcomitante {
 
     private int id;
     private int paziente_id;
-    private String sintomo;
+    private String descrizione;
     private LocalDate dataInizio;
     private String frequenza;
     private String note;
@@ -16,10 +16,10 @@ public class SintomoConcomitante {
     }
 
     // Costruttore completo
-    public SintomoConcomitante(int id, int paziente_id, String sintomo, LocalDate dataInizio, String frequenza, String note) {
+    public SintomoConcomitante(int id, int paziente_id, String descrizione, LocalDate dataInizio, String frequenza, String note) {
         this.id = id;
         this.paziente_id = paziente_id;
-        this.sintomo = sintomo;
+        this.descrizione = descrizione;
         this.dataInizio = dataInizio;
         this.frequenza = frequenza;
         this.note = note;
@@ -43,12 +43,12 @@ public class SintomoConcomitante {
         this.paziente_id = paziente_id;
     }
 
-    public String getSintomo() {
-        return sintomo;
+    public String getDescrizione() {
+        return descrizione;
     }
 
-    public void setSintomo(String sintomo) {
-        this.sintomo = sintomo;
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
     }
 
     public LocalDate getDataInizio() {
