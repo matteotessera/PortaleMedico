@@ -15,6 +15,8 @@ import javafx.scene.paint.Color;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Tabelle {
@@ -136,12 +138,14 @@ public class Tabelle {
 
         listaUtentiBox.getChildren().add(intestazione);
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         for (Rilevazione r : rilevazioni) {
             HBox rigaUtente = new HBox(10);
             rigaUtente.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
             rigaUtente.setAlignment(Pos.CENTER_LEFT);
+            String dataFormattata = r.getData().format(formatter);
 
-            Label dataLabel = creaCell(r.getData().toString(), dataWidth);
+            Label dataLabel = creaCell(dataFormattata, dataWidth);
             Label cognomeLabel = creaCell(r.getValore(), valoreWidth);
             Label tipoLabel = creaCell(r.getTipo(), tipoWidth);
             Label pastoLabel = creaCell(r.getPasto(), pastoWidth);
@@ -219,9 +223,11 @@ public class Tabelle {
 
         listaUtentiBox.getChildren().add(intestazione);
 
+        List<Assunzione> assunzioniOrdinate = new ArrayList<>(assunzioni);
+        assunzioniOrdinate.sort(Comparator.comparing(Assunzione::getData));
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        for (Assunzione a : assunzioni) {
+        for (Assunzione a : assunzioniOrdinate) {
             LocalDateTime data = a.getData();
             String dataFormattata = data.format(formatter);
 
@@ -401,10 +407,13 @@ public class Tabelle {
         listaUtentiBox.getChildren().add(intestazione);
 
 
+        List<Sintomo> sintomiOrdinati = new ArrayList<>(sintomo);
+        sintomiOrdinati.sort(Comparator.comparing(Sintomo::getData));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        for (Sintomo s : sintomo) {
+        for (Sintomo s : sintomiOrdinati) {
             LocalDateTime data = s.getData();
-
+            String dataFormattata = data.format(formatter);
 
 
 
@@ -414,7 +423,7 @@ public class Tabelle {
             rigaUtente.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
             rigaUtente.setAlignment(Pos.CENTER_LEFT);
 
-            Label dataLabel = creaCell(data.toString(), dataWidth);
+            Label dataLabel = creaCell(dataFormattata, dataWidth);
             Label descLabel = creaCell(s.getDescrizione(), descrizioneWidth);
 
 
