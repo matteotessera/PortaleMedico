@@ -4,6 +4,7 @@ import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.Patologia;
 import com.dashapp.model.Sintomo;
 import com.dashapp.model.SintomoConcomitante;
+import com.dashapp.services.DataService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -25,23 +26,21 @@ public class TabSintomiController {
     private Accordion sintomiAccordion;
 
     private List<SintomoConcomitante> listaSintomi;
+    private DataService ds;
+    private int idPaziente;
 
-    public void initialize() {
+    public void initialize() throws Exception {
+        ds = new DataService();
+        idPaziente = BoxDashboardControllerPatient.u.getId();
 
-        //listaPatologie = ds.caricaPatologiePerPaziente();
 
-        listaSintomi = new ArrayList<>();
-
-        listaSintomi.add(new SintomoConcomitante(1, 1, "tosse", LocalDate.of(2025, 6, 1), "quotidiana", "leggera tosse persistente"));
-        listaSintomi.add(new SintomoConcomitante(2, 1, "mal di testa", LocalDate.of(2025, 5, 25), "occasionale", "compare soprattutto la sera"));
-        listaSintomi.add(new SintomoConcomitante(3, 2, "febbre", LocalDate.of(2025, 6, 5), "alta", "febbre sopra 38°C da 3 giorni"));
-        
+        listaSintomi = List.of( ds.getSintomiConcomitantiByPaziente(idPaziente) );
         aggiornaAccordion();
 
        
     }
 
-    private void aggiornaAccordion() {
+    private void aggiornaAccordion() throws Exception {
 
         sintomiAccordion.getPanes().clear();
 
@@ -59,7 +58,7 @@ public class TabSintomiController {
             );
 
             // Crea TitledPane con titolo = nome patologia
-            TitledPane pane = new TitledPane(s.getSintomo(), content);
+            TitledPane pane = new TitledPane(s.getDescrizione(), content);
 
 
             pane.setUserData(s);
@@ -72,11 +71,16 @@ public class TabSintomiController {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Conferma eliminazione");
                 alert.setHeaderText("Sei sicuro di voler eliminare questo sintomo?");
-                alert.setContentText(s.getSintomo());
+                alert.setContentText(s.getDescrizione());
 
                 // Mostra la finestra e aspetta la risposta
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK){
+                    try {
+                        ds.deleteSintomoConcomitante(s.getId());
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
                     sintomiAccordion.getPanes().remove(pane);
                 }
             });
@@ -132,11 +136,27 @@ public class TabSintomiController {
             nuovoSintomoPane.setText(nome);
 
 
-            SintomoConcomitante nuova = new SintomoConcomitante(10, BoxDashboardControllerPatient.u.getId(), nome, data, frequenza, note);
+            int nuovaId;
+            try {
+               nuovaId = ds.addSintomoConcomitante(BoxDashboardControllerPatient.u.getId(), nome, data, frequenza, note);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+
+            SintomoConcomitante nuova = new SintomoConcomitante(nuovaId, BoxDashboardControllerPatient.u.getId(), nome, data, frequenza, note);
             nuovoSintomoPane.setUserData(nuova);
 
-            listaSintomi.add(nuova);
-            aggiornaAccordion();
+            try {
+                listaSintomi = List.of( ds.getSintomiConcomitantiByPaziente(idPaziente) );
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            try {
+                aggiornaAccordion();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+
 
         });
     }

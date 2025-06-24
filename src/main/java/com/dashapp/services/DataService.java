@@ -602,12 +602,12 @@ public class DataService {
 
     }
 
-    public void addSintomoConcomitante(int idPaziente, String descrizione, LocalDateTime dataInizio, String frequenza, String note) throws Exception {
+    public int addSintomoConcomitante(int idPaziente, String descrizione, LocalDate dataInizio, String frequenza, String note) throws Exception {
 
         String url = API_URL + "add_sintomo_concomitante.php";
 
         // Formatta dataInizio in ISO_LOCAL_DATE_TIME
-        String dataOra = dataInizio.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        String dataOra = dataInizio.toString();
 
         // Costruisci JSON manualmente con l'ordine corretto
         String json = String.format(
@@ -617,6 +617,8 @@ public class DataService {
         );
 
         post(url, json);
+
+        return idPaziente;
     }
 
     public void deleteSintomoConcomitante(int id) throws Exception {

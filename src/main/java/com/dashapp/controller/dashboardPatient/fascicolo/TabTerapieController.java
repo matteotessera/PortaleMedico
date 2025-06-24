@@ -3,6 +3,7 @@ package com.dashapp.controller.dashboardPatient.fascicolo;
 import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.SintomoConcomitante;
 import com.dashapp.model.TerapiaConcomitante;
+import com.dashapp.services.DataService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -23,36 +24,17 @@ public class TabTerapieController {
     private Accordion terapieAccordion;
 
     private List<TerapiaConcomitante> listaTerapie;
+    private DataService ds;
+    private int idPaziente;
 
-    public void initialize() {
+    public void initialize() throws Exception {
 
-        //listaPatologie = ds.caricaPatologiePerPaziente();
+        ds = new DataService();
 
-        listaTerapie = new ArrayList<>();
+        idPaziente = BoxDashboardControllerPatient.u.getId();
 
-        listaTerapie.add(new TerapiaConcomitante(
-                1, 1, "Paracetamolo",
-                LocalDate.of(2025, 6, 1),
-                LocalDate.of(2025, 6, 7),
-                "Ogni 8 ore",
-                "500 mg",
-                "Assumere dopo i pasti"));
+        listaTerapie = List.of( ds.getTerapieConcomitantiByPaziente(idPaziente) );
 
-        listaTerapie.add(new TerapiaConcomitante(
-                2, 1, "Ibuprofene",
-                LocalDate.of(2025, 6, 2),
-                LocalDate.of(2025, 6, 9),
-                "Ogni 12 ore",
-                "400 mg",
-                "Solo in caso di dolore"));
-
-        listaTerapie.add(new TerapiaConcomitante(
-                3, 2, "Amoxicillina",
-                LocalDate.of(2025, 6, 3),
-                LocalDate.of(2025, 6, 10),
-                "Ogni 8 ore",
-                "1 g",
-                "Assumere con abbondante acqua"));
 
         aggiornaAccordion();
 
@@ -74,7 +56,7 @@ public class TabTerapieController {
                     new Label("Data fine terapia: " + t.getDataFine()),
                     new Label("farmaco: " + t.getFarmaco()),
                     new Label("frequenza: " + t.getFrequenza()),
-                    new Label("dosaggio: " + t.getDosaggio()),
+                    new Label("dosaggio: " + t.getDose()),
                     new Label("indicazioni: " + t.getIndicazioni()),
                     eliminaButton
             );
@@ -159,10 +141,17 @@ public class TabTerapieController {
             nuovoSintomoPane.setText(nome);
 
 
-            TerapiaConcomitante nuova = new TerapiaConcomitante(10, BoxDashboardControllerPatient.u.getId(), nome, dataInizio, dataFine, frequenza, dosaggio, indicazioni);
-            nuovoSintomoPane.setUserData(nuova);
+            try {
+                ds.addTerapiaConcomitante(BoxDashboardControllerPatient.u.getId(), nome, dataInizio, dataFine, frequenza, dosaggio, indicazioni);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            try {
+                listaTerapie = List.of( ds.getTerapieConcomitantiByPaziente(idPaziente) );
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
 
-            listaTerapie.add(nuova);
             aggiornaAccordion();
 
         });

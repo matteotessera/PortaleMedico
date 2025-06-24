@@ -11,6 +11,7 @@ public class SintomoConcomitante {
     private String frequenza;
     private String note;
 
+    public SintomoConcomitante(){};
 
     // Costruttore completo
     public SintomoConcomitante(int id, int paziente_id, String descrizione, LocalDate dataInizio, String frequenza, String note) {
