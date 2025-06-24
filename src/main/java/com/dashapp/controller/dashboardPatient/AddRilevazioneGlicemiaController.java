@@ -10,12 +10,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 
 public class AddRilevazioneGlicemiaController extends AddController {
 
-
+    private DashboardPatientController parentController;
     @FXML
     private ComboBox<Rilevazione.TipoPasto> pastoBox;
     @FXML
@@ -67,7 +68,14 @@ public class AddRilevazioneGlicemiaController extends AddController {
 
 
         ds.addRilevazionePaziente(valore, tipoRilevazione.toString().toLowerCase(), BoxDashboardControllerPatient.u.getId(), tipoPasto.toString().toLowerCase());
+        parentController.FlagRilevazioniLabel.setText("Oggi hai eseguito " + (parentController.countRilevazioni+1) + " rilevazion" + (parentController.countRilevazioni == 1 ? "e" : "i"));
 
+
+
+    }
+
+    public void setParentController(DashboardPatientController controller) {
+        this.parentController = controller;
     }
 
 

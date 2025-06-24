@@ -187,7 +187,7 @@
                                     </font>
                                 </Label>
                             </HBox>
-                            <Label text="Registra eventuali Sintomi e le tue assunzioni giornaliere">
+                            <Label fx:id="FlagAssunzioniLabel" text="Registra eventuali Sintomi e le tue assunzioni giornaliere" wrapText="true">
                                 <VBox.margin>
                                     <Insets left="50.0" />
                                 </VBox.margin>

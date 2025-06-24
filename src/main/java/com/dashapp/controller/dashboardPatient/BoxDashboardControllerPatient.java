@@ -145,6 +145,8 @@ public class BoxDashboardControllerPatient {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/AddRilevazioneGlicemia.fxml"));
         Parent addRilevazioneContent = loader.load();
+        AddRilevazioneGlicemiaController controller = loader.getController();
+        controller.setParentController(dashboardController);
 
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addRilevazioneContent);
@@ -160,6 +162,8 @@ public class BoxDashboardControllerPatient {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/AddAssunzione.fxml"));
         Parent addAssunzioneContent = loader.load();
+        AddAssunzioneController controller = loader.getController();
+        controller.setParentController(dashboardController);
 
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addAssunzioneContent);
@@ -196,5 +200,7 @@ public class BoxDashboardControllerPatient {
         bodyContainer.getChildren().add(fascicolo);
 
     }
+
+
 
 }

@@ -1,8 +1,7 @@
 package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
-import com.dashapp.model.Rilevazione;
-import com.dashapp.model.Utente;
+import com.dashapp.model.*;
 import com.dashapp.services.DataService;
 import com.dashapp.services.LoginService;
 import com.dashapp.view.NavigatorView;
@@ -17,6 +16,9 @@ import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class DashboardPatientController {
@@ -45,9 +47,13 @@ public class DashboardPatientController {
     @FXML
     private Label numeroFarmaci;
     @FXML
-    private Label FlagRilevazioniLabel;
+    public Label FlagRilevazioniLabel;
+    @FXML
+    public Label FlagAssunzioniLabel;
 
     public Utente u;
+
+    public int countRilevazioni;
 
 
     public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
@@ -75,16 +81,20 @@ public class DashboardPatientController {
         }
 
         LocalDate oggi = LocalDate.now();
-        int count = 0;
+        countRilevazioni = 0;
 
         for (Rilevazione rilevazione : rilevazioniUtente) {
             LocalDate dataRilevazione = rilevazione.getData().toLocalDate();
             if (dataRilevazione.equals(oggi)) {
-                count++;
+                countRilevazioni++;
             }
         }
 
-        FlagRilevazioniLabel.setText("Oggi hai eseguito " + count + " rilevazion" + (count == 1 ? "e" : "i"));
+        FlagRilevazioniLabel.setText("Oggi hai eseguito " + countRilevazioni + " rilevazion" + (countRilevazioni == 1 ? "e" : "i"));
+
+        FlagAssunzioniLabel.setText("Registra eventuali Sintomi e le tue assunzioni giornaliere\n" +
+                                    "Oggi hai assunto " + calcolaAssunzioniEffettuate() + " farmaci");
+
 
     }
 
@@ -210,6 +220,17 @@ public class DashboardPatientController {
 
 
 
+    public int calcolaAssunzioniEffettuate() throws Exception {
+            int count = 0;
+
+            //OTTENGO LE ASSUNZIONI CHE HA FATTO OGGI IL PAZIENTE
+             List<Assunzione> assunzioniPaziente = List.of(ds.getAssunzioniPaziente(u.getId()));
+             List<Assunzione> assunzioniOggi = assunzioniPaziente.stream()
+                    .filter(assunzione -> assunzione.getData().toLocalDate().equals(LocalDate.now()))
+                    .collect(Collectors.toList());
+
+             return assunzioniOggi.size();
+    }
 
 
 
