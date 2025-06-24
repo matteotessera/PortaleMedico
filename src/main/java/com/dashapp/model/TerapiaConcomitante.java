@@ -10,20 +10,23 @@ public class TerapiaConcomitante {
     private LocalDate dataInizio;
     private LocalDate dataFine;
     private String frequenza;
-    private String dosaggio;
+    private String dose;
     private String indicazioni;
 
     // Costruttore
     public TerapiaConcomitante(int id, int paziente_id, String farmaco, LocalDate dataInizio, LocalDate dataFine,
-                               String frequenza, String dosaggio, String indicazioni) {
+                               String frequenza, String dose, String indicazioni) {
         this.id = id;
         this.paziente_id = paziente_id;
         this.farmaco = farmaco;
         this.dataInizio = dataInizio;
         this.dataFine = dataFine;
         this.frequenza = frequenza;
-        this.dosaggio = dosaggio;
+        this.dose = dose;
         this.indicazioni = indicazioni;
+    }
+
+    public TerapiaConcomitante() {
     }
 
     // Getter e Setter
@@ -75,12 +78,12 @@ public class TerapiaConcomitante {
         this.frequenza = frequenza;
     }
 
-    public String getDosaggio() {
-        return dosaggio;
+    public String getDose() {
+        return dose;
     }
 
-    public void setDosaggio(String dosaggio) {
-        this.dosaggio = dosaggio;
+    public void setDose(String dose) {
+        this.dose = dose;
     }
 
     public String getIndicazioni() {

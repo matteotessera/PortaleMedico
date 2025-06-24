@@ -292,6 +292,8 @@ public class DataService {
         }
     }
 
+
+
     public Studio getStudioMedico(int idMedico) throws Exception {
 
         // solo se l'utente e paziente restituisce l'oggetto studio, altrimente va in exeption
@@ -617,6 +619,165 @@ public class DataService {
         post(url, json);
     }
 
+    public void deleteSintomoConcomitante(int id) throws Exception {
+        String url = API_URL + "delete_sintomo_concomitante.php";
+
+        String json = String.format("{\"id\":%d}", id);
+
+        post(url, json);
+    }
+
+    public SintomoConcomitante[] getSintomiConcomitantiByPaziente(int pazienteId) throws Exception {
+        String url = API_URL + "get_sintomo_concomitante_by_idPaziente.php?paziente_id=" + pazienteId;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseSintomiConcomitantiManuale(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+    }
+
+    public void updateSintomoConcomitante(int id, int pazienteId, String descrizione, LocalDate dataInizio, String frequenza, String note) throws Exception {
+        String url = API_URL + "update_sintomo_concomitante.php";
+
+        String dataInizioStr = dataInizio.toString(); // yyyy-MM-dd
+
+        String json = String.format(
+                "{\"id\":%d, \"paziente_id\":%d, \"descrizione\":\"%s\", \"data_inizio\":\"%s\", \"frequenza\":\"%s\", \"note\":\"%s\"}",
+                id, pazienteId, descrizione, dataInizioStr, frequenza, note != null ? note : ""
+        );
+
+        post(url, json);
+    }
+
+    public void addTerapiaConcomitante(int pazienteId, String nomeFarmaco, LocalDate dataInizio, LocalDate dataFine, String frequenza, String dose, String indicazioni) throws Exception {
+
+        String url = API_URL + "add_terapia_concomitante.php";
+
+        // Converte le date in stringa formato ISO yyyy-MM-dd
+        String dataInizioStr = dataInizio.toString();
+        String dataFineStr = dataFine.toString();
+
+        // Se indicazioni è null, lo mettiamo come stringa vuota nel JSON
+        String indicazioniSafe = (indicazioni != null) ? indicazioni : "";
+
+        // Costruisci JSON manualmente
+        String json = String.format(
+                "{\"paziente_id\":%d, \"nome_farmaco\":\"%s\", \"data_inizio\":\"%s\", \"data_fine\":\"%s\", \"frequenza\":\"%s\", \"dose\":\"%s\", \"indicazioni\":\"%s\"}",
+                pazienteId, nomeFarmaco, dataInizioStr, dataFineStr, frequenza, dose, indicazioniSafe
+        );
+
+        post(url, json);
+    }
+
+    public TerapiaConcomitante[] getTerapieConcomitantiByPaziente(int pazienteId) throws Exception {
+        String url = API_URL + "get_terapie_concomitanti_by_idPaziente.php?paziente_id=" + pazienteId;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseTerapieConcomitantiManuale(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+    }
+
+    public void updateTerapiaConcomitante(int id, int pazienteId, String farmaco, LocalDate dataInizio, LocalDate dataFine, String frequenza, String dose, String indicazioni) throws Exception {
+        String url = API_URL + "update_terapia_concomitante.php";
+
+        String dataInizioStr = dataInizio.toString(); // yyyy-MM-dd
+        String dataFineStr = dataFine.toString();
+
+        String indicazioniSafe = (indicazioni != null) ? indicazioni : "";
+
+        String json = String.format(
+                "{\"id\":%d, \"paziente_id\":%d, \"farmaco\":\"%s\", \"data_inizio\":\"%s\", \"data_fine\":\"%s\", \"frequenza\":\"%s\", \"dose\":\"%s\", \"indicazioni\":\"%s\"}",
+                id, pazienteId, farmaco, dataInizioStr, dataFineStr, frequenza, dose, indicazioniSafe
+        );
+
+        post(url, json);
+    }
+
+    public void deleteTerapiaConcomitante(int id) throws Exception {
+        String url = API_URL + "delete_terapia_concomitante.php";
+
+        String json = String.format("{\"id\":%d}", id);
+
+        post(url, json);
+    }
+
+    public void addPatologia(int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) throws Exception {
+        String url = API_URL + "add_patologia.php";
+
+        String dataDiagnosiStr = dataDiagnosi != null ? dataDiagnosi.toString() : "";
+
+        String json = String.format(
+                "{\"paziente_id\":%d, \"nome_patologia\":\"%s\", \"data_diagnosi\":\"%s\", \"note\":\"%s\"}",
+                pazienteId, nomePatologia, dataDiagnosiStr, note != null ? note : ""
+        );
+
+        post(url, json);
+    }
+
+
+    // GET Patologie by pazienteId
+    public Patologia[] getPatologieByPaziente(int pazienteId) throws Exception {
+        String url = API_URL + "get_patologie_by_idPaziente.php?paziente_id=" + pazienteId;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parsePatologieManuale(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+    }
+
+    // UPDATE Patologia
+    public void updatePatologia(int id, int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) throws Exception {
+        String url = API_URL + "update_patologia.php";
+
+        String dataDiagnosiStr = dataDiagnosi != null ? dataDiagnosi.toString() : "";
+
+        String json = String.format(
+                "{\"id\":%d, \"paziente_id\":%d, \"nome_patologia\":\"%s\", \"data_diagnosi\":\"%s\", \"note\":\"%s\"}",
+                id, pazienteId, nomePatologia, dataDiagnosiStr, note != null ? note : ""
+        );
+
+        post(url, json);
+    }
+
+    // DELETE Patologia by id
+    public void deletePatologia(int id) throws Exception {
+        String url = API_URL + "delete_patologia.php";
+
+        String json = String.format("{\"id\":%d}", id);
+
+        post(url, json);
+    }
+
+
+
     public void addFarmaco(String nome, String descrizione) throws Exception {
 
         String url = API_URL + "add_farmaco.php";
@@ -872,6 +1033,28 @@ public class DataService {
         return utente;
     }
 
+    private SintomoConcomitante parseSintomoConcomitante(String json) {
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+
+        SintomoConcomitante s = new SintomoConcomitante();
+        s.setId(obj.get("id").getAsInt());
+        s.setPaziente_id(obj.get("paziente_id").getAsInt());
+        s.setDescrizione(obj.get("descrizione").getAsString());
+        s.setFrequenza(obj.get("frequenza").getAsString());
+
+        if (obj.has("data_inizio") && !obj.get("data_inizio").isJsonNull()) {
+            String dataStr = obj.get("data_inizio").getAsString();
+            LocalDate data = LocalDate.parse(dataStr);
+            s.setDataInizio(data);
+        }
+        if (obj.has("note") && !obj.get("note").isJsonNull()) {
+            s.setNote(obj.get("note").getAsString());
+        }
+
+        return s;
+    }
+
+
     private Utente[] parseUtentiManuale(String json) {
         JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
         List<Utente> utenti = new ArrayList<>();
@@ -900,6 +1083,142 @@ public class DataService {
 
         return utenti.toArray(new Utente[0]);
     }
+
+
+
+
+
+    private SintomoConcomitante[] parseSintomiConcomitantiManuale(String json) {
+        JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
+        List<SintomoConcomitante> sintomi = new ArrayList<>();
+
+        for (JsonElement elem : jsonArray) {
+            JsonObject obj = elem.getAsJsonObject();
+
+            SintomoConcomitante s = new SintomoConcomitante();
+            s.setId(obj.get("id").getAsInt());
+            s.setPaziente_id(obj.get("paziente_id").getAsInt());
+            s.setDescrizione(obj.get("descrizione").getAsString());
+            s.setFrequenza(obj.get("frequenza").getAsString());
+
+            if (obj.has("data_inizio") && !obj.get("data_inizio").isJsonNull()) {
+                String dataStr = obj.get("data_inizio").getAsString();
+                s.setDataInizio(LocalDate.parse(dataStr));
+            }
+
+            if (obj.has("note") && !obj.get("note").isJsonNull()) {
+                s.setNote(obj.get("note").getAsString());
+            }
+
+            sintomi.add(s);
+        }
+
+        return sintomi.toArray(new SintomoConcomitante[0]);
+    }
+
+    private TerapiaConcomitante parseTerapiaConcomitante(String json) {
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+
+        TerapiaConcomitante t = new TerapiaConcomitante();
+        t.setId(obj.get("id").getAsInt());
+        t.setPaziente_id(obj.get("paziente_id").getAsInt());
+        t.setFarmaco(obj.get("farmaco").getAsString());
+
+        if (obj.has("data_inizio") && !obj.get("data_inizio").isJsonNull()) {
+            t.setDataInizio(LocalDate.parse(obj.get("data_inizio").getAsString()));
+        }
+        if (obj.has("data_fine") && !obj.get("data_fine").isJsonNull()) {
+            t.setDataFine(LocalDate.parse(obj.get("data_fine").getAsString()));
+        }
+        t.setFrequenza(obj.get("frequenza").getAsString());
+        t.setDose(obj.get("dose").getAsString());
+
+        if (obj.has("indicazioni") && !obj.get("indicazioni").isJsonNull()) {
+            t.setIndicazioni(obj.get("indicazioni").getAsString());
+        }
+
+        return t;
+    }
+
+
+    private TerapiaConcomitante[] parseTerapieConcomitantiManuale(String json) {
+        JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
+        List<TerapiaConcomitante> terapie = new ArrayList<>();
+
+        for (JsonElement elem : jsonArray) {
+            JsonObject obj = elem.getAsJsonObject();
+
+            TerapiaConcomitante t = new TerapiaConcomitante();
+            t.setId(obj.get("id").getAsInt());
+            t.setPaziente_id(obj.get("paziente_id").getAsInt());
+            t.setFarmaco(obj.get("farmaco").getAsString());
+
+            if (obj.has("data_inizio") && !obj.get("data_inizio").isJsonNull()) {
+                t.setDataInizio(LocalDate.parse(obj.get("data_inizio").getAsString()));
+            }
+            if (obj.has("data_fine") && !obj.get("data_fine").isJsonNull()) {
+                t.setDataFine(LocalDate.parse(obj.get("data_fine").getAsString()));
+            }
+            t.setFrequenza(obj.get("frequenza").getAsString());
+            t.setDose(obj.get("dose").getAsString());
+
+            if (obj.has("indicazioni") && !obj.get("indicazioni").isJsonNull()) {
+                t.setIndicazioni(obj.get("indicazioni").getAsString());
+            }
+
+            terapie.add(t);
+        }
+
+        return terapie.toArray(new TerapiaConcomitante[0]);
+    }
+
+    private Patologia[] parsePatologieManuale(String json) {
+        JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
+        List<Patologia> patologie = new ArrayList<>();
+
+        for (JsonElement elem : jsonArray) {
+            JsonObject obj = elem.getAsJsonObject();
+
+            Patologia p = new Patologia();
+            p.setId(obj.get("id").getAsInt());
+            p.setPazienteId(obj.get("paziente_id").getAsInt());
+            p.setNomePatologia(obj.get("nome_patologia").getAsString());
+
+            if (obj.has("data_diagnosi") && !obj.get("data_diagnosi").isJsonNull()) {
+                String dataStr = obj.get("data_diagnosi").getAsString();
+                p.setDataDiagnosi(LocalDate.parse(dataStr));
+            }
+
+            if (obj.has("note") && !obj.get("note").isJsonNull()) {
+                p.setNote(obj.get("note").getAsString());
+            }
+
+            patologie.add(p);
+        }
+
+        return patologie.toArray(new Patologia[0]);
+    }
+
+    private Patologia parsePatologia(String json) {
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+
+        Patologia p = new Patologia();
+        p.setId(obj.get("id").getAsInt());
+        p.setPazienteId(obj.get("paziente_id").getAsInt());
+        p.setNomePatologia(obj.get("nome_patologia").getAsString());
+
+        if (obj.has("data_diagnosi") && !obj.get("data_diagnosi").isJsonNull()) {
+            String dataStr = obj.get("data_diagnosi").getAsString();
+            p.setDataDiagnosi(LocalDate.parse(dataStr));
+        }
+
+        if (obj.has("note") && !obj.get("note").isJsonNull()) {
+            p.setNote(obj.get("note").getAsString());
+        }
+
+        return p;
+    }
+
 
     private Farmaco parseFarmacoFromJson(String json) {
         JsonObject obj = JsonParser.parseString(json).getAsJsonObject();

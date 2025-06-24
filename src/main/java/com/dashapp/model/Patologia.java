@@ -18,6 +18,10 @@ public class Patologia {
         this.id = id;
     }
 
+    public Patologia() {
+
+    }
+
     // Getter e Setter
 
     public int getPazienteId() {
@@ -55,4 +59,8 @@ public class Patologia {
     public int getId(){
         return id;
     }
+    public void setId(int id){
+        this.id=id;
+    }
+
 }
