@@ -19,7 +19,7 @@ import java.util.List;
 public class BoxDashboardControllerPatient {
 
     @FXML
-    private VBox bodyContainer;
+    public VBox bodyContainer;
 
     @FXML
     private Label LabelBoxDashboard;
@@ -164,9 +164,14 @@ public class BoxDashboardControllerPatient {
         Parent addAssunzioneContent = loader.load();
         AddAssunzioneController controller = loader.getController();
         controller.setParentController(dashboardController);
+        controller.setParentBoxController(this);
+
 
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addAssunzioneContent);
+        controller.assunzioniCompletate();
+
+
     }
 
     public void aggiungiSintomo() throws IOException {

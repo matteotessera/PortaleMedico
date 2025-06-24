@@ -1,17 +1,14 @@
 package com.dashapp.controller.dashboardPatient;
 
-import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
-import com.dashapp.controller.dashboardPatient.fascicolo.StatoFarmaco;
+import com.dashapp.controller.ControlliSistema;
+import com.dashapp.model.StatoFarmaco;
 import com.dashapp.model.*;
 //import com.dashapp.model.AssunzioneFarmaco;        da toigliere commento
 import com.dashapp.services.DataService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,6 +20,8 @@ public class AddAssunzioneController extends AddController{
 
 
     DashboardPatientController parentController;
+
+    BoxDashboardControllerPatient parentBoxController;
     @FXML
     private ComboBox<String> farmacoAssuntoBox;
     @FXML
@@ -37,10 +36,15 @@ public class AddAssunzioneController extends AddController{
     @FXML
     private TextArea farmaciDaAssumere;
 
+    private Map<Farmaco, StatoFarmaco> mappaAssunzioni;
+
     private DataService ds;
     public void initialize() throws Exception {
 
-        if(pazienteNonAderente(BoxDashboardControllerPatient.u.getId()))
+
+        ControlliSistema controlli = new ControlliSistema();
+        int idPaziente = BoxDashboardControllerPatient.u.getId();
+        if(controlli.pazienteNonAderente(idPaziente))
             System.out.println("non hai aderito alla tua terapia");
         else
             System.out.println("BRAVO, hai aderito");
@@ -76,8 +80,10 @@ public class AddAssunzioneController extends AddController{
             }
         });
 
-        Map<Farmaco, StatoFarmaco> M = farmaciDaAssumere();
-        farmaciDaAssumere.setText(mapToString(M));
+        mappaAssunzioni = controlli.farmaciDaAssumerePaziente(idPaziente);
+        farmaciDaAssumere.setText(mapToString(mappaAssunzioni));
+
+
     }
 
     @FXML
@@ -158,48 +164,11 @@ public class AddAssunzioneController extends AddController{
 
         if (match.isPresent()) {
             dose = match.get().getDose();
-            // Ad esempio, aggiorni un campo testo:
             quantitaField.setText(String.valueOf(dose) + "mg");
         } else {
             quantitaField.clear();
         }
 
-
-    }
-
-    private Map<Farmaco, StatoFarmaco> farmaciDaAssumere() throws Exception {
-        int idUtente = BoxDashboardControllerPatient.u.getId();
-
-        // Assunzioni odierne
-        List<Assunzione> assunzioniOggi = Arrays.stream(ds.getAssunzioniPaziente(idUtente))
-                .filter(a -> a.getData().toLocalDate().equals(LocalDate.now()))
-                .collect(Collectors.toList());
-
-        // Tutte le associazioni farmaco per le terapie del paziente
-        List<Terapia> terapie = Arrays.asList(ds.getTerapiePaziente(idUtente));
-        List<AssociazioneFarmaco> associazioni = new ArrayList<>();
-        for (Terapia t : terapie) {
-            associazioni.addAll(Arrays.asList(ds.getAssociazioniFarmaciByTerapia(t.getId())));
-        }
-
-        Map<Farmaco, StatoFarmaco> mappa = new HashMap<>();
-
-        for (AssociazioneFarmaco assoc : associazioni) {
-            Farmaco farmaco = ds.getFarmacoById(assoc.getIdFarmaco());
-
-            // Assunzioni fatte oggi per questa associazione
-            long assunzioniFatte = assunzioniOggi.stream()
-                    .filter(a -> a.getIdAssociazioneFarmaco() == assoc.getId())
-                    .count();
-
-            int assunzioniRimaste = assoc.getNumeroAssunzioni() - (int) assunzioniFatte;
-            assunzioniRimaste = Math.max(0, assunzioniRimaste); // per sicurezza
-
-            String stato = (assunzioniRimaste == 0) ? "già assunto" : "da assumere";
-            mappa.put(farmaco, new StatoFarmaco(stato, assunzioniRimaste));
-        }
-
-        return mappa;
     }
 
     private String mapToString(Map<Farmaco, StatoFarmaco> mappa) {
@@ -222,45 +191,26 @@ public class AddAssunzioneController extends AddController{
     public void setParentController(DashboardPatientController controller) {
         this.parentController = controller;
     }
+    public void setParentBoxController(BoxDashboardControllerPatient controller) {
+        this.parentBoxController = controller;
+    }
 
-    public boolean pazienteNonAderente(int idPaziente) throws Exception {
-        DataService ds = new DataService();
-        LocalDate oggi = LocalDate.now();
 
-        // Trova tutte le terapie del paziente
-        Terapia[] terapie = ds.getTerapiePaziente(idPaziente);
+    public void assunzioniCompletate(){
 
-        for (Terapia terapia : terapie) {
-            // Per ogni terapia, prendi le associazioni farmaco
-            AssociazioneFarmaco[] associazioni = ds.getAssociazioniFarmaciByTerapia(terapia.getId());
+        for (StatoFarmaco stato : mappaAssunzioni.values()) {
 
-            for (AssociazioneFarmaco af : associazioni) {
-                int numeroAssunzioniPreviste = af.getNumeroAssunzioni();
-                int giorniConsecutiviNonAderenti = 0;
-
-                for (int i = 3; i >= 1; i--) {
-                    LocalDate data = oggi.minusDays(i);
-
-                    // Ottieni tutte le assunzioni per quel giorno
-                    List<Assunzione> assunzioni = Arrays.stream(ds.getAssunzioniPaziente(idPaziente))
-                            .filter(a -> a.getIdAssociazioneFarmaco() == af.getId())
-                            .filter(a -> a.getData().toLocalDate().equals(data))
-                            .collect(Collectors.toList());
-
-                    if (assunzioni.size() < numeroAssunzioniPreviste) {
-                        giorniConsecutiviNonAderenti++;
-                        if (giorniConsecutiviNonAderenti >= 3) {
-                            return true; // Paziente non aderente per almeno 3 giorni consecutivi
-                        }
-                    } else {
-                        giorniConsecutiviNonAderenti = 0; // reset
-                    }
-                }
+            if(stato.getStato() == "da assumere"){
+                return;
             }
         }
+        parentBoxController.bodyContainer.getChildren().clear();
+        Label completatoLabel = new Label("ASSUNTO TUTTO");
+        completatoLabel.setStyle("-fx-font-size: 32px; -fx-text-fill: green; -fx-font-weight: bold;");
+        parentBoxController.bodyContainer.getChildren().add(completatoLabel);
+    };
 
-        return false; // Tutto ok
-    }
+
 
 
 

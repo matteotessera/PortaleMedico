@@ -1,4 +1,4 @@
-package com.dashapp.controller.dashboardPatient.fascicolo;
+package com.dashapp.model;
 
 public class StatoFarmaco {
     private String stato; // "da assumere" o "già assunto"

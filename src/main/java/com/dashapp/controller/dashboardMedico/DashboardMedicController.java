@@ -1,17 +1,21 @@
 package com.dashapp.controller.dashboardMedico;
 
+import com.dashapp.controller.ControlliSistema;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
+import javax.swing.*;
 import java.io.IOException;
+import java.util.List;
 
 
 public class DashboardMedicController {
@@ -45,6 +49,8 @@ public class DashboardMedicController {
 
         private BoxDashboardController controller;
 
+        private int id;
+
 
 
 
@@ -52,7 +58,7 @@ public class DashboardMedicController {
                 ds = new DataService();
 
                 String email = NavigatorView.getAuthenticatedUser();
-                int id = ds.getUtenteByEmail(email).getId();
+                id = ds.getUtenteByEmail(email).getId();
                 numeroPazienti.setText(String.valueOf(ds.getPazientiByMedico(id).length));
                 numeroFarmaci.setText(String.valueOf(ds.getFarmaci().length));
 
@@ -62,6 +68,10 @@ public class DashboardMedicController {
                 if (!mainContent.getChildren().isEmpty()) {
                         originalContent = (Parent) mainContent.getChildren().get(0);
                 }
+
+                controllaPazienti();
+
+
         }
 
 
@@ -149,6 +159,17 @@ public class DashboardMedicController {
                 // Rendo visibile il cerchio con il testo
                 utenteCirclePane.setVisible(true);
         }
+
+
+        public void controllaPazienti() throws Exception {
+                List<Utente> pazientiAssociati = List.of(ds.getPazientiByMedico(id));
+                ControlliSistema controlli = new ControlliSistema();
+                for(Utente u: pazientiAssociati){
+                        if(controlli.pazienteNonAderente(u.getId()))
+                                JOptionPane.showMessageDialog(null, "Il paziente con ID " + u.getId() + " non è aderente.", "Alert Paziente", JOptionPane.WARNING_MESSAGE);
+                }
+        }
+
 
 
 
