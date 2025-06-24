@@ -600,6 +600,23 @@ public class DataService {
 
     }
 
+    public void addSintomoConcomitante(int idPaziente, String descrizione, LocalDateTime dataInizio, String frequenza, String note) throws Exception {
+
+        String url = API_URL + "add_sintomo_concomitante.php";
+
+        // Formatta dataInizio in ISO_LOCAL_DATE_TIME
+        String dataOra = dataInizio.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+        // Costruisci JSON manualmente con l'ordine corretto
+        String json = String.format(
+                "{\"paziente_id\":%d, \"descrizione\":\"%s\", \"data_inizio\":\"%s\", \"frequenza\":\"%s\", \"note\":\"%s\"}",
+                idPaziente, descrizione, dataOra, frequenza,
+                note != null ? note : ""
+        );
+
+        post(url, json);
+    }
+
     public void addFarmaco(String nome, String descrizione) throws Exception {
 
         String url = API_URL + "add_farmaco.php";

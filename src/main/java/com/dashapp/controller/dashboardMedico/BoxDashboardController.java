@@ -97,16 +97,16 @@ public class BoxDashboardController {
 
         List<Utente> pazientiSenzaMedico = List.of(ds.getPazientiSenzaMedico());
         int idMedico = ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getId();
-        System.out.println("Medico: "+idMedico);
+        //System.out.println("Medico: "+idMedico);
         List<Utente> pazientiAssegnati = List.of(ds.getPazientiByMedico(idMedico));
 
-        for(Utente u: pazientiAssegnati){
+        /*for(Utente u: pazientiAssegnati){
             System.out.println(u.getNome()+" "+u.getCognome());
         }
 
         for(Utente u: pazientiAssegnati){
             System.out.println("PAziente: "+u.getNome() + " "+ u.getCognome()+"\n");
-        }
+        }*/
 
 
         String textButton = "Prendi in carico";
