@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="474.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.messaggiController">
+<AnchorPane prefHeight="474.0" prefWidth="932.0" stylesheets="@../css/ListaMessaggi.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.messaggiController">
    <children>
       <VBox prefHeight="474.0" prefWidth="932.0">
          <children>
@@ -30,7 +30,7 @@
                   </Label>
                </children>
             </HBox>
-            <ListView fx:id="listView" prefHeight="486.0" prefWidth="932.0" />
+            <ListView fx:id="listView" prefHeight="486.0" prefWidth="932.0" style="-fx-padding: 10; -fx-font-size: 14; -fx-border-color: lightgray;" styleClass="messaggi-list" />
          </children>
       </VBox>
    </children>

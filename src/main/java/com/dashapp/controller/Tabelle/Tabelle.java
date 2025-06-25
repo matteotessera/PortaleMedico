@@ -1,9 +1,13 @@
 package com.dashapp.controller.Tabelle;
 
+import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.*;
 import com.dashapp.services.DataService;
+import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,6 +16,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -90,9 +95,6 @@ public class Tabelle {
 
         bodyContainer.getChildren().addAll(titoloTabella, listaFarmaciBox);
     }
-
-
-
 
     // METODO PER CREARE TABELLA @param (lista di utenti, il nome del bottone da visualizzare e il colore del bottone)
     public void tabellaRilevazioni(String titolo, List<Rilevazione> rilevazioni, String textButton, Color color, VBox bodyContainer){
@@ -363,7 +365,7 @@ public class Tabelle {
         bodyContainer.getChildren().add(listaUtentiBox);
     }
 
-    public void tabellaSintomo(String titolo, List<Sintomo> sintomo, String textButton, Color color, VBox bodyContainer){
+    public void tabellaSintomo(String titolo, List<Sintomo> sintomo, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller){
         ds = new DataService();
 
         Label titoloTabella = new Label();
@@ -437,6 +439,12 @@ public class Tabelle {
             prendiInCaricoButton.setPrefWidth(azioneWidth);
             prendiInCaricoButton.setOnAction(e -> {
                 System.out.println("Preso in carico: " + s.getDescrizione());
+                try {
+                    NavigatorView.setSintomoSelezionato(s);
+                    controller.vediSintomo();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             });
 
             rigaUtente.getChildren().addAll(
@@ -482,5 +490,9 @@ public class Tabelle {
         HBox.setHgrow(label, Priority.ALWAYS);
         return label;
     }
+
+
+
+
 
 }

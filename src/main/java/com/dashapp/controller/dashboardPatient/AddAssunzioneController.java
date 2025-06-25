@@ -182,7 +182,7 @@ public class AddAssunzioneController extends AddController{
                         .append(" : ")
                         .append(stato.getStato())
                         .append(" (" + stato.getAssunzioniRimaste())
-                        .append(stato.getAssunzioniRimaste()>1 ? " assunzioni)" : " assunzione)\n");
+                        .append(stato.getAssunzioniRimaste()>1 ? " assunzioni)\n" : " assunzione)\n");
             }else{
                 sb.append(farmaco.getNome())
                         .append(" : ")

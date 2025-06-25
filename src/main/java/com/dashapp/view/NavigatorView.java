@@ -3,6 +3,7 @@ package com.dashapp.view;
 import com.dashapp.Main;
 import com.dashapp.controller.MainController;
 import com.dashapp.model.Farmaco;
+import com.dashapp.model.Sintomo;
 import com.dashapp.model.Utente;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,6 +20,7 @@ public class NavigatorView {
 
     private static Utente paziente = null;
     private static Farmaco farmaco = null;
+    private static Sintomo sintomo = null;
 
 
     /**
@@ -102,6 +104,15 @@ public class NavigatorView {
     public static Farmaco getFarmacoSelezionato(){
         return farmaco;
     }
+
+    public static void setSintomoSelezionato(Sintomo sintom){
+        sintomo = sintom;
+    }
+
+    public static Sintomo getSintomoSelezionato(){
+        return sintomo;
+    }
+
 
 
     public static boolean isAuthenticated() {

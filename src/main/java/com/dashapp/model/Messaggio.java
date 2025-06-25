@@ -40,7 +40,7 @@ public class Messaggio {
         return letto;
     }
 
-    public boolean setLetto(boolean letto){
+    public void setLetto(boolean letto){
         this.letto = letto;
     }
 

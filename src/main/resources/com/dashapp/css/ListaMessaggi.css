@@ -1,0 +1,28 @@
+/* Stile base delle celle */
+.messaggi-list .list-cell {
+    -fx-background-color: #f9f9f9;
+    -fx-text-fill: #2a2a2a;
+    -fx-font-size: 15px;
+    -fx-padding: 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-style: solid;
+    -fx-border-color: #ddd;
+}
+
+/* Quando il mouse passa sopra */
+.messaggi-list .list-cell:hover {
+    -fx-background-color: #e3f2fd;
+}
+
+/* Quando la cella è selezionata */
+.messaggi-list .list-cell:selected {
+    -fx-background-color: #90caf9;
+    -fx-text-fill: #000000;
+    -fx-font-weight: bold;
+}
+
+/* Cella vuota (opzionale per evitare colori strani) */
+.messaggi-list .list-cell:empty {
+    -fx-background-color: transparent;
+}

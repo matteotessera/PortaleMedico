@@ -124,9 +124,9 @@ public class BoxDashboardControllerPatient {
             sintomi = List.of(new Sintomo[0]); // array vuoto
         }
 
-        String textButton = "Vedi";
+        String textButton = "Modifica";
         String titolo = "lista terapie";
-        tabella.tabellaSintomo(titolo, sintomi, textButton, Color.web("#34bccc"), bodyContainer);
+        tabella.tabellaSintomo(titolo, sintomi, textButton, Color.web("#2BD18D"), bodyContainer, this);
 
         LabelBoxDashboard.setText("TUTTI I TUOI SINTOMI PASSATI:");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
@@ -204,6 +204,21 @@ public class BoxDashboardControllerPatient {
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(fascicolo);
 
+    }
+
+
+    public void vediSintomo() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("\uD83E\uDC14 Torna ai sintomi");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
+        LabelBoxDashboard.setOnMouseClicked(event -> listaSintomi());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/SintomiView.fxml"));
+        Parent addFarmacoContent = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(addFarmacoContent);
     }
 
 
