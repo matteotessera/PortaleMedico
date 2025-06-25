@@ -127,7 +127,7 @@
                     </VBox>
                 </HBox>
 
-                <HBox fx:id="messaggiBox" alignment="CENTER_LEFT" onMouseClicked="#mostraMessaggi" spacing="10">
+                <HBox alignment="CENTER_LEFT" onMouseClicked="#mostraMessaggi" spacing="10">
                     <!-- Quadrato stondato con immagine -->
                     <StackPane>
                         <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
