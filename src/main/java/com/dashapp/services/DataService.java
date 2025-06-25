@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -722,6 +723,90 @@ public class DataService {
         post(url, json);
     }
 
+    public void addMessaggio(int idSender, int idReceiver, LocalDate dataInvio, LocalTime oraInvio,
+                             String oggetto, String corpo, char tipo, boolean letto) throws Exception {
+
+        String url = API_URL + "add_messaggio.php";
+
+        String json = String.format(
+                "{\"id_sender\":%d, \"id_receiver\":%d, \"dataInvio\":\"%s\", \"oraInvio\":\"%s\", " +
+                        "\"oggetto\":\"%s\", \"corpo\":\"%s\", \"tipo\":\"%c\", \"letto\":\"%s\"}",
+                idSender, idReceiver, dataInvio.toString(), oraInvio.toString(),
+                oggetto, corpo, tipo, letto ? "true" : "false"
+        );
+
+        post(url, json);
+    }
+
+    public void deleteMessaggio(int id) throws Exception {
+        String url = API_URL + "delete_messaggio.php?id=" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .DELETE()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("Errore nella cancellazione: " + response.statusCode());
+        }
+    }
+
+    public Messaggio[] getMessaggiByIdSender(int idSender) throws Exception {
+        String url = API_URL + "get_messaggi_by_idSender.php?id_sender=" + idSender;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return parseMessaggiManuale(response.body());
+        } else {
+            throw new RuntimeException("Errore nel recupero messaggi: " + response.statusCode());
+        }
+    }
+
+    public Messaggio[] getMessaggiByIdReceiver(int idReceiver) throws Exception {
+        String url = API_URL + "get_messaggi_by_idReceiver.php?id_receiver=" + idReceiver;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return parseMessaggiManuale(response.body());
+        } else {
+            throw new RuntimeException("Errore nel recupero messaggi: " + response.statusCode());
+        }
+    }
+
+    public Messaggio[] getMessaggi() throws Exception {
+        String url = API_URL + "get_messaggi.php";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return parseMessaggiManuale(response.body());
+        } else {
+            throw new RuntimeException("Errore nel recupero messaggi: " + response.statusCode());
+        }
+    }
+
+
+
+
     public void addPatologia(int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) throws Exception {
         String url = API_URL + "add_patologia.php";
 
@@ -1116,6 +1201,65 @@ public class DataService {
         }
 
         return sintomi.toArray(new SintomoConcomitante[0]);
+    }
+
+    private Messaggio parseMessaggio(String json) {
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+
+        Messaggio m = new Messaggio();
+        m.setId(obj.get("id").getAsInt());
+        m.setId_Sender(obj.get("id_sender").getAsInt());
+
+        if (obj.has("dataInvio") && !obj.get("dataInvio").isJsonNull()) {
+            m.setDataInvio(LocalDate.parse(obj.get("dataInvio").getAsString()));
+        }
+
+        if (obj.has("oraInvio") && !obj.get("oraInvio").isJsonNull()) {
+            m.setOrarioInvio(LocalTime.parse(obj.get("oraInvio").getAsString()));
+        }
+
+        m.setOggetto(obj.get("oggetto").getAsString());
+        m.setCorpo(obj.get("corpo").getAsString());
+        m.setTipo(obj.get("tipo").getAsString().charAt(0));
+
+        if (obj.has("letta") && !obj.get("letta").isJsonNull()) {
+            m.setLetto(obj.get("letta").getAsString().equalsIgnoreCase("true"));
+        }
+
+        return m;
+    }
+
+    private Messaggio[] parseMessaggiManuale(String json) {
+        JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
+        List<Messaggio> messaggi = new ArrayList<>();
+
+        for (JsonElement elem : jsonArray) {
+            JsonObject obj = elem.getAsJsonObject();
+
+            Messaggio m = new Messaggio();
+            m.setId(obj.get("id").getAsInt());
+            m.setId_Sender(obj.get("id_sender").getAsInt());
+
+            if (obj.has("dataInvio") && !obj.get("dataInvio").isJsonNull()) {
+                m.setDataInvio(LocalDate.parse(obj.get("dataInvio").getAsString()));
+            }
+
+            if (obj.has("oraInvio") && !obj.get("oraInvio").isJsonNull()) {
+                m.setOrarioInvio(LocalTime.parse(obj.get("oraInvio").getAsString()));
+            }
+
+            m.setOggetto(obj.get("oggetto").getAsString());
+            m.setCorpo(obj.get("corpo").getAsString());
+            m.setTipo(obj.get("tipo").getAsString().charAt(0));
+
+            if (obj.has("letta") && !obj.get("letta").isJsonNull()) {
+                m.setLetto(obj.get("letta").getAsString().equalsIgnoreCase("true"));
+            }
+
+            messaggi.add(m);
+        }
+
+        return messaggi.toArray(new Messaggio[0]);
     }
 
     private TerapiaConcomitante parseTerapiaConcomitante(String json) {

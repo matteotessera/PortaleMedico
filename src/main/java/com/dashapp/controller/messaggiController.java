@@ -34,12 +34,12 @@ public class messaggiController {
         // Listmessaggi = ds.getMessaggiById(idUtente)   // popola la ListView con i messaggi associati al utente;
 
         messaggi = new ArrayList<>();
-        messaggi.add(new Messaggio(1, 101, "G", LocalDate.now(), LocalTime.now(),
+        messaggi.add(new Messaggio(1, 101, 'G', LocalDate.now(), LocalTime.now(),
                 "Rilevazione Glicemia elevata: xxx", "Non dimenticare il controllo.", false));
-        messaggi.add(new Messaggio(2, 102, "G", LocalDate.now().minusDays(1), LocalTime.of(15,30),
+        messaggi.add(new Messaggio(2, 102, 'G', LocalDate.now().minusDays(1), LocalTime.of(15,30),
                 "Rilevazione Glicemia elevata: yyy", "Prendi la medicina alle 18.", false));
 
-        messaggi.add(new Messaggio(3, 101, "N", LocalDate.now().minusDays(2), LocalTime.of(9,0),
+        messaggi.add(new Messaggio(3, 101, 'N', LocalDate.now().minusDays(2), LocalTime.of(9,0),
                 "Paziente x non ha aderito alle prescrizioni ", "Buona guarigione!", false));
 
         showTutti();
@@ -59,7 +59,7 @@ public class messaggiController {
         List<Messaggio> filtrati = new ArrayList<>();
 
         for(Messaggio m: messaggi){
-            if(m.getTipo().equals("G"))
+            if(m.getTipo() == ('G'))
                 filtrati.add(m);
         }
 
@@ -74,7 +74,7 @@ public class messaggiController {
         List<Messaggio> filtrati = new ArrayList<>();
 
         for(Messaggio m: messaggi){
-            if(m.getTipo().equals("N"))
+            if(m.getTipo() == ('N'))
                 filtrati.add(m);
         }
 
@@ -90,7 +90,7 @@ public class messaggiController {
         List<Messaggio> filtrati = new ArrayList<>();
 
         for(Messaggio m: messaggi){
-            if(m.getTipo().equals("M"))
+            if(m.getTipo() == ('M'))
                 filtrati.add(m);
         }
         listView.setItems(FXCollections.observableArrayList(filtrati));
@@ -104,7 +104,7 @@ public class messaggiController {
         List<Messaggio> filtrati = new ArrayList<>();
 
         for(Messaggio m: messaggi){
-            if(m.getTipo().equals("A"))
+            if(m.getTipo() == ('A'))
                 filtrati.add(m);
         }
         listView.setItems(FXCollections.observableArrayList(filtrati));
