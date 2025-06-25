@@ -73,7 +73,7 @@ public class DashboardPatientController {
 
         Rilevazione[] rilevazioniUtente;
         try {
-            rilevazioniUtente = ds.getRilevazioniUtente(u.getId());
+            rilevazioniUtente = ds.getRilevazioniById(u.getId());
         } catch (RuntimeException e) {
             // Se la chiamata fallisce (es. 404), consideriamo che non ci siano rilevazioni
             System.out.println("Nessuna rilevazione trovata per l'utente ID " + u.getId() + ": " + e.getMessage());

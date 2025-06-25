@@ -33,7 +33,11 @@ public class DataService {
         httpClient = HttpClient.newHttpClient();
     }
 
-    // getter
+
+
+    // ---=== GETTER ===---
+
+
 
     public Utente getUtenteById(int id) throws Exception {
 
@@ -45,8 +49,6 @@ public class DataService {
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-
 
         if (response.statusCode() == 200) {
             String json = response.body();
@@ -133,8 +135,6 @@ public class DataService {
 
     }
 
-
-
     public Utente[] getPazienti() throws Exception {
 
         String url = API_URL + "get_pazienti.php";
@@ -172,8 +172,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
-
     }
 
     public Utente[] GetPazientiConMedico() throws Exception {
@@ -193,7 +191,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public Utente[] getMedici() throws Exception {
@@ -213,7 +210,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public Farmaco getFarmacoById(int id) throws Exception {
@@ -271,7 +267,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public Utente getMedicoDiBase(int idPaziente) throws Exception {
@@ -314,12 +309,11 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
-    public Sintomo[] getSintomiPaziente(int idPaziente) throws Exception {
+    public Sintomo[] getSintomiById(int idPaziente) throws Exception {
 
-        String url = API_URL + "get_sintomi_paziente.php?id=" + idPaziente;
+        String url = API_URL + "get_sintomi_by_idPaziente.php?id=" + idPaziente;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -334,12 +328,11 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
-    public Rilevazione[] getRilevazioniUtente(int idPaziente) throws Exception {
+    public Rilevazione[] getRilevazioniById(int idPaziente) throws Exception {
 
-        String url = API_URL + "get_rilevazioni_paziente.php?id=" + idPaziente;
+        String url = API_URL + "get_rilevazioni_by_idPaziente.php?id=" + idPaziente;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -354,7 +347,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public Terapia[] getTerapie() throws Exception {
@@ -374,7 +366,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public Terapia[] getTerapiePaziente(int idPaziente) throws Exception {
@@ -394,7 +385,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public Terapia[] getTerapieMedico(int idMedico) throws Exception {
@@ -414,7 +404,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public Terapia getTerapiaById(int id) throws Exception {
@@ -434,7 +423,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public AssociazioneFarmaco[] getAssociazioniFarmaciByTerapia(int idTerapia) throws Exception {
@@ -454,7 +442,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public AssociazioneFarmaco getAssociazioneFarmacoById(int id) throws Exception {
@@ -474,10 +461,7 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
-
-
 
     public Assunzione[] getAssunzioniPaziente(int idPaziente) throws Exception {
 
@@ -497,7 +481,6 @@ public class DataService {
             System.out.println("Corpo della risposta errore: " + response.body());
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public Assunzione[] getAssunzioniTerapia(int idTerapia) throws Exception {
@@ -517,7 +500,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public Assunzione[] getAssunzioniAssociazioneFarmaco(int idAssociazioneFarmaco) throws Exception {
@@ -537,7 +519,6 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public Assunzione getAssunzioneById(int id) throws Exception {
@@ -557,77 +538,11 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
-
     }
 
     public int getNumeroTerapieMedico(int idMedico) throws Exception {
 
         return getTerapieMedico(idMedico).length;
-
-    }
-
-    // setter
-
-    public void addRilevazionePaziente(double valore, String tipo, int idPaziente, String pasto) throws Exception {
-
-        String url = API_URL + "add_rilevazione.php";
-
-        LocalDateTime now = LocalDateTime.now();
-        String dataOra = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); // formato 2025-05-24T10:15:30
-        String valoreFormattato = String.format(Locale.US, "%f", valore);
-
-        // Costruisci JSON manualmente
-
-        String json = String.format(Locale.US,
-                "{\"valore\": %.6f, \"tipo\": \"%s\", \"id_paziente\": %d, \"data\": \"%s\", \"pasto\": \"%s\"}",
-                valore, tipo, idPaziente, dataOra, pasto
-        );
-
-        post(url, json);
-    }
-
-    public void addSintomoPaziente(String descrizione, int idPaziente) throws Exception {
-
-        String url = API_URL + "add_sintomo.php";
-
-        LocalDateTime now = LocalDateTime.now();
-        String dataOra = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); // formato 2025-05-24T10:15:30
-
-        // Costruisci JSON manualmente
-        String json = String.format(
-                "{\"descrizione\":\"%s\", \"id_paziente\":%d, \"data\":\"%s\"}",
-                descrizione, idPaziente, dataOra
-        );
-
-        post(url, json);
-
-    }
-
-    public int addSintomoConcomitante(int idPaziente, String descrizione, LocalDate dataInizio, String frequenza, String note) throws Exception {
-
-        String url = API_URL + "add_sintomo_concomitante.php";
-
-        // Formatta dataInizio in ISO_LOCAL_DATE_TIME
-        String dataOra = dataInizio.toString();
-
-        // Costruisci JSON manualmente con l'ordine corretto
-        String json = String.format(
-                "{\"paziente_id\":%d, \"descrizione\":\"%s\", \"data_inizio\":\"%s\", \"frequenza\":\"%s\", \"note\":\"%s\"}",
-                idPaziente, descrizione, dataOra, frequenza,
-                note != null ? note : ""
-        );
-
-        post(url, json);
-
-        return idPaziente;
-    }
-
-    public void deleteSintomoConcomitante(int id) throws Exception {
-        String url = API_URL + "delete_sintomo_concomitante.php";
-
-        String json = String.format("{\"id\":%d}", id);
-
-        post(url, json);
     }
 
     public SintomoConcomitante[] getSintomiConcomitantiByPaziente(int pazienteId) throws Exception {
@@ -648,39 +563,6 @@ public class DataService {
         }
     }
 
-    public void updateSintomoConcomitante(int id, int pazienteId, String descrizione, LocalDate dataInizio, String frequenza, String note) throws Exception {
-        String url = API_URL + "update_sintomo_concomitante.php";
-
-        String dataInizioStr = dataInizio.toString(); // yyyy-MM-dd
-
-        String json = String.format(
-                "{\"id\":%d, \"paziente_id\":%d, \"descrizione\":\"%s\", \"data_inizio\":\"%s\", \"frequenza\":\"%s\", \"note\":\"%s\"}",
-                id, pazienteId, descrizione, dataInizioStr, frequenza, note != null ? note : ""
-        );
-
-        post(url, json);
-    }
-
-    public void addTerapiaConcomitante(int pazienteId, String nomeFarmaco, LocalDate dataInizio, LocalDate dataFine, String frequenza, String dose, String indicazioni) throws Exception {
-
-        String url = API_URL + "add_terapia_concomitante.php";
-
-        // Converte le date in stringa formato ISO yyyy-MM-dd
-        String dataInizioStr = dataInizio.toString();
-        String dataFineStr = dataFine.toString();
-
-        // Se indicazioni è null, lo mettiamo come stringa vuota nel JSON
-        String indicazioniSafe = (indicazioni != null) ? indicazioni : "";
-
-        // Costruisci JSON manualmente
-        String json = String.format(
-                "{\"paziente_id\":%d, \"farmaco\":\"%s\", \"data_inizio\":\"%s\", \"data_fine\":\"%s\", \"frequenza\":\"%s\", \"dose\":\"%s\", \"indicazioni\":\"%s\"}",
-                pazienteId, nomeFarmaco, dataInizioStr, dataFineStr, frequenza, dose, indicazioniSafe
-        );
-
-        post(url, json);
-    }
-
     public TerapiaConcomitante[] getTerapieConcomitantiByPaziente(int pazienteId) throws Exception {
         String url = API_URL + "get_terapie_concomitanti_by_idPaziente.php?paziente_id=" + pazienteId;
 
@@ -696,60 +578,6 @@ public class DataService {
             return parseTerapieConcomitantiManuale(json);
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
-        }
-    }
-
-    public void updateTerapiaConcomitante(int id, int pazienteId, String farmaco, LocalDate dataInizio, LocalDate dataFine, String frequenza, String dose, String indicazioni) throws Exception {
-        String url = API_URL + "update_terapia_concomitante.php";
-
-        String dataInizioStr = dataInizio.toString(); // yyyy-MM-dd
-        String dataFineStr = dataFine.toString();
-
-        String indicazioniSafe = (indicazioni != null) ? indicazioni : "";
-
-        String json = String.format(
-                "{\"id\":%d, \"paziente_id\":%d, \"farmaco\":\"%s\", \"data_inizio\":\"%s\", \"data_fine\":\"%s\", \"frequenza\":\"%s\", \"dose\":\"%s\", \"indicazioni\":\"%s\"}",
-                id, pazienteId, farmaco, dataInizioStr, dataFineStr, frequenza, dose, indicazioniSafe
-        );
-
-        post(url, json);
-    }
-
-    public void deleteTerapiaConcomitante(int id) throws Exception {
-        String url = API_URL + "delete_terapia_concomitante.php";
-
-        String json = String.format("{\"id\":%d}", id);
-
-        post(url, json);
-    }
-
-    public void addMessaggio(int idSender, int idReceiver, LocalDate dataInvio, LocalTime oraInvio,
-                             String oggetto, String corpo, char tipo, boolean letto) throws Exception {
-
-        String url = API_URL + "add_messaggio.php";
-
-        String json = String.format(
-                "{\"id_sender\":%d, \"id_receiver\":%d, \"dataInvio\":\"%s\", \"oraInvio\":\"%s\", " +
-                        "\"oggetto\":\"%s\", \"corpo\":\"%s\", \"tipo\":\"%c\", \"letto\":\"%s\"}",
-                idSender, idReceiver, dataInvio.toString(), oraInvio.toString(),
-                oggetto, corpo, tipo, letto ? "true" : "false"
-        );
-
-        post(url, json);
-    }
-
-    public void deleteMessaggio(int id) throws Exception {
-        String url = API_URL + "delete_messaggio.php?id=" + id;
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .DELETE()
-                .build();
-
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-        if (response.statusCode() != 200) {
-            throw new RuntimeException("Errore nella cancellazione: " + response.statusCode());
         }
     }
 
@@ -804,24 +632,6 @@ public class DataService {
         }
     }
 
-
-
-
-    public void addPatologia(int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) throws Exception {
-        String url = API_URL + "add_patologia.php";
-
-        String dataDiagnosiStr = dataDiagnosi != null ? dataDiagnosi.toString() : "";
-
-        String json = String.format(
-                "{\"paziente_id\":%d, \"nome_patologia\":\"%s\", \"data_diagnosi\":\"%s\", \"note\":\"%s\"}",
-                pazienteId, nomePatologia, dataDiagnosiStr, note != null ? note : ""
-        );
-
-        post(url, json);
-    }
-
-
-    // GET Patologie by pazienteId
     public Patologia[] getPatologieByPaziente(int pazienteId) throws Exception {
         String url = API_URL + "get_patologie_by_idPaziente.php?paziente_id=" + pazienteId;
 
@@ -840,30 +650,57 @@ public class DataService {
         }
     }
 
-    // UPDATE Patologia
-    public void updatePatologia(int id, int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) throws Exception {
-        String url = API_URL + "update_patologia.php";
 
-        String dataDiagnosiStr = dataDiagnosi != null ? dataDiagnosi.toString() : "";
 
-        String json = String.format(
-                "{\"id\":%d, \"paziente_id\":%d, \"nome_patologia\":\"%s\", \"data_diagnosi\":\"%s\", \"note\":\"%s\"}",
-                id, pazienteId, nomePatologia, dataDiagnosiStr, note != null ? note : ""
+    // ---=== SETTER ===---
+
+
+
+    public void addRilevazionePaziente(double valore, String tipo, int idPaziente, String pasto) throws Exception {
+
+        String url = API_URL + "add_rilevazione.php";
+
+        LocalDateTime now = LocalDateTime.now();
+        String dataOra = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); // formato 2025-05-24T10:15:30
+        String valoreFormattato = String.format(Locale.US, "%f", valore);
+
+        // Costruisci JSON manualmente
+
+        String json = String.format(Locale.US,
+                "{\"valore\": %.6f, \"tipo\": \"%s\", \"id_paziente\": %d, \"data\": \"%s\", \"pasto\": \"%s\"}",
+                valore, tipo, idPaziente, dataOra, pasto
         );
-
         post(url, json);
     }
 
-    // DELETE Patologia by id
-    public void deletePatologia(int id) throws Exception {
-        String url = API_URL + "delete_patologia.php";
+    public void addSintomoPaziente(String descrizione, int idPaziente) throws Exception {
 
-        String json = String.format("{\"id\":%d}", id);
+        String url = API_URL + "add_sintomo.php";
 
+        LocalDateTime now = LocalDateTime.now();
+        String dataOra = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); // formato 2025-05-24T10:15:30
+
+        // Costruisci JSON manualmente
+        String json = String.format(
+                "{\"descrizione\":\"%s\", \"id_paziente\":%d, \"data\":\"%s\"}",
+                descrizione, idPaziente, dataOra
+        );
         post(url, json);
     }
 
-
+    public void addAssunzione(int idAssunzioneFarmaco, LocalDateTime data, String stato) throws Exception {
+        String url = API_URL + "add_assunzione.php";
+        String dataStr = data.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String json = String.format(
+                "{" +
+                        "\"id_assunzione_farmaco\":%d, " +
+                        "\"data\":\"%s\", " +
+                        "\"stato\":\"%s\"" +
+                        "}",
+                idAssunzioneFarmaco, data, stato
+        );
+        post(url, json);
+    }
 
     public void addFarmaco(String nome, String descrizione) throws Exception {
 
@@ -875,7 +712,6 @@ public class DataService {
         );
 
         post(url, json);
-
     }
 
     public void addUtente(String password, String ruolo, String nome, String cognome, String codFiscale, LocalDate dataNascita, String email, String telefono, String indirizzo, String genere) throws Exception {
@@ -901,7 +737,6 @@ public class DataService {
         );
 
         post(url, json);
-
     }
 
     public void addTerapia(
@@ -942,49 +777,203 @@ public class DataService {
         post(url, json);
     }
 
+    public int addSintomoConcomitante(int idPaziente, String descrizione, LocalDate dataInizio, String frequenza, String note) throws Exception {
+
+        String url = API_URL + "add_sintomo_concomitante.php";
+
+        // Formatta dataInizio in ISO_LOCAL_DATE_TIME
+        String dataOra = dataInizio.toString();
+
+        // Costruisci JSON manualmente con l'ordine corretto
+        String json = String.format(
+                "{\"paziente_id\":%d, \"descrizione\":\"%s\", \"data_inizio\":\"%s\", \"frequenza\":\"%s\", \"note\":\"%s\"}",
+                idPaziente, descrizione, dataOra, frequenza,
+                note != null ? note : ""
+        );
+
+        post(url, json);
+
+        return idPaziente;
+    }
+
+    public void addMessaggio(int idSender, int idReceiver, LocalDate dataInvio, LocalTime oraInvio,
+                             String oggetto, String corpo, char tipo, boolean letto) throws Exception {
+
+        String url = API_URL + "add_messaggio.php";
+
+        String json = String.format(
+                "{\"id_sender\":%d, \"id_receiver\":%d, \"dataInvio\":\"%s\", \"oraInvio\":\"%s\", " +
+                        "\"oggetto\":\"%s\", \"corpo\":\"%s\", \"tipo\":\"%c\", \"letto\":\"%s\"}",
+                idSender, idReceiver, dataInvio.toString(), oraInvio.toString(),
+                oggetto, corpo, tipo, letto ? "true" : "false"
+        );
+
+        post(url, json);
+    }
+
+    public void addPatologia(int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) throws Exception {
+        String url = API_URL + "add_patologia.php";
+
+        String dataDiagnosiStr = dataDiagnosi != null ? dataDiagnosi.toString() : "";
+
+        String json = String.format(
+                "{\"paziente_id\":%d, \"nome_patologia\":\"%s\", \"data_diagnosi\":\"%s\", \"note\":\"%s\"}",
+                pazienteId, nomePatologia, dataDiagnosiStr, note != null ? note : ""
+        );
+
+        post(url, json);
+    }
+
+    public void addTerapiaConcomitante(int pazienteId, String nomeFarmaco, LocalDate dataInizio, LocalDate dataFine, String frequenza, String dose, String indicazioni) throws Exception {
+
+        String url = API_URL + "add_terapia_concomitante.php";
+
+        // Converte le date in stringa formato ISO yyyy-MM-dd
+        String dataInizioStr = dataInizio.toString();
+        String dataFineStr = dataFine.toString();
+
+        // Se indicazioni è null, lo mettiamo come stringa vuota nel JSON
+        String indicazioniSafe = (indicazioni != null) ? indicazioni : "";
+
+        // Costruisci JSON manualmente
+        String json = String.format(
+                "{\"paziente_id\":%d, \"farmaco\":\"%s\", \"data_inizio\":\"%s\", \"data_fine\":\"%s\", \"frequenza\":\"%s\", \"dose\":\"%s\", \"indicazioni\":\"%s\"}",
+                pazienteId, nomeFarmaco, dataInizioStr, dataFineStr, frequenza, dose, indicazioniSafe
+        );
+
+        post(url, json);
+    }
+
+
+
+    // ---=== UPDATE ===---
+
+
+
+    public void updatePatologia(int id, int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) throws Exception {
+        String url = API_URL + "update_patologia.php";
+
+        String dataDiagnosiStr = dataDiagnosi != null ? dataDiagnosi.toString() : "";
+
+        String json = String.format(
+                "{\"id\":%d, \"paziente_id\":%d, \"nome_patologia\":\"%s\", \"data_diagnosi\":\"%s\", \"note\":\"%s\"}",
+                id, pazienteId, nomePatologia, dataDiagnosiStr, note != null ? note : ""
+        );
+
+        post(url, json);
+    }
+
+    public void updateTerapiaConcomitante(int id, int pazienteId, String farmaco, LocalDate dataInizio, LocalDate dataFine, String frequenza, String dose, String indicazioni) throws Exception {
+        String url = API_URL + "update_terapia_concomitante.php";
+
+        String dataInizioStr = dataInizio.toString(); // yyyy-MM-dd
+        String dataFineStr = dataFine.toString();
+
+        String indicazioniSafe = (indicazioni != null) ? indicazioni : "";
+
+        String json = String.format(
+                "{\"id\":%d, \"paziente_id\":%d, \"farmaco\":\"%s\", \"data_inizio\":\"%s\", \"data_fine\":\"%s\", \"frequenza\":\"%s\", \"dose\":\"%s\", \"indicazioni\":\"%s\"}",
+                id, pazienteId, farmaco, dataInizioStr, dataFineStr, frequenza, dose, indicazioniSafe
+        );
+
+        post(url, json);
+    }
+
+    public void updateSintomoConcomitante(int id, int pazienteId, String descrizione, LocalDate dataInizio, String frequenza, String note) throws Exception {
+        String url = API_URL + "update_sintomo_concomitante.php";
+
+        String dataInizioStr = dataInizio.toString(); // yyyy-MM-dd
+
+        String json = String.format(
+                "{\"id\":%d, \"paziente_id\":%d, \"descrizione\":\"%s\", \"data_inizio\":\"%s\", \"frequenza\":\"%s\", \"note\":\"%s\"}",
+                id, pazienteId, descrizione, dataInizioStr, frequenza, note != null ? note : ""
+        );
+
+        post(url, json);
+    }
+
+    public void updateSintomo(int idSintomo, String descrizione, int idPaziente, LocalDateTime data) throws Exception {
+
+        String url = API_URL + "update_sintomo.php";
+
+        String dataOra = data.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); // Esempio: 2025-05-24T10:15:30
+
+        // Costruisci JSON manualmente
+        String json = String.format(
+                "{" +
+                        "\"id\":%d, " +
+                        "\"descrizione\":\"%s\", " +
+                        "\"id_paziente\":%d, " +
+                        "\"data\":\"%s\"" +
+                        "}",
+                idSintomo, descrizione, idPaziente, dataOra
+        );
+
+        post(url, json);
+    }
+
+    public void updateAssunzione(int idAssunzione, LocalDateTime data, String stato) throws Exception {
+        String url = API_URL + "update_assunzione.php";
+        String dataStr = data.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String json = String.format(
+                "{" +
+                        "\"id\":%d, " +
+                        "\"data\":\"%s\", " +
+                        "\"stato\":\"%s\"" +
+                        "}",
+                idAssunzione, dataStr, stato
+        );
+        post(url, json);
+    }
 
     public void updatePassword(int id, String password) throws Exception {
-
         String url = API_URL + "update_password.php";
-
         String json = String.format(
                 "{\"id\":%d, \"password\":\"%s\"}",
                 id, password
         );
 
         post(url, json);
-
     }
 
     public void updateFarmaco(int id, String nome, String descrizione) throws Exception {
-
         String url = API_URL + "update_farmaco.php";
-
         String json = String.format(
                 "{\"id\":%d, \"nome\":\"%s\", \"descrizione\":\"%s\"}",
                 id, nome, descrizione
         );
+        post(url, json);
+    }
 
+    public void updateRilevazione(int idRilevazione, double valore, String tipo, int idPaziente, LocalDateTime data, String pasto) throws Exception {
+        String url = API_URL + "update_rilevazione.php";
+        String dataOra = data.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); // formato 2025-05-24T10:15:30
+
+        String json = String.format(Locale.US,
+                "{" +
+                        "\"id\": %d, " +
+                        "\"valore\": %.6f, " +
+                        "\"tipo\": \"%s\", " +
+                        "\"id_paziente\": %d, " +
+                        "\"data\": \"%s\", " +
+                        "\"pasto\": \"%s\"" +
+                        "}",
+                idRilevazione, valore, tipo, idPaziente, dataOra, pasto
+        );
         post(url, json);
     }
 
     public void assegnazioneMedico(int idMedico, int idPaziente) throws Exception {
-
         String url = API_URL + "assegnazione_medico.php";
-
         String json = String.format(
                 "{\"idMedico\":%d, \"idPaziente\":%d}",
                 idMedico, idPaziente
         );
-
         post(url, json);
-
     }
 
     public void associazioneFarmacoTerapia(int idTerapia, int idFarmaco, int numeroAssunzioni, int dose) throws Exception {
-
         String url = API_URL + "associazione_farmaco_terapia.php";
-
         String json = String.format(
                 "{" +
                         "\"id_terapia\":%d, " +
@@ -994,29 +983,9 @@ public class DataService {
                         "}",
                 idTerapia, idFarmaco, numeroAssunzioni, dose
         );
-
         post(url, json);
-
     }
 
-    public void addAssunzione(int idAssunzioneFarmaco, LocalDateTime data, String stato) throws Exception {
-
-        String url = API_URL + "add_assunzione.php";
-
-        String dataStr = data.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-        String json = String.format(
-                "{" +
-                        "\"id_assunzione_farmaco\":%d, " +
-                        "\"data\":\"%s\", " +
-                        "\"stato\":\"%s\"" +
-                        "}",
-                idAssunzioneFarmaco, data, stato
-        );
-
-        post(url, json);
-
-    }
 
     private void post(String url, String json) throws Exception {
 
@@ -1035,10 +1004,38 @@ public class DataService {
         } else {
             throw new RuntimeException("Errore invio oggetto: HTTP " + response.statusCode() + json );
         }
-
     }
 
-    // delete
+
+
+
+    // ---=== DELETE ===---
+
+
+
+
+    public void deleteTerapiaConcomitante(int id) throws Exception {
+        String url = API_URL + "delete_terapia_concomitante.php";
+
+        String json = String.format("{\"id\":%d}", id);
+
+        post(url, json);
+    }
+
+    public void deleteMessaggio(int id) throws Exception {
+        String url = API_URL + "delete_messaggio.php?id=" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .DELETE()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("Errore nella cancellazione: " + response.statusCode());
+        }
+    }
 
     public void deleteFarmaco(int idFarmaco) throws Exception {
 
@@ -1050,6 +1047,14 @@ public class DataService {
 
         delete(url, json);
 
+    }
+
+    public void deletePatologia(int id) throws Exception {
+        String url = API_URL + "delete_patologia.php";
+
+        String json = String.format("{\"id\":%d}", id);
+
+        post(url, json);
     }
 
     public void deleteAssegnazioneMedico(int idPaziente) throws Exception {
@@ -1073,8 +1078,16 @@ public class DataService {
         );
 
         delete(url, json);
-
     }
+
+    public void deleteSintomoConcomitante(int id) throws Exception {
+        String url = API_URL + "delete_sintomo_concomitante.php";
+
+        String json = String.format("{\"id\":%d}", id);
+
+        post(url, json);
+    }
+
 
     private void delete(String url, String json) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
@@ -1094,7 +1107,9 @@ public class DataService {
         }
     }
 
-    // parser dati
+
+
+    // ---=== PARSER DATI ===---
 
     private Utente parseUtenteWithDate(String json) {
         JsonObject obj = JsonParser.parseString(json).getAsJsonObject();

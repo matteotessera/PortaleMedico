@@ -58,7 +58,7 @@ public class BoxDashboardControllerPatient {
 
         List<Rilevazione> rilevazioni;
         try {
-            rilevazioni = List.of(ds.getRilevazioniUtente(u.getId()));
+            rilevazioni = List.of(ds.getRilevazioniById(u.getId()));
         } catch (Exception e) {
             rilevazioni = List.of(new Rilevazione[0]); // array vuoto
         }
@@ -119,7 +119,7 @@ public class BoxDashboardControllerPatient {
         List<Sintomo> sintomi;
         try {
             System.out.println(u.getId());
-            sintomi = List.of(ds.getSintomiPaziente(u.getId()));
+            sintomi = List.of(ds.getSintomiById(u.getId()));
         } catch (Exception e) {
             sintomi = List.of(new Sintomo[0]); // array vuoto
         }
