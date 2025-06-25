@@ -12,11 +12,11 @@ public class Messaggio {
     private LocalTime orarioInvio;
     private String oggetto;
     private String corpo;
-    private String tipo;        // G = glicemia elevata, N = non aderente alle prescrizioni per 3 giorni consecutivi
+    private char tipo;        // G = glicemia elevata, N = non aderente alle prescrizioni per 3 giorni consecutivi
                                 // A= avviso, hai dimenticato di assumere farmaco x, M = messaggio diretto dal medico
     private boolean letto;
 
-    public Messaggio(int id, int id_Sender, String tipo, LocalDate dataInvio, LocalTime orarioInvio, String oggetto, String corpo, boolean letto) {
+    public Messaggio(int id, int id_Sender, char tipo, LocalDate dataInvio, LocalTime orarioInvio, String oggetto, String corpo, boolean letto) {
         this.id = id;
         this.id_Sender = id_Sender;
         this.dataInvio = dataInvio;
@@ -27,8 +27,15 @@ public class Messaggio {
         this.letto = false;
     }
 
+    public Messaggio() {
 
-    public String getTipo(){
+    }
+
+    public void setTipo(char tipo){
+        this.tipo = tipo;
+    }
+
+    public char getTipo(){
         return tipo;
     }
 
@@ -40,7 +47,7 @@ public class Messaggio {
         return letto;
     }
 
-    public boolean setLetto(boolean letto){
+    public void setLetto(boolean letto){
         this.letto = letto;
     }
 
