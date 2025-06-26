@@ -53,7 +53,7 @@ public class BoxDashboardControllerPatient {
         }
     }
 
-    public void listaRilevazioni() throws Exception {
+    public void listaRilevazioni(){
         bodyContainer.getChildren().clear();
 
         List<Rilevazione> rilevazioni;
@@ -63,9 +63,9 @@ public class BoxDashboardControllerPatient {
             rilevazioni = List.of(new Rilevazione[0]); // array vuoto
         }
 
-        String textButton = "Vedi";
+        String textButton = "Modifica";
         String titolo = "lista rilevazioni";
-        tabella.tabellaRilevazioni(titolo, rilevazioni, textButton, Color.web("#34bccc"), bodyContainer);
+        tabella.tabellaRilevazioni(titolo, rilevazioni, textButton, Color.web("#2BD18D"), bodyContainer, this);
 
         LabelBoxDashboard.setText("TUTTE LE TUE RILEVAZIONI PASSATE");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
@@ -78,15 +78,14 @@ public class BoxDashboardControllerPatient {
 
         List<Assunzione> assunzioni;
         try {
-            System.out.println(u.getId());
             assunzioni = List.of(ds.getAssunzioniPaziente(u.getId()));
         } catch (Exception e) {
             assunzioni = List.of(new Assunzione[0]); // array vuoto
         }
 
-        String textButton = "Vedi";
+        String textButton = "Visualizza";
         String titolo = "lista assunzioni";
-        tabella.tabellaAssunzioni(titolo, assunzioni, textButton, Color.web("#34bccc"), bodyContainer);
+        tabella.tabellaAssunzioni(titolo, assunzioni, textButton, Color.web("#2BD18D"), bodyContainer, this);
 
         LabelBoxDashboard.setText("TUTTE LE TUE ASSUNZIONI");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
@@ -125,7 +124,7 @@ public class BoxDashboardControllerPatient {
         }
 
         String textButton = "Modifica";
-        String titolo = "lista terapie";
+        String titolo = "lista sintomi";
         tabella.tabellaSintomo(titolo, sintomi, textButton, Color.web("#2BD18D"), bodyContainer, this);
 
         LabelBoxDashboard.setText("TUTTI I TUOI SINTOMI PASSATI:");
@@ -219,6 +218,32 @@ public class BoxDashboardControllerPatient {
 
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addFarmacoContent);
+    }
+    public void vediRilevazione() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("\uD83E\uDC14 Torna alle rilevazioni");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
+        LabelBoxDashboard.setOnMouseClicked(event -> listaRilevazioni());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/RilevazioneView.fxml"));
+        Parent content = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(content);
+    }
+    public void vediAssunzione() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("\uD83E\uDC14 Torna alle assunzioni");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
+        LabelBoxDashboard.setOnMouseClicked(event -> listaRilevazioni());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/AssunzioneView.fxml"));
+        Parent content = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(content);
     }
 
 

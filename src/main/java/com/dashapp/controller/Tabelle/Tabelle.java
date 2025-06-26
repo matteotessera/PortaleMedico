@@ -97,7 +97,7 @@ public class Tabelle {
     }
 
     // METODO PER CREARE TABELLA @param (lista di utenti, il nome del bottone da visualizzare e il colore del bottone)
-    public void tabellaRilevazioni(String titolo, List<Rilevazione> rilevazioni, String textButton, Color color, VBox bodyContainer){
+    public void tabellaRilevazioni(String titolo, List<Rilevazione> rilevazioni, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller){
         Label titoloTabella = new Label();
         titoloTabella.setText(titolo);
         titoloTabella.setStyle(
@@ -162,6 +162,12 @@ public class Tabelle {
             prendiInCaricoButton.setPrefWidth(azioneWidth);
             prendiInCaricoButton.setOnAction(e -> {
                 System.out.println("Preso in carico: " + r.getValore() + " " + r.getData());
+                try {
+                    NavigatorView.setRilevaizoneSelezionata(r);
+                    controller.vediRilevazione();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             });
 
             rigaUtente.getChildren().addAll(
@@ -179,7 +185,7 @@ public class Tabelle {
         bodyContainer.getChildren().add(listaUtentiBox);
     }
 
-    public void tabellaAssunzioni(String titolo, List<Assunzione> assunzioni, String textButton, Color color, VBox bodyContainer) throws Exception {
+    public void tabellaAssunzioni(String titolo, List<Assunzione> assunzioni, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller) throws Exception {
         ds = new DataService();
 
         Label titoloTabella = new Label();
@@ -258,6 +264,12 @@ public class Tabelle {
             prendiInCaricoButton.setPrefWidth(azioneWidth);
             prendiInCaricoButton.setOnAction(e -> {
                 System.out.println("Preso in carico: " + a.getDose() + " " + a.getData());
+                try {
+                    NavigatorView.setAssunzioneSelezionata(a);
+                    controller.vediAssunzione();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             });
 
             rigaUtente.getChildren().addAll(

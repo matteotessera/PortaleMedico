@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="666.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.VediAssunzioneController">
+   <children>
+      <HBox prefHeight="676.0" prefWidth="932.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="443.0" prefWidth="262.0">
+               <children>
+                  <ImageView fitHeight="410.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </VBox>
+            <VBox layoutX="310.0" layoutY="10.0" prefHeight="533.0" prefWidth="632.0" spacing="15.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Assunzione in data" textFill="#cb6ce6" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button fx:id="modificaButton" mnemonicParsing="false" onAction="#modificaSintomo" prefHeight="26.0" prefWidth="99.0" style="-fx-background-color: #bd1522; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="1000.0" spacing="10.0">
+                           <children>
+                              <Label text="Data del assunzione" />
+                              <DatePicker fx:id="dataArea" prefWidth="1000.0" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="1000.0" spacing="10.0">
+                           <children>
+                              <Label prefWidth="1000.0" text="Orario del assunzione" />
+                              <TextField fx:id="orarioField" prefWidth="1000.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Separator prefWidth="634.0" />
+                  <Label text="Terapia">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="terapiaField" prefHeight="140.0" prefWidth="632.0" />
+                  <Label text="Farmaco assunto" />
+                  <TextArea fx:id="farmacoField" prefHeight="105.0" prefWidth="632.0" wrapText="true" />
+                  <VBox prefHeight="74.0" prefWidth="632.0" spacing="10.0">
+                     <children>
+                        <VBox prefHeight="67.0" prefWidth="632.0" spacing="10.0">
+                           <children>
+                              <Label text="Quantita di farmaco assunta" />
+                              <TextField fx:id="quantitaField" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER_RIGHT" spacing="10">
+                     <children>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaModifica" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: #a0a0a0; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla" visible="false" />
+                        <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#InviaModifica" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Conferma" visible="false" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>

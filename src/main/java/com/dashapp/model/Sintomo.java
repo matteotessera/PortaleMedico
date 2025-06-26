@@ -23,8 +23,8 @@ public class Sintomo {
     }
 
     // Getter
-    public String getId() {
-        return id;
+    public int getId() {
+        return Integer.parseInt(id);
     }
 
     public LocalDateTime getData() {
@@ -35,8 +35,8 @@ public class Sintomo {
         return descrizione;
     }
 
-    public String getIdPaziente() {
-        return idPaziente;
+    public int getIdPaziente() {
+        return Integer.parseInt(idPaziente);
     }
 
     // Setter

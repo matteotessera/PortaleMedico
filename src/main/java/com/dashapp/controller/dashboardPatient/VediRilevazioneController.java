@@ -1,8 +1,9 @@
 package com.dashapp.controller.dashboardPatient;
 
-import com.dashapp.model.Sintomo;
+import com.dashapp.model.Rilevazione;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -11,14 +12,19 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 
-public class VediSintomoController {
+public class VediRilevazioneController {
 
-    private Sintomo sintomo;
+    private Rilevazione rilevazione;
     @FXML
     public Button modificaButton;
     @FXML
-    public TextArea descrizioneTextArea;
+    public TextArea valoreField;
+    @FXML
+    public ComboBox<String> relazioneField;
+    @FXML
+    public ComboBox<String> pastoField;
     @FXML
     public Button annullaButton;
     @FXML
@@ -26,24 +32,40 @@ public class VediSintomoController {
     @FXML
     public DatePicker dataArea;
     @FXML
-    public TextField textField;
+    public TextField orarioField;
 
     @FXML
     public void initialize(){
-        sintomo = NavigatorView.getSintomoSelezionato();
+        rilevazione = NavigatorView.getRilevazioneSelezionata();
 
         modificaButton.setVisible(true);
         annullaButton.setVisible(false);
         annullaButton.setManaged(false);
         confermaButton.setVisible(false);
         confermaButton.setManaged(false);
-        descrizioneTextArea.setEditable(false);
+        valoreField.setEditable(false);
+        pastoField.setEditable(false);
+        relazioneField.setEditable(false);
         dataArea.setEditable(false);
-        textField.setEditable(false);
+        orarioField.setEditable(false);
 
-        descrizioneTextArea.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
+        valoreField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
+        relazioneField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
+        pastoField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
         dataArea.setStyle( "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
-        textField.setStyle("-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+        orarioField.setStyle("-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+
+        pastoField.setItems(FXCollections.observableArrayList(
+                Arrays.stream(Rilevazione.TipoPasto.values())
+                        .map(e -> e.name().toLowerCase())
+                        .toList()
+        ));
+
+        relazioneField.setItems(FXCollections.observableArrayList(
+                Arrays.stream(Rilevazione.TipoRilevazione.values())
+                        .map(e -> e.name().toLowerCase())
+                        .toList()
+        ));
 
         caricaDati();
     }
@@ -51,9 +73,13 @@ public class VediSintomoController {
     public void caricaDati(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        descrizioneTextArea.setText(sintomo.getDescrizione());
-        dataArea.setValue(sintomo.getData().toLocalDate());
-        textField.setText(sintomo.getData().toLocalTime().toString());
+        valoreField.setText(rilevazione.getValore());
+        relazioneField.setValue(rilevazione.getTipo());
+        pastoField.setValue(rilevazione.getPasto());
+        dataArea.setValue(rilevazione.getData().toLocalDate());
+        orarioField.setText(rilevazione.getData().toLocalTime().toString());
+
+        System.out.println(relazioneField.getValue().toString());
 
     }
 
@@ -67,14 +93,18 @@ public class VediSintomoController {
 
         modificaButton.setVisible(false);
 
-        descrizioneTextArea.setEditable(true);
+        valoreField.setEditable(true);
+        relazioneField.setEditable(true);
+        pastoField.setEditable(true);
         dataArea.setEditable(true);
-        textField.setEditable(true);
+        orarioField.setEditable(true);
 
         String bordoBlu = "-fx-border-color: #0078ff; -fx-border-width: 1;";
-        descrizioneTextArea.setStyle(bordoBlu + " -fx-font-size: 16px;");
+        valoreField.setStyle(bordoBlu + " -fx-font-size: 16px;");
+        relazioneField.setStyle(bordoBlu + " -fx-font-size: 16px;");
+        pastoField.setStyle(bordoBlu + " -fx-font-size: 16px;");
         dataArea.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
-        textField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+        orarioField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
     }
 
     public void annullaModifica(){
@@ -84,8 +114,9 @@ public class VediSintomoController {
 
     public void InviaModifica() throws Exception {
         DataService ds = new DataService();
+
         LocalDate data = dataArea.getValue();
-        String orarioString = textField.getText();
+        String orarioString = orarioField.getText();
 
         // Validazione base
         if (data == null || orarioString == null || orarioString.isBlank()) {
@@ -103,12 +134,13 @@ public class VediSintomoController {
 
         LocalDateTime nuovaData = LocalDateTime.of(data, orario);
 
-        ds.updateSintomo(sintomo.getId(), descrizioneTextArea.getText(), sintomo.getIdPaziente(), nuovaData );
+        ds.updateRilevazione(rilevazione.getId(), Double.parseDouble(valoreField.getText()), relazioneField.getValue(), rilevazione.getIdPaziente(),
+                nuovaData, pastoField.getValue());
 
-        //sintomo = ds.getSintomoById(sintomo.getId());
+        //rilevazione = ds.getRilevazioneById(rilevazione.getId());
 
 
-        NavigatorView.setSintomoSelezionato(sintomo);
+        NavigatorView.setRilevaizoneSelezionata(rilevazione);
 
         mostraAlert("Successo", "Farmaco modificato correttamente!");
         initialize();

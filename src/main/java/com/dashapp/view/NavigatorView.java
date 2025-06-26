@@ -2,12 +2,11 @@ package com.dashapp.view;
 
 import com.dashapp.Main;
 import com.dashapp.controller.MainController;
-import com.dashapp.model.Farmaco;
-import com.dashapp.model.Sintomo;
-import com.dashapp.model.Utente;
+import com.dashapp.model.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 
+import javax.management.relation.RoleInfoNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 
@@ -21,6 +20,8 @@ public class NavigatorView {
     private static Utente paziente = null;
     private static Farmaco farmaco = null;
     private static Sintomo sintomo = null;
+    private static Rilevazione rilevazione = null;
+    private static Assunzione assunzione = null;
 
 
     /**
@@ -112,6 +113,17 @@ public class NavigatorView {
     public static Sintomo getSintomoSelezionato(){
         return sintomo;
     }
+
+    public static void setRilevaizoneSelezionata(Rilevazione rilevaz){
+        rilevazione = rilevaz;
+    }
+
+    public static Rilevazione getRilevazioneSelezionata(){
+        return rilevazione;
+    }
+
+    public static void setAssunzioneSelezionata(Assunzione assunz){ assunzione = assunz;}
+    public static Assunzione getAssunzioneSelezionata(){ return assunzione;};
 
 
 

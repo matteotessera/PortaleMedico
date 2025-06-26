@@ -1,6 +1,11 @@
 package com.dashapp.model;
 
+import com.dashapp.services.DataService;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Terapia {
     private int id;
@@ -8,6 +13,7 @@ public class Terapia {
     private LocalDate dataFine;
     private String note;
     private int idPaziente;
+
 
     // Costruttore vuoto
     public Terapia() {}
@@ -65,11 +71,35 @@ public class Terapia {
 
     @Override
     public String toString() {
+
+        DataService ds = new DataService();
+        List<Farmaco> farmaci;
+        try {
+            List<AssociazioneFarmaco> ass = List.of(ds.getAssociazioniFarmaciByTerapia(id));
+            List<Integer> IDfarmaci = ass.stream()
+                    .map(AssociazioneFarmaco::getIdFarmaco)
+                    .collect(Collectors.toList());
+            farmaci = new ArrayList<>();
+            for (Integer idFarmaco : IDfarmaci) {
+                try {
+                    farmaci.add(ds.getFarmacoById(idFarmaco));
+                } catch (Exception e) {
+                    e.printStackTrace(); // oppure loggalo o mostra un messaggio
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
         return "Terapia:" + id + "\n" +
                 "\u2022 dataInizio: " + dataInizio + "\n" +
                 "\u2022 dataFine:" + dataFine + "\n" +
+                "\u2022 Farmaci:" +  farmaci  + "\n" +
                 "\u2022 note:'" + note + '\''
-               ;
+                ;
+
     }
 
 }

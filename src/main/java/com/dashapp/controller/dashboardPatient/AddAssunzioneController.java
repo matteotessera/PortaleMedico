@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -44,10 +45,7 @@ public class AddAssunzioneController extends AddController{
 
         ControlliSistema controlli = new ControlliSistema();
         int idPaziente = BoxDashboardControllerPatient.u.getId();
-        if(controlli.pazienteNonAderente(idPaziente))
-            System.out.println("non hai aderito alla tua terapia");
-        else
-            System.out.println("BRAVO, hai aderito");
+
 
         farmaciDaAssumere.setEditable(false);
         quantitaField.setEditable(false);
@@ -198,6 +196,7 @@ public class AddAssunzioneController extends AddController{
     public void setParentController(DashboardPatientController controller) {
         this.parentController = controller;
     }
+
     public void setParentBoxController(BoxDashboardControllerPatient controller) {
         this.parentBoxController = controller;
     }
@@ -212,10 +211,24 @@ public class AddAssunzioneController extends AddController{
             }
         }
         parentBoxController.bodyContainer.getChildren().clear();
-        Label completatoLabel = new Label("ASSUNTO TUTTO");
+        Label completatoLabel = new Label("HAI ASSUNTO TUTTI I FARMACI DI OGGI");
         completatoLabel.setStyle("-fx-font-size: 32px; -fx-text-fill: green; -fx-font-weight: bold;");
+
+        Button assumiComunque = new Button("voglio comunque assumere un farmaco");
         parentBoxController.bodyContainer.getChildren().add(completatoLabel);
-    };
+        parentBoxController.bodyContainer.getChildren().add(assumiComunque);
+
+
+        //NON VA, NON SO PERCHE
+        assumiComunque.setOnAction(e -> {
+            try {
+                parentBoxController.aggiungiAssunzione();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+    }
 
 
 
