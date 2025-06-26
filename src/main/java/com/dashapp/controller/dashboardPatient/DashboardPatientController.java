@@ -59,7 +59,7 @@ public class DashboardPatientController {
     public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
         LoginService l = new LoginService();
         DataService d = new DataService();
-        terapieLabel.setText("Hai " + d.getNumeroTerapieMedico(l.getUserId()) + " terapie assegnate");
+        //terapieLabel.setText("Hai " + d.getNumeroTerapieMedico(l.getUserId()) + " terapie assegnate");
         mostraTextPaziente();
 
         if (!mainContent.getChildren().isEmpty()) {
@@ -205,7 +205,7 @@ public class DashboardPatientController {
         String email = NavigatorView.getAuthenticatedUser();
 
         Utente u = ds.getUtenteByEmail(email);
-        doctorName.setText("Dr. "+u.getNome()+" "+u.getCognome());
+        doctorName.setText(u.getNome()+" "+u.getCognome());
 
         char nome = u.getNome().toUpperCase().charAt(0);
         char cognome = u.getCognome().toUpperCase().charAt(0);

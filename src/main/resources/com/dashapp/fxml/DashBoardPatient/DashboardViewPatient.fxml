@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.DashboardPatientController">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.DashboardPatientController">
     <content>
         <VBox prefWidth="713.0" spacing="0">
 
             <!-- HEADER FISSO -->
-            <VBox prefHeight="214.0" prefWidth="674.0" spacing="15" style="-fx-background-color: #34bccc; -fx-background-radius: 0 0 20 20; -fx-padding: 20;">
+            <VBox prefHeight="214.0" prefWidth="674.0" spacing="15" style="-fx-background-color: #78cdd7; -fx-background-radius: 0 0 20 20; -fx-padding: 20;">
                 <children>
                     <HBox alignment="CENTER_LEFT" spacing="20">
                         <StackPane fx:id="utenteCirclePane" visible="false">
@@ -36,71 +27,134 @@
                             </children>
                         </StackPane>
                         <VBox alignment="CENTER_LEFT">
-                            <Label contentDisplay="BOTTOM" style="-fx-text-fill: white;" text="Benvenuto">
+                            <Label contentDisplay="BOTTOM" style="-fx-text-fill: white;" text="Benvenuto" textFill="#1e3746">
                                 <font>
-                                    <Font name="System Bold" size="16" />
+                                    <Font name="System Bold" size="18.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="doctorName" alignment="TOP_LEFT" style="-fx-text-fill: white;">
+                            <Label fx:id="doctorName" alignment="TOP_LEFT" style="-fx-text-fill: #1e3746;">
                                 <font>
-                                    <Font name="System Bold" size="20" />
+                                    <Font name="System Bold" size="22.0" />
                                 </font>
+                        <padding>
+                           <Insets top="-5.0" />
+                        </padding>
                             </Label>
                         </VBox>
                     </HBox>
 
                     <Region VBox.vgrow="ALWAYS" />
 
-                    <HBox alignment="CENTER_LEFT">
-                        <HBox alignment="CENTER_LEFT" onMouseClicked="#fascicoloPaziente" spacing="10">
-                            <!-- Quadrato stondato con immagine -->
-                            <StackPane>
-                                <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
-                                <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
-                                    <image>
-                                        <Image url="@../../images/patient.png" />
-                                    </image></ImageView>
-                            </StackPane>
 
-                            <!-- Testi a fianco -->
-                            <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="126.0">
-                                <Label fx:id="descrizioneLabel" prefHeight="83.0" prefWidth="98.0" text="accedi al fasciolo" textFill="WHITE" wrapText="true">
-                                    <font>
-                                        <Font name="System Bold" size="18.0" />
-                                    </font>
-                                </Label>
-                            </VBox>
-                        </HBox>
+                    <!-- Testi a fianco -->
+                    <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="126.0">
+
+                    </VBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="25.0">
 
                         <HBox alignment="CENTER_LEFT" spacing="10">
                             <!-- Quadrato stondato con immagine -->
-                            <StackPane>
-                                <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
-                                <ImageView fx:id="iconaImageView" fitHeight="40" fitWidth="40">
-                           <image>
-                              <Image url="@../../images/message.png" />
-                           </image></ImageView>
+                            <StackPane onMouseClicked="#fascicoloPaziente" prefHeight="60.0" prefWidth="250.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+
+                                <effect>
+                                    <DropShadow color="#00000066" offsetX="0" offsetY="10.0" radius="20.0" />
+                                </effect>
+
+                                <!-- Image di sfondo -->
+                                <ImageView fitHeight="60.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="false">
+                                    <image>
+                                        <Image url="@../../images/fascicolo_blu_scuro.png" />
+                                    </image>
+                                    <viewport>
+                                        <Rectangle2D height="60" minX="0" minY="0" width="500" />
+                                    </viewport>
+                                    <clip>
+                                        <Rectangle arcHeight="20.0" arcWidth="20.0" height="60.0" width="250.0" />
+                                    </clip>
+                                </ImageView>
+
+                                <!-- Label sopra l'immagine -->
+                                <Label fx:id="descrizioneLabel" prefHeight="60.0" prefWidth="250.0" text="Accedi al fascicolo" textFill="WHITE" wrapText="true">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="20.0" />
+                                    </padding>
+                                </Label>
+
                             </StackPane>
 
-                            <!-- Testi a fianco -->
-                            <VBox alignment="CENTER_LEFT">
-                                <Label fx:id="numeroLabel" text="5" textFill="WHITE">
-                                    <font>
-                                        <Font name="System Bold" size="24.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="descrizioneLabel" text="Messaggi" textFill="WHITE">
-                                    <font>
-                                        <Font size="14" />
-                                    </font>
-                                </Label>
-                            </VBox>
+
+                            <!--
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <StackPane>
+                                    <Rectangle arcHeight="20" arcWidth="20" fill="#c66fe3cc" height="60.0" width="60.0" />
+                                    <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
+                                        <image>
+                                            <Image url="@../../images/farmaco_bianco.png" />
+                                        </image></ImageView>
+                                </StackPane>
+
+                                <VBox alignment="CENTER_LEFT" prefHeight="60.0">
+                                    <Label fx:id="numeroFarmaci" textFill="WHITE">
+                                        <font>
+                                            <Font name="System Bold" size="24.0" />
+                                        </font>
+                                    </Label>
+                                    <Label fx:id="descrizioneLabel" text="Farmaci da assumere" textFill="WHITE">
+                                        <font>
+                                            <Font size="14" />
+                                        </font>
+                                    </Label>
+                                </VBox>
+                        <padding>
+                           <Insets left="70.0" />
+                        </padding>
+                            </HBox>
+                            -->
+
+                            <!--
+
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <StackPane>
+                                    <Rectangle arcHeight="20" arcWidth="20" fill="#83d95bcc" height="60.0" width="60.0" />
+                                    <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
+                                        <image>
+                                            <Image url="@../../images/terapia_bianca.png" />
+                                        </image></ImageView>
+                                </StackPane>
+
+                                <VBox alignment="CENTER_LEFT" prefHeight="60.0">
+                                    <Label fx:id="numeroTerapie" textFill="WHITE">
+                                        <font>
+                                            <Font name="System Bold" size="24.0" />
+                                        </font>
+                                    </Label>
+                                    <Label fx:id="descrizioneLabel" text="Terapie assegnate" textFill="WHITE">
+                                        <font>
+                                            <Font size="14" />
+                                        </font>
+                                    </Label>
+                                </VBox>
+                            </HBox>
+
+                        -->
+
+
+
+
+
                         </HBox>
+
                         <VBox.margin>
                             <Insets />
                         </VBox.margin>
                         <!-- altre icone statistiche qui -->
                     </HBox>
+
+
                 </children>
                 <VBox.margin>
                     <Insets left="20.0" right="20.0" top="20.0" />
@@ -119,12 +173,12 @@
                     <VBox prefWidth="327.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.rowIndex="1">
                         <children>
                             <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="patientsCardIcon" fitHeight="40.0" fitWidth="40.0">
+                                <ImageView fx:id="patientsCardIcon" fitHeight="40.0" fitWidth="33.0">
                                     <image>
-                                        <Image url="@../../images/patient.png" />
+                                        <Image url="@../../images/rilevazioni.png" />
                                     </image>
                                 </ImageView>
-                                <Label text="Registrazioni Glicemiche" textFill="#ff914d">
+                                <Label text="Registrazioni Glicemiche" textFill="#ef233c">
                                     <font>
                                         <Font name="System Bold" size="20.0" />
                                     </font>
@@ -143,7 +197,7 @@
                             <HBox alignment="CENTER_LEFT" onMouseClicked="#ListaRilevazioni" spacing="10">
                                 <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20" onMouseClicked="#ListaRilevazioni">
                                     <image>
-                                        <Image url="@../../images/occhioArancio.png" />
+                                        <Image url="@../../images/occhio_rosso.png" />
                                     </image>
                                 </ImageView>
                                 <Label text="Vedi cronologia rilevazioni">
@@ -157,7 +211,7 @@
                             <HBox alignment="CENTER_LEFT" onMouseClicked="#aggiungiRilevazione" spacing="10">
                                 <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20" onMouseClicked="#ListaRilevazioni">
                                     <image>
-                                        <Image url="@../../images/piuArancio.png" />
+                                        <Image url="@../../images/piu_rosso.png" />
                                     </image>
                                 </ImageView>
                                 <Label text="Registra una rilevazione">
@@ -241,13 +295,7 @@
                                     </font>
                                 </Label>
                             </HBox>
-                            <Label fx:id="terapieLabel" text="Hai x terapie assegnate">
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                                <font>
-                                    <Font size="15.0" />
-                                </font></Label>
+
                             <HBox alignment="CENTER_LEFT" onMouseClicked="#listaTerapie" spacing="10">
                                 <ImageView fx:id="eyeIcon3" fitHeight="16.0" fitWidth="20">
                                     <image>
@@ -269,19 +317,19 @@
                   <children>
                      <HBox alignment="CENTER_LEFT" spacing="10">
                         <children>
-                           <ImageView fx:id="therapiesCardIcon1" fitHeight="40" fitWidth="40">
+                           <ImageView fx:id="therapiesCardIcon1" fitHeight="37.0" fitWidth="42.0">
                               <image>
-                                 <Image url="@../../images/sintomi.png" />
+                                 <Image url="@../../images/sintomo.png" />
                               </image>
                            </ImageView>
-                           <Label text="Sintomi" textFill="#0078ff">
+                           <Label text="Sintomi" textFill="#077187">
                               <font>
                                  <Font name="System Bold" size="20.0" />
                               </font>
                            </Label>
                         </children>
                      </HBox>
-                     <Label fx:id="terapieLabel1" text="segnala al tuo medico eventuali sintomi giornalieri" wrapText="true">
+                     <Label fx:id="terapieLabel1" text="Segnala al tuo medico eventuali sintomi giornalieri" wrapText="true">
                         <VBox.margin>
                            <Insets left="50.0" />
                         </VBox.margin>
@@ -296,7 +344,7 @@
                         <children>
                            <ImageView fx:id="eyeIcon31" fitHeight="16.0" fitWidth="20">
                               <image>
-                                 <Image url="@../../images/occhioVerde.png" />
+                                 <Image url="@../../images/occhio_blu.png" />
                               </image>
                            </ImageView>
                            <Label text="Vedi cronologia sintomi">
@@ -310,7 +358,7 @@
                         <children>
                            <ImageView fx:id="plusIcon22" fitHeight="20.0" fitWidth="20">
                               <image>
-                                 <Image url="@../../images/piuViola.png" />
+                                 <Image url="@../../images/piu_blu.png" />
                               </image>
                            </ImageView>
                            <Label text="Registra sintomo">
