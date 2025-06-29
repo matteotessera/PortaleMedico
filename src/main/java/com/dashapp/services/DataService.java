@@ -330,6 +330,26 @@ public class DataService {
         }
     }
 
+    public Sintomo getSintomoById(int id) throws Exception {
+
+        String url = API_URL + "get_sintomo_by_id.php?id=" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseSintomoManuale(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+    }
+
+
     public Rilevazione[] getRilevazioniById(int idPaziente) throws Exception {
 
         String url = API_URL + "get_rilevazioni_by_idPaziente.php?id=" + idPaziente;
@@ -348,6 +368,26 @@ public class DataService {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
     }
+
+    public Rilevazione getRilevazioneById(int id) throws Exception {
+
+        String url = API_URL + "get_rilevazione_by_id.php?id=" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseRilevazioneManuale(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+    }
+
 
     public Terapia[] getTerapie() throws Exception {
 
@@ -502,6 +542,26 @@ public class DataService {
         }
     }
 
+    public Assunzione getAssunzioneById(int idAssunzione) throws Exception {
+        String url = API_URL + "get_assunzione_by_id.php?id=" + idAssunzione;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseAssunzioneManuale(json);
+        } else {
+            System.out.println("Corpo della risposta errore: " + response.body());
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+    }
+
+
     public Assunzione[] getAssunzioniAssociazioneFarmaco(int idAssociazioneFarmaco) throws Exception {
 
         String url = API_URL + "get_assunzioni_associazione_farmaco.php?idAssociazioneFarmaco=" + idAssociazioneFarmaco ;
@@ -516,25 +576,6 @@ public class DataService {
         if (response.statusCode() == 200) {
             String json = response.body();
             return parseAssunzioniManuale(json);
-        } else {
-            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
-        }
-    }
-
-    public Assunzione getAssunzioneById(int id) throws Exception {
-
-        String url = API_URL + "get_assunzione_by_id.php?id=" + id ;
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .build();
-
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-        if (response.statusCode() == 200) {
-            String json = response.body();
-            return parseAssunzioneManuale(json);
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
@@ -1439,6 +1480,21 @@ public class DataService {
         return sintomi.toArray(new Sintomo[0]);
     }
 
+    private Sintomo parseSintomoManuale(String json) {
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+
+        String id = obj.get("id").getAsString();
+        String dataStr = obj.get("data").getAsString();
+        dataStr = dataStr.replace(" ", "T");
+        LocalDateTime data = LocalDateTime.parse(dataStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+        String descrizione = obj.get("descrizione").getAsString();
+        String idPaziente = obj.get("id_paziente").getAsString();
+
+        return new Sintomo(id, data, descrizione, idPaziente);
+    }
+
+
     private Rilevazione[] parseRilevazioniManuale(String json) {
         JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
         List<Rilevazione> rilevazioni = new ArrayList<>();
@@ -1463,6 +1519,23 @@ public class DataService {
 
         return rilevazioni.toArray(new Rilevazione[0]);
     }
+
+    private Rilevazione parseRilevazioneManuale(String json) {
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+
+        String id = obj.get("id").getAsString();
+        String dataStr = obj.get("data").getAsString();
+        dataStr = dataStr.replace(" ", "T");
+        LocalDateTime data = LocalDateTime.parse(dataStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+        String valore = obj.get("valore").getAsString();
+        String tipo = obj.get("tipo").getAsString();
+        String idPaziente = obj.get("id_paziente").getAsString();
+        String pasto = obj.get("pasto").getAsString();
+
+        return new Rilevazione(id, data, valore, tipo, idPaziente, pasto);
+    }
+
 
     private Terapia[] parseTerapieManuale(String json) {
 
