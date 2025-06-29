@@ -1,8 +1,11 @@
 package com.dashapp.controller;
 
+import com.dashapp.controller.dashboardMedico.BoxDashboardController;
 import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.Messaggio;
+import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
+import com.dashapp.view.NavigatorView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,11 +23,13 @@ import java.util.List;
 public class messaggiController {
 
     @FXML
-    private ListView<Messaggio> listView;
+    private ListView<Object> listView;
     private List<Messaggio> messaggiRicevuti;
     private List<Messaggio> messaggiInviati;
     private List<Messaggio> messaggi;
-    private int UtenteId;
+
+    private Utente utenteSelezionato;
+    private Messaggio messaggioSelezionato;
 
     @FXML
     private Label header1;
@@ -33,23 +38,31 @@ public class messaggiController {
     @FXML
     private Label header3;
 
+    private DataService ds;
+    private Utente u;
 
 
     public void initialize() throws Exception {
+        ds = new DataService();
+        String email = NavigatorView.getAuthenticatedUser();
+        Utente u = ds.getUtenteByEmail(email);
 
 
-        UtenteId = BoxDashboardControllerPatient.u.getId();
-        DataService ds = new DataService();
+        //messaggiInviati = List.of(ds.getMessaggiByIdSender(UtenteId));
+        //messaggiRicevuti = List.of(ds.getMessaggiByIdReceiver(UtenteId));
 
-        messaggiInviati = List.of(ds.getMessaggiByIdSender(UtenteId));
-        messaggiRicevuti = List.of(ds.getMessaggiByIdReceiver(UtenteId));
-
-        showRicevuti();
+        showDm();
 
         // Aggiungo listener per quando si seleziona un messaggio
         listView.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
             if (newSel != null) {
-                System.out.println("Messaggio selezionato: " + newSel.getOggetto() + " - " + newSel.getCorpo());
+                    if(newSel instanceof Messaggio m){
+                        messaggioSelezionato = m;
+                    }
+                    if(newSel instanceof Utente ut){
+                        utenteSelezionato = ut;
+                        showDmUtente(ut);
+                    }
             }
         });
 
@@ -87,6 +100,7 @@ public class messaggiController {
         header1.setStyle("");
         header3.setStyle("");
     }
+
     @FXML
     private void showDMMedico(){
         List<Messaggio> filtrati = new ArrayList<>();
@@ -134,26 +148,31 @@ public class messaggiController {
         header3.setStyle("");
     }
 
-    @FXML
-    private void showTutti(){
-        listView.setItems(FXCollections.observableArrayList(messaggi));
+    private void showDm() throws Exception {
 
-        header1.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
-        header2.setStyle("");
-        header3.setStyle("");
+        List<Utente> Pazienti = List.of(ds.getPazientiAssegnati());
+
+        listView.setItems(FXCollections.observableArrayList(Pazienti));
+    }
+
+
+    private void showDmUtente(Utente u){
+
+        List<Messaggio> filtrati = new ArrayList<>();
+
+        for(Messaggio m: messaggiRicevuti){
+            if(m.getId_Sender() == u.getId())
+                filtrati.add(m);
+        }
+
+        listView.setItems(FXCollections.observableArrayList(filtrati));
 
     }
 
-    @FXML
-    private void showInviati(){
-        messaggi = messaggiInviati;
 
-    }
 
-    @FXML
-    private void showRicevuti(){
-        messaggi = messaggiRicevuti;
-    }
+
+
 
 
 }

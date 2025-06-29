@@ -11,25 +11,19 @@
    <children>
       <VBox prefHeight="474.0" prefWidth="932.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="header2" alignment="CENTER" onMouseClicked="#showPazientiNonAderenti" prefHeight="1000.0" prefWidth="1000.0" text="Violazione Prescrizioni" textAlignment="CENTER">
+                  <Label fx:id="header1" alignment="CENTER" onMouseClicked="#showPazientiNonAderenti" prefHeight="1000.0" prefWidth="1000.0" text="Chat Private" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="header3" alignment="CENTER" layoutX="10.0" layoutY="10.0" onMouseClicked="#showAvvisoGlicemiaPazienti" prefHeight="1000.0" prefWidth="1000.0" text="Glicemie Alte" textAlignment="CENTER">
+                  <Label fx:id="header2" alignment="CENTER" layoutX="10.0" layoutY="10.0" onMouseClicked="#showAvvisoGlicemiaPazienti" prefHeight="1000.0" prefWidth="1000.0" text="Glicemie elevate" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="header31" alignment="CENTER" layoutX="631.0" layoutY="10.0" onMouseClicked="#showMessaggiMedico" prefHeight="1000.0" prefWidth="1000.0" text="Dm Paziente" textAlignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="header311" alignment="CENTER" layoutX="631.0" layoutY="10.0" onMouseClicked="#showInviati" prefHeight="1000.0" prefWidth="1000.0" text="MESSAGGI INVIATI" textAlignment="CENTER">
+                  <Label fx:id="header3" alignment="CENTER" layoutX="476.0" layoutY="10.0" onMouseClicked="#showAvvisoGlicemiaPazienti" prefHeight="1000.0" prefWidth="1000.0" text="Prescrizioni mancate" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>

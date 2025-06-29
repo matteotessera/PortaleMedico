@@ -124,4 +124,10 @@ public class Utente {
     public String getGenere(){
         return genere;
     }
+
+    public String toString(){
+        String result = "";
+            result = this.nome + " " + this.cognome + " " + this.email;
+        return result;
+    }
 }

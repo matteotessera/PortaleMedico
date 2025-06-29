@@ -72,7 +72,7 @@ public class DashboardMedicController {
                         originalContent = (Parent) mainContent.getChildren().get(0);
                 }
 
-                controllaPazienti();
+                //controllaPazienti();
 
 
         }
