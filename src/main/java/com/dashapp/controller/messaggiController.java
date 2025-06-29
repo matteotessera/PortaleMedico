@@ -46,13 +46,13 @@ public class messaggiController {
     public void initialize() throws Exception {
         ds = new DataService();
         String email = NavigatorView.getAuthenticatedUser();
-        Utente u = ds.getUtenteByEmail(email);
+        u = ds.getUtenteByEmail(email);
 
 
         //messaggiInviati = List.of(ds.getMessaggiByIdSender(UtenteId));
         //messaggiRicevuti = List.of(ds.getMessaggiByIdReceiver(UtenteId));
         messaggiRicevuti = creaMessaggi();
-
+        cellFactoryListView();
         showDm();
 
         // Aggiungo listener per quando si seleziona un messaggio
@@ -117,14 +117,19 @@ public class messaggiController {
     }
 
 
-    private void showDmUtente(Utente u){
+    private void showDmUtente(Utente paziente){
 
         List<Messaggio> filtrati = new ArrayList<>();
 
         for(Messaggio m: messaggiRicevuti){
-            if(m.getId_Sender() == u.getId())
+            if(m.getId_Sender() == paziente.getId() && m.getId_receiver() == u.getId()
+                    || m.getId_Sender() == u.getId() && m.getId_receiver() == paziente.getId()) {
+
                 filtrati.add(m);
+
+            }
         }
+
 
         listView.setItems(FXCollections.observableArrayList(filtrati));
 
@@ -136,10 +141,11 @@ public class messaggiController {
         Messaggio messaggio1 = new Messaggio(
                 1,                // id
                 2,              // id_Sender (ipotetico paziente o medico)
+                17,             // id_receiver
                 'G',              // tipo: glicemia elevata
                 LocalDate.of(2025, 6, 15),
                 LocalTime.of(8, 30),
-                "Glicemia elevata",
+                "Inviato da paziente, Glicemia",
                 "La tua glicemia è risultata sopra i valori normali.",
                 false
         );
@@ -147,21 +153,23 @@ public class messaggiController {
         Messaggio messaggio2 = new Messaggio(
                 2,                // id
                 2,              // id_Sender
+                17,
                 'N',              // tipo: non aderente
                 LocalDate.of(2025, 6, 16),
                 LocalTime.of(9, 45),
-                "Non aderenza alla terapia",
+                "Invitato da paziente",
                 "Non stai seguendo correttamente la terapia da 3 giorni.",
                 false
         );
 
         Messaggio messaggio3 = new Messaggio(
                 3,                // id
-                4,              // id_Sender
+                17,              // id_Sender
+                4,
                 'M',              // tipo: messaggio diretto medico
                 LocalDate.of(2025, 6, 17),
                 LocalTime.of(10, 15),
-                "Promemoria visita",
+                "Inviato da medico",
                 "Ricordati la visita di controllo prevista per domani alle ore 11:00.",
                 false
         );
@@ -172,8 +180,62 @@ public class messaggiController {
         return prova;
     }
 
+    //QUI PUOI MODIFICARE LASPETTO DEGLI ELEMENTI DELLA LISTVIEW
+    private void cellFactoryListView(){
+        listView.setCellFactory(lv -> new ListCell<Object>() {
+            @Override
+            protected void updateItem(Object item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                    setStyle(""); // resetta eventuali stili precedenti
+                } else {
+                    // Messaggi
+                    if (item instanceof Messaggio m) {
+
+                        //crea per ogni elemento messaggio, uan Vbox contenente due Label, Data (in grassetto) e Oggetto+Corpo
+                        setGraphic(null);
+
+                        Label dateTimeLabel = new Label(m.getDataInvio() + " " + m.getOrarioInvio());
+                        dateTimeLabel.setStyle("-fx-font-weight: bold;");
+
+                        Label bodyLabel = new Label(m.getOggetto() + "\n" + m.getCorpo());
+
+                        VBox vbox = new VBox(dateTimeLabel, bodyLabel);
+                        vbox.setSpacing(2);
+
+                        setText(null);
+                        setGraphic(vbox);
 
 
+                            if(m.getId_receiver() == u.getId()) { //messaggi ricevuti dal utente
+                                setStyle("-fx-background-color: lightgreen;");
+                                if(m.getTipo() == 'G'){     //se il messaggio e una vviso di alta glicemia
+                                    setStyle(
+                                            "-fx-background-color: green;"
+                                    );
+                                }
+                            }
+                            else if(m.getId_Sender() == u.getId()){
+                                setStyle("-fx-background-color: lightblue;"); //messaggi inviati dal utente
+
+                            }
+
+
+
+                    }
+                    // Utenti
+                    else if (item instanceof Utente u) {
+                        setStyle(""); // resetta eventuali stili precedenti
+                        setGraphic(null);   //toglie eventuali Vbox aggiunti
+                        setText(u.toString());
+                    }
+                }
+            }
+        });
+    }
 
 
 

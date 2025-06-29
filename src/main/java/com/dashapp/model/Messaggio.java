@@ -8,6 +8,7 @@ public class Messaggio {
 
     private int id;
     private int id_Sender;      //id paziente/ medico ce ha inviato
+    private int id_receiver;
     private LocalDate dataInvio;
     private LocalTime orarioInvio;
     private String oggetto;
@@ -16,7 +17,7 @@ public class Messaggio {
                                 // A= avviso, hai dimenticato di assumere farmaco x, M = messaggio diretto dal medico
     private boolean letto;
 
-    public Messaggio(int id, int id_Sender, char tipo, LocalDate dataInvio, LocalTime orarioInvio, String oggetto, String corpo, boolean letto) {
+    public Messaggio(int id, int id_Sender, int id_receiver, char tipo, LocalDate dataInvio, LocalTime orarioInvio, String oggetto, String corpo, boolean letto) {
         this.id = id;
         this.id_Sender = id_Sender;
         this.dataInvio = dataInvio;
@@ -25,6 +26,7 @@ public class Messaggio {
         this.corpo = corpo;
         this.tipo = tipo;
         this.letto = false;
+        this.id_receiver = id_receiver;
     }
 
     public Messaggio() {
@@ -61,6 +63,14 @@ public class Messaggio {
 
     public void setId_Sender(int id_Sender) {
         this.id_Sender = id_Sender;
+    }
+
+    public int getId_receiver() {
+        return id_receiver;
+    }
+
+    public void setId_receiver(int id_receiver) {
+        this.id_receiver = id_receiver;
     }
 
     public LocalDate getDataInvio() {
