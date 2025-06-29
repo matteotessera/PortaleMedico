@@ -15,7 +15,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="443.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.VediRilevazioneController">
    <children>
       <HBox prefHeight="443.0" prefWidth="932.0">
@@ -29,7 +28,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT">
                      <children>
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Rilevazione in data" textFill="#ff914d" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Rilevazione in data" textFill="#ef233c" />
                         <Region HBox.hgrow="ALWAYS" />
                         <Button fx:id="modificaButton" mnemonicParsing="false" onAction="#modificaSintomo" prefHeight="26.0" prefWidth="99.0" style="-fx-background-color: #bd1522; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica" />
                      </children>

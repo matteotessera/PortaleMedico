@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -23,74 +24,90 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class Tabelle {
 
     private DataService ds;
 
-    public void tabellaFarmaci(String titolo, List<Farmaco> farmaci, String textButton, Color color, VBox bodyContainer) {
+    public void tabellaFarmaciTerapia(String titolo, List<AssociazioneFarmaco> associazioni, String textButton, Color color, VBox bodyContainer) throws Exception {
         // Titolo della tabella
-        Label titoloTabella = new Label(textButton);
-        titoloTabella.setStyle(
-                "-fx-font-size: 18px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #222;" +
-                        "-fx-background-color: #f0f0f0;" +
-                        "-fx-padding: 10;" +
-                        "-fx-border-color: #d0d0d0;" +
-                        "-fx-border-width: 0 0 1 0;" +
-                        "-fx-border-style: solid;"
-        );
-        titoloTabella.setMaxWidth(Double.MAX_VALUE);
-        titoloTabella.setAlignment(Pos.CENTER_LEFT);
-        titoloTabella.setText(titolo);
+        Label titoloTabella = new Label(titolo);
 
+        if(titolo != null) {
+            titoloTabella.setStyle(
+                    "-fx-font-size: 18px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-text-fill: #222;" +
+                            "-fx-background-color: #f0f0f0;" +
+                            "-fx-padding: 10;" +
+                            "-fx-border-color: #d0d0d0;" +
+                            "-fx-border-width: 0 0 1 0;" +
+                            "-fx-border-style: solid;"
+            );
+            titoloTabella.setMaxWidth(Double.MAX_VALUE);
+            titoloTabella.setAlignment(Pos.CENTER_LEFT);
+        }
 
         VBox listaFarmaciBox = new VBox(2);
         listaFarmaciBox.setPrefWidth(1000);
         listaFarmaciBox.setSpacing(5);
 
-        double nomeWidth = 200;
-        double descrizioneWidth = 600;
-        double azioneWidth = 160;
+        double nomeWidth = 1000;
+
+        double spazioTraBottoni = 10;
 
         // Intestazione
-        HBox intestazione = new HBox(10);
+        HBox intestazione = new HBox(spazioTraBottoni);
         intestazione.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 8;");
         intestazione.setAlignment(Pos.CENTER_LEFT);
 
         Label nomeHeader = creaHeader("Nome", nomeWidth);
-        Label descrizioneHeader = creaHeader("Descrizione", descrizioneWidth);
-        Label azioneHeader = creaHeader("Azione", azioneWidth);
+        Label nrAssunzioneHeader = creaHeader("Descrizione", nomeWidth);
+        Label doseHeader = creaHeader("Dose", nomeWidth);
 
-        intestazione.getChildren().addAll(nomeHeader, descrizioneHeader, azioneHeader);
+        // Larghezza intestazione azione = due bottoni + spazio tra loro
+
+        Label azioneHeader = creaHeader("Azione", nomeWidth);
+
+        intestazione.getChildren().addAll(nomeHeader, nrAssunzioneHeader, doseHeader);
         listaFarmaciBox.getChildren().add(intestazione);
 
         // Riga per ogni farmaco
-        for (Farmaco f : farmaci) {
-            HBox rigaFarmaco = new HBox(10);
+        for (AssociazioneFarmaco ass : associazioni) {
+            HBox rigaFarmaco = new HBox(spazioTraBottoni);
             rigaFarmaco.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
             rigaFarmaco.setAlignment(Pos.CENTER_LEFT);
 
+            DataService ds = new DataService();
+            Farmaco f = ds.getFarmacoById(ass.getIdFarmaco());
             Label nomeLabel = creaCell(f.getNome(), nomeWidth);
-            Label descrizioneLabel = creaCell(f.getDescrizione(), descrizioneWidth);
+            Label nrAssunzioniLabel = creaCell(String.valueOf(ass.getNumeroAssunzioni()), nomeWidth);
+            Label doseLabel = creaCell(String.valueOf(ass.getDose()), nomeWidth);
 
+            // Bottone Azione
             Button azioneButton = new Button(textButton);
             azioneButton.setStyle(
                     "-fx-background-color: " + toHex(color) + ";" +
                             "-fx-text-fill: white;"
             );
-            azioneButton.setPrefWidth(azioneWidth);
+            azioneButton.setPrefWidth(nomeWidth);
             azioneButton.setOnAction(e -> {
-                System.out.println("Azione su farmaco: " + f.getNome());
+                NavigatorView.setFarmacoSelezionato(f);
+
             });
 
-            rigaFarmaco.getChildren().addAll(nomeLabel, descrizioneLabel, azioneButton);
+
+
+
+            rigaFarmaco.getChildren().addAll(nomeLabel, nrAssunzioniLabel, doseLabel);
             listaFarmaciBox.getChildren().add(rigaFarmaco);
         }
 
         // Margini tra una tabella e l'altra
-        VBox.setMargin(titoloTabella, new javafx.geometry.Insets(20, 0, 5, 0));
+        if (titolo != null) {
+            VBox.setMargin(titoloTabella, new javafx.geometry.Insets(20, 0, 5, 0));
+        }
         VBox.setMargin(listaFarmaciBox, new javafx.geometry.Insets(0, 0, 20, 0));
 
         bodyContainer.getChildren().addAll(titoloTabella, listaFarmaciBox);
@@ -287,7 +304,7 @@ public class Tabelle {
         bodyContainer.getChildren().add(listaUtentiBox);
     }
 
-    public void tabellaTerapie(String titolo, List<Terapia> terapie, String textButton, Color color, VBox bodyContainer){
+    public void tabellaTerapie(String titolo, List<Terapia> terapie, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller){
         ds = new DataService();
 
         Label titoloTabella = new Label();
@@ -360,6 +377,12 @@ public class Tabelle {
             prendiInCaricoButton.setPrefWidth(azioneWidth);
             prendiInCaricoButton.setOnAction(e -> {
                 System.out.println("Preso in carico: " + t.getNote());
+                try {
+                    NavigatorView.setTerapiaSelezionata(t);
+                    controller.vediTerapia();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             });
 
             rigaUtente.getChildren().addAll(
@@ -480,8 +503,6 @@ public class Tabelle {
                 (int)(color.getGreen()*255),
                 (int)(color.getBlue()*255));
     }
-
-
     // Metodo di utilità per intestazione
     private Label creaHeader(String text, double width) {
         Label label = new Label(text);
@@ -491,7 +512,6 @@ public class Tabelle {
         label.setAlignment(Pos.CENTER_LEFT);
         return label;
     }
-
     // Metodo di utilità per celle
     private Label creaCell(String text, double width) {
         Label label = new Label(text != null ? text : "-");
@@ -505,6 +525,19 @@ public class Tabelle {
 
 
 
+    public void vediFarmaco(VBox bodyContainer) throws IOException {
+        bodyContainer.getChildren().clear();
+
+        //LabelBoxDashboard.setText("\uD83E\uDC14 Torna alla terapia");
+        //LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
+        //LabelBoxDashboard.setOnMouseClicked(event -> ());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/FarmaciView.fxml"));
+        Parent addFarmacoContent = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(addFarmacoContent);
+    }
 
 
 }

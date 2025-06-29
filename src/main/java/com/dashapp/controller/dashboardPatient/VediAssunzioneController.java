@@ -48,6 +48,8 @@ public class VediAssunzioneController {
         farmacoField.setEditable(false);
         quantitaField.setEditable(false);
         dataArea.setEditable(false);
+        dataArea.setMouseTransparent(true);
+        dataArea.setFocusTraversable(false);
         orarioField.setEditable(false);
 
         terapiaField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
@@ -92,6 +94,8 @@ public class VediAssunzioneController {
       //  quantitaField.setEditable(true);
 
         dataArea.setEditable(true);
+        dataArea.setMouseTransparent(false);
+        dataArea.setFocusTraversable(true);
         orarioField.setEditable(true);
 
         String bordoBlu = "-fx-border-color: #0078ff; -fx-border-width: 1;";

@@ -38,7 +38,11 @@ public class VediSintomoController {
         confermaButton.setVisible(false);
         confermaButton.setManaged(false);
         descrizioneTextArea.setEditable(false);
+
         dataArea.setEditable(false);
+        dataArea.setMouseTransparent(true);
+        dataArea.setFocusTraversable(false);
+
         textField.setEditable(false);
 
         descrizioneTextArea.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
@@ -69,6 +73,8 @@ public class VediSintomoController {
 
         descrizioneTextArea.setEditable(true);
         dataArea.setEditable(true);
+        dataArea.setMouseTransparent(false);
+        dataArea.setFocusTraversable(true);
         textField.setEditable(true);
 
         String bordoBlu = "-fx-border-color: #0078ff; -fx-border-width: 1;";

@@ -53,6 +53,7 @@ public class BoxDashboardControllerPatient {
         }
     }
 
+
     public void listaRilevazioni(){
         bodyContainer.getChildren().clear();
 
@@ -71,7 +72,6 @@ public class BoxDashboardControllerPatient {
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
     }
-
 
     public void listaAssunzioni() throws Exception {
         bodyContainer.getChildren().clear();
@@ -105,7 +105,7 @@ public class BoxDashboardControllerPatient {
 
         String textButton = "Vedi";
         String titolo = "lista terapie";
-        tabella.tabellaTerapie(titolo, terapie, textButton, Color.web("#34bccc"), bodyContainer);
+        tabella.tabellaTerapie(titolo, terapie, textButton, Color.web("#34bccc"), bodyContainer, this);
 
         LabelBoxDashboard.setText("TUTTE LE TUE TERAPIE");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
@@ -138,7 +138,7 @@ public class BoxDashboardControllerPatient {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("AGGIUNGI RILEVAZIONE GLICEMICA");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #ff914d");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #ef233c");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
 
 
@@ -237,9 +237,28 @@ public class BoxDashboardControllerPatient {
 
         LabelBoxDashboard.setText("\uD83E\uDC14 Torna alle assunzioni");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
-        LabelBoxDashboard.setOnMouseClicked(event -> listaRilevazioni());
+        LabelBoxDashboard.setOnMouseClicked(event -> {
+            try {
+                listaAssunzioni();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/AssunzioneView.fxml"));
+        Parent content = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(content);
+    }
+    public void vediTerapia() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("\uD83E\uDC14 Torna alle terapie");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
+        LabelBoxDashboard.setOnMouseClicked(event -> listaTerapie());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/TerapiaView.fxml"));
         Parent content = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer

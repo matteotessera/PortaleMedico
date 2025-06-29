@@ -46,7 +46,11 @@ public class VediRilevazioneController {
         valoreField.setEditable(false);
         pastoField.setEditable(false);
         relazioneField.setEditable(false);
+
         dataArea.setEditable(false);
+        dataArea.setMouseTransparent(true);
+        dataArea.setFocusTraversable(false);
+
         orarioField.setEditable(false);
 
         valoreField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
@@ -97,6 +101,8 @@ public class VediRilevazioneController {
         relazioneField.setEditable(true);
         pastoField.setEditable(true);
         dataArea.setEditable(true);
+        dataArea.setMouseTransparent(false);
+        dataArea.setFocusTraversable(true);
         orarioField.setEditable(true);
 
         String bordoBlu = "-fx-border-color: #0078ff; -fx-border-width: 1;";

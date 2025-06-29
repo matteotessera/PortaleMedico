@@ -22,6 +22,7 @@ public class NavigatorView {
     private static Sintomo sintomo = null;
     private static Rilevazione rilevazione = null;
     private static Assunzione assunzione = null;
+    private static Terapia terapia = null;
 
 
     /**
@@ -124,6 +125,9 @@ public class NavigatorView {
 
     public static void setAssunzioneSelezionata(Assunzione assunz){ assunzione = assunz;}
     public static Assunzione getAssunzioneSelezionata(){ return assunzione;};
+
+    public static void setTerapiaSelezionata(Terapia terap){ terapia = terap;}
+    public static Terapia getTerapiaSelezionata(){ return terapia;};
 
 
 

@@ -1,6 +1,8 @@
 package com.dashapp.controller;
 
+import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.Messaggio;
+import com.dashapp.services.DataService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,7 +21,10 @@ public class messaggiController {
 
     @FXML
     private ListView<Messaggio> listView;
+    private List<Messaggio> messaggiRicevuti;
+    private List<Messaggio> messaggiInviati;
     private List<Messaggio> messaggi;
+    private int UtenteId;
 
     @FXML
     private Label header1;
@@ -29,20 +34,17 @@ public class messaggiController {
     private Label header3;
 
 
-    public void initialize(){
 
-        // Listmessaggi = ds.getMessaggiById(idUtente)   // popola la ListView con i messaggi associati al utente;
+    public void initialize() throws Exception {
 
-        messaggi = new ArrayList<>();
-        messaggi.add(new Messaggio(1, 101, 'G', LocalDate.now(), LocalTime.now(),
-                "Rilevazione Glicemia elevata: xxx", "Non dimenticare il controllo.", false));
-        messaggi.add(new Messaggio(2, 102, 'G', LocalDate.now().minusDays(1), LocalTime.of(15,30),
-                "Rilevazione Glicemia elevata: yyy", "Prendi la medicina alle 18.", false));
 
-        messaggi.add(new Messaggio(3, 101, 'N', LocalDate.now().minusDays(2), LocalTime.of(9,0),
-                "Paziente x non ha aderito alle prescrizioni ", "Buona guarigione!", false));
+        UtenteId = BoxDashboardControllerPatient.u.getId();
+        DataService ds = new DataService();
 
-        showTutti();
+        messaggiInviati = List.of(ds.getMessaggiByIdSender(UtenteId));
+        messaggiRicevuti = List.of(ds.getMessaggiByIdReceiver(UtenteId));
+
+        showRicevuti();
 
         // Aggiungo listener per quando si seleziona un messaggio
         listView.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
@@ -54,11 +56,12 @@ public class messaggiController {
 
     }
 
+    //METODI PER MEDICO
     @FXML
     private void showAvvisoGlicemiaPazienti(){
         List<Messaggio> filtrati = new ArrayList<>();
 
-        for(Messaggio m: messaggi){
+        for(Messaggio m: messaggiRicevuti){
             if(m.getTipo() == ('G'))
                 filtrati.add(m);
         }
@@ -73,7 +76,7 @@ public class messaggiController {
     private void showPazientiNonAderenti(){
         List<Messaggio> filtrati = new ArrayList<>();
 
-        for(Messaggio m: messaggi){
+        for(Messaggio m: messaggiRicevuti){
             if(m.getTipo() == ('N'))
                 filtrati.add(m);
         }
@@ -84,12 +87,11 @@ public class messaggiController {
         header1.setStyle("");
         header3.setStyle("");
     }
-
     @FXML
-    private void showMessaggiMedico(){
+    private void showDMMedico(){
         List<Messaggio> filtrati = new ArrayList<>();
 
-        for(Messaggio m: messaggi){
+        for(Messaggio m: messaggiRicevuti){
             if(m.getTipo() == ('M'))
                 filtrati.add(m);
         }
@@ -99,11 +101,29 @@ public class messaggiController {
         header2.setStyle("");
         header1.setStyle("");
     }
+
+
+    //METODI PER PAZIENTE
+    @FXML
+    private void showDmPaziente(){
+        List<Messaggio> filtrati = new ArrayList<>();
+
+        for(Messaggio m: messaggiRicevuti){
+            if(m.getTipo() == ('M'))
+                filtrati.add(m);
+        }
+        listView.setItems(FXCollections.observableArrayList(filtrati));
+
+        header3.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
+        header2.setStyle("");
+        header1.setStyle("");
+    }
+
     @FXML
     private void showAvvisiDimenticanze(){
         List<Messaggio> filtrati = new ArrayList<>();
 
-        for(Messaggio m: messaggi){
+        for(Messaggio m: messaggiRicevuti){
             if(m.getTipo() == ('A'))
                 filtrati.add(m);
         }
@@ -122,6 +142,17 @@ public class messaggiController {
         header2.setStyle("");
         header3.setStyle("");
 
+    }
+
+    @FXML
+    private void showInviati(){
+        messaggi = messaggiInviati;
+
+    }
+
+    @FXML
+    private void showRicevuti(){
+        messaggi = messaggiRicevuti;
     }
 
 
