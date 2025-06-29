@@ -143,7 +143,7 @@ public class VediRilevazioneController {
         ds.updateRilevazione(rilevazione.getId(), Double.parseDouble(valoreField.getText()), relazioneField.getValue(), rilevazione.getIdPaziente(),
                 nuovaData, pastoField.getValue());
 
-        //rilevazione = ds.getRilevazioneById(rilevazione.getId());
+        rilevazione = ds.getRilevazioneById(rilevazione.getId());
 
 
         NavigatorView.setRilevaizoneSelezionata(rilevazione);

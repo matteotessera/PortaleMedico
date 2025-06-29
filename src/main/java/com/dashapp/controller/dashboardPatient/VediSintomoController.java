@@ -111,7 +111,7 @@ public class VediSintomoController {
 
         ds.updateSintomo(sintomo.getId(), descrizioneTextArea.getText(), sintomo.getIdPaziente(), nuovaData );
 
-        //sintomo = ds.getSintomoById(sintomo.getId());
+        sintomo = ds.getSintomoById(sintomo.getId());
 
 
         NavigatorView.setSintomoSelezionato(sintomo);

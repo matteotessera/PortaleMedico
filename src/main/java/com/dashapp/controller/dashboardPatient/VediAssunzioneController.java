@@ -135,7 +135,7 @@ public class VediAssunzioneController {
 
         ds.updateAssunzione(assunzione.getId(), nuovaData, assunzione.getStato());
 
-        //assunzione = ds.getAssunzioneById(assunzione.getId());
+        assunzione = ds.getAssunzioneById(assunzione.getId());
 
 
         NavigatorView.setAssunzioneSelezionata(assunzione);

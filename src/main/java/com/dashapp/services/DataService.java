@@ -1664,7 +1664,8 @@ public class DataService {
         assunzione.setId(obj.get("id").getAsInt());
         if (obj.has("data") && !obj.get("data").isJsonNull()) {
             String dataStr = obj.get("data").getAsString();
-            assunzione.setData(LocalDateTime.parse(dataStr));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            assunzione.setData(LocalDateTime.parse(dataStr, formatter));
         }
         assunzione.setIdAssociazioneFarmaco(obj.get("id_associazione_farmaco").getAsInt());
         assunzione.setStato(obj.get("stato").getAsString());
