@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
+import org.w3c.dom.ls.LSException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -50,6 +51,7 @@ public class messaggiController {
 
         //messaggiInviati = List.of(ds.getMessaggiByIdSender(UtenteId));
         //messaggiRicevuti = List.of(ds.getMessaggiByIdReceiver(UtenteId));
+        messaggiRicevuti = creaMessaggi();
 
         showDm();
 
@@ -81,8 +83,8 @@ public class messaggiController {
 
         listView.setItems(FXCollections.observableArrayList(filtrati));
 
-        header3.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
-        header2.setStyle("");
+        header2.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
+        header3.setStyle("");
         header1.setStyle("");
     }
     @FXML
@@ -96,63 +98,22 @@ public class messaggiController {
 
         listView.setItems(FXCollections.observableArrayList(filtrati));
 
-        header2.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
-        header1.setStyle("");
-        header3.setStyle("");
-    }
-
-    @FXML
-    private void showDMMedico(){
-        List<Messaggio> filtrati = new ArrayList<>();
-
-        for(Messaggio m: messaggiRicevuti){
-            if(m.getTipo() == ('M'))
-                filtrati.add(m);
-        }
-        listView.setItems(FXCollections.observableArrayList(filtrati));
-
         header3.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
-        header2.setStyle("");
         header1.setStyle("");
+        header2.setStyle("");
     }
 
-
-    //METODI PER PAZIENTE
-    @FXML
-    private void showDmPaziente(){
-        List<Messaggio> filtrati = new ArrayList<>();
-
-        for(Messaggio m: messaggiRicevuti){
-            if(m.getTipo() == ('M'))
-                filtrati.add(m);
-        }
-        listView.setItems(FXCollections.observableArrayList(filtrati));
-
-        header3.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
-        header2.setStyle("");
-        header1.setStyle("");
-    }
 
     @FXML
-    private void showAvvisiDimenticanze(){
-        List<Messaggio> filtrati = new ArrayList<>();
-
-        for(Messaggio m: messaggiRicevuti){
-            if(m.getTipo() == ('A'))
-                filtrati.add(m);
-        }
-        listView.setItems(FXCollections.observableArrayList(filtrati));
-
-        header2.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
-        header1.setStyle("");
-        header3.setStyle("");
-    }
-
     private void showDm() throws Exception {
 
         List<Utente> Pazienti = List.of(ds.getPazientiAssegnati());
 
         listView.setItems(FXCollections.observableArrayList(Pazienti));
+
+        header1.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
+        header2.setStyle("");
+        header3.setStyle("");
     }
 
 
@@ -167,6 +128,48 @@ public class messaggiController {
 
         listView.setItems(FXCollections.observableArrayList(filtrati));
 
+    }
+
+
+    private List<Messaggio> creaMessaggi(){
+        List<Messaggio> prova = new ArrayList<>();
+        Messaggio messaggio1 = new Messaggio(
+                1,                // id
+                2,              // id_Sender (ipotetico paziente o medico)
+                'G',              // tipo: glicemia elevata
+                LocalDate.of(2025, 6, 15),
+                LocalTime.of(8, 30),
+                "Glicemia elevata",
+                "La tua glicemia è risultata sopra i valori normali.",
+                false
+        );
+
+        Messaggio messaggio2 = new Messaggio(
+                2,                // id
+                2,              // id_Sender
+                'N',              // tipo: non aderente
+                LocalDate.of(2025, 6, 16),
+                LocalTime.of(9, 45),
+                "Non aderenza alla terapia",
+                "Non stai seguendo correttamente la terapia da 3 giorni.",
+                false
+        );
+
+        Messaggio messaggio3 = new Messaggio(
+                3,                // id
+                4,              // id_Sender
+                'M',              // tipo: messaggio diretto medico
+                LocalDate.of(2025, 6, 17),
+                LocalTime.of(10, 15),
+                "Promemoria visita",
+                "Ricordati la visita di controllo prevista per domani alle ore 11:00.",
+                false
+        );
+        prova.add(messaggio1);
+        prova.add(messaggio2);
+        prova.add(messaggio3);
+
+        return prova;
     }
 
 

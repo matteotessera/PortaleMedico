@@ -127,7 +127,7 @@ public class Utente {
 
     public String toString(){
         String result = "";
-            result = this.nome + " " + this.cognome + " " + this.email;
+            result = this.nome + " " + this.cognome + " " + this.email + " " + this.id;
         return result;
     }
 }

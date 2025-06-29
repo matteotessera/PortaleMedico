@@ -13,7 +13,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="header1" alignment="CENTER" onMouseClicked="#showPazientiNonAderenti" prefHeight="1000.0" prefWidth="1000.0" text="Chat Private" textAlignment="CENTER">
+                  <Label fx:id="header1" alignment="CENTER" onMouseClicked="#showDm" prefHeight="1000.0" prefWidth="1000.0" text="Chat Private" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -23,7 +23,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="header3" alignment="CENTER" layoutX="476.0" layoutY="10.0" onMouseClicked="#showAvvisoGlicemiaPazienti" prefHeight="1000.0" prefWidth="1000.0" text="Prescrizioni mancate" textAlignment="CENTER">
+                  <Label fx:id="header3" alignment="CENTER" layoutX="476.0" layoutY="10.0" onMouseClicked="#showPazientiNonAderenti" prefHeight="1000.0" prefWidth="1000.0" text="Prescrizioni mancate" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
