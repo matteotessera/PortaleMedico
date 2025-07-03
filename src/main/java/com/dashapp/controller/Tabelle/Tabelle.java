@@ -63,8 +63,8 @@ public class Tabelle {
         intestazione.setAlignment(Pos.CENTER_LEFT);
 
         Label nomeHeader = creaHeader("Nome", nomeWidth);
-        Label nrAssunzioneHeader = creaHeader("Descrizione", nomeWidth);
-        Label doseHeader = creaHeader("Dose", nomeWidth);
+        Label nrAssunzioneHeader = creaHeader("nr Assunzioni Giornaliere", nomeWidth);
+        Label doseHeader = creaHeader("Dose (mg)", nomeWidth);
 
         // Larghezza intestazione azione = due bottoni + spazio tra loro
 
@@ -83,7 +83,7 @@ public class Tabelle {
             Farmaco f = ds.getFarmacoById(ass.getIdFarmaco());
             Label nomeLabel = creaCell(f.getNome(), nomeWidth);
             Label nrAssunzioniLabel = creaCell(String.valueOf(ass.getNumeroAssunzioni()), nomeWidth);
-            Label doseLabel = creaCell(String.valueOf(ass.getDose()), nomeWidth);
+            Label doseLabel = creaCell(String.valueOf(ass.getDose()) + "mg", nomeWidth);
 
             // Bottone Azione
             Button azioneButton = new Button(textButton);

@@ -151,7 +151,7 @@ public class BoxDashboardControllerPatient {
         bodyContainer.getChildren().add(addRilevazioneContent);
     }
 
-    public void aggiungiAssunzione() throws IOException {
+    public AddAssunzioneController aggiungiAssunzione() throws IOException {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("AGGIUNGI ASSUNZIONE FARMACO");
@@ -169,6 +169,8 @@ public class BoxDashboardControllerPatient {
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addAssunzioneContent);
         controller.assunzioniCompletate();
+
+        return controller;
 
 
     }

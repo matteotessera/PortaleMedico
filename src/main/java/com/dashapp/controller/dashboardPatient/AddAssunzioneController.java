@@ -5,9 +5,12 @@ import com.dashapp.model.StatoFarmaco;
 import com.dashapp.model.*;
 //import com.dashapp.model.AssunzioneFarmaco;        da toigliere commento
 import com.dashapp.services.DataService;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 
 import java.io.IOException;
@@ -39,24 +42,57 @@ public class AddAssunzioneController extends AddController{
 
     private Map<Farmaco, StatoFarmaco> mappaAssunzioni;
 
+    private boolean doAnyway;
+
     private DataService ds;
-    public void initialize() throws Exception {
+    @FXML
+    public void initialize() {
 
 
-        ControlliSistema controlli = new ControlliSistema();
-        int idPaziente = BoxDashboardControllerPatient.u.getId();
+        farmaciDaAssumere.setText("Caricamento farmaci in corso...");
+
+        // Task in background
+
+        Task<Void> loadDataTask = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                ControlliSistema controlli = new ControlliSistema();
+                int idPaziente = BoxDashboardControllerPatient.u.getId();
+
+                ds = new DataService();
+
+                List<Terapia> terapiePaziente = List.of(ds.getTerapiePaziente(idPaziente));
+                Map<Farmaco, StatoFarmaco> mappa = controlli.farmaciDaAssumerePaziente(idPaziente);
 
 
-        farmaciDaAssumere.setEditable(false);
-        quantitaField.setEditable(false);
-        //Popola la comboBox
-        ds = new DataService();
+                Platform.runLater(() -> {
+                    terapiaIdBox.setItems(FXCollections.observableArrayList(terapiePaziente));
+                    mappaAssunzioni = mappa;
+                    farmaciDaAssumere.setText(mapToString(mappaAssunzioni));
+                    if(!doAnyway && mappaAssunzioni != null) {
+                        assunzioniCompletate();
+                    }
+                    doAnyway = false;
+
+                });
+
+                return null;
+            }
+        };
 
 
-        List<Terapia> terapiePaziente= List.of(ds.getTerapiePaziente(BoxDashboardControllerPatient.u.getId()));
 
-        ObservableList<Terapia> optionsTerapie = FXCollections.observableArrayList(terapiePaziente);
-        terapiaIdBox.setItems(optionsTerapie);
+        //gestisce errori nel caricamento
+        loadDataTask.setOnFailed(e -> {
+            Throwable ex = loadDataTask.getException();
+            ex.printStackTrace();
+            Platform.runLater(() -> farmaciDaAssumere.setText("Errore nel caricamento."));
+        });
+
+        // Avvia il task
+        Thread th = new Thread(loadDataTask);
+        th.setDaemon(true);
+        th.start();
 
         terapiaIdBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
@@ -77,9 +113,6 @@ public class AddAssunzioneController extends AddController{
                 }
             }
         });
-
-        mappaAssunzioni = controlli.farmaciDaAssumerePaziente(idPaziente);
-        farmaciDaAssumere.setText(mapToString(mappaAssunzioni));
 
 
     }
@@ -204,6 +237,11 @@ public class AddAssunzioneController extends AddController{
 
     public void assunzioniCompletate(){
 
+        if (mappaAssunzioni == null) {
+            System.err.println("mappaAssunzioni non inizializzata, annullo assunzioniCompletate");
+            return;
+        }
+
         for (StatoFarmaco stato : mappaAssunzioni.values()) {
 
             if(stato.getStato() == "da assumere"){
@@ -211,10 +249,28 @@ public class AddAssunzioneController extends AddController{
             }
         }
         parentBoxController.bodyContainer.getChildren().clear();
+        parentBoxController.bodyContainer.setAlignment(Pos.CENTER);
         Label completatoLabel = new Label("HAI ASSUNTO TUTTI I FARMACI DI OGGI");
-        completatoLabel.setStyle("-fx-font-size: 32px; -fx-text-fill: green; -fx-font-weight: bold;");
+        completatoLabel.setStyle(
+                "-fx-font-size: 28px;" +
+                        "-fx-text-fill: #cb6ce6;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-padding: 20;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 4,0,0,2);" +
+                        "-fx-alignment: center;"
+        );
 
         Button assumiComunque = new Button("voglio comunque assumere un farmaco");
+        assumiComunque.setStyle(
+                "-fx-background-color: #cb6ce6;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 16px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-padding: 10 20 10 20;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-cursor: hand;" +
+                        "-fx-alignment: center;"
+        );
         parentBoxController.bodyContainer.getChildren().add(completatoLabel);
         parentBoxController.bodyContainer.getChildren().add(assumiComunque);
 
@@ -222,12 +278,17 @@ public class AddAssunzioneController extends AddController{
         //NON VA, NON SO PERCHE
         assumiComunque.setOnAction(e -> {
             try {
-                parentBoxController.aggiungiAssunzione();
+                AddAssunzioneController nuovo = parentBoxController.aggiungiAssunzione();
+                nuovo.setDoAnyway(true);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
 
+    }
+
+    public void setDoAnyway(boolean b){
+        doAnyway = b;
     }
 
 
