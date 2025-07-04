@@ -1,0 +1,18 @@
+.sidebar-hbox Button {
+    -fx-background-color: white;
+    -fx-background-radius: 15; /* angoli più arrotondati */
+}
+
+.sidebar-hbox Button .menu-label {
+    -fx-text-fill: #1e3746; /* testo scuro di default */
+}
+
+.sidebar-hbox Button.active {
+    -fx-background-color: #1e3746;;
+    -fx-background-radius: 15; /* angoli più arrotondati */
+}
+
+
+.sidebar-hbox Button.active .menu-label {
+    -fx-text-fill: white; /* testo bianco solo nel bottone attivo */
+}

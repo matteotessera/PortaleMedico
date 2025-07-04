@@ -3,110 +3,140 @@ package com.dashapp.controller.dashboardPatient.fascicolo;
 import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.Patologia;
 import com.dashapp.services.DataService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class TabPatologieController {
 
     @FXML
-    private Button addPatologiaButton;
-
-    @FXML
-    private Accordion patologieAccordion;
+    private GridPane patologieGrid;
 
     private List<Patologia> listaPatologie;
-
     private DataService ds;
     private int idPaziente;
+
     public void initialize() throws Exception {
-
-        //listaPatologie = ds.caricaPatologiePerPaziente();
         ds = new DataService();
-
         idPaziente = BoxDashboardControllerPatient.u.getId();
-
         listaPatologie = List.of(ds.getPatologieByPaziente(idPaziente));
-        aggiornaAccordion();
 
+        aggiornaGrid();
     }
 
-    private void aggiornaAccordion() {
-        patologieAccordion.getPanes().clear();
+    private void aggiornaGrid() {
+        patologieGrid.getChildren().clear();
+        int col = 0;
+        int row = 0;
 
+        // Prima card: Aggiungi Patologia
+        VBox addCard = creaCardAggiungi();
+        patologieGrid.add(addCard, col, row);
+        col++;
+
+        // Card per ogni patologia
         for (Patologia p : listaPatologie) {
-            VBox content = new VBox(5);
-            Button eliminaButton = new Button("Elimina");
-            eliminaButton.getStyleClass().add("eliminaButtonPatologia");
-            content.setPadding(new Insets(10));
-            content.getChildren().addAll(
-                    new Label("Diagnosi dal: " + p.getDataDiagnosi()),
-                    new Label("Note: " + p.getNote()),
-                    eliminaButton
-            );
+            VBox card = creaCardPatologia(p);
+            patologieGrid.add(card, col, row);
 
-            TitledPane pane = new TitledPane(p.getNomePatologia(), content);
-            pane.setUserData(p);
-
-            eliminaButton.setOnAction(e -> {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Conferma eliminazione");
-                alert.setHeaderText("Sei sicuro di voler eliminare questa patologia?");
-                alert.setContentText(p.getNomePatologia());
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                    try {
-                        ds.deletePatologia(p.getId());
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    listaPatologie.remove(p);
-                    aggiornaAccordion();
-                }
-            });
-
-            patologieAccordion.getPanes().add(pane);
+            col++;
+            if (col == 5) { // 4 colonne per riga
+                col = 0;
+                row++;
+            }
         }
     }
 
-    @FXML
-    private void aggiungiPatologia(ActionEvent event) {
+    private VBox creaCardAggiungi() {
+        VBox card = new VBox(10);
+        card.setPrefSize(180, 180);
+        card.setStyle("-fx-background-color: #ad343e; -fx-background-radius: 15; -fx-alignment: center; -fx-cursor: hand;");
+
+        Text plus = new Text("+");
+        plus.setStyle("-fx-font-size: 48; -fx-fill: white;");
+
+        card.getChildren().addAll(plus);
+        card.setOnMouseClicked(e -> mostraFormAggiunta());
+
+        return card;
+    }
+
+    private VBox creaCardPatologia(Patologia p) {
+        VBox card = new VBox(12);
+        card.setPrefSize(180, 200);
+        card.setPadding(new Insets(15));
+        card.setStyle("-fx-background-color: #f4f4f4; -fx-background-radius: 15; -fx-border-color: lightgray; -fx-border-radius: 15;");
+        card.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+
+        // Titolo patologia
+        Text titolo = new Text(p.getNomePatologia().toUpperCase());
+        titolo.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
+        titolo.setWrappingWidth(160);
+        titolo.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+
+        // Diagnosi label
+        Label diagnosiLabel = new Label("Diagnosi:");
+        diagnosiLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12;");
+        Label dataLabel = new Label(p.getDataDiagnosi() != null ? p.getDataDiagnosi().toString() : "-");
+        dataLabel.setStyle("-fx-font-size: 12;");
+
+        // Note label
+        Label noteLabelTitle = new Label("Note:");
+        noteLabelTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 12;");
+        Label noteLabel = new Label(p.getNote() != null && !p.getNote().isBlank() ? p.getNote() : "-");
+        noteLabel.setStyle("-fx-font-size: 12;");
+        noteLabel.setWrapText(true);
+
+        // Bottone elimina
+        Button eliminaButton = new Button("Elimina");
+        eliminaButton.setStyle("-fx-background-color: #e94f4f; -fx-text-fill: white; -fx-background-radius: 10; -fx-pref-height: 25; -fx-font-size: 12;");
+        eliminaButton.setOnAction(ev -> eliminaPatologia(p));
+
+        VBox infoBox = new VBox(5);
+        infoBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        infoBox.getChildren().addAll(
+                diagnosiLabel, dataLabel,
+                noteLabelTitle, noteLabel
+        );
+        VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0));  // top, right, bottom, left
+
+
+        card.getChildren().addAll(titolo, infoBox, eliminaButton);
+        VBox.setVgrow(infoBox, Priority.ALWAYS);
+
+        return card;
+    }
+
+
+    private void mostraFormAggiunta() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Nuova Patologia");
+
+        VBox contenuto = new VBox(10);
+        contenuto.setPadding(new Insets(10));
 
         TextField nomeField = new TextField();
         DatePicker dataDiagnosiPicker = new DatePicker();
         TextArea noteArea = new TextArea();
-        Button salvaButton = new Button("Salva");
-        salvaButton.getStyleClass().add("salvaButtonPatologia");
 
-
-        VBox contenuto = new VBox(8);
-        contenuto.getStyleClass().add("vbox-contenuto");
-
-        contenuto.setPadding(new Insets(10));
         contenuto.getChildren().addAll(
                 new Label("Nome Patologia:"), nomeField,
-                new Label("Data Diagnosi:"), dataDiagnosiPicker,
-                new Label("Note:"), noteArea,
-                salvaButton
+                new Label("Data Diagnosi"), dataDiagnosiPicker,
+                new Label("Note"), noteArea
         );
 
+        dialog.getDialogPane().setContent(contenuto);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
+        Optional<ButtonType> result = dialog.showAndWait();
 
-        TitledPane nuovaPatologiaPane = new TitledPane("Nuova Patologia", contenuto);
-        patologieAccordion.getPanes().add(nuovaPatologiaPane);
-        patologieAccordion.setExpandedPane(nuovaPatologiaPane);
-
-        // Gestione salvataggio (opzionale)
-        salvaButton.setOnAction(e -> {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             String nome = nomeField.getText();
             LocalDate data = dataDiagnosiPicker.getValue();
             String note = noteArea.getText();
@@ -117,23 +147,31 @@ public class TabPatologieController {
                 return;
             }
 
-            // Aggiorna titolo del TitledPane
-            nuovaPatologiaPane.setText(nome);
-
             try {
-                ds.addPatologia(BoxDashboardControllerPatient.u.getId(), nome, data, note);
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-
-            try {
+                ds.addPatologia(idPaziente, nome, data, note);
                 listaPatologie = List.of(ds.getPatologieByPaziente(idPaziente));
+                aggiornaGrid();
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                ex.printStackTrace();
             }
-
-            aggiornaAccordion();
-        });
+        }
     }
 
+    private void eliminaPatologia(Patologia p) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Conferma eliminazione");
+        alert.setHeaderText("Sei sicuro di voler eliminare questa patologia?");
+        alert.setContentText(p.getNomePatologia());
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                ds.deletePatologia(p.getId());
+                listaPatologie = List.of(ds.getPatologieByPaziente(idPaziente));
+                aggiornaGrid();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }

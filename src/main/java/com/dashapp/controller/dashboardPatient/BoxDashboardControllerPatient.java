@@ -195,7 +195,7 @@ public class BoxDashboardControllerPatient {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("FASCICOLO MEDICO");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: black");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto ExtraBold'; -fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill:  #1e3746;");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
 
 

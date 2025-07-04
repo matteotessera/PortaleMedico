@@ -1,29 +1,22 @@
 package com.dashapp.controller.dashboardPatient.fascicolo;
 
 import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
-import com.dashapp.model.Patologia;
-import com.dashapp.model.Sintomo;
 import com.dashapp.model.SintomoConcomitante;
 import com.dashapp.services.DataService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class TabSintomiController {
 
     @FXML
-    private Button addSintomoButton;
-
-    @FXML
-    private Accordion sintomiAccordion;
+    private GridPane sintomiGrid;
 
     private List<SintomoConcomitante> listaSintomi;
     private DataService ds;
@@ -33,132 +26,165 @@ public class TabSintomiController {
         ds = new DataService();
         idPaziente = BoxDashboardControllerPatient.u.getId();
 
+        listaSintomi = List.of(ds.getSintomiConcomitantiByPaziente(idPaziente));
 
-        listaSintomi = List.of( ds.getSintomiConcomitantiByPaziente(idPaziente) );
-        aggiornaAccordion();
-
-       
+        aggiornaSintomiGrid();
     }
 
-    private void aggiornaAccordion() throws Exception {
+    private void aggiornaSintomiGrid() {
+        sintomiGrid.getChildren().clear();
+        int col = 0;
+        int row = 0;
 
-        sintomiAccordion.getPanes().clear();
+        // Card aggiunta sintomo
+        VBox addCard = creaCardAggiungi();
+        sintomiGrid.add(addCard, col, row);
+        col++;
 
         for (SintomoConcomitante s : listaSintomi) {
-            // Crea contenuto visuale per ogni patologia
-            VBox content = new VBox(5);
-            Button eliminaButton = new Button("Elimina");
-            eliminaButton.getStyleClass().add("eliminaButtonSintomo");
-            content.setPadding(new Insets(10));
-            content.getChildren().addAll(
-                    new Label("Data inizio sintomo " + s.getDataInizio()),
-                    new Label("Frequenza: " + s.getFrequenza()),
-                    new Label("Note: " + s.getNote()),
-                    eliminaButton
-            );
+            VBox card = creaCardSintomo(s);
+            sintomiGrid.add(card, col, row);
+            col++;
 
-            // Crea TitledPane con titolo = nome patologia
-            TitledPane pane = new TitledPane(s.getDescrizione(), content);
-
-
-            pane.setUserData(s);
-
-
-            sintomiAccordion.getPanes().add(pane);
-
-            eliminaButton.setOnAction(e -> {
-                //Aggiungi eliminazione da DB
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Conferma eliminazione");
-                alert.setHeaderText("Sei sicuro di voler eliminare questo sintomo?");
-                alert.setContentText(s.getDescrizione());
-
-                // Mostra la finestra e aspetta la risposta
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK){
-                    try {
-                        ds.deleteSintomoConcomitante(s.getId());
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    sintomiAccordion.getPanes().remove(pane);
-                }
-            });
-
+            // ogni 4 colonne vai a capo
+            if (col == 5) {
+                col = 0;
+                row++;
+            }
         }
     }
 
-    @FXML
-    private void aggiungiSintomo(ActionEvent event) {
+    private VBox creaCardAggiungi() {
+        VBox card = new VBox(10);
+        card.setPrefSize(180, 180);
+        card.setStyle("-fx-background-color: #9caf39; -fx-background-radius: 15; -fx-alignment: center; -fx-cursor: hand;");
+
+        Text plus = new Text("+");
+        plus.setStyle("-fx-font-size: 48; -fx-fill: white;");
+
+        card.getChildren().add(plus);
+
+        card.setOnMouseClicked(e -> mostraFormAggiunta());
+
+        return card;
+    }
+
+    private VBox creaCardSintomo(SintomoConcomitante s) {
+        VBox card = new VBox(12);
+        card.setPrefSize(180, 200);
+        card.setPadding(new Insets(15));
+        card.setStyle("-fx-background-color: #f4f4f4; -fx-background-radius: 15; -fx-border-color: lightgray; -fx-border-radius: 15;");
+        card.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+
+        // Titolo sintomo
+        Text titolo = new Text(s.getDescrizione().toUpperCase());
+        titolo.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
+        titolo.setWrappingWidth(160);
+        titolo.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+
+        // Data inizio label
+        Label dataLabelTitle = new Label("Data inizio");
+        dataLabelTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 12;");
+        Label dataLabel = new Label(s.getDataInizio() != null ? s.getDataInizio().toString() : "-");
+        dataLabel.setStyle("-fx-font-size: 12;");
+
+        // Frequenza label
+        Label frequenzaLabelTitle = new Label("Frequenza");
+        frequenzaLabelTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 12;");
+        Label frequenzaLabel = new Label(s.getFrequenza() != null && !s.getFrequenza().isBlank() ? s.getFrequenza() : "-");
+        frequenzaLabel.setStyle("-fx-font-size: 12;");
+
+        // Note label
+        Label noteLabelTitle = new Label("Note");
+        noteLabelTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 12;");
+        Label noteLabel = new Label(s.getNote() != null && !s.getNote().isBlank() ? s.getNote() : "-");
+        noteLabel.setStyle("-fx-font-size: 12;");
+        noteLabel.setWrapText(true);
+
+        // Bottone elimina
+        Button eliminaButton = new Button("Elimina");
+        eliminaButton.setStyle("-fx-background-color: #e94f4f; -fx-text-fill: white; -fx-background-radius: 10; -fx-pref-height: 25; -fx-font-size: 12;");
+        eliminaButton.setOnAction(ev -> eliminaSintomo(s));
+
+        // InfoBox
+        VBox infoBox = new VBox(5);
+        infoBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        infoBox.getChildren().addAll(
+                dataLabelTitle, dataLabel,
+                frequenzaLabelTitle, frequenzaLabel,
+                noteLabelTitle, noteLabel
+        );
+
+        VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0)); // top, right, bottom, left
+
+        card.getChildren().addAll(titolo, infoBox, eliminaButton);
+        VBox.setVgrow(infoBox, Priority.ALWAYS);
+
+        return card;
+    }
+
+
+    private void mostraFormAggiunta() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Nuovo Sintomo");
+
+        VBox contenuto = new VBox(10);
+        contenuto.setPadding(new Insets(10));
 
         TextField nomeField = new TextField();
         DatePicker dataInizioPicker = new DatePicker();
         TextField frequenzaField = new TextField();
         TextArea noteArea = new TextArea();
-        Button salvaButton = new Button("Salva");
-        salvaButton.getStyleClass().add("salvaButtonSintomo");
 
-
-        VBox contenuto = new VBox(8);
-        contenuto.getStyleClass().add("vbox-contenuto");
-
-        contenuto.setPadding(new Insets(10));
         contenuto.getChildren().addAll(
                 new Label("Nome Sintomo:"), nomeField,
-                new Label("Data Inizio Sintomo:"), dataInizioPicker,
+                new Label("Data Inizio:"), dataInizioPicker,
                 new Label("Frequenza:"), frequenzaField,
-                new Label("Note:"), noteArea,
-                salvaButton
+                new Label("Note:"), noteArea
         );
 
+        dialog.getDialogPane().setContent(contenuto);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
+        Optional<ButtonType> result = dialog.showAndWait();
 
-        TitledPane nuovoSintomoPane = new TitledPane("Nuova Patologia", contenuto);
-        sintomiAccordion.getPanes().add(nuovoSintomoPane);
-        sintomiAccordion.setExpandedPane(nuovoSintomoPane);
-
-
-        salvaButton.setOnAction(e -> {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             String nome = nomeField.getText();
             LocalDate data = dataInizioPicker.getValue();
-            String note = noteArea.getText();
             String frequenza = frequenzaField.getText();
+            String note = noteArea.getText();
 
-
-            //implementare tutti i controlli
             if (nome == null || nome.isBlank()) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Inserisci un nome valido.");
                 alert.showAndWait();
                 return;
             }
 
-            // Aggiorna titolo del TitledPane
-            nuovoSintomoPane.setText(nome);
-
-
-            int nuovaId;
             try {
-               nuovaId = ds.addSintomoConcomitante(BoxDashboardControllerPatient.u.getId(), nome, data, frequenza, note);
+                ds.addSintomoConcomitante(idPaziente, nome, data, frequenza, note);
+                listaSintomi = List.of(ds.getSintomiConcomitantiByPaziente(idPaziente));
+                aggiornaSintomiGrid();
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                ex.printStackTrace();
             }
-
-            SintomoConcomitante nuova = new SintomoConcomitante(nuovaId, BoxDashboardControllerPatient.u.getId(), nome, data, frequenza, note);
-            nuovoSintomoPane.setUserData(nuova);
-
-            try {
-                listaSintomi = List.of( ds.getSintomiConcomitantiByPaziente(idPaziente) );
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-            try {
-                aggiornaAccordion();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-
-
-        });
+        }
     }
 
+    private void eliminaSintomo(SintomoConcomitante s) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Conferma eliminazione");
+        alert.setHeaderText("Sei sicuro di voler eliminare questo sintomo?");
+        alert.setContentText(s.getDescrizione());
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                ds.deleteSintomoConcomitante(s.getId());
+                listaSintomi = List.of(ds.getSintomiConcomitantiByPaziente(idPaziente));
+                aggiornaSintomiGrid();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }

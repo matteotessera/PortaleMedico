@@ -843,7 +843,7 @@ public class DataService {
         String url = API_URL + "add_messaggio.php";
 
         String json = String.format(
-                "{\"id_sender\":%d, \"id_receiver\":%d, \"dataInvio\":\"%s\", \"oraInvio\":\"%s\", " +
+                "{\"id_sender\":%d, \"id_receiver\":%d, \"data_invio\":\"%s\", \"ora_invio\":\"%s\", " +
                         "\"oggetto\":\"%s\", \"corpo\":\"%s\", \"tipo\":\"%c\", \"letto\":\"%s\"}",
                 idSender, idReceiver, dataInvio.toString(), oraInvio.toString(),
                 oggetto, corpo, tipo, letto ? "true" : "false"
