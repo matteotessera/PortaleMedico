@@ -6,12 +6,16 @@ import com.dashapp.services.LoginService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+
+import java.util.List;
 
 public class MainController {
 
@@ -48,7 +52,16 @@ public class MainController {
     @FXML
     private VBox navBarContainer;
 
-
+    @FXML
+    private Button homeButton;
+    @FXML
+    private Button profileButton;
+    @FXML
+    private Button messagesButton;
+    @FXML
+    private Button drugsButton;
+    @FXML
+    private Button therapyButton;
 
 
     @FXML
@@ -61,7 +74,54 @@ public class MainController {
         }
         NavigatorView.setMainController(this);
 
+
+        setActiveButton(homeButton);
+
+        homeButton.setOnAction(e -> setActiveButton(homeButton));
+        profileButton.setOnAction(e -> setActiveButton(profileButton));
+        messagesButton.setOnAction(e -> setActiveButton(messagesButton));
+        drugsButton.setOnAction(e -> setActiveButton(drugsButton));
+        therapyButton.setOnAction(e -> setActiveButton(therapyButton));
     }
+
+
+    private void setActiveButton(Button active) {
+        List<Button> buttons = List.of(homeButton, profileButton, messagesButton, drugsButton, therapyButton);
+        for (Button b : buttons) {
+            b.getStyleClass().remove("active");
+            ImageView iv = (ImageView) b.getGraphic().lookup("ImageView");
+            if (iv != null) {
+                iv.setImage(getBlueIconForButton(b));
+            }
+        }
+
+        if (!active.getStyleClass().contains("active")) {
+            active.getStyleClass().add("active");
+            ImageView iv = (ImageView) active.getGraphic().lookup("ImageView");
+            if (iv != null) {
+                iv.setImage(getWhiteIconForButton(active));
+            }
+        }
+    }
+
+    private Image getBlueIconForButton(Button b) {
+        if (b == homeButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/home_menu.png"));
+        if (b == profileButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/user_menu.png"));
+        if (b == messagesButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu.png"));
+        if (b == drugsButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/farmaco_menu.png"));
+        if (b == therapyButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/terapia_menu.png"));
+        return null;
+    }
+
+    private Image getWhiteIconForButton(Button b) {
+        if (b == homeButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/home_menu_w.png"));
+        if (b == profileButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/user_menu_w.png"));
+        if (b == messagesButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu_w.png"));
+        if (b == drugsButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/farmaco_menu_w.png"));
+        if (b == therapyButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/terapia_menu_w.png"));
+        return null;
+    }
+
 
     public void nascondiComponentiMain(){
         hideSidebar();

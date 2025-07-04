@@ -90,10 +90,10 @@ public class DashboardPatientController {
             }
         }
 
-        FlagRilevazioniLabel.setText("Oggi hai eseguito " + countRilevazioni + " rilevazion" + (countRilevazioni == 1 ? "e" : "i"));
+        /*FlagRilevazioniLabel.setText("Oggi hai eseguito " + countRilevazioni + " rilevazion" + (countRilevazioni == 1 ? "e" : "i"));
 
         FlagAssunzioniLabel.setText("Registra eventuali Sintomi e le tue assunzioni giornaliere\n" +
-                                    "Oggi hai assunto " + calcolaAssunzioniEffettuate() + " farmaci");
+                                    "Oggi hai assunto " + calcolaAssunzioniEffettuate() + " farmaci");*/
 
 
     }
