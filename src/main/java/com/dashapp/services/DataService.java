@@ -841,13 +841,17 @@ public class DataService {
                              String oggetto, String corpo, char tipo, boolean letto) throws Exception {
 
         String url = API_URL + "add_messaggio.php";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String oraFormattata = oraInvio.format(formatter);
+
 
         String json = String.format(
                 "{\"id_sender\":%d, \"id_receiver\":%d, \"data_invio\":\"%s\", \"ora_invio\":\"%s\", " +
                         "\"oggetto\":\"%s\", \"corpo\":\"%s\", \"tipo\":\"%c\", \"letto\":\"%s\"}",
-                idSender, idReceiver, dataInvio.toString(), oraInvio,
-                oggetto, corpo, tipo, letto ? "true" : "false"
+                idSender, idReceiver, dataInvio.toString(), oraFormattata,
+                oggetto, corpo, tipo, letto ? "true"  : "false"
         );
+        System.out.println(json);
 
         post(url, json);
     }

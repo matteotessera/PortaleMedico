@@ -1,5 +1,6 @@
 package com.dashapp.controller.dashboardPatient;
 
+import com.dashapp.controller.ControlliSistema;
 import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
 import com.dashapp.model.*;
 import com.dashapp.services.DataService;
@@ -237,6 +238,17 @@ public class DashboardPatientController {
                     .collect(Collectors.toList());
 
              return assunzioniOggi.size();
+    }
+
+    public void controlloAssunzioniDimenticate() throws Exception {
+        ControlliSistema controllo = new ControlliSistema();
+        List<Farmaco> farmaciDimenticati = controllo.farmaciDimenticati(u.getId());
+
+        for(Farmaco f: farmaciDimenticati){
+            //invia messaggio, Oggetto: Farmaco X dimenticato
+            // Corpo: in data (Ieri) hai dimenticato di assumere il farmaco x;
+        }
+
     }
 
 

@@ -70,12 +70,31 @@ public class AddRilevazioneGlicemiaController extends AddController {
         ds.addRilevazionePaziente(valore, tipoRilevazione.toString().toLowerCase(), BoxDashboardControllerPatient.u.getId(), tipoPasto.toString().toLowerCase());
         parentController.FlagRilevazioniLabel.setText("Oggi hai eseguito " + (parentController.countRilevazioni+1) + " rilevazion" + (parentController.countRilevazioni == 1 ? "e" : "i"));
 
+        inviaAvvisoAlMedico(valore, tipoRilevazione);
 
 
     }
 
     public void setParentController(DashboardPatientController controller) {
         this.parentController = controller;
+    }
+
+    private void inviaAvvisoAlMedico(Double valore, Rilevazione.TipoRilevazione quando){
+        if(quando.toString().equals("PRE")){
+            if(valore < 80){
+
+            }
+            if(valore > 130){
+
+            }
+        }
+        else if(quando.toString().equals("POST")){
+            if(valore > 180){
+
+            }
+        }
+
+        return;
     }
 
 

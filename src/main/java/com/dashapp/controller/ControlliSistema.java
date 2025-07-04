@@ -19,6 +19,15 @@ public class ControlliSistema {
         // Trova tutte le terapie del paziente
         Terapia[] terapie = ds.getTerapiePaziente(idPaziente);
 
+        // Ottieni tutte le assunzioni per quel giorno
+        Assunzione[] tutteAssunzioni;
+        try {
+            tutteAssunzioni = ds.getAssunzioniPaziente(idPaziente);
+        } catch (Exception e) {
+            // Nessuna assunzione registrata
+            tutteAssunzioni = new Assunzione[0];
+        }
+
         for (Terapia terapia : terapie) {
             // Per ogni terapia, prendi le associazioni farmaco
             AssociazioneFarmaco[] associazioni = ds.getAssociazioniFarmaciByTerapia(terapia.getId());
@@ -29,15 +38,6 @@ public class ControlliSistema {
 
                 for (int i = 3; i >= 1; i--) {
                     LocalDate data = oggi.minusDays(i);
-
-                    // Ottieni tutte le assunzioni per quel giorno
-                    Assunzione[] tutteAssunzioni;
-                    try {
-                        tutteAssunzioni = ds.getAssunzioniPaziente(idPaziente);
-                    } catch (Exception e) {
-                        // Nessuna assunzione registrata
-                        tutteAssunzioni = new Assunzione[0];
-                    }
 
                     List<Assunzione> assunzioni = Arrays.stream(tutteAssunzioni)
                             .filter(a -> a.getIdAssociazioneFarmaco() == af.getId())
@@ -95,4 +95,42 @@ public class ControlliSistema {
         return mappa;
     }
 
+    //Salva una lista di tutti i farmaci che il paziente ha dimenticato di asusmere il giorno precedente
+    public List<Farmaco> farmaciDimenticati(int idPaziente) throws Exception {
+        List<Farmaco> result = new ArrayList<>();
+
+        DataService ds = new DataService();
+        LocalDate oggi = LocalDate.now();
+
+        Assunzione[] tutteAssunzioni;
+        try {
+            tutteAssunzioni = ds.getAssunzioniPaziente(idPaziente);
+        } catch (Exception e) {
+            // Nessuna assunzione registrata
+            tutteAssunzioni = new Assunzione[0];
+        }
+
+        // Trova tutte le terapie del paziente
+        Terapia[] terapie = ds.getTerapiePaziente(idPaziente);
+        for (Terapia terapia : terapie) {
+            // Per ogni terapia, prendi le associazioni farmaco
+            AssociazioneFarmaco[] associazioni = ds.getAssociazioniFarmaciByTerapia(terapia.getId());
+
+            for (AssociazioneFarmaco af : associazioni) {
+                int numeroAssunzioniPreviste = af.getNumeroAssunzioni();
+                LocalDate ieri = LocalDate.now().minusDays(1);
+
+                List<Assunzione> assunzioni = Arrays.stream(tutteAssunzioni)
+                        .filter(a -> a.getIdAssociazioneFarmaco() == af.getId())
+                        .filter(a -> a.getData().toLocalDate().equals(ieri))
+                        .collect(Collectors.toList());
+
+                if(assunzioni.size() < numeroAssunzioniPreviste){
+                    result.add(ds.getFarmacoById(af.getIdFarmaco()));
+                }
+            }
+        }
+
+        return result;
+    }
 }
