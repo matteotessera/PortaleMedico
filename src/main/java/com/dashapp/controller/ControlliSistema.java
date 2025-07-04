@@ -31,8 +31,15 @@ public class ControlliSistema {
                     LocalDate data = oggi.minusDays(i);
 
                     // Ottieni tutte le assunzioni per quel giorno
+                    Assunzione[] tutteAssunzioni;
+                    try {
+                        tutteAssunzioni = ds.getAssunzioniPaziente(idPaziente);
+                    } catch (Exception e) {
+                        // Nessuna assunzione registrata
+                        tutteAssunzioni = new Assunzione[0];
+                    }
 
-                    List<Assunzione> assunzioni = Arrays.stream(ds.getAssunzioniPaziente(idPaziente))
+                    List<Assunzione> assunzioni = Arrays.stream(tutteAssunzioni)
                             .filter(a -> a.getIdAssociazioneFarmaco() == af.getId())
                             .filter(a -> a.getData().toLocalDate().equals(data))
                             .collect(Collectors.toList());

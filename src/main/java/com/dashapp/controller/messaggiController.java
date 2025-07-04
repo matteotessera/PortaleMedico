@@ -49,9 +49,15 @@ public class messaggiController {
         u = ds.getUtenteByEmail(email);
 
 
-        //messaggiInviati = List.of(ds.getMessaggiByIdSender(UtenteId));
-        //messaggiRicevuti = List.of(ds.getMessaggiByIdReceiver(UtenteId));
-        messaggiRicevuti = creaMessaggi();
+        messaggiInviati = List.of(ds.getMessaggiByIdSender(u.getId()));
+        messaggiRicevuti = List.of(ds.getMessaggiByIdReceiver(u.getId()));
+        messaggi = new ArrayList<>();
+        messaggi.addAll(messaggiInviati);
+        messaggi.addAll(messaggiRicevuti);
+
+        System.out.println(
+                messaggi.getFirst().getId_receiver() + " .. " + messaggi.getFirst().getId_Sender());
+
         cellFactoryListView();
         showDm();
 
@@ -122,60 +128,22 @@ public class messaggiController {
         List<Messaggio> filtrati = new ArrayList<>();
 
         for(Messaggio m: messaggiRicevuti){
-            if(m.getId_Sender() == paziente.getId() && m.getId_receiver() == u.getId()
-                    || m.getId_Sender() == u.getId() && m.getId_receiver() == paziente.getId()) {
+            if(
+                    (m.getId_Sender() == paziente.getId() && m.getId_receiver() == u.getId())
+                    || (m.getId_Sender() == u.getId() && m.getId_receiver() == paziente.getId())
+            ) {
 
                 filtrati.add(m);
 
             }
         }
-
-
         listView.setItems(FXCollections.observableArrayList(filtrati));
-
     }
 
 
-    private List<Messaggio> creaMessaggi(){
+    private List<Messaggio> creaMessaggi() throws Exception {
         List<Messaggio> prova = new ArrayList<>();
-        Messaggio messaggio1 = new Messaggio(
-                1,                // id
-                2,              // id_Sender (ipotetico paziente o medico)
-                17,             // id_receiver
-                'G',              // tipo: glicemia elevata
-                LocalDate.of(2025, 6, 15),
-                LocalTime.of(8, 30),
-                "Inviato da paziente, Glicemia",
-                "La tua glicemia è risultata sopra i valori normali.",
-                false
-        );
-
-        Messaggio messaggio2 = new Messaggio(
-                2,                // id
-                2,              // id_Sender
-                17,
-                'N',              // tipo: non aderente
-                LocalDate.of(2025, 6, 16),
-                LocalTime.of(9, 45),
-                "Invitato da paziente",
-                "Non stai seguendo correttamente la terapia da 3 giorni.",
-                false
-        );
-
-        Messaggio messaggio3 = new Messaggio(
-                3,                // id
-                17,              // id_Sender
-                4,
-                'M',              // tipo: messaggio diretto medico
-                LocalDate.of(2025, 6, 17),
-                LocalTime.of(10, 15),
-                "Inviato da medico",
-                "Ricordati la visita di controllo prevista per domani alle ore 11:00.",
-                false
-        );
-        prova.add(messaggio1);
-        prova.add(messaggio2);
-        prova.add(messaggio3);
+        prova = List.of(ds.getMessaggiByIdReceiver(u.getId()));
 
         return prova;
     }
@@ -210,16 +178,16 @@ public class messaggiController {
                         setGraphic(vbox);
 
 
-                            if(m.getId_receiver() == u.getId()) { //messaggi ricevuti dal utente
+                            if(m.getId_receiver() == u.getId()) { //messaggi inviati da un utente al CurrentUser
                                 setStyle("-fx-background-color: lightgreen;");
-                                if(m.getTipo() == 'G'){     //se il messaggio e una vviso di alta glicemia
+                                if(m.getTipo() == 'N'){     //se il messaggio e una avviso di Non aderenza
                                     setStyle(
-                                            "-fx-background-color: green;"
+                                            "-fx-background-color: #FAB65F;"
                                     );
                                 }
                             }
                             else if(m.getId_Sender() == u.getId()){
-                                setStyle("-fx-background-color: lightblue;"); //messaggi inviati dal utente
+                                setStyle("-fx-background-color: lightblue;"); //messaggi inviati dal CurrentUser al utente U
 
                             }
 
