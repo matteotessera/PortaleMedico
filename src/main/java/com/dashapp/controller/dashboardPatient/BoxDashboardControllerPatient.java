@@ -1,6 +1,7 @@
 package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.Tabelle.Tabelle;
+import com.dashapp.controller.messaggiController;
 import com.dashapp.model.*;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
@@ -267,6 +268,19 @@ public class BoxDashboardControllerPatient {
         bodyContainer.getChildren().add(content);
     }
 
+    public void mostraMessaggi() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("Casella Messaggi");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/MessaggiView.fxml"));
+        Parent addMessContent = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(addMessContent);
+    }
 
 
 }

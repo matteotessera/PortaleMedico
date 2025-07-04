@@ -9,10 +9,16 @@ import com.dashapp.view.NavigatorView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.w3c.dom.ls.LSException;
 
@@ -48,10 +54,23 @@ public class messaggiController {
         String email = NavigatorView.getAuthenticatedUser();
         u = ds.getUtenteByEmail(email);
 
+        if(u.getRuolo().equals("paziente")){
+            this.setHeader2("assunzioni dimenticate");
+            header2.setOnMouseClicked(e -> showAssunzioniDimenticate());
+            header3.setManaged(false);
+            header3.setVisible(false);
+        }
 
-        //messaggiInviati = List.of(ds.getMessaggiByIdSender(UtenteId));
-        //messaggiRicevuti = List.of(ds.getMessaggiByIdReceiver(UtenteId));
-        messaggiRicevuti = creaMessaggi();
+
+        messaggiInviati = List.of(ds.getMessaggiByIdSender(u.getId()));
+        messaggiRicevuti = List.of(ds.getMessaggiByIdReceiver(u.getId()));
+        messaggi = new ArrayList<>();
+        messaggi.addAll(messaggiInviati);
+        messaggi.addAll(messaggiRicevuti);
+
+        System.out.println(
+                messaggi.getFirst().getId_receiver() + " .. " + messaggi.getFirst().getId_Sender());
+
         cellFactoryListView();
         showDm();
 
@@ -103,27 +122,56 @@ public class messaggiController {
         header2.setStyle("");
     }
 
-
     @FXML
-    private void showDm() throws Exception {
+    private void showAssunzioniDimenticate(){
+        List<Messaggio> filtrati = new ArrayList<>();
 
-        List<Utente> Pazienti = List.of(ds.getPazientiAssegnati());
+        for(Messaggio m: messaggiRicevuti){
+            if(m.getTipo() == ('A'))
+                filtrati.add(m);
+        }
 
-        listView.setItems(FXCollections.observableArrayList(Pazienti));
+        listView.setItems(FXCollections.observableArrayList(filtrati));
 
-        header1.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
-        header2.setStyle("");
+        header2.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
+        header1.setStyle("");
         header3.setStyle("");
     }
 
 
-    private void showDmUtente(Utente paziente){
+
+    @FXML
+    private void showDm() throws Exception {
+
+        if(u.getRuolo().equals("paziente")) {
+            Utente medico = ds.getMedicoDiBase(u.getId());
+
+            listView.setItems(FXCollections.observableArrayList(medico));
+
+            header1.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
+            header2.setStyle("");
+            header3.setStyle("");
+        }else if(u.getRuolo().equals("medico")){
+            List<Utente> Pazienti = List.of(ds.getPazientiAssegnati());
+
+            listView.setItems(FXCollections.observableArrayList(Pazienti));
+
+            header1.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
+            header2.setStyle("");
+            header3.setStyle("");
+        }
+    }
+
+
+    private void showDmUtente(Utente utente){
 
         List<Messaggio> filtrati = new ArrayList<>();
 
-        for(Messaggio m: messaggiRicevuti){
-            if(m.getId_Sender() == paziente.getId() && m.getId_receiver() == u.getId()
-                    || m.getId_Sender() == u.getId() && m.getId_receiver() == paziente.getId()) {
+        for(Messaggio m: messaggi){
+            if(
+                    (m.getId_Sender() == utente.getId() && m.getId_receiver() == u.getId())
+                    || (m.getId_Sender() == u.getId() && m.getId_receiver() == utente.getId())
+            ) {
 
                 filtrati.add(m);
 
@@ -132,53 +180,9 @@ public class messaggiController {
 
 
         listView.setItems(FXCollections.observableArrayList(filtrati));
-
     }
 
 
-    private List<Messaggio> creaMessaggi(){
-        List<Messaggio> prova = new ArrayList<>();
-        Messaggio messaggio1 = new Messaggio(
-                1,                // id
-                2,              // id_Sender (ipotetico paziente o medico)
-                17,             // id_receiver
-                'G',              // tipo: glicemia elevata
-                LocalDate.of(2025, 6, 15),
-                LocalTime.of(8, 30),
-                "Inviato da paziente, Glicemia",
-                "La tua glicemia è risultata sopra i valori normali.",
-                false
-        );
-
-        Messaggio messaggio2 = new Messaggio(
-                2,                // id
-                2,              // id_Sender
-                17,
-                'N',              // tipo: non aderente
-                LocalDate.of(2025, 6, 16),
-                LocalTime.of(9, 45),
-                "Invitato da paziente",
-                "Non stai seguendo correttamente la terapia da 3 giorni.",
-                false
-        );
-
-        Messaggio messaggio3 = new Messaggio(
-                3,                // id
-                17,              // id_Sender
-                4,
-                'M',              // tipo: messaggio diretto medico
-                LocalDate.of(2025, 6, 17),
-                LocalTime.of(10, 15),
-                "Inviato da medico",
-                "Ricordati la visita di controllo prevista per domani alle ore 11:00.",
-                false
-        );
-        prova.add(messaggio1);
-        prova.add(messaggio2);
-        prova.add(messaggio3);
-
-        return prova;
-    }
 
     //QUI PUOI MODIFICARE LASPETTO DEGLI ELEMENTI DELLA LISTVIEW
     private void cellFactoryListView(){
@@ -191,37 +195,62 @@ public class messaggiController {
                     setGraphic(null);
                     setText(null);
                     setStyle(""); // resetta eventuali stili precedenti
+                    getStyleClass().setAll("list-cell");
+
                 } else {
                     // Messaggi
                     if (item instanceof Messaggio m) {
 
-                        //crea per ogni elemento messaggio, uan Vbox contenente due Label, Data (in grassetto) e Oggetto+Corpo
-                        setGraphic(null);
+                        //crea per ogni elemento messaggio, un wrapper contenente una Vbox con il contenuto del messaggio
 
                         Label dateTimeLabel = new Label(m.getDataInvio() + " " + m.getOrarioInvio());
-                        dateTimeLabel.setStyle("-fx-font-weight: bold;");
+                        dateTimeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16");
 
-                        Label bodyLabel = new Label(m.getOggetto() + "\n" + m.getCorpo());
+                        Label oggettoLabel = new Label(m.getOggetto());
+                        oggettoLabel.setStyle("-fx-font-size: 14");
 
-                        VBox vbox = new VBox(dateTimeLabel, bodyLabel);
-                        vbox.setSpacing(2);
+                        Label corpoLabel = new Label(m.getCorpo());
 
+                        // Vbox con il contenuto del messaggio
+                        VBox vboxMessage = new VBox(dateTimeLabel, oggettoLabel, corpoLabel);
+                        vboxMessage.setSpacing(2);
+                        vboxMessage.setMaxWidth(800); // 👈 la larghezza massima del "fumetto"
+                        vboxMessage.setStyle("-fx-background-color: inherit; -fx-padding: 10 10 10 10"); // eredita il colore dalla cella
+                        vboxMessage.setPadding(new Insets(30, 30, 30 ,30)); // padding dentro la cella
+
+                        // Wrapper contenente Vbox
+                        HBox wrapper = new HBox(vboxMessage);
+                        //wrapper.prefWidthProperty().bind(this.widthProperty());
+                        wrapper.setPrefWidth(600);
+                        wrapper.setPadding(new Insets(30, 30, 30 ,30)); // padding dentro la cella
+                        wrapper.setAlignment(Pos.CENTER_RIGHT);
                         setText(null);
-                        setGraphic(vbox);
+                        setGraphic(wrapper);
+                        getStyleClass().setAll("list-cell");
 
 
-                            if(m.getId_receiver() == u.getId()) { //messaggi ricevuti dal utente
-                                setStyle("-fx-background-color: lightgreen;");
-                                if(m.getTipo() == 'G'){     //se il messaggio e una vviso di alta glicemia
-                                    setStyle(
-                                            "-fx-background-color: green;"
-                                    );
-                                }
+
+                            if(m.getId_receiver() == u.getId()) { //messaggi inviati da un utente al CurrentUser
+                                getStyleClass().add("messaggio-ricevuto");
+                                wrapper.setAlignment(Pos.CENTER_LEFT);
+                                vboxMessage.setStyle("-fx-background-color: lightgreen; -fx-background-radius: 10;");
                             }
-                            else if(m.getId_Sender() == u.getId()){
-                                setStyle("-fx-background-color: lightblue;"); //messaggi inviati dal utente
-
+                            else if(m.getId_Sender() == u.getId()){  //messaggi inviati dal CurrentUser al utente U
+                                getStyleClass().add("messaggio-inviato");
+                                wrapper.setAlignment(Pos.CENTER_RIGHT);
+                                vboxMessage.setStyle("-fx-background-color: lightblue; -fx-background-radius: 10;");
                             }
+
+                            if(m.getTipo() == 'N'){     //se il messaggio e una avviso di Non aderenza
+                                    getStyleClass().add("avviso-nonaderenza");
+                                    vboxMessage.setStyle("-fx-background-color: #FBA660; -fx-background-radius: 10;");
+                            }
+                            if(m.getTipo() == 'G'){     //se il messaggio e una avviso di Glicemia
+                                    getStyleClass().add("avviso-glicemia");
+                                    vboxMessage.setStyle("-fx-background-color: #FFFC68; -fx-background-radius: 10;");
+                            }
+
+
 
 
 
@@ -230,7 +259,21 @@ public class messaggiController {
                     else if (item instanceof Utente u) {
                         setStyle(""); // resetta eventuali stili precedenti
                         setGraphic(null);   //toglie eventuali Vbox aggiunti
-                        setText(u.toString());
+                        getStyleClass().setAll("list-cell");
+
+                        Label infoUtente = new Label(u.toString());
+                        Button scriviButton = new Button("Invia Dm");
+
+
+                        Region spacer = new Region();
+                        HBox.setHgrow(spacer, Priority.ALWAYS); // fa sì che il Region si espanda e spinga il bottone a destra
+
+                        HBox wrapper = new HBox(infoUtente, spacer, scriviButton);
+                        wrapper.setSpacing(10);
+                        wrapper.setAlignment(Pos.CENTER_LEFT); // allinea verticalmente al centro
+
+
+                        setGraphic(wrapper);
                     }
                 }
             }
@@ -238,6 +281,15 @@ public class messaggiController {
     }
 
 
+    private void setHeader1(String text){
+        header1.setText(text);
+    }
+    private void setHeader2(String text){
+        header2.setText(text);
+    }
+    private void setHeader3(String text){
+        header3.setText(text);
+    }
 
 
 }

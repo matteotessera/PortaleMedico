@@ -181,6 +181,13 @@ public class DashboardPatientController {
         controller.fascicoloPaziente();
     }
 
+    public void mostraMessaggi() throws Exception {
+        if (controller == null) {
+            mostraBox();
+        }
+        controller.mostraMessaggi();
+    }
+
 
 
 

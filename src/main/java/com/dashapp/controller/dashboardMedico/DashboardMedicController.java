@@ -14,8 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
-import javax.swing.*;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -52,7 +53,7 @@ public class DashboardMedicController {
 
         private BoxDashboardController controller;
 
-        private int id;
+        private int idCurrentUser;
 
 
 
@@ -61,8 +62,8 @@ public class DashboardMedicController {
                 ds = new DataService();
 
                 String email = NavigatorView.getAuthenticatedUser();
-                id = ds.getUtenteByEmail(email).getId();
-                numeroPazienti.setText(String.valueOf(ds.getPazientiByMedico(id).length));
+                idCurrentUser = ds.getUtenteByEmail(email).getId();
+                numeroPazienti.setText(String.valueOf(ds.getPazientiByMedico(idCurrentUser).length));
                 numeroFarmaci.setText(String.valueOf(ds.getFarmaci().length));
 
                 //DA rendere dinamico, altrmenti rimane fisso da qunado si avvia il portale
@@ -173,14 +174,27 @@ public class DashboardMedicController {
 
 
         public void controllaPazienti() throws Exception {
-                List<Utente> pazientiAssociati = List.of(ds.getPazientiByMedico(id));
+                List<Utente> pazientiAssociati = List.of(ds.getPazientiByMedico(idCurrentUser));
                 ControlliSistema controlli = new ControlliSistema();
-                for(Utente u: pazientiAssociati){
-                        if(controlli.pazienteNonAderente(u.getId()))
-                                JOptionPane.showMessageDialog(null, "Il paziente con ID " + u.getId() + " non è aderente.", "Alert Paziente", JOptionPane.WARNING_MESSAGE);
+                for(Utente p: pazientiAssociati) {
+                        if (controlli.pazienteNonAderente(p.getId())) {
+                        mostraAlert("AVVISO", "Il paziente: " + p.getNome() + " " + p.getCognome() + " non ha aderito alle sue prescrizioni negli ultimi 3 giorni");
+                        ds.addMessaggio(p.getId(), idCurrentUser, LocalDate.now(), LocalTime.now(),
+                                "Avviso paziente: " + p.getNome() + " " + p.getCognome() + " " + p.getEmail(),
+                                "il paziente non ha aderito alle sue prescrizioni negli ultimi 3 giorni",
+                                'N', false);
+                        }
                 }
         }
 
+
+        public void mostraAlert(String titolo, String contenuto) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(titolo);
+                alert.setHeaderText(null);  // Puoi mettere un header se vuoi
+                alert.setContentText(contenuto);
+                alert.showAndWait();
+        }
 
 
 

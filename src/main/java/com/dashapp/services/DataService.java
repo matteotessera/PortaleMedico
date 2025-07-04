@@ -845,7 +845,7 @@ public class DataService {
         String json = String.format(
                 "{\"id_sender\":%d, \"id_receiver\":%d, \"data_invio\":\"%s\", \"ora_invio\":\"%s\", " +
                         "\"oggetto\":\"%s\", \"corpo\":\"%s\", \"tipo\":\"%c\", \"letto\":\"%s\"}",
-                idSender, idReceiver, dataInvio.toString(), oraInvio.toString(),
+                idSender, idReceiver, dataInvio.toString(), oraInvio,
                 oggetto, corpo, tipo, letto ? "true" : "false"
         );
 
@@ -1295,13 +1295,15 @@ public class DataService {
             Messaggio m = new Messaggio();
             m.setId(obj.get("id").getAsInt());
             m.setId_Sender(obj.get("id_sender").getAsInt());
+            m.setId_receiver(obj.get("id_receiver").getAsInt());
 
-            if (obj.has("dataInvio") && !obj.get("dataInvio").isJsonNull()) {
-                m.setDataInvio(LocalDate.parse(obj.get("dataInvio").getAsString()));
+
+            if (obj.has("data_invio") && !obj.get("data_invio").isJsonNull()) {
+                m.setDataInvio(LocalDate.parse(obj.get("data_invio").getAsString()));
             }
 
-            if (obj.has("oraInvio") && !obj.get("oraInvio").isJsonNull()) {
-                m.setOrarioInvio(LocalTime.parse(obj.get("oraInvio").getAsString()));
+            if (obj.has("ora_invio") && !obj.get("ora_invio").isJsonNull()) {
+                m.setOrarioInvio(LocalTime.parse(obj.get("ora_invio").getAsString()));
             }
 
             m.setOggetto(obj.get("oggetto").getAsString());

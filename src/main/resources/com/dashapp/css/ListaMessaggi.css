@@ -1,28 +1,66 @@
-/* Stile base delle celle */
-.messaggi-list .list-cell {
+/* Stile base del ListView */
+.list-view {
     -fx-background-color: #f9f9f9;
-    -fx-text-fill: #2a2a2a;
-    -fx-font-size: 15px;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-padding: 5;
+}
+
+/* Celle di default */
+.list-cell {
     -fx-padding: 10;
-    -fx-border-color: transparent;
-    -fx-border-width: 0 0 1px 0;
-    -fx-border-style: solid;
-    -fx-border-color: #ddd;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #e0e0e0 transparent;
+    -fx-border-width: 0 0 1 0;
 }
 
-/* Quando il mouse passa sopra */
-.messaggi-list .list-cell:hover {
-    -fx-background-color: #e3f2fd;
+/* Celle di messaggi ricevuti */
+.list-cell.messaggio-ricevuto {
+
+     -fx-background-radius: 10;
+     -fx-padding: 5 5 5 30; /* 30 di padding a sinistra */
+
 }
 
-/* Quando la cella è selezionata */
-.messaggi-list .list-cell:selected {
-    -fx-background-color: #90caf9;
-    -fx-text-fill: #000000;
+/* Celle di messaggi inviati */
+.list-cell.messaggio-inviato {
+    -fx-background-color: #e6f0ff;
+    -fx-background-radius: 10;
+    -fx-padding: 5 5 5 50; /* più spazio a sinistra */
+}
+
+/* Celle di avviso non aderenza */
+.list-cell.avviso-nonaderenza {
+
+    -fx-background-radius: 10;
+    -fx-padding: 5 50 5 5;
+}
+
+.list-cell.avviso-glicemia {
+
+    -fx-background-radius: 10;
+    -fx-padding: 5 50 5 5;
+}
+
+/* Hover */
+.list-cell:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+/* Label in grassetto per data e ora */
+.label.data-ora {
     -fx-font-weight: bold;
 }
 
-/* Cella vuota (opzionale per evitare colori strani) */
-.messaggi-list .list-cell:empty {
-    -fx-background-color: transparent;
+/* Label corpo messaggio */
+.label.corpo {
+    -fx-padding: 3 0 0 0;
 }
+
+/* Celle selezionate */
+.list-cell:selected {
+    -fx-background-color: #cce5ff;
+}
+
+.Vbox.
+
