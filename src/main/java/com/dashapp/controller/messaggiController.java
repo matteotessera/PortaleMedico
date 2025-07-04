@@ -9,10 +9,13 @@ import com.dashapp.view.NavigatorView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.w3c.dom.ls.LSException;
 
@@ -159,6 +162,8 @@ public class messaggiController {
                     setGraphic(null);
                     setText(null);
                     setStyle(""); // resetta eventuali stili precedenti
+                    getStyleClass().setAll("list-cell");
+
                 } else {
                     // Messaggi
                     if (item instanceof Messaggio m) {
@@ -171,23 +176,37 @@ public class messaggiController {
 
                         Label bodyLabel = new Label(m.getOggetto() + "\n" + m.getCorpo());
 
-                        VBox vbox = new VBox(dateTimeLabel, bodyLabel);
-                        vbox.setSpacing(2);
+// Vbox con il contenuto del messaggio
+                        VBox vboxMessage = new VBox(dateTimeLabel, bodyLabel);
+                        vboxMessage.setSpacing(2);
+                        vboxMessage.setMaxWidth(800); // 👈 la larghezza massima del "fumetto"
+                        vboxMessage.setStyle("-fx-background-color: inherit; -fx-padding: 10 10 10 10"); // eredita il colore dalla cella
+                        vboxMessage.setPadding(new Insets(30, 30, 30 ,30)); // padding dentro la cella
 
+// Wrapper per allineare a destra
+                        HBox wrapper = new HBox(vboxMessage);
+                        wrapper.prefWidthProperty().bind(this.widthProperty());
+                        wrapper.setPadding(new Insets(30, 30, 30 ,30)); // padding dentro la cella
+                        wrapper.setAlignment(Pos.CENTER_RIGHT);
                         setText(null);
-                        setGraphic(vbox);
+                        setGraphic(wrapper);
+                        getStyleClass().setAll("list-cell");
+
 
 
                             if(m.getId_receiver() == u.getId()) { //messaggi inviati da un utente al CurrentUser
-                                setStyle("-fx-background-color: lightgreen;");
+                                getStyleClass().add("messaggio-ricevuto");
+                                wrapper.setAlignment(Pos.CENTER_LEFT);
+
                                 if(m.getTipo() == 'N'){     //se il messaggio e una avviso di Non aderenza
-                                    setStyle(
-                                            "-fx-background-color: #FAB65F;"
-                                    );
+                                    getStyleClass().add("avviso-nonaderenza");
+                                    vboxMessage.setStyle("-fx-background-color: #FBA660; -fx-background-radius: 10;");
                                 }
                             }
-                            else if(m.getId_Sender() == u.getId()){
-                                setStyle("-fx-background-color: lightblue;"); //messaggi inviati dal CurrentUser al utente U
+                            else if(m.getId_Sender() == u.getId()){  //messaggi inviati dal CurrentUser al utente U
+                                getStyleClass().add("messaggio-inviato");
+                                wrapper.setAlignment(Pos.CENTER_RIGHT);
+                                vboxMessage.setStyle("-fx-background-color: lightblue; -fx-background-radius: 10;");
 
                             }
 
@@ -199,6 +218,8 @@ public class messaggiController {
                         setStyle(""); // resetta eventuali stili precedenti
                         setGraphic(null);   //toglie eventuali Vbox aggiunti
                         setText(u.toString());
+                        getStyleClass().setAll("list-cell");
+
                     }
                 }
             }
