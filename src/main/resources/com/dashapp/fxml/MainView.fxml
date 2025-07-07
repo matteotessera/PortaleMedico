@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="mainContainer" prefHeight="600" prefWidth="1000" style="     -fx-background-image: url('https://media-public.canva.com/BO16k/MAE-xKBO16k/1/s2.jpg');     -fx-background-repeat: no-repeat;     -fx-background-size: cover;     -fx-background-position: center center;" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.MainController">
+<BorderPane fx:id="mainContainer" prefHeight="600" prefWidth="1000" style="     -fx-background-image: url('https://media-public.canva.com/BO16k/MAE-xKBO16k/1/s2.jpg');     -fx-background-repeat: no-repeat;     -fx-background-size: cover;     -fx-background-position: center center;" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.MainController">
     <left>
         <VBox fx:id="sidebarVBox" prefHeight="550.0" prefWidth="161.0" styleClass="sidebar-vbox">
             <padding>

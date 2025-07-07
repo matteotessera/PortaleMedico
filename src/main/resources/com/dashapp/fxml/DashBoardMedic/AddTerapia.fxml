@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 <?import org.controlsfx.control.*?>
 
-<AnchorPane prefHeight="580.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddTerapiaController">
+<AnchorPane prefHeight="580.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddTerapiaController">
 
    <children>
       <VBox spacing="20.0" style="-fx-padding: 20 30 20 0;">
