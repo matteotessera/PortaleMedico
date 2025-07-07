@@ -241,4 +241,26 @@ public class DashboardPatientController {
 
 
 
+    public void vediProfilo() throws Exception {
+        // Pulisci il contenuto centrale
+        mainContent.getChildren().clear();
+
+        // Carico il BoxDashboardPatient (container)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/BoxDashboardPatient.fxml"));
+        Parent boxDashboard = loader.load();
+
+        // Prendo il controller del box
+        controller = loader.getController();
+
+        // Passo il riferimento al DashboardPatientController se serve
+        controller.setDashboardController(this);
+
+        // Aggiungo il boxDashboard alla parte centrale
+        mainContent.getChildren().add(boxDashboard);
+
+        // Chiamo il metodo per caricare il profilo dentro il box
+        controller.mostraProfilo();
+    }
+
+
 }

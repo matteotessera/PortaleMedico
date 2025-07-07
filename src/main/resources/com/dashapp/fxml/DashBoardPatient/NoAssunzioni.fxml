@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" >
+   <children>
+      <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-padding: 30;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+         <children>
+            <ImageView fx:id="okLogo" fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/ok_logo.png" />
+               </image>
+            </ImageView>
+            <Label styleClass="roboto-black-uppercase" text="NESSUN FARMACO DA ASSUMERE" textFill="#28a745">
+               <font>
+                  <Font name="Roboto Black" size="17.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Label>
+            <Label styleClass="roboto-regular-lowercase" text="Sono stati assunti tutti i farmaci del giorno" textFill="#4a4a4a">
+               <font>
+                  <Font name="Roboto Regular" size="13.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="-10.0" />
+               </VBox.margin></Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -3,56 +3,66 @@ package com.dashapp.controller.dashboardPatient;
 import com.dashapp.controller.ControlliSistema;
 import com.dashapp.model.StatoFarmaco;
 import com.dashapp.model.*;
-//import com.dashapp.model.AssunzioneFarmaco;        da toigliere commento
 import com.dashapp.services.DataService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class AddAssunzioneController extends AddController{
-
+public class AddAssunzioneController extends AddController {
 
     DashboardPatientController parentController;
 
     BoxDashboardControllerPatient parentBoxController;
+
     @FXML
     private ComboBox<String> farmacoAssuntoBox;
     @FXML
-    private DatePicker dataField;        //DA FARE: usare Datepicker
+    private DatePicker dataField;
     @FXML
-    private TextField oraField;
+    private Spinner oraField;
     @FXML
-    private TextField quantitaField;            //NON NECESSARIA< prende valore automaticamente
+    private Spinner minutiField;
+
+    @FXML
+    private TextField quantitaField;
 
     @FXML
     private ComboBox<Terapia> terapiaIdBox;
+
     @FXML
-    private TextArea farmaciDaAssumere;
+    private TableView<Farmaco> farmaciDaAssumere;
+    @FXML
+    private TableColumn<Farmaco, String> farmacoCol;
+    @FXML
+    private TableColumn<Farmaco, Integer> quantitaCol;
 
     private Map<Farmaco, StatoFarmaco> mappaAssunzioni;
 
     private boolean doAnyway;
 
     private DataService ds;
+
     @FXML
     public void initialize() {
+        checkOra();
 
-
-        farmaciDaAssumere.setText("Caricamento farmaci in corso...");
-
-        // Task in background
-
+        // Task in background per caricare dati
         Task<Void> loadDataTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -64,12 +74,33 @@ public class AddAssunzioneController extends AddController{
                 List<Terapia> terapiePaziente = List.of(ds.getTerapiePaziente(idPaziente));
                 Map<Farmaco, StatoFarmaco> mappa = controlli.farmaciDaAssumerePaziente(idPaziente);
 
-
                 Platform.runLater(() -> {
                     terapiaIdBox.setItems(FXCollections.observableArrayList(terapiePaziente));
+                    terapiaIdBox.setCellFactory(lv -> new ListCell<>() {
+                        @Override
+                        protected void updateItem(Terapia item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty || item == null) {
+                                setGraphic(null);
+                            } else {
+                                Text nome = new Text("Terapia " + item.getId() + "\n");
+                                nome.setStyle("-fx-font-weight: bold");
+
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                                Text dettagli = new Text("Data: " + item.getDataInizio().format(formatter) + " - " +
+                                        item.getDataFine().format(formatter) + "\nDettagli: " + item.getNote());
+                                TextFlow flow = new TextFlow(nome, dettagli);
+                                setGraphic(flow);
+                            }
+                        }
+                    });
+
                     mappaAssunzioni = mappa;
-                    farmaciDaAssumere.setText(mapToString(mappaAssunzioni));
-                    if(!doAnyway && mappaAssunzioni != null) {
+
+                    configuraTableView();
+                    aggiornaFarmaciTable();
+
+                    if (!doAnyway && mappaAssunzioni != null) {
                         assunzioniCompletate();
                     }
                     doAnyway = false;
@@ -80,16 +111,12 @@ public class AddAssunzioneController extends AddController{
             }
         };
 
-
-
-        //gestisce errori nel caricamento
         loadDataTask.setOnFailed(e -> {
             Throwable ex = loadDataTask.getException();
             ex.printStackTrace();
-            Platform.runLater(() -> farmaciDaAssumere.setText("Errore nel caricamento."));
+            // eventualmente log o alert
         });
 
-        // Avvia il task
         Thread th = new Thread(loadDataTask);
         th.setDaemon(true);
         th.start();
@@ -114,35 +141,66 @@ public class AddAssunzioneController extends AddController{
             }
         });
 
+    }
 
+    private void checkOra(){
+        // Ore Spinner
+        SpinnerValueFactory<Integer> oreFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 8);
+        oraField.setValueFactory(oreFactory);
+        oraField.setEditable(true);
+        oraField.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                oraField.getEditor().setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+
+        // Minuti Spinner
+        SpinnerValueFactory<Integer> minutiFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
+        minutiField.setValueFactory(minutiFactory);
+        minutiField.setEditable(true);
+        minutiField.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                minutiField.getEditor().setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+    }
+
+    private void configuraTableView() {
+        farmacoCol.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(cellData.getValue().getNome())
+        );        quantitaCol.setCellValueFactory(cellData -> {
+            Farmaco farmaco = cellData.getValue();
+            StatoFarmaco stato = mappaAssunzioni.get(farmaco);
+            int rimaste = (stato != null) ? stato.getAssunzioniRimaste() : 0;
+            return new javafx.beans.property.SimpleIntegerProperty(rimaste).asObject();
+        });
+    }
+
+    private void aggiornaFarmaciTable() {
+        if (mappaAssunzioni != null) {
+            ObservableList<Farmaco> farmaciObservable = FXCollections.observableArrayList(mappaAssunzioni.keySet());
+            farmaciDaAssumere.setItems(farmaciObservable);
+        }
     }
 
     @FXML
     private void registraAssunzione() throws Exception {
-
-        //logica
-
-
-
-
         LocalTime ora;
         try {
-            ora = LocalTime.parse(this.oraField.getText());
+            ora = LocalTime.parse(this.oraField.getValue()+":"+this.minutiField.getValue());
         } catch (DateTimeParseException e) {
             System.err.println("Errore: orario non valido, usare formato HH:mm oppure HH:mm:ss");
             return;
         }
 
         LocalDate data;
-        try{
+        try {
             data = dataField.getValue();
-        }catch (DateTimeParseException e){
-            System.err.println("Errore: data non valida, usare formato YYY-MM-DD");
+        } catch (DateTimeParseException e) {
+            System.err.println("Errore: data non valida, usare formato YYYY-MM-DD");
             return;
         }
 
-        //DA SISTEMARE
-        //AssunzioneFarmaco assunzione = new AssunzioneFarmaco("1", data, ora, quantita, "1", "1");
         AssociazioneFarmaco[] associazioni = ds.getAssociazioniFarmaciByTerapia(terapiaIdBox.getValue().getId());
         Optional<AssociazioneFarmaco> risultato = Arrays.stream(associazioni)
                 .filter(a -> {
@@ -163,68 +221,36 @@ public class AddAssunzioneController extends AddController{
         parentController.backToDashboard();
     }
 
-
     private void updateFarmaciComboBox(int terapiaId) throws Exception {
         List<AssociazioneFarmaco> associazioni = List.of(ds.getAssociazioniFarmaciByTerapia(terapiaId));
 
         List<String> farmaci = new ArrayList<>();
 
         for (AssociazioneFarmaco a : associazioni) {
-
             Farmaco f = ds.getFarmacoById(a.getIdFarmaco());
             farmaci.add(f.toString());
-
         }
 
         ObservableList<String> options = FXCollections.observableArrayList(farmaci);
         farmacoAssuntoBox.setItems(options);
-
-
-
     }
 
     private void updateDoseField(int terapiaId) throws Exception {
-        int dose = 0;
         List<AssociazioneFarmaco> associazioni = List.of(ds.getAssociazioniFarmaciByTerapia(terapiaId));
         String farmacoSelezionato = farmacoAssuntoBox.getValue();
-        Farmaco FarmacoSelezionato = ds.getFarmacoByNome(farmacoSelezionato);
+        Farmaco farmacoSelezionatoObj = ds.getFarmacoByNome(farmacoSelezionato);
 
         Optional<AssociazioneFarmaco> match = associazioni.stream()
-                .filter(a -> a.getIdFarmaco() == FarmacoSelezionato.getId())
+                .filter(a -> a.getIdFarmaco() == farmacoSelezionatoObj.getId())
                 .findFirst();
 
         if (match.isPresent()) {
-            dose = match.get().getDose();
+            int dose = match.get().getDose();
             quantitaField.setText(String.valueOf(dose) + "mg");
         } else {
             quantitaField.clear();
         }
-
     }
-
-    private String mapToString(Map<Farmaco, StatoFarmaco> mappa) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<Farmaco, StatoFarmaco> entry : mappa.entrySet()) {
-            Farmaco farmaco = entry.getKey();
-            StatoFarmaco stato = entry.getValue();
-
-            if(stato.getStato() == "da assumere") {
-                sb.append(farmaco.getNome())
-                        .append(" : ")
-                        .append(stato.getStato())
-                        .append(" (" + stato.getAssunzioniRimaste())
-                        .append(stato.getAssunzioniRimaste()>1 ? " assunzioni)\n" : " assunzione)\n");
-            }else{
-                sb.append(farmaco.getNome())
-                        .append(" : ")
-                        .append(stato.getStato())
-                        .append(" ✓ \n");
-
-            }
-        }
-        return sb.toString();
-    }
-
 
     public void setParentController(DashboardPatientController controller) {
         this.parentController = controller;
@@ -234,65 +260,31 @@ public class AddAssunzioneController extends AddController{
         this.parentBoxController = controller;
     }
 
-
-    public void assunzioniCompletate(){
-
+    public void assunzioniCompletate() {
         if (mappaAssunzioni == null) {
             System.err.println("mappaAssunzioni non inizializzata, annullo assunzioniCompletate");
             return;
         }
 
-        for (StatoFarmaco stato : mappaAssunzioni.values()) {
+        boolean daAssumere = mappaAssunzioni.values().stream()
+                .anyMatch(stato -> "da assumere".equals(stato.getStato()));
 
-            if(stato.getStato() == "da assumere"){
-                return;
-            }
+        if (daAssumere) {
+            return;
         }
-        parentBoxController.bodyContainer.getChildren().clear();
-        parentBoxController.bodyContainer.setAlignment(Pos.CENTER);
-        Label completatoLabel = new Label("HAI ASSUNTO TUTTI I FARMACI DI OGGI");
-        completatoLabel.setStyle(
-                "-fx-font-size: 28px;" +
-                        "-fx-text-fill: #cb6ce6;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-padding: 20;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 4,0,0,2);" +
-                        "-fx-alignment: center;"
-        );
 
-        Button assumiComunque = new Button("voglio comunque assumere un farmaco");
-        assumiComunque.setStyle(
-                "-fx-background-color: #cb6ce6;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 16px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-padding: 10 20 10 20;" +
-                        "-fx-background-radius: 8;" +
-                        "-fx-cursor: hand;" +
-                        "-fx-alignment: center;"
-        );
-        parentBoxController.bodyContainer.getChildren().add(completatoLabel);
-        parentBoxController.bodyContainer.getChildren().add(assumiComunque);
+        try {
+            parentBoxController.bodyContainer.getChildren().clear();
+            parentBoxController.bodyContainer.setAlignment(Pos.CENTER);
 
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/NoAssunzioni.fxml"));
+            Parent root = loader.load();
 
-        //NON VA, NON SO PERCHE
-        assumiComunque.setOnAction(e -> {
-            try {
-                AddAssunzioneController nuovo = parentBoxController.aggiungiAssunzione();
-                nuovo.setDoAnyway(true);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+            parentBoxController.bodyContainer.getChildren().add(root);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-    public void setDoAnyway(boolean b){
-        doAnyway = b;
-    }
-
-
-
-
 
 }

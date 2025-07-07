@@ -12,6 +12,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 
 import java.sql.Time;
 import java.time.LocalDate;
@@ -37,6 +38,7 @@ public class AddSintomoController extends AddController {
 
     @FXML
     private void initialize(){
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Roboto-SemiBold.ttf"), 12);
 
         SintomiBox.getItems().addAll(sintomiDiabeteTipo2);
 

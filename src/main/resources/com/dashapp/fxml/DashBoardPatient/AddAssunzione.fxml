@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="474.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddAssunzioneController">
+<AnchorPane prefHeight="474.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddAssunzioneController">
    <children>
-      <HBox>
+      <HBox stylesheets="@../../css/input.css">
          <children>
             <VBox prefHeight="488.0" prefWidth="932.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
                <children>
                   <Label style="-fx-text-fill: #cb6ce6;" text="Terapia e Farmaco">
                      <font>
-                        <Font name="System Bold" size="13.0" />
+                        <Font name="Roboto Black" size="14.0" />
                      </font>
                   </Label>
                   <VBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="932.0" spacing="10.0">
                      <children>
-                        <Label text="Specificare la terapia " />
+                        <Label styleClass="labelInput" text="Terapia" />
                         <ComboBox fx:id="terapiaIdBox" prefWidth="1000.0" promptText="Selezionare Terapia" />
-                        <Label text="Specificare il farmaco assunto">
+                        <Label styleClass="labelInput" text="Farmaco">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
@@ -41,26 +34,36 @@
                   </VBox>
                   <Label text="Dati assunzione" textFill="#cb6ce6">
                      <font>
-                        <Font name="System Bold" size="13.0" />
+                        <Font name="Roboto Black" size="13.0" />
                      </font>
                   </Label>
-                  <HBox prefHeight="36.0" prefWidth="902.0" spacing="10.0">
+                  <HBox prefHeight="53.0" spacing="10.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                        <VBox prefHeight="47.0" prefWidth="230.0" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Data del assunzione" />
+                              <Label styleClass="labelInput" text="Data del assunzione" />
                               <DatePicker fx:id="dataField" prefWidth="400.0" promptText="data" />
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                        <HBox prefHeight="53.0" spacing="10.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Orario del assunzione" />
-                              <TextField fx:id="oraField" promptText="Ora" />
+                              <VBox prefHeight="53.0" prefWidth="150.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label styleClass="labelInput" text="Ora" />
+                                    <Spinner fx:id="oraField" editable="true" prefHeight="26.0" prefWidth="247.0" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="53.0" prefWidth="150.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label styleClass="labelInput" text="Minuti" />
+                                    <Spinner fx:id="minutiField" editable="true" prefHeight="26.0" prefWidth="244.0" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </HBox>
                      </children>
                   </HBox>
-                  <Label text="Quantità di farmaco assunta" />
+                  <Label styleClass="labelInput" text="Quantità di farmaco assunta" />
                   <TextField fx:id="quantitaField" promptText="Quantità" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -69,17 +72,23 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="CENTER">
+            <VBox alignment="TOP_CENTER" prefHeight="488.0" prefWidth="277.0" spacing="20.0" style="-fx-padding: 20; -fx-background-color: #f9f9f9; -fx-background-radius: 10;">
                <children>
-                  <Label text="OGGI DEVI ASSUMERE:" textFill="#cb6ce6" />
-                  <TextArea fx:id="farmaciDaAssumere" prefHeight="200.0" prefWidth="250.0">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin></TextArea>
+                  <Label text="OGGI DEVI ASSUMERE:" textFill="#cb6ce6">
+                     <font>
+                        <Font name="Roboto Black" size="14.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="farmaciDaAssumere" prefHeight="188.0" prefWidth="200" style="-fx-background-radius: 10; -fx-border-radius: 10;">
+                     <columns>
+                        <TableColumn fx:id="farmacoCol" prefWidth="120" text="Farmaco" />
+                        <TableColumn fx:id="quantitaCol" prefWidth="80" text="Quantità" />
+                     </columns>
+                  </TableView>
                </children>
-               <HBox.margin>
+               <VBox.margin>
                   <Insets right="30.0" />
-               </HBox.margin>
+               </VBox.margin>
             </VBox>
          </children>
       </HBox>

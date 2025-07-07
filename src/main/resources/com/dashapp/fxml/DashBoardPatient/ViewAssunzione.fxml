@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefWidth="932.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.VediAssunzioneController">
+   <children>
+      <HBox stylesheets="@../../css/input.css">
+         <children>
+            <VBox prefWidth="932.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label style="-fx-text-fill: #cb6ce6;" text="Terapia e Farmaco">
+                           <font>
+                              <Font name="Roboto Black" size="14.0" />
+                           </font>
+                        </Label>
+                        <Region prefWidth="655.0" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="modificaButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#modificaAssunzione" prefHeight="26.0" prefWidth="107.0" style="-fx-background-color: red; -fx-background-radius: 20; -fx-border-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica" />
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER_LEFT" prefWidth="902.0" spacing="10.0">
+                     <children>
+                        <VBox prefWidth="100.0" spacing="5.0">
+                           <children>
+                              <Label styleClass="labelInput" text="Terapia" />
+                              <TextArea fx:id="terapiaIdBox" editable="false" prefHeight="79.0" prefWidth="902.0" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                        <VBox prefWidth="100.0" spacing="5.0">
+                           <children>
+                              <Label styleClass="labelInput" text="Farmaco">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextArea fx:id="farmacoAssuntoBox" editable="false" prefHeight="59.0" prefWidth="902.0" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <Label text="Dati assunzione" textFill="#cb6ce6">
+                     <font>
+                        <Font name="Roboto Black" size="13.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="53.0" spacing="10.0">
+                     <children>
+                        <VBox prefHeight="47.0" prefWidth="230.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="labelInput" text="Data del assunzione" />
+                              <DatePicker fx:id="dataField" prefWidth="400.0" promptText="data" />
+                           </children>
+                        </VBox>
+                        <HBox prefHeight="53.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <VBox prefWidth="150.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label styleClass="labelInput" text="Ora" />
+                                    <Spinner fx:id="oraField"  prefHeight="26.0" prefWidth="247.0" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="150.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label styleClass="labelInput" text="Minuti" />
+                                    <Spinner fx:id="minutiField" prefHeight="26.0" prefWidth="244.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <VBox prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label styleClass="labelInput" text="Quantità di farmaco assunta" />
+                        <TextField fx:id="quantitaField" editable="false" />
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" spacing="30.0">
+                     <children>
+                        <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaModifica" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: red; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="7.0" left="20.0" right="20.0" top="7.0" />
+                           </padding></Button>
+                        <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#inviaModifica" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #38b000; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Conferma modifica" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="7.0" left="20.0" right="20.0" top="7.0" />
+                           </padding></Button>
+
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

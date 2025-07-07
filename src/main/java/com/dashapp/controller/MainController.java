@@ -1,11 +1,15 @@
 package com.dashapp.controller;
 
+import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
+import com.dashapp.controller.dashboardPatient.DashboardPatientController;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.services.LoginService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -15,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MainController {
@@ -63,13 +68,15 @@ public class MainController {
     @FXML
     private Button therapyButton;
 
+    private DashboardPatientController dashboardController;
+
 
     @FXML
     public void initialize() throws Exception {
         utenteCirclePane.setVisible(false);
         logoutLabel.setText("");
 
-        if(!NavigatorView.isAuthenticated()){
+        if (!NavigatorView.isAuthenticated()) {
             hideSidebar();
         }
         NavigatorView.setMainController(this);
@@ -107,23 +114,28 @@ public class MainController {
     private Image getBlueIconForButton(Button b) {
         if (b == homeButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/home_menu.png"));
         if (b == profileButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/user_menu.png"));
-        if (b == messagesButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu.png"));
+        if (b == messagesButton)
+            return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu.png"));
         if (b == drugsButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/farmaco_menu.png"));
-        if (b == therapyButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/terapia_menu.png"));
+        if (b == therapyButton)
+            return new Image(getClass().getResourceAsStream("/com/dashapp/images/terapia_menu.png"));
         return null;
     }
 
     private Image getWhiteIconForButton(Button b) {
         if (b == homeButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/home_menu_w.png"));
         if (b == profileButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/user_menu_w.png"));
-        if (b == messagesButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu_w.png"));
-        if (b == drugsButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/farmaco_menu_w.png"));
-        if (b == therapyButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/terapia_menu_w.png"));
+        if (b == messagesButton)
+            return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu_w.png"));
+        if (b == drugsButton)
+            return new Image(getClass().getResourceAsStream("/com/dashapp/images/farmaco_menu_w.png"));
+        if (b == therapyButton)
+            return new Image(getClass().getResourceAsStream("/com/dashapp/images/terapia_menu_w.png"));
         return null;
     }
 
 
-    public void nascondiComponentiMain(){
+    public void nascondiComponentiMain() {
         hideSidebar();
         hideNavbar();
     }
@@ -188,4 +200,22 @@ public class MainController {
         logninService.logOut();
         // da cambiare la view
     }
+
+    @FXML
+    public void vediProfilo() throws Exception {
+        if (dashboardController != null) {
+            dashboardController.vediProfilo();
+        } else {
+            // Se per qualche motivo non è ancora caricato, caricalo e poi chiama vediProfilo
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/DashBoardViewPatient.fxml"));
+            Parent dashboardRoot = loader.load();
+            dashboardController = loader.getController();
+
+            stackPane.getChildren().clear();
+            stackPane.getChildren().add(dashboardRoot);
+
+            dashboardController.vediProfilo();
+        }
+    }
+
 }

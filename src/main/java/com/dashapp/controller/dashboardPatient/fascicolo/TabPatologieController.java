@@ -81,13 +81,13 @@ public class TabPatologieController {
         titolo.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
 
         // Diagnosi label
-        Label diagnosiLabel = new Label("Diagnosi:");
+        Label diagnosiLabel = new Label("Diagnosi");
         diagnosiLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12;");
         Label dataLabel = new Label(p.getDataDiagnosi() != null ? p.getDataDiagnosi().toString() : "-");
         dataLabel.setStyle("-fx-font-size: 12;");
 
         // Note label
-        Label noteLabelTitle = new Label("Note:");
+        Label noteLabelTitle = new Label("Note");
         noteLabelTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 12;");
         Label noteLabel = new Label(p.getNote() != null && !p.getNote().isBlank() ? p.getNote() : "-");
         noteLabel.setStyle("-fx-font-size: 12;");
@@ -105,7 +105,7 @@ public class TabPatologieController {
                 noteLabelTitle, noteLabel
         );
         VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0));  // top, right, bottom, left
-
+        infoBox.setPadding(new Insets(0, 10, 0, 10));
 
         card.getChildren().addAll(titolo, infoBox, eliminaButton);
         VBox.setVgrow(infoBox, Priority.ALWAYS);

@@ -82,7 +82,7 @@
                                  </image>
                              </ImageView>
 
-                             <StackPane fx:id="utenteCirclePane" visible="false">
+                             <StackPane onMouseClicked="#vediProfilo" fx:id="utenteCirclePane" visible="false">
                                  <children>
                                      <Circle fx:id="cerchioNavbar" fill="WHITE" radius="19.0" stroke="WHITE" strokeType="INSIDE" />
                                      <Label fx:id="utenteLabel" textFill="BLACK">

@@ -1,5 +1,6 @@
 package com.dashapp.controller.dashboardPatient;
 
+import com.dashapp.controller.ProfiloController;
 import com.dashapp.controller.Tabelle.Tabelle;
 import com.dashapp.controller.messaggiController;
 import com.dashapp.model.*;
@@ -9,12 +10,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class BoxDashboardControllerPatient {
@@ -55,43 +60,201 @@ public class BoxDashboardControllerPatient {
     }
 
 
-    public void listaRilevazioni(){
+
+
+
+    public void listaRilevazioni() {
         bodyContainer.getChildren().clear();
 
-        List<Rilevazione> rilevazioni;
-        try {
-            rilevazioni = List.of(ds.getRilevazioniById(u.getId()));
-        } catch (Exception e) {
-            rilevazioni = List.of(new Rilevazione[0]); // array vuoto
-        }
+        // Colore e stile pulsanti
+        String styleButton = "-fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-weight: bold;";
+
+        // HBox per i filtri
+        HBox filtroBox = new HBox(10);
+        filtroBox.setAlignment(Pos.CENTER_LEFT);
+
+        Button oggiButton = new Button("Solo oggi");
+        oggiButton.setStyle(styleButton);
+
+        Button tutteButton = new Button("Tutte");
+        tutteButton.setStyle(styleButton);
+
+        Button dataButton = new Button("Seleziona data");
+        dataButton.setStyle(styleButton);
+
+        DatePicker datePicker = new DatePicker();
+        datePicker.setVisible(false);
+
+        filtroBox.getChildren().addAll(oggiButton, tutteButton, dataButton);
+        bodyContainer.getChildren().add(filtroBox);
+        bodyContainer.getChildren().add(datePicker);
+
+        VBox tableContainer = new VBox();
+        bodyContainer.getChildren().add(tableContainer);
+
+        // Caricamento rilevazioni tramite metodo centralizzato
+        List<Rilevazione> rilevazioni = caricaRilevazioni();
 
         String textButton = "Modifica";
-        String titolo = "lista rilevazioni";
-        tabella.tabellaRilevazioni(titolo, rilevazioni, textButton, Color.web("#2BD18D"), bodyContainer, this);
+        tabella.tabellaRilevazioni(rilevazioni, textButton, Color.web("#2BD18D"), tableContainer, this);
 
-        LabelBoxDashboard.setText("TUTTE LE TUE RILEVAZIONI PASSATE");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setText("Rilevazioni glicemiche");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
+
+        LocalDate oggi = LocalDate.now();
+
+        // Eventi pulsanti
+        oggiButton.setOnAction(e -> {
+            List<Rilevazione> filtrateOggi = rilevazioni.stream()
+                    .filter(r -> r.getData().toLocalDate().equals(oggi))
+                    .toList();
+
+            tableContainer.getChildren().clear();
+            tabella.tabellaRilevazioni(filtrateOggi, textButton, Color.web("#2BD18D"), tableContainer, this);
+        });
+
+        tutteButton.setOnAction(e -> {
+            tableContainer.getChildren().clear();
+            tabella.tabellaRilevazioni(rilevazioni, textButton, Color.web("#2BD18D"), tableContainer, this);
+        });
+
+        dataButton.setOnAction(e -> datePicker.show());
+
+        datePicker.setOnAction(e -> {
+            LocalDate dataSelezionata = datePicker.getValue();
+            if (dataSelezionata != null) {
+                dataButton.setText(dataSelezionata.toString());
+
+                List<Rilevazione> filtrateData = rilevazioni.stream()
+                        .filter(r -> r.getData().toLocalDate().equals(dataSelezionata))
+                        .toList();
+
+                tableContainer.getChildren().clear();
+                tabella.tabellaRilevazioni(filtrateData, textButton, Color.web("#2BD18D"), tableContainer, this);
+            }
+        });
     }
+
+    public void profilo() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("Profilo");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloView.fxml"));
+        Parent profilo = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(profilo);
+    }
+
+
+    private List<Rilevazione> caricaRilevazioni() {
+        try {
+            return List.of(ds.getRilevazioniById(u.getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of(); // lista vuota in caso di errore
+        }
+    }
+
 
     public void listaAssunzioni() throws Exception {
         bodyContainer.getChildren().clear();
 
-        List<Assunzione> assunzioni;
-        try {
-            assunzioni = List.of(ds.getAssunzioniPaziente(u.getId()));
-        } catch (Exception e) {
-            assunzioni = List.of(new Assunzione[0]); // array vuoto
-        }
+        // Tasti filtro
+        HBox filtroBox = new HBox(10);
+        filtroBox.setAlignment(Pos.CENTER_LEFT);
 
-        String textButton = "Visualizza";
-        String titolo = "lista assunzioni";
-        tabella.tabellaAssunzioni(titolo, assunzioni, textButton, Color.web("#2BD18D"), bodyContainer, this);
+        // Colore uniforme
+        Color coloreButton = Color.web("#1e3746");
+        String styleButton = "-fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-weight: bold;";
 
-        LabelBoxDashboard.setText("TUTTE LE TUE ASSUNZIONI");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        Button oggiButton = new Button("Solo oggi");
+        oggiButton.setStyle(styleButton);
+
+        Button tutteButton = new Button("Tutte");
+        tutteButton.setStyle(styleButton);
+
+        Button dataButton = new Button("Seleziona data");
+        dataButton.setStyle(styleButton);
+
+        DatePicker datePicker = new DatePicker();
+        datePicker.setVisible(false); // nascosto
+        
+
+        filtroBox.getChildren().addAll(oggiButton, tutteButton, dataButton);
+        bodyContainer.getChildren().add(filtroBox);
+        bodyContainer.getChildren().add(datePicker); // opzionale: puoi anche non aggiungerlo se non serve visivamente
+
+        VBox tableContainer = new VBox();
+        bodyContainer.getChildren().add(tableContainer);
+
+        // Caricamento assunzioni
+        final List<Assunzione> assunzioni = caricaAssunzioni();
+
+        String textButton = "Modifica";
+        tabella.tabellaAssunzioni(assunzioni, textButton, Color.web("#2BD18D"), tableContainer, this);
+
+        LabelBoxDashboard.setText("Assunzioni");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
+
+        LocalDate oggi = LocalDate.now();
+
+        oggiButton.setOnAction(e -> {
+            List<Assunzione> filtrateOggi = assunzioni.stream()
+                    .filter(a -> a.getData().toLocalDate().equals(oggi))
+                    .toList();
+
+            tableContainer.getChildren().clear();
+            try {
+                tabella.tabellaAssunzioni(filtrateOggi, textButton, Color.web("#2BD18D"), tableContainer, this);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        tutteButton.setOnAction(e -> {
+            tableContainer.getChildren().clear();
+            try {
+                tabella.tabellaAssunzioni(assunzioni, textButton, Color.web("#2BD18D"), tableContainer, this);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        dataButton.setOnAction(e -> datePicker.show());
+
+        datePicker.setOnAction(e -> {
+            LocalDate dataSelezionata = datePicker.getValue();
+            if (dataSelezionata != null) {
+                dataButton.setText(dataSelezionata.toString());
+
+                List<Assunzione> filtrateData = assunzioni.stream()
+                        .filter(a -> a.getData().toLocalDate().equals(dataSelezionata))
+                        .toList();
+
+                tableContainer.getChildren().clear();
+                try {
+                    tabella.tabellaAssunzioni(filtrateData, textButton, Color.web("#2BD18D"), tableContainer, this);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
+
+    private List<Assunzione> caricaAssunzioni() {
+        try {
+            return List.of(ds.getAssunzioniPaziente(u.getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of(); // ritorna lista vuota in caso di errore
+        }
+    }
+
 
     public void listaTerapie(){
         bodyContainer.getChildren().clear();
@@ -105,11 +268,10 @@ public class BoxDashboardControllerPatient {
         }
 
         String textButton = "Vedi";
-        String titolo = "lista terapie";
-        tabella.tabellaTerapie(titolo, terapie, textButton, Color.web("#34bccc"), bodyContainer, this);
+        tabella.tabellaTerapie(terapie, textButton, Color.web("#34bccc"), bodyContainer, this);
 
-        LabelBoxDashboard.setText("TUTTE LE TUE TERAPIE");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setText("Terapie");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
     }
 
@@ -125,11 +287,10 @@ public class BoxDashboardControllerPatient {
         }
 
         String textButton = "Modifica";
-        String titolo = "lista sintomi";
-        tabella.tabellaSintomo(titolo, sintomi, textButton, Color.web("#2BD18D"), bodyContainer, this);
+        tabella.tabellaSintomo(sintomi, textButton, Color.web("#2BD18D"), bodyContainer, this);
 
-        LabelBoxDashboard.setText("TUTTI I TUOI SINTOMI PASSATI:");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #34bccc");
+        LabelBoxDashboard.setText("Sintomi");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
     }
 
@@ -138,8 +299,8 @@ public class BoxDashboardControllerPatient {
     public void aggiungiRilevazione() throws IOException {
         bodyContainer.getChildren().clear();
 
-        LabelBoxDashboard.setText("AGGIUNGI RILEVAZIONE GLICEMICA");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #ef233c");
+        LabelBoxDashboard.setText("Aggiungi rilevazione glicemica");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
 
 
@@ -155,8 +316,8 @@ public class BoxDashboardControllerPatient {
     public AddAssunzioneController aggiungiAssunzione() throws IOException {
         bodyContainer.getChildren().clear();
 
-        LabelBoxDashboard.setText("AGGIUNGI ASSUNZIONE FARMACO");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #cb6ce6");
+        LabelBoxDashboard.setText("Aggiungi assunzione");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
 
 
@@ -179,8 +340,8 @@ public class BoxDashboardControllerPatient {
     public void aggiungiSintomo() throws IOException {
         bodyContainer.getChildren().clear();
 
-        LabelBoxDashboard.setText("AGGIUNGI SINTOMO");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #0078ff");
+        LabelBoxDashboard.setText("Aggiungi sintomo");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
 
 
@@ -195,8 +356,8 @@ public class BoxDashboardControllerPatient {
     public void fascicoloPaziente()throws IOException {
         bodyContainer.getChildren().clear();
 
-        LabelBoxDashboard.setText("FASCICOLO MEDICO");
-        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto ExtraBold'; -fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill:  #1e3746;");
+        LabelBoxDashboard.setText("Fascicolo medico");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
         LabelBoxDashboard.setAlignment(Pos.CENTER);
 
 
@@ -248,7 +409,7 @@ public class BoxDashboardControllerPatient {
             }
         });
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/AssunzioneView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/ViewAssunzione.fxml"));
         Parent content = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer
@@ -282,5 +443,21 @@ public class BoxDashboardControllerPatient {
         bodyContainer.getChildren().add(addMessContent);
     }
 
+
+    public void mostraProfilo() throws IOException {
+        // Pulisco eventuale contenuto precedente
+        bodyContainer.getChildren().clear();
+
+        // Carico ProfiloView.fxml dentro il container
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloView.fxml"));
+        Parent profiloContent = loader.load();
+
+        // Se serve, prendi il controller per passare dati
+        ProfiloController profiloController = loader.getController();
+        // profiloController.setUtente(...);
+
+        // Aggiungo la vista profilo al container
+        bodyContainer.getChildren().add(profiloContent);
+    }
 
 }

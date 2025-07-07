@@ -5,11 +5,14 @@ import com.dashapp.model.TerapiaConcomitante;
 import com.dashapp.services.DataService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -66,49 +69,39 @@ public class TabTerapieController {
     }
 
     private VBox creaCardTerapia(TerapiaConcomitante t) {
-        VBox card = new VBox(12);
-        card.setPrefSize(360, 180); // Più larga, meno alta
-        card.setPadding(new Insets(15));
+        VBox card = new VBox(10);
+        card.setPadding(new Insets(15, -20, 15, -20));
         card.setStyle("-fx-background-color: #f4f4f4; -fx-background-radius: 15; -fx-border-color: lightgray; -fx-border-radius: 15;");
-        card.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+        card.setAlignment(Pos.TOP_CENTER);
 
         Text titolo = new Text(t.getFarmaco().toUpperCase());
         titolo.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
-        titolo.setWrappingWidth(320);
-        titolo.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        titolo.setTextAlignment(TextAlignment.CENTER);
+        titolo.setWrappingWidth(250);
 
         GridPane grid = new GridPane();
-        grid.setHgap(20);
-        grid.setVgap(6);
+        grid.setHgap(15);
+        grid.setVgap(10);
+        grid.setAlignment(Pos.CENTER);
 
         // Riga 0
-        grid.add(createLabelBold("Data inizio:"), 0, 0);
-        grid.add(new Label(t.getDataInizio() != null ? t.getDataInizio().toString() : "-"), 1, 0);
+        VBox inizioBox = createLabelValueBox("Data inizio", t.getDataInizio() != null ? t.getDataInizio().toString() : "-");
+        VBox fineBox = createLabelValueBox("Data fine", t.getDataFine() != null ? t.getDataFine().toString() : "-");
+        grid.add(inizioBox, 0, 0);
+        grid.add(fineBox, 1, 0);
 
         // Riga 1
-        grid.add(createLabelBold("Data fine:"), 0, 1);
-        grid.add(new Label(t.getDataFine() != null ? t.getDataFine().toString() : "-"), 1, 1);
+        VBox doseBox = createLabelValueBox("Dosaggio", t.getDose() != null ? t.getDose() : "-");
+        VBox freqBox = createLabelValueBox("Frequenza", t.getFrequenza() != null ? t.getFrequenza() : "-");
+        grid.add(doseBox, 0, 1);
+        grid.add(freqBox, 1, 1);
 
         // Riga 2
-        grid.add(createLabelBold("Dosaggio:"), 0, 2);
-        grid.add(new Label(t.getDose() != null ? t.getDose() : "-"), 1, 2);
+        VBox noteBox = createLabelValueBox("Note", t.getIndicazioni() != null && !t.getIndicazioni().isBlank() ? t.getIndicazioni() : "-");
+        grid.add(noteBox, 0, 2);
+        GridPane.setColumnSpan(noteBox, 2);
 
-        // Riga 3
-        grid.add(createLabelBold("Frequenza:"), 0, 3);
-        grid.add(new Label(t.getFrequenza() != null ? t.getFrequenza() : "-"), 1, 3);
-
-        // Riga 4: Note su due colonne
-        Label noteTitle = createLabelBold("Note:");
-        noteTitle.setMaxWidth(Double.MAX_VALUE);
-        GridPane.setColumnSpan(noteTitle, 2);
-        grid.add(noteTitle, 0, 4);
-
-        Label noteValue = new Label(t.getIndicazioni() != null && !t.getIndicazioni().isBlank() ? t.getIndicazioni() : "-");
-        noteValue.setWrapText(true);
-        noteValue.setMaxWidth(320);
-        GridPane.setColumnSpan(noteValue, 2);
-        grid.add(noteValue, 0, 5);
-
+        // Bottone elimina
         Button eliminaButton = new Button("Elimina");
         eliminaButton.setStyle("-fx-background-color: #e94f4f; -fx-text-fill: white; -fx-background-radius: 10; -fx-pref-height: 25; -fx-font-size: 12;");
         eliminaButton.setOnAction(ev -> {
@@ -129,11 +122,27 @@ public class TabTerapieController {
         });
 
         VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0));
+
+        // Composizione card
         card.getChildren().addAll(titolo, grid, eliminaButton);
         VBox.setVgrow(grid, Priority.ALWAYS);
 
         return card;
     }
+
+
+
+    private VBox createLabelValueBox(String labelText, String valueText) {
+        VBox box = new VBox(3);
+        box.setAlignment(Pos.TOP_LEFT);
+        Label label = createLabelBold(labelText);
+        Label value = new Label(valueText);
+        value.setStyle("-fx-font-size: 13;");
+        value.setWrapText(true);
+        box.getChildren().addAll(label, value);
+        return box;
+    }
+
 
     private Label createLabelBold(String text) {
         Label label = new Label(text);
