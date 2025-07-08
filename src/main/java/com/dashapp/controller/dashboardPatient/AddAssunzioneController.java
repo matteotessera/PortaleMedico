@@ -53,6 +53,7 @@ public class AddAssunzioneController extends AddController{
 
         // Task in background
 
+
         Task<Void> loadDataTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -69,6 +70,28 @@ public class AddAssunzioneController extends AddController{
                     terapiaIdBox.setItems(FXCollections.observableArrayList(terapiePaziente));
                     mappaAssunzioni = mappa;
                     farmaciDaAssumere.setText(mapToString(mappaAssunzioni));
+
+                    // ✅ Solo ora aggiungi i listener: la mappa è inizializzata
+                    terapiaIdBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                        if (newVal != null) {
+                            try {
+                                updateFarmaciComboBox(newVal.getId());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                    farmacoAssuntoBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                        if (newVal != null) {
+                            try {
+                                updateDoseField(terapiaIdBox.getValue().getId());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
                     if(!doAnyway && mappaAssunzioni != null) {
                         assunzioniCompletate();
                     }
@@ -94,25 +117,7 @@ public class AddAssunzioneController extends AddController{
         th.setDaemon(true);
         th.start();
 
-        terapiaIdBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                try {
-                    updateFarmaciComboBox(newVal.getId());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
-        farmacoAssuntoBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                try {
-                    updateDoseField(terapiaIdBox.getValue().getId());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
 
     }
@@ -165,6 +170,8 @@ public class AddAssunzioneController extends AddController{
 
 
     private void updateFarmaciComboBox(int terapiaId) throws Exception {
+
+
         List<AssociazioneFarmaco> associazioni = List.of(ds.getAssociazioniFarmaciByTerapia(terapiaId));
 
         List<String> farmaci = new ArrayList<>();
@@ -172,13 +179,23 @@ public class AddAssunzioneController extends AddController{
         for (AssociazioneFarmaco a : associazioni) {
 
             Farmaco f = ds.getFarmacoById(a.getIdFarmaco());
-            farmaci.add(f.toString());
+            System.out.println(mappaAssunzioni);
+            StatoFarmaco stato = mappaAssunzioni.get(f);
+            if(stato == null || stato.getStato().equals("da assumere")) {
+                System.out.println(f.getNome() + ": " + stato.getStato());
+                farmaci.add(f.toString());
+            }
 
         }
 
         ObservableList<String> options = FXCollections.observableArrayList(farmaci);
-        farmacoAssuntoBox.setItems(options);
-
+        if(options.isEmpty()) {
+            farmacoAssuntoBox.setItems(null);
+            farmacoAssuntoBox.setPromptText("TUTTI I FARMACI DI QUESTA TERAPIA SONO STATI ASSUNTI");
+        }else {
+            farmacoAssuntoBox.setItems(options);
+            farmacoAssuntoBox.setPromptText("selezionare farmaco da assumere");
+        }
 
 
     }
@@ -204,10 +221,11 @@ public class AddAssunzioneController extends AddController{
 
     private String mapToString(Map<Farmaco, StatoFarmaco> mappa) {
         StringBuilder sb = new StringBuilder();
+
         for (Map.Entry<Farmaco, StatoFarmaco> entry : mappa.entrySet()) {
             Farmaco farmaco = entry.getKey();
             StatoFarmaco stato = entry.getValue();
-
+            System.out.println(stato.getStato());
             if(stato.getStato() == "da assumere") {
                 sb.append(farmaco.getNome())
                         .append(" : ")

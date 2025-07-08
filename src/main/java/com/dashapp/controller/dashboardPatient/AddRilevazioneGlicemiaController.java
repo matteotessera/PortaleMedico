@@ -1,8 +1,10 @@
 package com.dashapp.controller.dashboardPatient;
 
+import com.dashapp.controller.dashboardMedico.BoxDashboardController;
 import com.dashapp.model.AddController;
 import com.dashapp.model.Rilevazione;
 
+import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -13,6 +15,7 @@ import javafx.scene.control.TextField;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
 public class AddRilevazioneGlicemiaController extends AddController {
 
@@ -29,6 +32,8 @@ public class AddRilevazioneGlicemiaController extends AddController {
     private DatePicker dataField;
 
     private DataService ds;
+
+
 
 
     public void initialize() {
@@ -79,22 +84,38 @@ public class AddRilevazioneGlicemiaController extends AddController {
         this.parentController = controller;
     }
 
-    private void inviaAvvisoAlMedico(Double valore, Rilevazione.TipoRilevazione quando){
+    private void inviaAvvisoAlMedico(Double valore, Rilevazione.TipoRilevazione quando) throws Exception {
+
+        Utente paziente = BoxDashboardControllerPatient.u;
+        Utente medicoDiBase = ds.getMedicoDiBase(paziente.getId());
+        LocalDate today = LocalDate.now();
+        LocalTime now = LocalTime.now();
         if(quando.toString().equals("PRE")){
             if(valore < 80){
 
+                ds.addMessaggio(paziente.getId(), medicoDiBase.getId(), today, now,
+                        "Avviso Glicemia bassa: " + paziente.getEmail(),
+                        "Il paziente " + paziente.getNome() + " " + paziente.getCognome() + " ha rilevato una glicemia di valore: " + valore + " prima di un pasto",
+                        'G', false);
             }
             if(valore > 130){
 
+                ds.addMessaggio(paziente.getId(), medicoDiBase.getId(), today, now,
+                        "Avviso Glicemia alta: " + paziente.getEmail(),
+                        "Il paziente " + paziente.getNome() + " " + paziente.getCognome() + " ha rilevato una glicemia di valore: " + valore + " prima di un pasto",
+                        'G', false);
             }
         }
         else if(quando.toString().equals("POST")){
             if(valore > 180){
-
+                ds.addMessaggio(paziente.getId(), medicoDiBase.getId(), today, now,
+                        "Avviso Glicemia alta: " + paziente.getEmail(),
+                        "Il paziente " + paziente.getNome() + " " + paziente.getCognome() + " ha rilevato una glicemia di valore: " + valore + "2 ore dopo di un pasto",
+                        'G', false);
             }
         }
 
-        return;
+
     }
 
 

@@ -1,6 +1,8 @@
 package com.dashapp.model;
 
-    public class Farmaco {
+import java.util.Objects;
+
+public class Farmaco {
 
         private int id;
         private String nome;
@@ -46,6 +48,18 @@ package com.dashapp.model;
 
         public void setDescrizione(String descrizione) {
             this.descrizione = descrizione;
+        }
+
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Farmaco farmaco = (Farmaco) o;
+            return id == farmaco.id;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id);
         }
     }
 

@@ -12,14 +12,13 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.w3c.dom.ls.LSException;
 
 import java.time.LocalDate;
@@ -256,12 +255,12 @@ public class messaggiController {
 
                     }
                     // Utenti
-                    else if (item instanceof Utente u) {
+                    else if (item instanceof Utente uSelezionato) {
                         setStyle(""); // resetta eventuali stili precedenti
                         setGraphic(null);   //toglie eventuali Vbox aggiunti
                         getStyleClass().setAll("list-cell");
 
-                        Label infoUtente = new Label(u.toString());
+                        Label infoUtente = new Label(uSelezionato.toString());
                         Button scriviButton = new Button("Invia Dm");
 
 
@@ -274,6 +273,10 @@ public class messaggiController {
 
 
                         setGraphic(wrapper);
+
+                        scriviButton.setOnAction(e -> {
+                            DmForm(uSelezionato);
+                        });
                     }
                 }
             }
@@ -289,6 +292,79 @@ public class messaggiController {
     }
     private void setHeader3(String text){
         header3.setText(text);
+    }
+
+    private void DmForm(Utente destinatario){
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Invia Messaggio a " + destinatario.getEmail());
+
+        // Campi input
+        TextField oggettoField = new TextField();
+        oggettoField.setPromptText("Oggetto");
+
+        TextArea corpoArea = new TextArea();
+        corpoArea.setPromptText("Corpo del messaggio");
+        corpoArea.setWrapText(true);
+
+        // Bottone invia
+        VBox buttonwrap = new VBox();
+        Button inviaButton = new Button("Invia");
+        inviaButton.setPrefWidth(200);
+        inviaButton.setStyle("-fx-background-color: lightgreen");
+        buttonwrap.getChildren().add(inviaButton);
+        buttonwrap.setPrefWidth(1000);
+        buttonwrap.setAlignment(Pos.CENTER);
+
+        inviaButton.setOnAction(ev -> {
+            String oggetto = oggettoField.getText();
+            String corpo = corpoArea.getText();
+
+            // Qui puoi validare i dati
+            if (oggetto.isEmpty() || corpo.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Oggetto e corpo non possono essere vuoti.", ButtonType.OK);
+                alert.showAndWait();
+                return;
+            }
+
+            try {
+                // Esempio: chiamare il tuo metodo per salvare il messaggio
+                DataService ds = new DataService();
+                ds.addMessaggio(
+                        u.getId(), // id mittente
+                        destinatario.getId(),           // id destinatario
+                        LocalDate.now(),
+                        LocalTime.now(),
+                        oggetto,
+                        corpo,
+                        'D',      // o altro tipo
+                        false     // letto = false
+                );
+
+                dialog.close();
+
+                Alert conferma = new Alert(Alert.AlertType.INFORMATION, "Messaggio inviato!", ButtonType.OK);
+                conferma.showAndWait();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Alert errore = new Alert(Alert.AlertType.ERROR, "Errore durante l'invio del messaggio.", ButtonType.OK);
+                errore.showAndWait();
+            }
+        });
+
+        // Layout del form
+        VBox vbox = new VBox(10,
+                new Label("Oggetto:"), oggettoField,
+                new Label("Corpo:"), corpoArea,
+                buttonwrap
+        );
+        vbox.setPadding(new Insets(20));
+        vbox.setPrefWidth(400);
+
+        Scene scene = new Scene(vbox);
+        dialog.setScene(scene);
+        dialog.showAndWait();
     }
 
 
