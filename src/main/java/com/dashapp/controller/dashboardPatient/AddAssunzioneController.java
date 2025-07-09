@@ -121,7 +121,11 @@ public class AddAssunzioneController extends AddController {
                     });
 
                     if(!doAnyway && mappaAssunzioni != null) {
-                        assunzioniCompletate();
+                        try {
+                            assunzioniCompletate();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     doAnyway = false;
 
