@@ -71,7 +71,7 @@ public class AddAssunzioneController extends AddController{
                     mappaAssunzioni = mappa;
                     farmaciDaAssumere.setText(mapToString(mappaAssunzioni));
 
-                    // ✅ Solo ora aggiungi i listener: la mappa è inizializzata
+
                     terapiaIdBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
                         if (newVal != null) {
                             try {

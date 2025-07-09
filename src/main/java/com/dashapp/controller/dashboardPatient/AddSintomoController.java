@@ -7,10 +7,7 @@ import com.dashapp.model.Sintomo;
 import com.dashapp.services.DataService;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
 import java.sql.Time;
@@ -32,6 +29,9 @@ public class AddSintomoController extends AddController {
 
     @FXML
     private ComboBox<String> SintomiBox;
+
+    @FXML
+    private Label erroreLabel;
 
     private DataService ds;
 
@@ -56,8 +56,16 @@ public class AddSintomoController extends AddController {
 
         String descrizione = descrizioneField.getText();
 
-        ds.addSintomoPaziente(descrizione, BoxDashboardControllerPatient.u.getId());
+        if (descrizione == null || descrizione.trim().isEmpty()) {
+            erroreLabel.setText("Inserire una descrizione");
+            erroreLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
 
+
+        ds.addSintomoPaziente(descrizione, BoxDashboardControllerPatient.u.getId());
+            erroreLabel.setText("Oggetto inviato con successo");
+            erroreLabel.setStyle("-fx-text-fill: green");
     }
 
 

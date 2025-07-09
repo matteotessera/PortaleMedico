@@ -220,7 +220,7 @@ public class messaggiController {
                         // Wrapper contenente Vbox
                         HBox wrapper = new HBox(vboxMessage);
                         //wrapper.prefWidthProperty().bind(this.widthProperty());
-                        wrapper.setPrefWidth(600);
+                        wrapper.setPrefWidth(700);
                         wrapper.setPadding(new Insets(30, 30, 30 ,30)); // padding dentro la cella
                         wrapper.setAlignment(Pos.CENTER_RIGHT);
                         setText(null);
@@ -241,11 +241,11 @@ public class messaggiController {
                             }
 
                             if(m.getTipo() == 'N'){     //se il messaggio e una avviso di Non aderenza
-                                    getStyleClass().add("avviso-nonaderenza");
+
                                     vboxMessage.setStyle("-fx-background-color: #FBA660; -fx-background-radius: 10;");
                             }
                             if(m.getTipo() == 'G'){     //se il messaggio e una avviso di Glicemia
-                                    getStyleClass().add("avviso-glicemia");
+
                                     vboxMessage.setStyle("-fx-background-color: #FFFC68; -fx-background-radius: 10;");
                             }
 
@@ -330,6 +330,7 @@ public class messaggiController {
             try {
                 // Esempio: chiamare il tuo metodo per salvare il messaggio
                 DataService ds = new DataService();
+                corpo = corpo.replace("\n", " ").replace("\r", " ");
                 ds.addMessaggio(
                         u.getId(), // id mittente
                         destinatario.getId(),           // id destinatario
@@ -345,6 +346,8 @@ public class messaggiController {
 
                 Alert conferma = new Alert(Alert.AlertType.INFORMATION, "Messaggio inviato!", ButtonType.OK);
                 conferma.showAndWait();
+                initialize();
+
 
             } catch (Exception ex) {
                 ex.printStackTrace();

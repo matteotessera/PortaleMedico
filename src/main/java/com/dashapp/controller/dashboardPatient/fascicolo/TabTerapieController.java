@@ -168,7 +168,7 @@ public class TabTerapieController {
                 new Label("Farmaco:"), farmacoField,
                 new Label("Data Inizio:"), dataInizioPicker,
                 new Label("Data Fine:"), dataFinePicker,
-                new Label("Dosaggio:"), dosaggioField,
+                new Label("Dosaggio (mg):"), dosaggioField,
                 new Label("Frequenza:"), frequenzaField,
                 new Label("Note:"), indicazioniArea,
                 salvaButton
@@ -179,6 +179,14 @@ public class TabTerapieController {
                 new Alert(Alert.AlertType.WARNING, "Inserisci il farmaco.").showAndWait();
                 return;
             }
+            double dosaggio;
+            try {
+                dosaggio = Double.parseDouble(dosaggioField.getText());
+            } catch (NumberFormatException ex) {
+                new Alert(Alert.AlertType.WARNING, "Il dosaggio deve essere un numero.").showAndWait();
+                return;
+            }
+
             try {
                 ds.addTerapiaConcomitante(
                         idPaziente,

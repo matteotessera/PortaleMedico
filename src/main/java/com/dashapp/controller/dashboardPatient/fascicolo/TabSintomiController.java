@@ -159,6 +159,11 @@ public class TabSintomiController {
                 alert.showAndWait();
                 return;
             }
+            if (data == null || data.isAfter(LocalDate.now())) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Inserisci una data valida.");
+                alert.showAndWait();
+                return;
+            }
 
             try {
                 ds.addSintomoConcomitante(idPaziente, nome, data, frequenza, note);

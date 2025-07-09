@@ -146,6 +146,12 @@ public class TabPatologieController {
                 alert.showAndWait();
                 return;
             }
+            if (data == null || data.isAfter(LocalDate.now())) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Inserisci una data valida.");
+                alert.showAndWait();
+                return;
+            }
+
 
             try {
                 ds.addPatologia(idPaziente, nome, data, note);
