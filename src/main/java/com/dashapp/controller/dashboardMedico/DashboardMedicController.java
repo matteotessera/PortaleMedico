@@ -1,6 +1,7 @@
 package com.dashapp.controller.dashboardMedico;
 
 import com.dashapp.controller.ControlliSistema;
+import com.dashapp.model.Messaggio;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
@@ -16,8 +17,10 @@ import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class DashboardMedicController {
@@ -175,14 +178,29 @@ public class DashboardMedicController {
 
         public void controllaPazienti() throws Exception {
                 List<Utente> pazientiAssociati = List.of(ds.getPazientiByMedico(idCurrentUser));
+
+                LocalDate treGiorniFa = LocalDate.now().minusDays(3);
+
+
                 ControlliSistema controlli = new ControlliSistema();
                 for(Utente p: pazientiAssociati) {
+
+                        // prendo i messaggi inviati dal pziente negli ultimi 3 giorni, se negli ultimi 3 giorni ha gia inviato un messaggio di tipo N, non lo reinvia
+                        List<Messaggio> messaggi = List.of(ds.getMessaggiByIdSender(p.getId()));
+                        messaggi.stream()
+                                .filter(m -> m.getDataInvio().isAfter(treGiorniFa) || m.getDataInvio().isEqual(treGiorniFa))
+                                .collect(Collectors.toList());
+                        for(Messaggio m: messaggi){
+                                if(m.getTipo() == 'N')
+                                        return;
+                        }
+
                         if (controlli.pazienteNonAderente(p.getId())) {
-                        mostraAlert("AVVISO", "Il paziente: " + p.getNome() + " " + p.getCognome() + " non ha aderito alle sue prescrizioni negli ultimi 3 giorni");
-                        ds.addMessaggio(p.getId(), idCurrentUser, LocalDate.now(), LocalTime.now(),
-                                "Avviso paziente: " + p.getNome() + " " + p.getCognome() + " " + p.getEmail(),
-                                "il paziente non ha aderito alle sue prescrizioni negli ultimi 3 giorni",
-                                'N', false);
+                                mostraAlert("AVVISO", "Il paziente: " + p.getNome() + " " + p.getCognome() + " non ha aderito alle sue prescrizioni negli ultimi 3 giorni");
+                                ds.addMessaggio(p.getId(), idCurrentUser, LocalDate.now(), LocalTime.now(),
+                                        "Avviso paziente: " + p.getNome() + " " + p.getCognome() + " " + p.getEmail(),
+                                        "il paziente non ha aderito alle sue prescrizioni negli ultimi 3 giorni",
+                                        'N', false);
                         }
                 }
         }
