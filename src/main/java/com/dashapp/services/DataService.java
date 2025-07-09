@@ -1008,6 +1008,31 @@ public class DataService {
         post(url, json);
     }
 
+    public void updateUtente(int id, String password, String ruolo, String nome, String cognome, LocalDate dataNascita, String email, String telefono, String indirizzo, String genere, String codFiscale) throws Exception {
+        String url = API_URL + "update_utente.php";
+
+        String dataNascitaStr = dataNascita.toString();
+
+        String json = String.format(
+                "{" +
+                        "\"id\": %d, " +
+                        "\"password\": \"%s\", " +
+                        "\"ruolo\": \"%s\", " +
+                        "\"nome\": \"%s\", " +
+                        "\"cognome\": \"%s\", " +
+                        "\"codFiscale\": \"%s\", " +
+                        "\"dataNascita\": \"%s\", " +
+                        "\"email\": \"%s\", " +
+                        "\"telefono\": \"%s\", " +
+                        "\"genere\": \"%s\", " +
+                        "\"indirizzo\": \"%s\"" +
+                        "}",
+                id, password, ruolo, nome, cognome, codFiscale, dataNascitaStr, email, telefono, genere, indirizzo
+        );
+
+        post(url, json);
+    }
+
     public void assegnazioneMedico(int idMedico, int idPaziente) throws Exception {
         String url = API_URL + "assegnazione_medico.php";
         String json = String.format(

@@ -32,11 +32,6 @@
                   </Button>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="43.0" prefWidth="934.0">
-               <children>
-                  <Label fx:id="erroreLabel" alignment="CENTER" prefWidth="1000.0" />
-               </children>
-            </VBox>
          </children>
       </VBox>
    </children>

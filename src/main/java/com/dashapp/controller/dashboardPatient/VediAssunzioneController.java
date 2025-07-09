@@ -23,14 +23,22 @@ public class VediAssunzioneController {
     public Button annullaButton;
     @FXML
     public Button confermaButton;
+
     @FXML
-    public DatePicker dataArea;
+    public TextArea farmacoAssuntoBox;
+
     @FXML
-    public TextField orarioField;
+    public TextArea terapiaIdBox;
+
     @FXML
-    public TextArea terapiaField;
+    public DatePicker dataField;
+
     @FXML
-    public TextArea farmacoField;
+    public Spinner oraField;
+
+    @FXML
+    public Spinner minutiField;
+
     @FXML
     public TextField quantitaField;
 
@@ -44,45 +52,52 @@ public class VediAssunzioneController {
         confermaButton.setVisible(false);
         confermaButton.setManaged(false);
 
-        terapiaField.setEditable(false);
-        farmacoField.setEditable(false);
-        quantitaField.setEditable(false);
-        dataArea.setEditable(false);
-        dataArea.setMouseTransparent(true);
-        dataArea.setFocusTraversable(false);
-        orarioField.setEditable(false);
+        dataField.setDisable(true);
+        oraField.setDisable(true);
+        minutiField.setDisable(true);
 
-        terapiaField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
-        farmacoField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
-        quantitaField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
 
-        dataArea.setStyle( "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
-        orarioField.setStyle("-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+        terapiaIdBox.setStyle( "-fx-background-color: white;" + "-fx-control-inner-background: transparent;" + "-fx-border-color: transparent;" + "-fx-font-size: 16px;" + "-fx-text-fill: black;" + "-fx-focus-color: transparent;" + "-fx-faint-focus-color: transparent;" + "-fx-highlight-fill: transparent;" + "-fx-highlight-text-fill: black;" + "-fx-background-insets: 0;" );
+        farmacoAssuntoBox.setStyle( "-fx-background-color: white;" + "-fx-control-inner-background: transparent;" + "-fx-border-color: transparent;" + "-fx-font-size: 16px;" + "-fx-text-fill: black;" + "-fx-focus-color: transparent;" + "-fx-faint-focus-color: transparent;" + "-fx-highlight-fill: transparent;" + "-fx-highlight-text-fill: black;" + "-fx-background-insets: 0;" );
+        quantitaField.setStyle( "-fx-background-color: transparent;" + "-fx-control-inner-background: transparent;" + "-fx-border-color: transparent;" + "-fx-font-size: 16px;" + "-fx-text-fill: black;" + "-fx-focus-color: transparent;" + "-fx-faint-focus-color: transparent;" );
+
+        dataField.setStyle("-fx-background-color: transparent; -fx-font-size: 16px; ");
+        oraField.setStyle( "-fx-background-color: transparent;  -fx-font-size: 16px;");
+        minutiField.setStyle("-fx-background-color: transparent; -fx-font-size: 16px;");
 
         caricaDati();
     }
 
     public void caricaDati() throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        oraField.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0));
+        minutiField.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0));
 
         DataService ds = new DataService();
         AssociazioneFarmaco ass = ds.getAssociazioneFarmacoById(assunzione.getIdAssociazioneFarmaco());
         Terapia terapia = ds.getTerapiaById(ass.getIdTerapia());
         Farmaco farmaco = ds.getFarmacoById(ass.getIdFarmaco());
 
-        terapiaField.setText(terapia.toString());
-        farmacoField.setText(farmaco.getNome() + ": \n" + farmaco.getDescrizione());
+        String textTerapia =
+                "Terapia: " + terapia.getId() + "\n" +
+                        "Data: " + terapia.getDataInizio() + " - " + terapia.getDataFine() + "\n" +
+                        "Descrizione: " + terapia.getNote();
+
+        terapiaIdBox.setText(textTerapia);
+
+        String textFarmaco =
+                "Nome: " +farmaco.getNome()+ "\n" +
+                        "Descrizione: " + farmaco.getDescrizione();
+
+        farmacoAssuntoBox.setText(textFarmaco);
         quantitaField.setText(String.valueOf(ass.getDose()) + "mg");
-        dataArea.setValue(assunzione.getData().toLocalDate());
-        orarioField.setText(assunzione.getData().toLocalTime().toString());
-
-
-
+        dataField.setValue(assunzione.getData().toLocalDate());
+        oraField.getValueFactory().setValue(assunzione.getData().toLocalTime().getHour());
+        minutiField.getValueFactory().setValue(assunzione.getData().toLocalTime().getMinute());
     }
 
-
     @FXML
-    private void modificaSintomo(){
+    private void modificaAssunzione(){
         annullaButton.setVisible(true);
         confermaButton.setVisible(true);
         confermaButton.setManaged(true);
@@ -93,17 +108,19 @@ public class VediAssunzioneController {
     //    farmacoField.setEditable(true);
       //  quantitaField.setEditable(true);
 
-        dataArea.setEditable(true);
-        dataArea.setMouseTransparent(false);
-        dataArea.setFocusTraversable(true);
-        orarioField.setEditable(true);
+        dataField.setDisable(false);
+        oraField.setDisable(false);
+        minutiField.setDisable(false);
+
 
         String bordoBlu = "-fx-border-color: #0078ff; -fx-border-width: 1;";
         //terapiaField.setStyle(bordoBlu + " -fx-font-size: 16px;");
         //farmacoField.setStyle(bordoBlu + " -fx-font-size: 16px;");
         //quantitaField.setStyle(bordoBlu + " -fx-font-size: 16px;");
-        dataArea.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
-        orarioField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+        dataField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; ");
+        oraField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; ");
+        minutiField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold;");
+
     }
 
     public void annullaModifica() throws Exception {
@@ -111,11 +128,11 @@ public class VediAssunzioneController {
 
     }
 
-    public void InviaModifica() throws Exception {
+    public void inviaModifica() throws Exception {
         DataService ds = new DataService();
 
-        LocalDate data = dataArea.getValue();
-        String orarioString = orarioField.getText();
+        LocalDate data = dataField.getValue();
+        String orarioString = oraField.getValue()+":"+minutiField.getValue();
 
         // Validazione base
         if (data == null || orarioString == null || orarioString.isBlank()) {
@@ -132,6 +149,11 @@ public class VediAssunzioneController {
         }
 
         LocalDateTime nuovaData = LocalDateTime.of(data, orario);
+
+        if (nuovaData.equals(assunzione.getData())) {
+            annullaModifica();
+            return;
+        }
 
         ds.updateAssunzione(assunzione.getId(), nuovaData, assunzione.getStato());
 

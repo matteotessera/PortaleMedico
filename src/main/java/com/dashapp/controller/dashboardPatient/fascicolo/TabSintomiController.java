@@ -114,6 +114,8 @@ public class TabSintomiController {
                 frequenzaLabelTitle, frequenzaLabel,
                 noteLabelTitle, noteLabel
         );
+        infoBox.setPadding(new Insets(0, 10, 0, 10));
+
 
         VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0)); // top, right, bottom, left
 

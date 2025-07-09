@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.dashapp.controller.dashboardAdmin.BoxDashboardController"
             AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

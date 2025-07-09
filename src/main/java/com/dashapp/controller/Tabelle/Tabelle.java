@@ -30,24 +30,7 @@ public class Tabelle {
 
     private DataService ds;
 
-    public void tabellaFarmaciTerapia(String titolo, List<AssociazioneFarmaco> associazioni, String textButton, Color color, VBox bodyContainer) throws Exception {
-        // Titolo della tabella
-        Label titoloTabella = new Label(titolo);
-
-        if(titolo != null) {
-            titoloTabella.setStyle(
-                    "-fx-font-size: 18px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-text-fill: #222;" +
-                            "-fx-background-color: #f0f0f0;" +
-                            "-fx-padding: 10;" +
-                            "-fx-border-color: #d0d0d0;" +
-                            "-fx-border-width: 0 0 1 0;" +
-                            "-fx-border-style: solid;"
-            );
-            titoloTabella.setMaxWidth(Double.MAX_VALUE);
-            titoloTabella.setAlignment(Pos.CENTER_LEFT);
-        }
+    public void tabellaFarmaciTerapia(List<AssociazioneFarmaco> associazioni, String textButton, Color color, VBox bodyContainer) throws Exception {
 
         VBox listaFarmaciBox = new VBox(2);
         listaFarmaciBox.setPrefWidth(1000);
@@ -97,38 +80,17 @@ public class Tabelle {
 
             });
 
-
-
-
             rigaFarmaco.getChildren().addAll(nomeLabel, nrAssunzioniLabel, doseLabel);
             listaFarmaciBox.getChildren().add(rigaFarmaco);
         }
 
         // Margini tra una tabella e l'altra
-        if (titolo != null) {
-            VBox.setMargin(titoloTabella, new javafx.geometry.Insets(20, 0, 5, 0));
-        }
-        VBox.setMargin(listaFarmaciBox, new javafx.geometry.Insets(0, 0, 20, 0));
-
-        bodyContainer.getChildren().addAll(titoloTabella, listaFarmaciBox);
+        VBox.setMargin(listaFarmaciBox, new javafx.geometry.Insets(20, 0, 20, 0));
+        bodyContainer.getChildren().addAll(listaFarmaciBox);
     }
 
     // METODO PER CREARE TABELLA @param (lista di utenti, il nome del bottone da visualizzare e il colore del bottone)
-    public void tabellaRilevazioni(String titolo, List<Rilevazione> rilevazioni, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller){
-        Label titoloTabella = new Label();
-        titoloTabella.setText(titolo);
-        titoloTabella.setStyle(
-                "-fx-font-size: 18px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #222;" +
-                        "-fx-background-color: #f0f0f0;" +
-                        "-fx-padding: 10;" +
-                        "-fx-border-color: #d0d0d0;" +
-                        "-fx-border-width: 0 0 1 0;" +
-                        "-fx-border-style: solid;"
-        );
-        titoloTabella.setMaxWidth(Double.MAX_VALUE);
-        titoloTabella.setAlignment(Pos.CENTER_LEFT);
+    public void tabellaRilevazioni(List<Rilevazione> rilevazioni, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller){
 
         VBox listaUtentiBox = new VBox(2);
         listaUtentiBox.setPrefWidth(2000);
@@ -144,10 +106,10 @@ public class Tabelle {
         intestazione.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 8;");
         intestazione.setAlignment(Pos.CENTER_LEFT);
 
-        Label dataHeader = creaHeader("data", dataWidth);
-        Label valoreHeader = creaHeader("valore", valoreWidth);
-        Label tipoHeader = creaHeader("tipo", tipoWidth);
-        Label pastoHeader = creaHeader("pasto", pastoWidth);
+        Label dataHeader = creaHeader("Data", dataWidth);
+        Label valoreHeader = creaHeader("Valore", valoreWidth);
+        Label tipoHeader = creaHeader("Tipo", tipoWidth);
+        Label pastoHeader = creaHeader("Pasto", pastoWidth);
         Label fillHeader = creaHeader("", pastoWidth);
 
 
@@ -195,30 +157,13 @@ public class Tabelle {
         }
 
         // Margine tra una tabella e l'altra
-        VBox.setMargin(titoloTabella, new javafx.geometry.Insets(20, 0, 5, 0));
-        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(0, 0, 20, 0));
+        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(20, 0, 20, 0));
 
-        bodyContainer.getChildren().add(titoloTabella);
         bodyContainer.getChildren().add(listaUtentiBox);
     }
 
-    public void tabellaAssunzioni(String titolo, List<Assunzione> assunzioni, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller) throws Exception {
+    public void tabellaAssunzioni( List<Assunzione> assunzioni, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller) throws Exception {
         ds = new DataService();
-
-        Label titoloTabella = new Label();
-        titoloTabella.setText(titolo);
-        titoloTabella.setStyle(
-                "-fx-font-size: 18px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #222;" +
-                        "-fx-background-color: #f0f0f0;" +
-                        "-fx-padding: 10;" +
-                        "-fx-border-color: #d0d0d0;" +
-                        "-fx-border-width: 0 0 1 0;" +
-                        "-fx-border-style: solid;"
-        );
-        titoloTabella.setMaxWidth(Double.MAX_VALUE);
-        titoloTabella.setAlignment(Pos.CENTER_LEFT);
 
         VBox listaUtentiBox = new VBox(2);
         listaUtentiBox.setPrefWidth(2000);
@@ -235,10 +180,10 @@ public class Tabelle {
         intestazione.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 8;");
         intestazione.setAlignment(Pos.CENTER_LEFT);
 
-        Label dataHeader = creaHeader("data", dataWidth);
-        Label statoHeader = creaHeader("stato", statoWidth);
-        Label doseHeader = creaHeader("dose", doseWidth);
-        Label farmacoHeader = creaHeader("farmaco", farmacoWidth);
+        Label dataHeader = creaHeader("Data", dataWidth);
+        Label statoHeader = creaHeader("Stato", statoWidth);
+        Label doseHeader = creaHeader("Dose", doseWidth);
+        Label farmacoHeader = creaHeader("Farmaco", farmacoWidth);
         Label fillHeader= creaHeader("", farmacoWidth);
 
 
@@ -270,17 +215,14 @@ public class Tabelle {
             Label farmacoLabel = creaCell(farmaco.getNome(), farmacoWidth);
             Label doseLabel = creaCell(String.valueOf(associazioneFarmaco.getDose()), doseWidth);
 
-
-
-
-            Button prendiInCaricoButton = new Button(textButton);
-            prendiInCaricoButton.setStyle(
+            Button visualizzaButton = new Button(textButton);
+            visualizzaButton.setStyle(
                     "-fx-background-color: " + toHex(color) + ";" +
                             "-fx-text-fill: white;"
             );
-            prendiInCaricoButton.setPrefWidth(azioneWidth);
-            prendiInCaricoButton.setOnAction(e -> {
-                System.out.println("Preso in carico: " + a.getDose() + " " + a.getData());
+            visualizzaButton.setPrefWidth(azioneWidth);
+            visualizzaButton.setOnAction(e -> {
+                System.out.println("Selezionata assunzione: " +a.getId());
                 try {
                     NavigatorView.setAssunzioneSelezionata(a);
                     controller.vediAssunzione();
@@ -290,37 +232,20 @@ public class Tabelle {
             });
 
             rigaUtente.getChildren().addAll(
-                    dataLabel, farmacoLabel, doseLabel, statoLabel, prendiInCaricoButton
+                    dataLabel, farmacoLabel, doseLabel, statoLabel, visualizzaButton
             );
 
             listaUtentiBox.getChildren().add(rigaUtente);
         }
 
         // Margine tra una tabella e l'altra
-        VBox.setMargin(titoloTabella, new javafx.geometry.Insets(20, 0, 5, 0));
-        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(0, 0, 20, 0));
+        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(5, 0, 20, 0));
 
-        bodyContainer.getChildren().add(titoloTabella);
         bodyContainer.getChildren().add(listaUtentiBox);
     }
 
-    public void tabellaTerapie(String titolo, List<Terapia> terapie, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller){
+    public void tabellaTerapie(List<Terapia> terapie, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller){
         ds = new DataService();
-
-        Label titoloTabella = new Label();
-        titoloTabella.setText(titolo);
-        titoloTabella.setStyle(
-                "-fx-font-size: 18px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #222;" +
-                        "-fx-background-color: #f0f0f0;" +
-                        "-fx-padding: 10;" +
-                        "-fx-border-color: #d0d0d0;" +
-                        "-fx-border-width: 0 0 1 0;" +
-                        "-fx-border-style: solid;"
-        );
-        titoloTabella.setMaxWidth(Double.MAX_VALUE);
-        titoloTabella.setAlignment(Pos.CENTER_LEFT);
 
         VBox listaUtentiBox = new VBox(2);
         listaUtentiBox.setPrefWidth(2000);
@@ -338,7 +263,7 @@ public class Tabelle {
 
         Label inizioHeader = creaHeader("Inzio", dataInizioWidth);
         Label fineHeader = creaHeader("Fine", dataFineWidth);
-        Label noteHeader = creaHeader("note", noteWidth);
+        Label noteHeader = creaHeader("Note", noteWidth);
         Label fillHeader = creaHeader("", noteWidth);
 
 
@@ -393,31 +318,13 @@ public class Tabelle {
         }
 
         // Margine tra una tabella e l'altra
-        VBox.setMargin(titoloTabella, new javafx.geometry.Insets(20, 0, 5, 0));
-        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(0, 0, 20, 0));
+        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(20, 0, 20, 0));
 
-        bodyContainer.getChildren().add(titoloTabella);
         bodyContainer.getChildren().add(listaUtentiBox);
     }
 
-    public void tabellaSintomo(String titolo, List<Sintomo> sintomo, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller){
+    public void tabellaSintomo(List<Sintomo> sintomo, String textButton, Color color, VBox bodyContainer, BoxDashboardControllerPatient controller){
         ds = new DataService();
-
-        Label titoloTabella = new Label();
-        titoloTabella.setText(titolo);
-        titoloTabella.setStyle(
-                "-fx-font-size: 18px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #222;" +
-                        "-fx-background-color: #f0f0f0;" +
-                        "-fx-padding: 10;" +
-                        "-fx-border-color: #d0d0d0;" +
-                        "-fx-border-width: 0 0 1 0;" +
-                        "-fx-border-style: solid;"
-        );
-        titoloTabella.setMaxWidth(Double.MAX_VALUE);
-        titoloTabella.setAlignment(Pos.CENTER_LEFT);
-
         VBox listaUtentiBox = new VBox(2);
         listaUtentiBox.setPrefWidth(2000);
         listaUtentiBox.setSpacing(5);
@@ -490,10 +397,8 @@ public class Tabelle {
         }
 
         // Margine tra una tabella e l'altra
-        VBox.setMargin(titoloTabella, new javafx.geometry.Insets(20, 0, 5, 0));
-        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(0, 0, 20, 0));
+        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(20, 0, 20, 0));
 
-        bodyContainer.getChildren().add(titoloTabella);
         bodyContainer.getChildren().add(listaUtentiBox);
     }
 

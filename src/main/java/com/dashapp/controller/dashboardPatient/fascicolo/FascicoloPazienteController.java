@@ -7,8 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
@@ -110,7 +108,7 @@ public class FascicoloPazienteController {
         resetLabelStyles();
         //Hpatologie.setStyle(activeStyle + "-fx-background-color: #ad343e33;");
         contentPane.getChildren().clear();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/Fascicolo/TabPatologiePro.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/TabPatologie.fxml"));
         Parent showPatologieContent = loader.load();
         contentPane.getStylesheets().add(getClass().getResource("/com/dashapp/css/fascicoloPaziente.css").toExternalForm());
         contentPane.getChildren().add(showPatologieContent);
@@ -121,7 +119,7 @@ public class FascicoloPazienteController {
         resetLabelStyles();
         //Hsintomi.setStyle(activeStyle + "-fx-background-color: #9caf3933;");
         contentPane.getChildren().clear();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/Fascicolo/TabSintomiPro.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/TabSintomi.fxml"));
         Parent showSintomiContent = loader.load();
         contentPane.getStylesheets().add(getClass().getResource("/com/dashapp/css/fascicoloPaziente.css").toExternalForm());
         contentPane.getChildren().add(showSintomiContent);
@@ -132,7 +130,7 @@ public class FascicoloPazienteController {
         resetLabelStyles();
         //Hterapie.setStyle(activeStyle + "-fx-background-color: #f2af2933;");
         contentPane.getChildren().clear();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/Fascicolo/TabTerapiePRo.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/TabTerapie.fxml"));
         Parent showTerapieContent = loader.load();
 
         contentPane.getStylesheets().add(getClass().getResource("/com/dashapp/css/fascicoloPaziente.css").toExternalForm());
