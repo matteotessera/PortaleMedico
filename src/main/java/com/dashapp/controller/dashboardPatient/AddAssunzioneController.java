@@ -207,6 +207,12 @@ public class AddAssunzioneController extends AddController {
             return;
         }
 
+        if(farmacoAssuntoBox.getValue() == null){
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Inserisci un farmaco valido");
+            alert.showAndWait();
+            return;
+        }
+
         AssociazioneFarmaco[] associazioni = ds.getAssociazioniFarmaciByTerapia(terapiaIdBox.getValue().getId());
         Optional<AssociazioneFarmaco> risultato = Arrays.stream(associazioni)
                 .filter(a -> {
