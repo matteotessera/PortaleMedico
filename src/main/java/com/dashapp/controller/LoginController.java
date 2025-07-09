@@ -6,10 +6,13 @@ import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
 import com.dashapp.services.LoginService;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.application.Platform;
+
+import java.time.LocalDate;
 
 
 public class LoginController {
@@ -24,11 +27,17 @@ public class LoginController {
     
     @FXML
     private Label statusLabel;
+
+    private int idUtente;
+
+    private DataService ds;
     
 
     @FXML
     public void initialize() {
         statusLabel.setVisible(false);
+
+        this.ds = new DataService();
 
         // Esegui handleLogin premendo Enter in emailField
         emailField.setOnAction(event -> handleLogin());
@@ -69,7 +78,12 @@ public class LoginController {
                     if(password.length() < 6){
                         NavigatorView.navigateToChangePassword();
                     }else {
-
+                        //Aggiungo accesso cosi per monitorare
+                        try {
+                            ds.addAccesso(ds.getUtenteByEmail(email).getId());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                         showMessage("Login effettuato con successo!");
 
                         NavigatorView.getMainController().viewSidebar();

@@ -869,6 +869,21 @@ public class DataService {
         post(url, json);
     }
 
+    public void addAccesso(int idUtente) throws Exception {
+        String url = API_URL + "add_accesso.php";
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String dataAccessoStr = now.format(formatter);
+
+        String json = String.format(
+                "{\"data\":\"%s\", \"id_utente\":%d}",
+                dataAccessoStr, idUtente
+        );
+
+        post(url, json);
+    }
+
     public void addTerapiaConcomitante(int pazienteId, String nomeFarmaco, LocalDate dataInizio, LocalDate dataFine, String frequenza, String dose, String indicazioni) throws Exception {
 
         String url = API_URL + "add_terapia_concomitante.php";
