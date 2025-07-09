@@ -2,6 +2,7 @@ package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.ControlliSistema;
 import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
+import com.dashapp.controller.graficoGlicemiaController;
 import com.dashapp.model.*;
 import com.dashapp.services.DataService;
 import com.dashapp.services.LoginService;
@@ -18,6 +19,7 @@ import javafx.scene.shape.Circle;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +59,10 @@ public class DashboardPatientController {
     public int countRilevazioni;
 
 
+    @FXML
+    AnchorPane graficoContainer;
+
+
     public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
         LoginService l = new LoginService();
         DataService d = new DataService();
@@ -76,7 +82,7 @@ public class DashboardPatientController {
         try {
             rilevazioniUtente = ds.getRilevazioniById(u.getId());
         } catch (RuntimeException e) {
-            // Se la chiamata fallisce (es. 404), consideriamo che non ci siano rilevazioni
+
             System.out.println("Nessuna rilevazione trovata per l'utente ID " + u.getId() + ": " + e.getMessage());
             rilevazioniUtente = new Rilevazione[0]; // array vuoto
         }
@@ -96,6 +102,15 @@ public class DashboardPatientController {
         FlagAssunzioniLabel.setText("Registra eventuali Sintomi e le tue assunzioni giornaliere\n" +
                                     "Oggi hai assunto " + calcolaAssunzioniEffettuate() + " farmaci");*/
 
+        //RENDER DEL GRAFICO
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/graficoGlicemia.fxml"));
+        Parent content = loader.load();
+        graficoGlicemiaController graficoController = loader.getController();
+
+        System.out.println(rilevazioniUtente);
+        graficoController.setRilevazioni(new ArrayList<>(Arrays.asList(rilevazioniUtente)));
+        graficoController.popolaGrafico();
+        graficoContainer.getChildren().add(content);
 
     }
 
