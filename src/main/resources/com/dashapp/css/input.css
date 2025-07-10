@@ -87,3 +87,7 @@ ComboBox:focused {
     -fx-background-color: white;
     -fx-text-fill: #1e3746;
 }
+
+.button {
+    -fx-padding: 7 70 7 70; /* top right bottom left */
+}

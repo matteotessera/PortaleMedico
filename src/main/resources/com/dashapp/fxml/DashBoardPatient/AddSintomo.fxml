@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="355.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddSintomoController">
+<AnchorPane prefWidth="964.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddSintomoController">
    <children>
-      <VBox prefHeight="392.0" prefWidth="964.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
+      <VBox prefWidth="964.0" spacing="20.0" style="-fx-padding: 20 30 20 0;" stylesheets="@../../css/input.css">
          <children>
             <VBox spacing="20.0">
                <children>
-                  <Label text="Consulta la lista di Sintomi comuni per aiutarti a descrivere il sintomo" textFill="#0078ff">
+                  <Label text="Dati sintomo" textFill="#0078ff">
                      <font>
-                        <Font name="System Bold" size="13.0" />
+                        <Font name="Roboto Black" size="14.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="SintomiBox" prefWidth="1000.0" promptText="Lista di possibili sintomi" />
-                  <TextArea fx:id="descrizioneField" prefHeight="200.0" prefWidth="200.0" promptText="Descrivi il Sintomo" />
+                  <VBox prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label styleClass="labelInput" text="Lista di possibili sintomi" />
+                        <ComboBox fx:id="SintomiBox" prefWidth="1000.0" promptText="Seleziona sintomo" />
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label styleClass="labelInput" text="Descrizione sintomo" />
+                        <TextArea fx:id="descrizioneField" prefHeight="200.0" prefWidth="200.0" promptText="Descrivi il Sintomo" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#registraSintomo" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #0078ff; -fx-background-radius: 20;" text="Registra Sintomo" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#registraSintomo" style="-fx-background-color: #0078ff; -fx-background-radius: 20;" text="Registra Sintomo" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
+                     <padding>
+                        <Insets bottom="7.0" left="70.0" right="70.0" top="7.0" />
+                     </padding>
                   </Button>
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="30.0" />
+               </VBox.margin>
             </VBox>
          </children>
       </VBox>
