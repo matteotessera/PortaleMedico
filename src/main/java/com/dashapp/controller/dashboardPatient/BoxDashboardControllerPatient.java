@@ -348,7 +348,8 @@ public class BoxDashboardControllerPatient {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashboardPatient/AddSintomo.fxml"));
         Parent addAssunzioneContent = loader.load();
-
+        AddSintomoController controller = loader.getController();
+        controller.setParentController(dashboardController);
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addAssunzioneContent);
     }

@@ -24,6 +24,7 @@ import org.w3c.dom.ls.LSException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class messaggiController {
@@ -98,7 +99,7 @@ public class messaggiController {
             if(m.getTipo() == ('G'))
                 filtrati.add(m);
         }
-
+        listView.getSelectionModel().clearSelection();
         listView.setItems(FXCollections.observableArrayList(filtrati));
 
         header2.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
@@ -114,6 +115,7 @@ public class messaggiController {
                 filtrati.add(m);
         }
 
+        listView.getSelectionModel().clearSelection();
         listView.setItems(FXCollections.observableArrayList(filtrati));
 
         header3.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
@@ -130,6 +132,7 @@ public class messaggiController {
                 filtrati.add(m);
         }
 
+        listView.getSelectionModel().clearSelection();
         listView.setItems(FXCollections.observableArrayList(filtrati));
 
         header2.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
@@ -145,6 +148,7 @@ public class messaggiController {
         if(u.getRuolo().equals("paziente")) {
             Utente medico = ds.getMedicoDiBase(u.getId());
 
+            listView.getSelectionModel().clearSelection();
             listView.setItems(FXCollections.observableArrayList(medico));
 
             header1.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
@@ -153,6 +157,7 @@ public class messaggiController {
         }else if(u.getRuolo().equals("medico")){
             List<Utente> Pazienti = List.of(ds.getPazientiAssegnati());
 
+            listView.getSelectionModel().clearSelection();
             listView.setItems(FXCollections.observableArrayList(Pazienti));
 
             header1.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
@@ -171,14 +176,17 @@ public class messaggiController {
                     (m.getId_Sender() == utente.getId() && m.getId_receiver() == u.getId())
                     || (m.getId_Sender() == u.getId() && m.getId_receiver() == utente.getId())
             ) {
-
                 filtrati.add(m);
-
             }
         }
+        filtrati.sort(Comparator.comparing(Messaggio::getDataInvio));
 
-
+        listView.getSelectionModel().clearSelection();
         listView.setItems(FXCollections.observableArrayList(filtrati));
+
+        if (!filtrati.isEmpty()) {
+            listView.scrollTo(filtrati.size() - 1);
+        }
     }
 
 
@@ -346,7 +354,8 @@ public class messaggiController {
 
                 Alert conferma = new Alert(Alert.AlertType.INFORMATION, "Messaggio inviato!", ButtonType.OK);
                 conferma.showAndWait();
-                initialize();
+                reloadMessaggi();
+                showDmUtente(destinatario);
 
 
             } catch (Exception ex) {
@@ -370,5 +379,12 @@ public class messaggiController {
         dialog.showAndWait();
     }
 
+    private void reloadMessaggi() throws Exception {
+        messaggiInviati = List.of(ds.getMessaggiByIdSender(u.getId()));
+        messaggiRicevuti = List.of(ds.getMessaggiByIdReceiver(u.getId()));
+        messaggi = new ArrayList<>();
+        messaggi.addAll(messaggiInviati);
+        messaggi.addAll(messaggiRicevuti);
+    }
 
 }

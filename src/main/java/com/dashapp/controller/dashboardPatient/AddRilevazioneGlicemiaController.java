@@ -8,10 +8,7 @@ import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -105,6 +102,7 @@ public class AddRilevazioneGlicemiaController extends AddController {
         parentController.FlagRilevazioniLabel.setText("Oggi hai eseguito " + (parentController.countRilevazioni+1) + " rilevazion" + (parentController.countRilevazioni == 1 ? "e" : "i"));
 
         inviaAvvisoAlMedico(valore, tipoRilevazione);
+        parentController.backToDashboard();
 
     }
 
@@ -120,14 +118,14 @@ public class AddRilevazioneGlicemiaController extends AddController {
         LocalTime now = LocalTime.now();
         if(quando.toString().equals("PRE")){
             if(valore < 80){
-
+                mostraAlert("ATTENZIONE!", "il valore glicemico rilevato (" + valore + ") risulta sotto i valori previsti per le assunzioni preprandiali");
                 ds.addMessaggio(paziente.getId(), medicoDiBase.getId(), today, now,
                         "Avviso Glicemia bassa: " + paziente.getEmail(),
                         "Il paziente " + paziente.getNome() + " " + paziente.getCognome() + " ha rilevato una glicemia di valore: " + valore + " prima di un pasto",
                         'G', false);
             }
             if(valore > 130){
-
+                mostraAlert("ATTENZIONE!", "Il valore glicemico rilevato (" + valore + ") è sopra i valori previsti prima dei pasti.");
                 ds.addMessaggio(paziente.getId(), medicoDiBase.getId(), today, now,
                         "Avviso Glicemia alta: " + paziente.getEmail(),
                         "Il paziente " + paziente.getNome() + " " + paziente.getCognome() + " ha rilevato una glicemia di valore: " + valore + " prima di un pasto",
@@ -136,15 +134,27 @@ public class AddRilevazioneGlicemiaController extends AddController {
         }
         else if(quando.toString().equals("POST")){
             if(valore > 180){
+                mostraAlert("ATTENZIONE!", "Il valore glicemico rilevato (" + valore + ") è sopra i valori previsti dopo i pasti.");
                 ds.addMessaggio(paziente.getId(), medicoDiBase.getId(), today, now,
                         "Avviso Glicemia alta: " + paziente.getEmail(),
-                        "Il paziente " + paziente.getNome() + " " + paziente.getCognome() + " ha rilevato una glicemia di valore: " + valore + "2 ore dopo di un pasto",
+                        "Il paziente " + paziente.getNome() + " " + paziente.getCognome() + " ha rilevato una glicemia di valore: " + valore + ", dopo di un pasto",
                         'G', false);
             }
         }
 
 
     }
+
+    public void mostraAlert(String titolo, String contenuto) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);  // Puoi mettere un header se vuoi
+        alert.setContentText(contenuto);
+        alert.showAndWait();
+    }
+
+
+
 
 
 }

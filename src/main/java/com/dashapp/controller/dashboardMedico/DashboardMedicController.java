@@ -76,7 +76,7 @@ public class DashboardMedicController {
                         originalContent = (Parent) mainContent.getChildren().get(0);
                 }
 
-                //controllaPazienti();
+                controllaPazienti();
 
 
         }
@@ -186,22 +186,33 @@ public class DashboardMedicController {
                 for(Utente p: pazientiAssociati) {
 
                         // prendo i messaggi inviati dal pziente negli ultimi 3 giorni, se negli ultimi 3 giorni ha gia inviato un messaggio di tipo N, non lo reinvia
+
                         List<Messaggio> messaggi = List.of(ds.getMessaggiByIdSender(p.getId()));
                         messaggi.stream()
                                 .filter(m -> m.getDataInvio().isAfter(treGiorniFa) || m.getDataInvio().isEqual(treGiorniFa))
                                 .collect(Collectors.toList());
+
+
+                        boolean serveAvvisare = true;
                         for(Messaggio m: messaggi){
                                 if(m.getTipo() == 'N')
-                                        return;
+                                        serveAvvisare = false;
+
+
                         }
 
-                        if (controlli.pazienteNonAderente(p.getId())) {
+
+
+                        if (controlli.pazienteNonAderente(p.getId()) && serveAvvisare) {
                                 mostraAlert("AVVISO", "Il paziente: " + p.getNome() + " " + p.getCognome() + " non ha aderito alle sue prescrizioni negli ultimi 3 giorni");
                                 ds.addMessaggio(p.getId(), idCurrentUser, LocalDate.now(), LocalTime.now(),
                                         "Avviso paziente: " + p.getNome() + " " + p.getCognome() + " " + p.getEmail(),
                                         "il paziente non ha aderito alle sue prescrizioni negli ultimi 3 giorni",
                                         'N', false);
+                                serveAvvisare = false;
                         }
+
+
                 }
         }
 

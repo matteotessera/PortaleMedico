@@ -54,6 +54,9 @@ public class AddAssunzioneController extends AddController {
 
     private Map<Farmaco, StatoFarmaco> mappaAssunzioni;
 
+    @FXML
+    private Label erroreLabel;
+
     private boolean doAnyway;
 
     private DataService ds;
@@ -195,7 +198,8 @@ public class AddAssunzioneController extends AddController {
         try {
             ora = LocalTime.parse(this.oraField.getValue()+":"+this.minutiField.getValue());
         } catch (DateTimeParseException e) {
-            System.err.println("Errore: orario non valido, usare formato HH:mm oppure HH:mm:ss");
+            erroreLabel.setText("Errore: orario non valido, usare formato HH:mm oppure HH:mm:ss");
+            erroreLabel.setStyle("-fx-text-fill: red");
             return;
         }
 
@@ -203,13 +207,24 @@ public class AddAssunzioneController extends AddController {
         try {
             data = dataField.getValue();
         } catch (DateTimeParseException e) {
-            System.err.println("Errore: data non valida, usare formato YYYY-MM-DD");
+            erroreLabel.setText("data non valida, usare formato YYYY-MM-DD");
+            erroreLabel.setStyle("-fx-text-fill: red");
+            return;
+        }
+        if(data.isAfter(LocalDate.now())){
+            erroreLabel.setText("data non valida, non puoi vaggiare nel futuro :)");
+            erroreLabel.setStyle("-fx-text-fill: red");
             return;
         }
 
         if(farmacoAssuntoBox.getValue() == null){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Inserisci un farmaco valido");
-            alert.showAndWait();
+            erroreLabel.setText("selezionare un farmaco");
+            erroreLabel.setStyle("-fx-text-fill: red");
+            return;
+        }
+        if(terapiaIdBox.getValue() == null){
+            erroreLabel.setText("selezionare una Terapia");
+            erroreLabel.setStyle("-fx-text-fill: red");
             return;
         }
 

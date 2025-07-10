@@ -35,6 +35,7 @@ public class AddSintomoController extends AddController {
     private Label erroreLabel;
 
     private DataService ds;
+    private DashboardPatientController parentController;
 
     @FXML
     private void initialize(){
@@ -68,6 +69,8 @@ public class AddSintomoController extends AddController {
         ds.addSintomoPaziente(descrizione, BoxDashboardControllerPatient.u.getId());
             erroreLabel.setText("Oggetto inviato con successo");
             erroreLabel.setStyle("-fx-text-fill: green");
+
+            parentController.backToDashboard();
     }
 
 
@@ -93,7 +96,9 @@ public class AddSintomoController extends AddController {
 
 
 
-
+    public void setParentController(DashboardPatientController controller) {
+        this.parentController = controller;
+    }
 
 
 

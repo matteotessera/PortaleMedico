@@ -10,6 +10,7 @@ import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -18,6 +19,7 @@ import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -111,6 +113,8 @@ public class DashboardPatientController {
         graficoController.setRilevazioni(new ArrayList<>(Arrays.asList(rilevazioniUtente)));
         graficoController.popolaGrafico();
         graficoContainer.getChildren().add(content);
+
+        controlloAssunzioniDimenticate();
 
     }
 
@@ -257,12 +261,45 @@ public class DashboardPatientController {
 
     public void controlloAssunzioniDimenticate() throws Exception {
         ControlliSistema controllo = new ControlliSistema();
+        LocalDate ieri = LocalDate.now().minusDays(1);
+
         List<Farmaco> farmaciDimenticati = controllo.farmaciDimenticati(u.getId());
 
+        List<Messaggio> messaggiPaziente = Arrays.asList(ds.getMessaggiByIdSender(u.getId()));
+        List<Messaggio> messaggiFiltrati = messaggiPaziente.stream().filter(m -> m.getTipo() =='A').collect(Collectors.toList());
+
+
         for(Farmaco f: farmaciDimenticati){
-            //invia messaggio, Oggetto: Farmaco X dimenticato
-            // Corpo: in data (Ieri) hai dimenticato di assumere il farmaco x;
+            boolean giaInviato = messaggiFiltrati.stream().anyMatch(m ->
+                    ( m.getDataInvio().isEqual(ieri) || m.getDataInvio().isEqual(ieri.plusDays(1)) )
+                            &&
+                            m.getOggetto() != null &&
+                            m.getOggetto().contains(f.getNome())
+            );
+
+            if (giaInviato) {
+                // Salta invio se già mandato
+                continue;
+            }
+
+            mostraAlert(
+                    "AVVISO",
+                    "In data: " + ieri + " hai dimenticato di assumere il farmaco: " + f.getNome()
+            );
+
+            ds.addMessaggio(
+                    u.getId(),
+                    u.getId(),
+                    LocalDate.now(),
+                    LocalTime.now(),
+                    "Farmaco: " + f.getNome() + " dimenticato",
+                    "In data: " + ieri + " hai dimenticato di assumere il farmaco: " + f.getNome(),
+                    'A',
+                    false
+            );
         }
+
+
 
     }
 
@@ -287,6 +324,14 @@ public class DashboardPatientController {
 
         // Chiamo il metodo per caricare il profilo dentro il box
         controller.mostraProfilo();
+    }
+
+    public void mostraAlert(String titolo, String contenuto) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);  // Puoi mettere un header se vuoi
+        alert.setContentText(contenuto);
+        alert.showAndWait();
     }
 
 
