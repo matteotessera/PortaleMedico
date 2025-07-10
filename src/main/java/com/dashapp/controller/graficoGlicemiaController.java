@@ -161,15 +161,15 @@ public class graficoGlicemiaController {
 
         for (Rilevazione r : filtraPerPeriodo(rilevazioniPre)) {
             String dataFormattata = r.getData().format(formatter);
-
             Number valore = Double.parseDouble(r.getValore());
-            seriePre.getData().add(new XYChart.Data<>(dataFormattata, valore));
+            XYChart.Data<String, Number> dataPoint = creaToolTip(dataFormattata, valore, r);
+            seriePre.getData().add(dataPoint);
         }
         for (Rilevazione r : filtraPerPeriodo(rilevazioniPost)) {
             String dataFormattata = r.getData().format(formatter);
-
             Number valore = Double.parseDouble(r.getValore());
-            seriePost.getData().add(new XYChart.Data<>(dataFormattata, valore));
+            XYChart.Data<String, Number> dataPoint = creaToolTip(dataFormattata, valore, r);
+            seriePost.getData().add(dataPoint);
         }
 
         // Pulisci grafico e aggiungi serie
@@ -196,17 +196,20 @@ public class graficoGlicemiaController {
         for (Rilevazione r : filtraPerPeriodo(rilevazioniColazione)) {
             String dataFormattata = r.getData().format(formatter);
             Number valore = Double.parseDouble(r.getValore());
-            serieColazione.getData().add(new XYChart.Data<>(dataFormattata, valore));
+            XYChart.Data<String, Number> dataPoint = creaToolTip(dataFormattata, valore, r);
+            serieColazione.getData().add(dataPoint);
         }
         for (Rilevazione r : filtraPerPeriodo(rilevazioniPranzo)) {
             String dataFormattata = r.getData().format(formatter);
             Number valore = Double.parseDouble(r.getValore());
-            seriePranzo.getData().add(new XYChart.Data<>(dataFormattata, valore));
+            XYChart.Data<String, Number> dataPoint = creaToolTip(dataFormattata, valore, r);
+            seriePranzo.getData().add(dataPoint);
         }
         for (Rilevazione r : filtraPerPeriodo(rilevazioniCena)) {
             String dataFormattata = r.getData().format(formatter);
             Number valore = Double.parseDouble(r.getValore());
-            serieCena.getData().add(new XYChart.Data<>(dataFormattata, valore));
+            XYChart.Data<String, Number> dataPoint = creaToolTip(dataFormattata, valore, r);
+            serieCena.getData().add(dataPoint);
         }
 
         // Pulisci grafico e aggiungi serie
