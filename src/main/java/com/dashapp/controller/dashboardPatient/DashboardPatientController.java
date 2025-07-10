@@ -105,19 +105,38 @@ public class DashboardPatientController {
                                     "Oggi hai assunto " + calcolaAssunzioniEffettuate() + " farmaci");*/
 
         //RENDER DEL GRAFICO
+
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/graficoGlicemia.fxml"));
         Parent content = loader.load();
         graficoGlicemiaController graficoController = loader.getController();
 
-        System.out.println(rilevazioniUtente);
         graficoController.setRilevazioni(new ArrayList<>(Arrays.asList(rilevazioniUtente)));
-        graficoController.popolaGrafico();
+
+        graficoController.setDashboardController(this);
+        graficoController.popolaGraficoTotale();
         graficoContainer.getChildren().add(content);
+
 
         controlloAssunzioniDimenticate();
 
     }
 
+    public void setBoxControllerGrafico(graficoGlicemiaController graficoController){
+        graficoController.setBoxController(controller);
+    }
+
+    public void updateGrafico() throws Exception {
+        Rilevazione[] rilevazioniUpdate = (ds.getRilevazioniById(u.getId()));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/graficoGlicemia.fxml"));
+        Parent content = loader.load();
+        graficoGlicemiaController graficoController = loader.getController();
+
+        graficoController.setRilevazioni(new ArrayList<>(Arrays.asList(rilevazioniUpdate)));
+        graficoController.popolaGraficoTotale();
+        graficoContainer.getChildren().add(content);
+
+    }
 
 
     public void mostraBox() throws Exception {
@@ -137,6 +156,14 @@ public class DashboardPatientController {
         mainContent.getChildren().add(newContent);
     }
 
+    public void inizializzaBox() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/BoxDashboardPatient.fxml"));
+        Parent newContent = loader.load();
+
+        controller = loader.getController();
+        controller.setDashboardController(this);
+    }
+
 
     //FUNZIONI DEI BOTTONI
     public void ListaRilevazioni() throws Exception {
@@ -146,6 +173,7 @@ public class DashboardPatientController {
         }
         controller.listaRilevazioni();
     }
+
     public void aggiungiRilevazione() throws Exception {
 
         if (controller == null) {

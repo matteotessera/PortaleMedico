@@ -6,6 +6,7 @@ import com.dashapp.model.Messaggio;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -82,7 +83,7 @@ public class messaggiController {
                     }
                     if(newSel instanceof Utente ut){
                         utenteSelezionato = ut;
-                        showDmUtente(ut);
+                        Platform.runLater(() -> showDmUtente(ut));      //aspetta che il click venga processato prima di eseguire la funzione, cosi non avviene index out of bounds
                     }
             }
         });

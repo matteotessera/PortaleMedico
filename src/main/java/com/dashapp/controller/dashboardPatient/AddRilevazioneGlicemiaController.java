@@ -102,6 +102,7 @@ public class AddRilevazioneGlicemiaController extends AddController {
         parentController.FlagRilevazioniLabel.setText("Oggi hai eseguito " + (parentController.countRilevazioni+1) + " rilevazion" + (parentController.countRilevazioni == 1 ? "e" : "i"));
 
         inviaAvvisoAlMedico(valore, tipoRilevazione);
+        parentController.updateGrafico();
         parentController.backToDashboard();
 
     }
