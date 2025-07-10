@@ -43,6 +43,8 @@ public class AddTerapiaController extends AddController {
 
     public void initialize() throws Exception {
         ds = new DataService();
+        sceltaIndicazioni.getStyleClass().add("check-combo-box");
+
         popolaComboBox();
     }
 

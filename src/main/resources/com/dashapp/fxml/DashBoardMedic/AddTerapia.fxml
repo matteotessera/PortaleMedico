@@ -6,15 +6,15 @@
 <?import javafx.scene.text.*?>
 <?import org.controlsfx.control.*?>
 
-<AnchorPane prefHeight="580.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddTerapiaController">
+<AnchorPane prefHeight="580.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddTerapiaController">
 
    <children>
-      <VBox spacing="20.0" style="-fx-padding: 20 30 20 0;">
+      <VBox spacing="20.0" style="-fx-padding: 20 30 20 0;" stylesheets="@../../css/input.css">
 
          <!-- Sezione paziente e farmaco -->
-         <Text fill="#7ed957" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Dati paziente e farmaco">
+         <Text fill="#7ed957" style="-fx-text-fill: #ff914d;" text="Dati paziente e farmaco">
             <font>
-               <Font name="System Bold" size="11.0" />
+               <Font name="Roboto Black" size="14.0" />
             </font></Text>
 
          <GridPane hgap="15" vgap="15">
@@ -27,12 +27,12 @@
 
             <children>
                <VBox spacing="5" GridPane.columnIndex="0">
-                  <Label text="Paziente" />
+                  <Label styleClass="labelInput" text="Paziente" />
                   <ComboBox fx:id="sceltaPaziente" maxWidth="Infinity" promptText="Seleziona paziente" />
                </VBox>
 
                <VBox spacing="5" GridPane.columnIndex="1">
-                  <Label text="Farmaco" />
+                  <Label styleClass="labelInput" text="Farmaco" />
                   <ComboBox fx:id="sceltaFarmaco" maxWidth="Infinity" promptText="Seleziona farmaco" />
                </VBox>
 
@@ -46,7 +46,12 @@
          <Separator />
 
          <!-- Sezione dettagli terapia -->
-         <Text fill="#7ed957" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Dettagli terapia" />
+
+
+         <Text fill="#7ed957" style="-fx-text-fill: #ff914d;" text="Dettagli terapia">
+            <font>
+               <Font name="Roboto Black" size="14.0" />
+            </font></Text>
 
          <GridPane hgap="15" vgap="15">
             <columnConstraints>
@@ -58,23 +63,23 @@
 
             <children>
                <VBox spacing="5" GridPane.columnIndex="0">
-                  <Label text="Numero assunzioni giornaliere" />
+                  <Label styleClass="labelInput" text="Numero assunzioni giornaliere" />
                   <TextField fx:id="nAssunzioniField" maxWidth="Infinity" promptText="Inserisci n. assunzioni" />
                </VBox>
 
                <VBox spacing="5" GridPane.columnIndex="1">
-                  <Label text="Dose" />
+                  <Label styleClass="labelInput" text="Dose" />
                   <TextField fx:id="doseField" maxWidth="Infinity" promptText="Inserisci dose" />
                </VBox>
 
 
                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                  <Label text="Data inizio terapia" />
+                  <Label styleClass="labelInput" text="Data inizio terapia" />
                   <DatePicker fx:id="dataInizioPicker" prefHeight="30.0" />
                </VBox>
 
                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                  <Label text="Data fine terapia" />
+                  <Label styleClass="labelInput" text="Data fine terapia" />
                   <DatePicker fx:id="dataFinePicker" prefHeight="30.0" />
                </VBox>
             </children>
@@ -88,25 +93,31 @@
          <Separator />
 
 
-         <Text fill="#7ed957" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ff914d;" text="Indicazioni" />
+         <Text fill="#7ed957" style="-fx-text-fill: #ff914d;" text="Indicazioni">
+            <font>
+               <Font name="Roboto Black" size="14.0" />
+            </font></Text>
 
          <VBox spacing="20.0">
             <VBox prefHeight="43.0" prefWidth="523.0" spacing="5">
-                  <Label text="Indicazioni" />
-                  <CheckComboBox fx:id="sceltaIndicazioni" maxWidth="Infinity" prefHeight="23.0" prefWidth="50.0" title="Suggerimenti indicazioni" />
+                  <Label styleClass="labelInput" text="Indicazioni" />
+               <CheckComboBox fx:id="sceltaIndicazioni" maxWidth="Infinity" prefHeight="23.0" prefWidth="50.0" title="Suggerimenti indicazioni" />
                </VBox>
 
             <VBox spacing="5">
-               <Label text="Note" />
+               <Label styleClass="labelInput" text="Note" />
                <TextArea fx:id="note" editable="true" prefHeight="61.0" prefWidth="874.0" />
             </VBox>
          </VBox>
 
          <!-- Bottone -->
-         <Button fx:id="assegnaTerapia" onMouseClicked="#assegnaTerapia" prefHeight="35.0" prefWidth="306.0" style="-fx-background-color: #7ed957; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Assegna terapia" textFill="#7ed957">
+         <Button fx:id="assegnaTerapia" onMouseClicked="#assegnaTerapia" style="-fx-background-color: #7ed957; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Assegna terapia" textFill="#7ed957">
             <VBox.margin>
                <Insets top="15.0" />
-            </VBox.margin></Button>
+            </VBox.margin>
+            <padding>
+               <Insets bottom="10.0" left="60.0" right="60.0" top="10.0" />
+            </padding></Button>
 
          <Label fx:id="statusLabel" managed="true" prefHeight="26.0" styleClass="alert-danger" text="Status message goes here" visible="false" wrapText="true"> </Label>
 

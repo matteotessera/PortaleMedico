@@ -109,6 +109,10 @@ public class DataService {
         if (response.statusCode() == 200) {
             String json = response.body();
             return parseUtentiManuale(json);
+
+        } else if (response.statusCode() == 404) {
+            return new Utente[0];
+
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
