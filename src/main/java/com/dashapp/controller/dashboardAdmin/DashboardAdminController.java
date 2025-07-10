@@ -1,17 +1,32 @@
 package com.dashapp.controller.dashboardAdmin;
 
+import com.dashapp.model.Accesso;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 
 public class DashboardAdminController {
@@ -35,32 +50,123 @@ public class DashboardAdminController {
         @FXML
         private Label utenteLabel;
         @FXML
-        public Label numeroPazienti;
+        public Label numeroUtenti;
         @FXML
         public Label numeroFarmaci;
+
         @FXML
-        public Label numeroTerapie;
+        public ComboBox utenteComboBox;
 
         private Parent originalContent;
 
         private BoxDashboardController controller;
 
+        private int nUtenti;
 
-        public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
+        @FXML
+        private LineChart<String, Number> graficoAndamento;
+
+        @FXML
+        private CategoryAxis xAxis;
+
+        @FXML
+        private NumberAxis yAxis;
+
+        public void initialize() throws Exception {
                 ds = new DataService();
 
-                String email = NavigatorView.getAuthenticatedUser();
-                int id = ds.getUtenteByEmail(email).getId();
-                numeroPazienti.setText(String.valueOf(ds.getPazientiByMedico(id).length));
+                // Caricamento utenti e ComboBox
+                caricaComboBox();
+
+                numeroUtenti.setText(String.valueOf(nUtenti));
                 numeroFarmaci.setText(String.valueOf(ds.getFarmaci().length));
 
-                //DA rendere dinamico, altrmenti rimane fisso da qunado si avvia il portale
-
                 mostraTextMeico();
+
                 if (!mainContent.getChildren().isEmpty()) {
                         originalContent = (Parent) mainContent.getChildren().get(0);
                 }
+
+                // Listener selezione utente
+                utenteComboBox.setOnAction(e -> {
+                        Utente u = (Utente) utenteComboBox.getValue();
+                        if (u != null) {
+                                try {
+                                        aggiornaGrafico(u.getId());
+                                } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                }
+                        }
+                });
         }
+
+        private void aggiornaGrafico(int userId) throws Exception {
+                graficoAndamento.getData().clear();
+
+                final Accesso[] accessi = ds.getAccessiByUtente(userId);
+
+                final LocalDate oggi = LocalDate.now();
+                final LocalDate trentaGiorniFa = oggi.minusDays(30);
+
+                List<Accesso> accessiUltimi30Giorni = Arrays.stream(accessi)
+                        .filter(a -> {
+                                LocalDate data = a.getData().toLocalDate();  // <-- qui prendi solo la data
+                                return data != null && !data.isBefore(trentaGiorniFa) && !data.isAfter(oggi);
+                        })
+                        .collect(Collectors.toList());
+
+                Map<LocalDate, Long> accessiPerGiorno = accessiUltimi30Giorni.stream()
+                        .collect(Collectors.groupingBy(
+                                a -> a.getData().toLocalDate(),  // <-- raggruppa per data senza ora
+                                TreeMap::new,
+                                Collectors.counting()
+                        ));
+
+                XYChart.Series<String, Number> serie = new XYChart.Series<>();
+                serie.setName("Accessi ultimi 30 giorni per giorno");
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
+
+                for (LocalDate giorno = trentaGiorniFa; !giorno.isAfter(oggi); giorno = giorno.plusDays(1)) {
+                        long count = accessiPerGiorno.getOrDefault(giorno, 0L);
+                        serie.getData().add(new XYChart.Data<>(giorno.format(formatter), count));
+                }
+
+                graficoAndamento.getData().add(serie);
+        }
+
+        public void caricaComboBox() throws Exception {
+                Utente[] utenti = ds.getUtenti();
+
+                // Pulisco prima la combo se serve
+                utenteComboBox.getItems().clear();
+
+                for (Utente u : utenti) {
+                        if (!u.getRuolo().equals("Admin")) {
+                                nUtenti++;
+                                utenteComboBox.getItems().add(u);
+                        }
+                }
+
+                // Definisco come mostrare i nomi nella lista a discesa
+                utenteComboBox.setCellFactory(lv -> new ListCell<Utente>() {
+                        @Override
+                        protected void updateItem(Utente item, boolean empty) {
+                                super.updateItem(item, empty);
+                                setText(empty || item == null ? "" : item.getNome() + " " + item.getCognome());
+                        }
+                });
+
+                // Definisco come mostrare il nome dell'elemento selezionato nel campo della combo
+                utenteComboBox.setButtonCell(new ListCell<Utente>() {
+                        @Override
+                        protected void updateItem(Utente item, boolean empty) {
+                                super.updateItem(item, empty);
+                                setText(empty || item == null ? "" : item.getNome() + " " + item.getCognome());
+                        }
+                });
+        }
+
 
         public void mostraBox() throws IOException {
                 // Rimuovo tutto dal mainContent
@@ -134,6 +240,7 @@ public class DashboardAdminController {
                 // Rendo visibile il cerchio con il testo
                 utenteCirclePane.setVisible(true);
         }
+
 
 
 
