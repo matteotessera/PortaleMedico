@@ -5,6 +5,7 @@ import com.dashapp.model.Messaggio;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -79,8 +80,14 @@ public class DashboardMedicController {
                         originalContent = (Parent) mainContent.getChildren().get(0);
                 }
 
-                controllaPazienti();
 
+                Platform.runLater(() -> {
+                    try {
+                        controllaPazienti();
+                    } catch (Exception e) {
+                            System.out.println("errore nel controllo assunzioni");
+                    }
+                });
 
         }
 

@@ -2,6 +2,7 @@ package com.dashapp.controller.dashboardPatient.fascicolo;
 
 import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.SintomoConcomitante;
+import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -24,12 +25,14 @@ public class TabSintomiController {
 
     public void initialize() throws Exception {
         ds = new DataService();
-        idPaziente = BoxDashboardControllerPatient.u.getId();
+    }
 
+    public void setIdPaziente(Utente u) throws Exception {
+        idPaziente = u.getId();
         listaSintomi = List.of(ds.getSintomiConcomitantiByPaziente(idPaziente));
-
         aggiornaSintomiGrid();
     }
+
 
     private void aggiornaSintomiGrid() {
         sintomiGrid.getChildren().clear();

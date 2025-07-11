@@ -339,29 +339,27 @@ public class BoxDashboardController {
         listaFarmaciBox.setPrefWidth(1000);
         listaFarmaciBox.setSpacing(5);
 
-        double nomeWidth = 80;
-        double descrizioneWidth = 600;
-        double azioneWidth = 90;
-        double spazioTraBottoni = 10;
+        double nomeWidth = 600;
+        double descrizioneWidth = 1000;
+        double azioneWidth = 600;
 
         // Intestazione
-        HBox intestazione = new HBox(spazioTraBottoni);
+        HBox intestazione = new HBox(10);
         intestazione.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 8;");
         intestazione.setAlignment(Pos.CENTER_LEFT);
 
         Label nomeHeader = creaHeader("Nome", nomeWidth);
         Label descrizioneHeader = creaHeader("Descrizione", descrizioneWidth);
+        Label azioneHeader = creaHeader("Azione", azioneWidth);
+        Label fillHeader = creaHeader("", azioneWidth);
 
-        // Larghezza intestazione azione = due bottoni + spazio tra loro
-        double azioneTotalWidth = azioneWidth * 2 + spazioTraBottoni;
-        Label azioneHeader = creaHeader("Azione", azioneTotalWidth);
+        intestazione.getChildren().addAll(nomeHeader, descrizioneHeader, azioneHeader, fillHeader);
 
-        intestazione.getChildren().addAll(nomeHeader, descrizioneHeader, azioneHeader);
         listaFarmaciBox.getChildren().add(intestazione);
 
         // Riga per ogni farmaco
         for (Farmaco f : farmaci) {
-            HBox rigaFarmaco = new HBox(spazioTraBottoni);
+            HBox rigaFarmaco = new HBox(10);
             rigaFarmaco.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
             rigaFarmaco.setAlignment(Pos.CENTER_LEFT);
 
@@ -612,6 +610,7 @@ public class BoxDashboardController {
     private Label creaCell(String text, double width) {
         Label label = new Label(text != null ? text : "-");
         label.setPrefWidth(width);
+        label.setWrapText(true);
         label.setAlignment(Pos.CENTER_LEFT);
         label.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(label, Priority.ALWAYS);

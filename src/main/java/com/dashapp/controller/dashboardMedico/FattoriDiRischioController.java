@@ -1,25 +1,31 @@
-package com.dashapp.controller.dashboardPatient.fascicolo;
+package com.dashapp.controller.dashboardMedico;
 
-import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.Patologia;
 import com.dashapp.model.Utente;
+import com.dashapp.model.FattoriDiRischio;
 import com.dashapp.services.DataService;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class TabPatologieController {
+public class FattoriDiRischioController
+{
+
 
     @FXML
-    private GridPane patologieGrid;
+    public GridPane FattoriDiRischioGrid;
 
-    private List<Patologia> listaPatologie;
+    private List<FattoriDiRischio> listaFattoriRischio;
     private DataService ds;
     private int idPaziente;
 
@@ -29,24 +35,24 @@ public class TabPatologieController {
 
     public void setIdPaziente(Utente u) throws Exception {
         idPaziente = u.getId();
-        listaPatologie = List.of(ds.getPatologieByPaziente(idPaziente));
+        listaFattoriRischio = List.of();
         aggiornaGrid();
     }
 
     private void aggiornaGrid() {
-        patologieGrid.getChildren().clear();
+        FattoriDiRischioGrid.getChildren().clear();
         int col = 0;
         int row = 0;
 
         // Prima card: Aggiungi Patologia
         VBox addCard = creaCardAggiungi();
-        patologieGrid.add(addCard, col, row);
+        FattoriDiRischioGrid.add(addCard, col, row);
         col++;
 
         // Card per ogni patologia
-        for (Patologia p : listaPatologie) {
-            VBox card = creaCardPatologia(p);
-            patologieGrid.add(card, col, row);
+        for (FattoriDiRischio f : listaFattoriRischio) {
+            VBox card = creaCardFattoreDiRischio(f);
+            FattoriDiRischioGrid.add(card, col, row);
 
             col++;
             if (col == 5) { // 4 colonne per riga
@@ -70,39 +76,39 @@ public class TabPatologieController {
         return card;
     }
 
-    private VBox creaCardPatologia(Patologia p) {
+    private VBox creaCardFattoreDiRischio(FattoriDiRischio f) {
         VBox card = new VBox(12);
         card.setPrefSize(180, 200);
         card.setPadding(new Insets(15));
         card.setStyle("-fx-background-color: #f4f4f4; -fx-background-radius: 15; -fx-border-color: lightgray; -fx-border-radius: 15;");
-        card.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+        card.setAlignment(Pos.TOP_CENTER);
 
         // Titolo patologia
-        Text titolo = new Text(p.getNomePatologia().toUpperCase());
+        Text titolo = new Text(f.getId().toUpperCase());
         titolo.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
         titolo.setWrappingWidth(160);
-        titolo.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        titolo.setTextAlignment(TextAlignment.CENTER);
 
         // Diagnosi label
         Label diagnosiLabel = new Label("Diagnosi");
         diagnosiLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12;");
-        Label dataLabel = new Label(p.getDataDiagnosi() != null ? p.getDataDiagnosi().toString() : "-");
+        Label dataLabel = new Label(f.getNote() != null ? f.getNote().toString() : "-");
         dataLabel.setStyle("-fx-font-size: 12;");
 
         // Note label
         Label noteLabelTitle = new Label("Note");
         noteLabelTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 12;");
-        Label noteLabel = new Label(p.getNote() != null && !p.getNote().isBlank() ? p.getNote() : "-");
+        Label noteLabel = new Label(f.getNote() != null && !f.getNote().isBlank() ? f.getNote() : "-");
         noteLabel.setStyle("-fx-font-size: 12;");
         noteLabel.setWrapText(true);
 
         // Bottone elimina
         Button eliminaButton = new Button("Elimina");
         eliminaButton.setStyle("-fx-background-color: #e94f4f; -fx-text-fill: white; -fx-background-radius: 10; -fx-pref-height: 25; -fx-font-size: 12;");
-        eliminaButton.setOnAction(ev -> eliminaPatologia(p));
+        eliminaButton.setOnAction(ev -> eliminaFattoreDiRischio(f));
 
         VBox infoBox = new VBox(5);
-        infoBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        infoBox.setAlignment(Pos.CENTER_LEFT);
         infoBox.getChildren().addAll(
                 diagnosiLabel, dataLabel,
                 noteLabelTitle, noteLabel
@@ -124,13 +130,10 @@ public class TabPatologieController {
         VBox contenuto = new VBox(10);
         contenuto.setPadding(new Insets(10));
 
-        TextField nomeField = new TextField();
-        DatePicker dataDiagnosiPicker = new DatePicker();
+
         TextArea noteArea = new TextArea();
 
         contenuto.getChildren().addAll(
-                new Label("Nome Patologia:"), nomeField,
-                new Label("Data Diagnosi"), dataDiagnosiPicker,
                 new Label("Note"), noteArea
         );
 
@@ -140,25 +143,13 @@ public class TabPatologieController {
         Optional<ButtonType> result = dialog.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            String nome = nomeField.getText();
-            LocalDate data = dataDiagnosiPicker.getValue();
             String note = noteArea.getText();
 
-            if (nome == null || nome.isBlank()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Inserisci un nome valido.");
-                alert.showAndWait();
-                return;
-            }
-            if (data == null || data.isAfter(LocalDate.now())) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Inserisci una data valida.");
-                alert.showAndWait();
-                return;
-            }
 
 
             try {
-                ds.addPatologia(idPaziente, nome, data, note);
-                listaPatologie = List.of(ds.getPatologieByPaziente(idPaziente));
+               //ds.addPatologia(idPaziente, nome, data, note);
+                listaFattoriRischio = List.of();        //fare chiamata
                 aggiornaGrid();
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -166,21 +157,22 @@ public class TabPatologieController {
         }
     }
 
-    private void eliminaPatologia(Patologia p) {
+    private void eliminaFattoreDiRischio(FattoriDiRischio f) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Conferma eliminazione");
         alert.setHeaderText("Sei sicuro di voler eliminare questa patologia?");
-        alert.setContentText(p.getNomePatologia());
+        alert.setContentText(f.getNote());
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                ds.deletePatologia(p.getId());
-                listaPatologie = List.of(ds.getPatologieByPaziente(idPaziente));
+                //ds.deletePatologia(f.getId());
+                listaFattoriRischio = List.of();        //fare chiamata
                 aggiornaGrid();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
+
 }

@@ -2,6 +2,7 @@ package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.ProfiloController;
 import com.dashapp.controller.Tabelle.Tabelle;
+import com.dashapp.controller.dashboardPatient.fascicolo.FascicoloPazienteController;
 import com.dashapp.controller.messaggiController;
 import com.dashapp.model.*;
 import com.dashapp.services.DataService;
@@ -354,7 +355,7 @@ public class BoxDashboardControllerPatient {
         bodyContainer.getChildren().add(addAssunzioneContent);
     }
 
-    public void fascicoloPaziente()throws IOException {
+    public void fascicoloPaziente() throws Exception {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("Fascicolo medico");
@@ -364,7 +365,8 @@ public class BoxDashboardControllerPatient {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/FascicoloPaziente.fxml"));
         Parent fascicolo = loader.load();
-
+        FascicoloPazienteController controller = loader.getController();
+        controller.setPaziente(BoxDashboardControllerPatient.u);
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(fascicolo);
 
