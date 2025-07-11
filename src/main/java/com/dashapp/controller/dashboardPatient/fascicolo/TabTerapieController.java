@@ -2,6 +2,7 @@ package com.dashapp.controller.dashboardPatient.fascicolo;
 
 import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.TerapiaConcomitante;
+import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,10 +32,15 @@ public class TabTerapieController {
 
     public void initialize() throws Exception {
         ds = new DataService();
-        idPaziente = BoxDashboardControllerPatient.u.getId();
+
+    }
+
+    public void setIdPaziente(Utente u) throws Exception {
+        idPaziente = u.getId();
         listaTerapie = List.of(ds.getTerapieConcomitantiByPaziente(idPaziente));
         aggiornaGrid();
     }
+
 
     private void aggiornaGrid() {
         terapieGrid.getChildren().clear();

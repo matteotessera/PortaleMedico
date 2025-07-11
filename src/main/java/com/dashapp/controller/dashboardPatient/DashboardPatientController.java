@@ -7,6 +7,7 @@ import com.dashapp.model.*;
 import com.dashapp.services.DataService;
 import com.dashapp.services.LoginService;
 import com.dashapp.view.NavigatorView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -116,9 +117,15 @@ public class DashboardPatientController {
         graficoController.setDashboardController(this);
         graficoController.popolaGraficoTotale();
         graficoContainer.getChildren().add(content);
+        graficoContainer.getStylesheets().add(String.valueOf(getClass().getResource("/com/dashapp/css/grafico.css")));
 
-
-        controlloAssunzioniDimenticate();
+        Platform.runLater(() -> {
+            try {
+                controlloAssunzioniDimenticate();
+            } catch (Exception e) {
+                System.out.println("errore nel controllo assunzioni");
+            }
+        });
 
     }
 

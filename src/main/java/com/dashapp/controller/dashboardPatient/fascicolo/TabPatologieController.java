@@ -2,6 +2,7 @@ package com.dashapp.controller.dashboardPatient.fascicolo;
 
 import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.Patologia;
+import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -24,9 +25,11 @@ public class TabPatologieController {
 
     public void initialize() throws Exception {
         ds = new DataService();
-        idPaziente = BoxDashboardControllerPatient.u.getId();
-        listaPatologie = List.of(ds.getPatologieByPaziente(idPaziente));
+    }
 
+    public void setIdPaziente(Utente u) throws Exception {
+        idPaziente = u.getId();
+        listaPatologie = List.of(ds.getPatologieByPaziente(idPaziente));
         aggiornaGrid();
     }
 

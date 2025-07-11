@@ -1,5 +1,7 @@
 package com.dashapp.controller.dashboardPatient.fascicolo;
 
+import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
+import com.dashapp.model.Utente;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,15 +37,22 @@ public class FascicoloPazienteController {
     @FXML
     private Button SintomoButton;
 
+    private Utente paziente;
+
 
     private String activeStyle = "-fx-font-weight: bold; -fx-background-color: #F8FFBC; -fx-border-width: 1; -fx-font-size: 20px;";
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() throws Exception {
 
         /*Hsintomi.setStyle("-fx-font-weight: bold; -fx-border-color: #0C0E02; -fx-border-width: 1; ");
         Hterapie.setStyle("-fx-font-weight: bold;  -fx-border-color: #0C0E02; -fx-border-width: 1;");
         Hpatologie.setStyle(activeStyle);*/
+
+    }
+
+    public void setPaziente(Utente u) throws Exception {
+        paziente = u;
 
         setActiveButton(PatologiaButton);
 
@@ -54,7 +63,7 @@ public class FascicoloPazienteController {
         showPatologie();
     }
 
-    private void setActiveButton(Button active) throws IOException {
+    private void setActiveButton(Button active) throws Exception {
         List<Button> buttons = List.of(PatologiaButton, TerapiaButton, SintomoButton);
         for (Button b : buttons) {
             b.getStyleClass().remove("active");
@@ -83,7 +92,7 @@ public class FascicoloPazienteController {
     private void handleButtonClick(Button button) {
         try {
             setActiveButton(button);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -104,35 +113,40 @@ public class FascicoloPazienteController {
 
 
     @FXML
-    void showPatologie() throws IOException {
+    void showPatologie() throws Exception {
         resetLabelStyles();
         //Hpatologie.setStyle(activeStyle + "-fx-background-color: #ad343e33;");
         contentPane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/TabPatologie.fxml"));
         Parent showPatologieContent = loader.load();
+        TabPatologieController tabcontroller = loader.getController();
+        tabcontroller.setIdPaziente(paziente);
         contentPane.getStylesheets().add(getClass().getResource("/com/dashapp/css/fascicoloPaziente.css").toExternalForm());
         contentPane.getChildren().add(showPatologieContent);
     }
 
     @FXML
-    void showSintomi() throws IOException {
+    void showSintomi() throws Exception {
         resetLabelStyles();
         //Hsintomi.setStyle(activeStyle + "-fx-background-color: #9caf3933;");
         contentPane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/TabSintomi.fxml"));
         Parent showSintomiContent = loader.load();
+        TabSintomiController tabcontroller = loader.getController();
+        tabcontroller.setIdPaziente(paziente);
         contentPane.getStylesheets().add(getClass().getResource("/com/dashapp/css/fascicoloPaziente.css").toExternalForm());
         contentPane.getChildren().add(showSintomiContent);
     }
 
     @FXML
-    void showTerapie() throws IOException {
+    void showTerapie() throws Exception {
         resetLabelStyles();
         //Hterapie.setStyle(activeStyle + "-fx-background-color: #f2af2933;");
         contentPane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/TabTerapie.fxml"));
         Parent showTerapieContent = loader.load();
-
+        TabTerapieController tabcontroller = loader.getController();
+        tabcontroller.setIdPaziente(paziente);
         contentPane.getStylesheets().add(getClass().getResource("/com/dashapp/css/fascicoloPaziente.css").toExternalForm());
         contentPane.getChildren().add(showTerapieContent);
     }
@@ -142,5 +156,7 @@ public class FascicoloPazienteController {
         //Hsintomi.setStyle("");
         //Hterapie.setStyle("");
     }
+
+
 
 }

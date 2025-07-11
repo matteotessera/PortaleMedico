@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.FattoriDiRischioController">
+   <children>
+      <VBox alignment="TOP_CENTER" spacing="15.0">
+         <children>
+            <GridPane fx:id="FattoriDiRischioGrid" hgap="10" style="-fx-padding: 10;" vgap="10">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -289,11 +289,11 @@ public class graficoGlicemiaController {
                         "Pasto: " + r.getPasto()
         );
 
-        // Associa tooltip al nodo del punto dati (dopo che il nodo è creato)
+
         dataPoint.nodeProperty().addListener((obs, oldNode, newNode) -> {
             if (newNode != null) {
                 Tooltip.install(newNode, tooltip);
-                // Puoi anche aggiungere un effetto visivo al passaggio del mouse se vuoi
+
                 newNode.setOnMouseEntered(e -> newNode.setStyle("-fx-scale-x: 1.3; -fx-scale-y: 1.3;"));
                 newNode.setOnMouseExited(e -> newNode.setStyle("-fx-scale-x: 1; -fx-scale-y: 1;"));
                 newNode.setOnMouseClicked(e -> {
