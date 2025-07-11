@@ -113,9 +113,9 @@ public class DashboardPatientController {
         graficoGlicemiaController graficoController = loader.getController();
 
         graficoController.setRilevazioni(new ArrayList<>(Arrays.asList(rilevazioniUtente)));
-
         graficoController.setDashboardController(this);
         graficoController.popolaGraficoTotale();
+
         graficoContainer.getChildren().add(content);
         graficoContainer.getStylesheets().add(String.valueOf(getClass().getResource("/com/dashapp/css/grafico.css")));
 

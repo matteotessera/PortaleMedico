@@ -199,6 +199,7 @@ public class messaggiController {
             protected void updateItem(Object item, boolean empty) {
                 super.updateItem(item, empty);
 
+                //CELLE VUOTE
                 if (empty || item == null) {
                     setGraphic(null);
                     setText(null);
@@ -206,6 +207,7 @@ public class messaggiController {
                     getStyleClass().setAll("list-cell");
 
                 } else {
+
                     // Messaggi
                     if (item instanceof Messaggio m) {
 
@@ -249,6 +251,7 @@ public class messaggiController {
                                 vboxMessage.setStyle("-fx-background-color: lightblue; -fx-background-radius: 10;");
                             }
 
+                            // N, A, G, D
                             if(m.getTipo() == 'N'){     //se il messaggio e una avviso di Non aderenza
 
                                     vboxMessage.setStyle("-fx-background-color: #FBA660; -fx-background-radius: 10;");
