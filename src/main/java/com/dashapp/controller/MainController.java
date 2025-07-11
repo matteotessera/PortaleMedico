@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class MainController {
@@ -73,6 +74,7 @@ public class MainController {
 
     @FXML
     public void initialize() throws Exception {
+
         utenteCirclePane.setVisible(false);
         logoutLabel.setText("");
 

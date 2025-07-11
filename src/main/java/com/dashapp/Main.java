@@ -53,6 +53,7 @@ public class Main extends Application {
         Font.loadFont(Main.class.getResourceAsStream("/fonts/Roboto-Black.ttf"), 12);
         Font.loadFont(Main.class.getResourceAsStream("/fonts/Roboto-Medium.ttf"), 12);
         Font.loadFont(Main.class.getResourceAsStream("/fonts/Roboto-Bold.ttf"), 12);
+        Font.loadFont(Main.class.getResourceAsStream("/fonts/LeagueSpartan-ExtraBold.ttf"), 12);
 
 
     }

@@ -23,6 +23,7 @@ public class cambioPasswordController {
     @FXML
     public void initialize() {
         statusLabel.setVisible(false);
+        statusLabel.setManaged(false);
     }
 
 
@@ -30,6 +31,8 @@ public class cambioPasswordController {
         String password = passwordField.getText();
         String confermaPassword = confermaPasswordField.getText();
         statusLabel.setVisible(true);
+        statusLabel.setManaged(true);
+
 
 
         if(password.isEmpty() || confermaPassword.isEmpty()){

@@ -12,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.application.Platform;
 
+import java.io.InputStream;
 import java.time.LocalDate;
 
 
@@ -36,6 +37,7 @@ public class LoginController {
     @FXML
     public void initialize() {
         statusLabel.setVisible(false);
+        statusLabel.setManaged(false);
 
         this.ds = new DataService();
 
@@ -49,6 +51,8 @@ public class LoginController {
     @FXML
     private void handleLogin() {
         statusLabel.setVisible(true);
+        statusLabel.setManaged(true);
+
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 

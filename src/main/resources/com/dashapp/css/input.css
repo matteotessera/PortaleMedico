@@ -1,7 +1,8 @@
 
-.labelInput{
+.labelInput {
     -fx-font-family: "Roboto SemiBold";
     -fx-text-fill: #1e3746;
+    -fx-font-size: 13;
 }
 VBox > Label:not(.no-style) {
     -fx-font-family: "Roboto Black";

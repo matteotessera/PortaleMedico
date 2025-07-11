@@ -6,47 +6,63 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane fx:id="stackPane" prefHeight="532.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.HomeController">
+<StackPane fx:id="stackPane" styleClass="home-pane" stylesheets="@../css/home.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.HomeController">
 
     <children>
 
-        <!-- Sfondo immagine -->
-        <ImageView fx:id="backgroundImage" fitHeight="600" fitWidth="800" preserveRatio="true">
-            <image>
-                <Image url="@../images/fotoHome.png" />
-            </image>
-        </ImageView>
 
         <!-- Contenitore principale -->
-        <VBox alignment="TOP_CENTER" prefHeight="556.0" prefWidth="800.0" spacing="25.0" StackPane.alignment="TOP_CENTER">
+        <VBox spacing="25.0" StackPane.alignment="TOP_LEFT">
             <padding>
-                <Insets left="30.0" right="30.0" top="80.0" />
+                <Insets bottom="80.0" left="80.0" right="80.0" top="80.0" />
             </padding>
+         <HBox>
+            <VBox.margin>
+               <Insets left="-20.0" />
+            </VBox.margin>
+            <children>
 
-            <!-- Logo -->
-            <ImageView fx:id="logoImage" fitHeight="52.0" fitWidth="176.0" preserveRatio="true">
-                <image>
-                    <Image url="@../images/logo.png" />
-                </image>
-            </ImageView>
+                  <!-- Logo -->
+                  <ImageView fx:id="logoImage" fitHeight="97.0" fitWidth="103.0" preserveRatio="true">
+                      <image>
+                          <Image url="@../images/SimboloLogo.png" />
+                      </image>
+                  </ImageView>
+            </children>
+         </HBox>
 
             <!-- Spazio dedicato -->
-            <VBox alignment="CENTER" spacing="30.0">
-                <Label fx:id="intestazioneLabel" maxWidth="600.0" prefHeight="130.0" text="Gestisci in modo semplice e sicuro la tua terapia per il diabete." textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <VBox spacing="10.0">
+                <Text fx:id="intestazioneText" fill="WHITE" style="-fx-font-family: 'League Spartan ExtraBold'; -fx-line-spacing: -10;" text="Il diario della tua salute, sempre con te" wrappingWidth="600.0">
                     <font>
-                        <Font name="Roboto Black Italic" size="37.0" />
+                        <Font size="57.0" />
                     </font>
-               <padding>
-                  <Insets top="40.0" />
-               </padding>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+                </Text>
+                <Label text="Gestisci in modo semplice e sicuro la tua terapia per il diabete" textFill="WHITE">
+                    <font>
+                        <Font name="Roboto Medium" size="21.0" />
+                    </font>
                 </Label>
 
                 <!-- Bottone moderno -->
-                <Button onAction="#handleLoginRegistrazione" fx:id="accediButton" prefHeight="45.0" prefWidth="220.0" style="-fx-background-color: #bd1522;                             -fx-text-fill: white;                             -fx-font-weight: bold;                             -fx-background-radius: 20;                             -fx-border-radius: 20;                             -fx-cursor: hand;                             -fx-font-size: 15px;                         " text="ACCEDI AL PORTALE">
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin></Button>
+                <Button fx:id="accediButton"
+                        onAction="#handleLoginRegistrazione"
+                        styleClass="accedi-button"
+                        text="ACCEDI AL PORTALE">
+                    <VBox.margin>
+                        <Insets top="50.0" />
+                    </VBox.margin>
+                    <font>
+                        <Font name="Roboto Black" size="12.0" />
+                    </font>
+                </Button>
             </VBox>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
         </VBox>
 
     </children>

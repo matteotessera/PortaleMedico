@@ -1,0 +1,14 @@
+.home-pane {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, black, #3533cd);
+}
+
+.accedi-button {
+    -fx-background-color: #bd1522;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-font-size: 15px;
+    -fx-font-family: 'Roboto Black';
+    -fx-padding: 15 50 15 50;
+}

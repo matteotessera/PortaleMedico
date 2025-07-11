@@ -66,11 +66,22 @@ public class ProfiloController {
 
 
         modificaButton.setVisible(true);
+        modificaButton.setManaged(true);
+
+        modificaButtonPw.setVisible(true);
+        modificaButtonPw.setManaged(true);
+
         confermaButton.setVisible(false);
-        annullaButton.setVisible(false);;
-        modificaButtonPw.setVisible(true);;
-        annullaButtonPw.setVisible(false);;
-        confermaButtonPw.setVisible(false);;
+        confermaButton.setManaged(false);
+
+        annullaButton.setVisible(false);
+        annullaButton.setManaged(false);
+
+        annullaButtonPw.setVisible(false);
+        annullaButtonPw.setManaged(false);
+
+        confermaButtonPw.setVisible(false);
+        confermaButtonPw.setManaged(false);
 
         nomeField.setEditable(false);
         cognomeField.setEditable(false);
@@ -98,7 +109,10 @@ public class ProfiloController {
     public void modificaDati() throws Exception {
         modificaButton.setVisible(false);
         confermaButton.setVisible(true);
-        annullaButton.setVisible(true);;
+        annullaButton.setVisible(true);
+        modificaButton.setManaged(false);
+        confermaButton.setManaged(true);
+        annullaButton.setManaged(true);;
 
         nomeField.setEditable(true);
         cognomeField.setEditable(true);
@@ -156,7 +170,10 @@ public class ProfiloController {
     public void modificaPassword(){
         modificaButtonPw.setVisible(false);
         confermaButtonPw.setVisible(true);
-        annullaButtonPw.setVisible(true);;
+        annullaButtonPw.setVisible(true);
+        modificaButtonPw.setManaged(false);
+        confermaButtonPw.setManaged(true);
+        annullaButtonPw.setManaged(true);;
 
         passwordAttualeField.setEditable(true);
         nuovaPasswordField.setEditable(true);

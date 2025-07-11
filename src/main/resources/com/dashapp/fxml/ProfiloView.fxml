@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.ProfiloController">
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.ProfiloController">
     <VBox>
         <children>
          <VBox>
@@ -14,14 +14,14 @@
                   <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10">
                       <children>
                           <!-- Titolo -->
-                          <Label text="I tuoi dati" textFill="#1e3746">
+                          <Label text="I tuoi dati" textFill="#ff7b4f">
                               <font>
-                                  <Font name="Roboto Black" size="14.0" />
+                                  <Font name="Roboto Black" size="16.0" />
                               </font>
                           </Label>
                           <!-- Spacer per spingere il bottone a destra -->
                           <Region HBox.hgrow="ALWAYS" />
-                          <Button onAction="#modificaDati" fx:id="modificaButton" alignment="CENTER" mnemonicParsing="false" style="-fx-background-radius: 15; -fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica">
+                          <Button fx:id="modificaButton" alignment="CENTER" mnemonicParsing="false" onAction="#modificaDati" style="-fx-background-radius: 15; -fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica">
                         <padding>
                            <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                         </padding>
@@ -103,12 +103,12 @@
       
                   <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="20.0">
                       <children>
-                          <Button onAction="#annullaButton" fx:id="annullaButton" mnemonicParsing="false" style="-fx-background-radius: 15; -fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla">
+                          <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaButton" style="-fx-background-radius: 15; -fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla">
                         <padding>
                            <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                         </padding>
                      </Button>
-                          <Button onAction="#inviaDati" fx:id="confermaButton" mnemonicParsing="false" style="-fx-background-radius: 15; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #1e3746;" text="Conferma modifiche">
+                          <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#inviaDati" style="-fx-background-radius: 15; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #1e3746;" text="Conferma modifiche">
                         <padding>
                            <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                         </padding>
@@ -129,14 +129,14 @@
                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10">
                      <children>
                          <!-- Titolo -->
-                         <Label text="Gestione password" textFill="#1e3746">
+                         <Label text="Gestione password" textFill="#ff7b4f">
                              <font>
-                                 <Font name="Roboto Black" size="14.0" />
+                                 <Font name="Roboto Black" size="16.0" />
                              </font>
                          </Label>
                          <!-- Spacer per spingere il bottone a destra -->
                          <Region HBox.hgrow="ALWAYS" />
-                         <Button onAction="#modificaPassword" fx:id="modificaButtonPw" alignment="CENTER" mnemonicParsing="false" style="-fx-background-radius: 15; -fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica">
+                         <Button fx:id="modificaButtonPw" alignment="CENTER" mnemonicParsing="false" onAction="#modificaPassword" style="-fx-background-radius: 15; -fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica">
                              <padding>
                                  <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                              </padding>
@@ -189,12 +189,12 @@
 
                  <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="20.0">
                      <children>
-                         <Button onAction="#annullaButton" fx:id="annullaButtonPw" mnemonicParsing="false" style="-fx-background-radius: 15; -fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla">
+                         <Button fx:id="annullaButtonPw" mnemonicParsing="false" onAction="#annullaButton" style="-fx-background-radius: 15; -fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla">
                              <padding>
                                  <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                              </padding>
                          </Button>
-                         <Button  onAction="#inviaPassword"  fx:id="confermaButtonPw" mnemonicParsing="false" style="-fx-background-radius: 15; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #1e3746;" text="Conferma modifiche">
+                         <Button fx:id="confermaButtonPw" mnemonicParsing="false" onAction="#inviaPassword" style="-fx-background-radius: 15; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #1e3746;" text="Conferma modifiche">
                              <padding>
                                  <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                              </padding>
