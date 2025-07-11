@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Locale;
 
 public class AddRilevazioneGlicemiaController extends AddController {
@@ -27,7 +29,7 @@ public class AddRilevazioneGlicemiaController extends AddController {
     @FXML
     private TextField orarioField;
     @FXML
-    private DatePicker dataField;
+    private TextField dataField;
     @FXML
     private Label erroreLabel;
 
@@ -42,11 +44,17 @@ public class AddRilevazioneGlicemiaController extends AddController {
         quandoBox.setItems(FXCollections.observableArrayList(Rilevazione.TipoRilevazione.values()));
         ds = new DataService();
 
+        dataField.setEditable(false);
+        orarioField.setEditable(false);
+
+        dataField.setText(LocalDate.now().toString());
+        orarioField.setText(String.valueOf(LocalTime.now().truncatedTo(ChronoUnit.MINUTES)));
+
     }
 
 
 
-    //AGGGIUSTARE, va cambiato il servizio per il db, valore deve essere double, deve ammettere data e ora, POST da errore 500,
+
     @FXML
     private void aggiungiRilevazione() throws Exception {
         // crea nuovo tipo RilevazioneGlicemia
@@ -69,13 +77,6 @@ public class AddRilevazioneGlicemiaController extends AddController {
         } catch (DateTimeParseException e) {
             System.err.println("Errore: orario non valido, formato: \"HH:mm\" o \"HH:mm:ss\"");
             erroreLabel.setText("Errore: orario non valido, formato: \"HH:mm\" o \"HH:mm:ss\"");
-            erroreLabel.setStyle("-fx-text-fill: red");
-            return; // oppure mostra un alert per l'utente
-        }
-
-        if(this.dataField.getValue().isAfter(LocalDate.now())){
-            System.err.println("Errore: selezionare data valida");
-            erroreLabel.setText("Errore: selezionare data valida");
             erroreLabel.setStyle("-fx-text-fill: red");
             return; // oppure mostra un alert per l'utente
         }
