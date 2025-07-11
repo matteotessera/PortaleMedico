@@ -158,7 +158,7 @@ public class ProfiloController {
             return;
         }
 
-        ds.updateUtente(idUtente, u.getPassword(),u.getPassword(), nome, cognome, data, email, tel, indirizzo, genere, codFisc);
+        ds.updateUtente(idUtente, null ,u.getRuolo(), nome, cognome, data, email, tel, indirizzo, genere, codFisc);
         mostraAlert("Successo", "Dati modificati con successo");
         initialize();
     }
