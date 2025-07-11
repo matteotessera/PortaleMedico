@@ -109,6 +109,10 @@ public class DataService {
         if (response.statusCode() == 200) {
             String json = response.body();
             return parseUtentiManuale(json);
+
+        } else if (response.statusCode() == 404) {
+            return new Utente[0];
+
         } else {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
@@ -690,6 +694,41 @@ public class DataService {
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
     }
+
+    public Accesso[] getAccessi() throws Exception {
+        String url = API_URL + "get_accessi.php";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return parseAccessiManuale(response.body());
+        } else {
+            throw new RuntimeException("Errore nel recupero accessi: " + response.statusCode());
+        }
+    }
+
+    public Accesso[] getAccessiByUtente(int idUtente) throws Exception {
+        String url = API_URL + "get_accessi_by_id_utente.php?id_utente=" + idUtente;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return parseAccessiManuale(response.body());
+        } else {
+            throw new RuntimeException("Errore nel recupero accessi per utente " + idUtente + ": " + response.statusCode());
+        }
+    }
+
 
 
 
@@ -1721,5 +1760,30 @@ public class DataService {
         return assunzione;
 
     }
+
+    private Accesso[] parseAccessiManuale(String json) {
+        JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
+        List<Accesso> accessi = new ArrayList<>();
+
+        for (JsonElement elem : jsonArray) {
+            JsonObject obj = elem.getAsJsonObject();
+
+            Accesso a = new Accesso();
+            a.setId(obj.get("id").getAsInt());
+            a.setIdUtente(obj.get("id_utente").getAsInt());
+
+            if (obj.has("data") && !obj.get("data").isJsonNull()) {
+                String dataStr = obj.get("data").getAsString();
+                // supponiamo formato "yyyy-MM-dd HH:mm:ss"
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                a.setData(LocalDateTime.parse(dataStr, formatter));
+            }
+
+            accessi.add(a);
+        }
+
+        return accessi.toArray(new Accesso[0]);
+    }
+
 
 }

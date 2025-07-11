@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardAdmin.DashboardAdminController">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardAdmin.DashboardAdminController">
     <content>
 <VBox prefWidth="713.0" spacing="0">
 
     <!-- HEADER FISSO -->
-    <VBox prefHeight="214.0" prefWidth="674.0" spacing="15" style="-fx-background-color: #34bccc; -fx-background-radius: 0 0 20 20; -fx-padding: 20;">
+    <VBox prefHeight="214.0" prefWidth="674.0" spacing="15" style="-fx-background-color: #e9f9f9; -fx-background-radius: 0 0 20 20; -fx-padding: 20;">
         <children>
             <HBox alignment="CENTER_LEFT" spacing="20">
                 <StackPane fx:id="utenteCirclePane" visible="false">
                     <children>
                         <Circle fx:id="cerchioNavbar" fill="WHITE" radius="30.0" stroke="WHITE" strokeType="INSIDE" />
-                        <Label fx:id="utenteLabel" textFill="BLACK">
+                        <Label fx:id="utenteLabel" textFill="#1e3746">
                             <font>
                                 <Font name="System Bold" size="18.0" />
                             </font>
                         </Label>
                     </children>
                 </StackPane>
-                <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="178.0">
-                    <Label contentDisplay="BOTTOM" style="-fx-text-fill: white;" text="Benvenuto">
+                <VBox alignment="CENTER_LEFT">
+                    <Label contentDisplay="BOTTOM" style="-fx-text-fill: #1e3746;" text="Benvenuto">
                         <font>
-                            <Font name="System Bold" size="16" />
+                            <Font name="Roboto Bold" size="18.0" />
                         </font>
                     </Label>
-                    <Label fx:id="doctorName" alignment="TOP_LEFT" style="-fx-text-fill: white;">
+                    <Label fx:id="doctorName" alignment="TOP_LEFT" style="-fx-text-fill: #1e3746">
                         <font>
-                            <Font name="System Bold" size="20" />
+                            <Font name="Roboto Black" size="25.0" />
                         </font>
+                        <padding>
+                            <Insets top="-5.0" />
+                        </padding>
                     </Label>
                 </VBox>
             </HBox>
@@ -54,14 +58,14 @@
 
                     <!-- Testi a fianco -->
                     <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="67.0">
-                        <Label fx:id="numeroPazienti" textFill="WHITE">
+                        <Label fx:id="numeroUtenti">
                             <font>
-                                <Font name="System Bold" size="24.0" />
+                                <Font name="Roboto Black" size="24.0" />
                             </font>
                         </Label>
-                        <Label fx:id="descrizioneLabel" prefHeight="20.0" prefWidth="63.0" text="Pazienti" textFill="WHITE">
+                        <Label fx:id="descrizioneLabel" prefHeight="20.0" prefWidth="63.0" text="Utenti">
                             <font>
-                                <Font size="14" />
+                                <Font name="Roboto Medium" size="14" />
                             </font>
                         </Label>
                     </VBox>
@@ -79,14 +83,14 @@
 
                     <!-- Testi a fianco -->
                     <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="67.0">
-                        <Label fx:id="numeroFarmaci" textFill="WHITE">
+                        <Label fx:id="numeroFarmaci">
                             <font>
-                                <Font name="System Bold" size="24.0" />
+                                <Font name="Roboto Black" size="24.0" />
                             </font>
                         </Label>
-                        <Label fx:id="descrizioneLabel" text="Farmaci" textFill="WHITE">
+                        <Label fx:id="descrizioneLabel" text="Farmaci">
                             <font>
-                                <Font size="14" />
+                                <Font name="Roboto Medium" size="14" />
                             </font>
                         </Label>
                     </VBox>
@@ -94,30 +98,6 @@
 
                 <HBox alignment="CENTER_LEFT" spacing="10" />
 
-                <HBox alignment="CENTER_LEFT" spacing="10">
-                    <!-- Quadrato stondato con immagine -->
-                    <StackPane>
-                        <Rectangle arcHeight="20" arcWidth="20" fill="WHITE" height="50.0" width="50.0" />
-                        <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
-                           <image>
-                              <Image url="@../../images/messaggi.png" />
-                           </image></ImageView>
-                    </StackPane>
-
-                    <!-- Testi a fianco -->
-                    <VBox alignment="CENTER_LEFT">
-                        <Label fx:id="numeroLabel" text="df" textFill="WHITE">
-                            <font>
-                                <Font name="System Bold" size="24.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="descrizioneLabel" text="Messaggi" textFill="WHITE">
-                            <font>
-                                <Font size="14" />
-                            </font>
-                        </Label>
-                    </VBox>
-                </HBox>
             <VBox.margin>
                <Insets />
             </VBox.margin>
@@ -138,17 +118,17 @@
                     </padding>
 
                     <!-- CARD PAZIENTI -->
-                    <VBox prefWidth="327.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.rowIndex="1">
+                    <VBox prefWidth="327.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.rowIndex="0">
                         <children>
                             <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="patientsCardIcon" fitHeight="40.0" fitWidth="40.0">
+                                <ImageView fx:id="patientsCardIcon" fitHeight="30.0" fitWidth="30.0">
                                     <image>
                                         <Image url="@../../images/patient.png" />
                                     </image>
                                 </ImageView>
-                                <Label text="Utenti" textFill="#ff914d">
+                                <Label text="Gestione utenti">
                                     <font>
-                                        <Font name="System Bold" size="20.0" />
+                                        <Font name="Roboto Black" size="20.0" />
                                     </font>
                                     <opaqueInsets>
                                         <Insets />
@@ -157,11 +137,13 @@
                             </HBox>
                             <Label text="Gestione utenti">
                                 <VBox.margin>
-                                    <Insets left="50.0" />
+                                    <Insets left="45.0" />
                                 </VBox.margin>
                                 <font>
                                     <Font size="15.0" />
                                 </font></Label>
+
+                            <!--
                             <HBox alignment="CENTER_LEFT" onMouseClicked="#listaUtenti" spacing="10">
                                 <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaUtenti">
                                     <image>
@@ -189,33 +171,54 @@
                                 <VBox.margin>
                                     <Insets left="50.0" />
                                 </VBox.margin>
+                            </HBox>-->
+
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <children>
+                                    <Button mnemonicParsing="false" onMouseClicked="#listaUtenti" prefHeight="40" prefWidth="120" style="-fx-background-color: #ff914d; -fx-border-color: #ff914d; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Vedi">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font></Button>
+
+                                    <Button mnemonicParsing="false" onMouseClicked="#aggiungiUtente" prefHeight="40" prefWidth="120.0" style="-fx-background-color: #ff914d; -fx-border-color: #ff914d; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Aggiungi" />
+
+                                </children>
+                                <VBox.margin>
+                                    <Insets top="25.0" />
+                                </VBox.margin>
+                                <padding>
+                                    <Insets left="42.0" />
+                                </padding>
                             </HBox>
                             <AnchorPane fx:id="overlayPanePazienti" />
                         </children>
                     </VBox>
 
+
                     <!-- CARD FARMACI -->
-                    <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.columnIndex="1" GridPane.rowIndex="0">
                         <children>
                             <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="medsCardIcon" fitHeight="40" fitWidth="40">
+                                <ImageView fx:id="medsCardIcon" fitHeight="30.0" fitWidth="30.0">
                                     <image>
                                         <Image url="@../../images/farmaco.png" />
                                     </image>
                                 </ImageView>
-                                <Label text="Farmaci" textFill="#cb6ce6">
+                                <Label text="Gestione farmaci">
                                     <font>
-                                        <Font name="System Bold" size="20.0" />
+                                        <Font name="Roboto Black" size="20.0" />
                                     </font>
                                 </Label>
                             </HBox>
                             <Label text="Gestione farmaci">
                                 <VBox.margin>
-                                    <Insets left="50.0" />
+                                    <Insets left="45.0" />
                                 </VBox.margin>
                                 <font>
                                     <Font size="15.0" />
                                 </font></Label>
+
+                            <!--
                             <HBox alignment="CENTER_LEFT" onMouseClicked="#listaFarmaci" spacing="10">
                                 <ImageView fx:id="eyeIcon2" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaFarmaci">
                                     <image>
@@ -243,108 +246,77 @@
                                 <VBox.margin>
                                     <Insets left="50.0" />
                                 </VBox.margin>
+                            </HBox>-->
+
+                            <HBox alignment="CENTER_LEFT" prefWidth="249.0" spacing="10">
+                                <children>
+                                    <Button mnemonicParsing="false" onMouseClicked="#listaFarmaci" prefHeight="40" prefWidth="120" style="-fx-background-color: #cb6ce6; -fx-border-color: #cb6ce6; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Vedi">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font></Button>
+
+                                    <Button mnemonicParsing="false" onMouseClicked="#aggiungiFarmaco" prefHeight="40" prefWidth="120" style="-fx-background-color: #cb6ce6; -fx-border-color: #cb6ce6; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Aggiungi" />
+
+                                </children>
+                                <VBox.margin>
+                                    <Insets top="25.0" />
+                                </VBox.margin>
+                                <padding>
+                                    <Insets left="42.0" />
+                                </padding>
                             </HBox>
                             <AnchorPane fx:id="overlayPaneFarmaci" />
                         </children>
                     </VBox>
 
-                    <VBox prefWidth="327.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.rowIndex="2">
+
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.columnSpan="2" GridPane.rowIndex="1">
                         <children>
                             <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="patientsCardIcon" fitHeight="40.0" fitWidth="40.0">
+                                <ImageView fx:id="medsCardIcon" fitHeight="30.0" fitWidth="30.0">
                                     <image>
-                                        <Image url="@../../images/patient.png" />
+                                        <Image url="@../../images/farmaco.png" />
                                     </image>
                                 </ImageView>
-                                <Label text="Utenti" textFill="#ff914d">
+                                <Label text="Gestione accessi">
                                     <font>
-                                        <Font name="System Bold" size="20.0" />
+                                        <Font name="Roboto Black" size="20.0" />
                                     </font>
-                                    <opaqueInsets>
-                                        <Insets />
-                                    </opaqueInsets>
                                 </Label>
                             </HBox>
-                            <Label text="Gestione utenti">
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                                <font>
-                                    <Font size="15.0" />
-                                </font></Label>
-                            <HBox alignment="CENTER_LEFT" onMouseClicked="#listaUtenti" spacing="10">
-                                <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaUtenti">
-                                    <image>
-                                        <Image url="@../../images/occhioArancio.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Vedi tutti gli utenti">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <padding>
-                                    <Insets left="50.0" />
-                                </padding>
+                            <HBox alignment="CENTER_LEFT" prefHeight="400.0" spacing="20">
+                                <children>
+                                    <VBox prefWidth="200.0" spacing="15">
+                                        <children>
+                                            <Label style="-fx-text-fill: #1e3746;" text="Seleziona paziente">
+                                                <font>
+                                                    <Font name="Roboto Medium" size="14.0" />
+                                                </font>
+                                            </Label>
+                                            <ComboBox fx:id="utenteComboBox" prefWidth="180.0" />
+                                        </children>
+                                    </VBox>
+
+                                    <LineChart fx:id="graficoAndamento" prefHeight="350.0" HBox.hgrow="ALWAYS">
+                                        <xAxis>
+                                            <CategoryAxis label="Data" side="BOTTOM" />
+                                        </xAxis>
+                                        <yAxis>
+                                            <NumberAxis label="Valore" side="LEFT" />
+                                        </yAxis>
+                                    </LineChart>
+                                </children>
+                        <padding>
+                           <Insets left="45.0" right="15.0" />
+                        </padding>
                             </HBox>
-                            <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20">
-                                    <image>
-                                        <Image url="@../../images/piuArancio.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Aggiungi utente">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>
-                            <AnchorPane fx:id="overlayPanePazienti" />
+
+                            <AnchorPane fx:id="overlayPaneFarmaci" />
                         </children>
                     </VBox>
 
-                    <VBox prefWidth="327.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 6); -fx-border-width: 2; -fx-padding: 20;" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                        <children>
-                            <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="patientsCardIcon" fitHeight="40.0" fitWidth="40.0">
-                                    <image>
-                                        <Image url="@../../images/patient.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Gestione primo accesso" textFill="#ff914d">
-                                    <font>
-                                        <Font name="System Bold" size="20.0" />
-                                    </font>
-                                    <opaqueInsets>
-                                        <Insets />
-                                    </opaqueInsets>
-                                </Label>
-                            </HBox>
-                            <Label text="Genera un messaggio con la password per il primo utilizzo">
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                                <font>
-                                    <Font size="15.0" />
-                                </font></Label>
-                            <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20">
-                                    <image>
-                                        <Image url="@../../images/occhioArancio.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="...">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <padding>
-                                    <Insets left="50.0" />
-                                </padding>
-                            </HBox>
-                            <AnchorPane fx:id="overlayPanePazienti" />
-                        </children>
-                    </VBox>
+
+
                     <columnConstraints>
                         <ColumnConstraints percentWidth="50" />
                         <ColumnConstraints percentWidth="50" />

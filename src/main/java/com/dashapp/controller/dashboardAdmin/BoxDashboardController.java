@@ -6,18 +6,18 @@ import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,12 +50,12 @@ public class BoxDashboardController {
         }
     }
 
-    public void listaUtenti(){
+    public void listaUtenti() {
         bodyContainer.getChildren().clear();
 
         List<Utente> utenti;
         try {
-            utenti = List.of(ds.getUtenti());
+            utenti = new ArrayList<>(List.of(ds.getUtenti()));
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -63,11 +63,84 @@ public class BoxDashboardController {
 
         String textButton = "Vedi";
         String titolo = null;
-        tabellaUtenti(titolo, utenti, textButton, Color.web("#34bccc"));
 
-        LabelBoxDashboard.setText("Lista pazienti");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #ff914d; ");
+        // Tasti filtro
+        HBox ordinamentoBox = new HBox(10);
+        ordinamentoBox.setAlignment(Pos.CENTER_LEFT);
+        ordinamentoBox.setPadding(new Insets(10, 0, 10, 0));
+
+
+        // ComboBox
+        ComboBox<String> campoOrdinamento = new ComboBox<>();
+        campoOrdinamento.getItems().addAll("Nome", "Cognome", "Data di nascita", "Sesso");
+        campoOrdinamento.setPromptText("Ordina per");
+        campoOrdinamento.setStyle("-fx-background-color: white; " + "-fx-border-color: #1e3746; " + "-fx-background-radius: 8px; " + "-fx-border-radius: 8px; " + "-fx-text-fill: #1e3746;");
+        campoOrdinamento.setPrefHeight(30);
+
+        ComboBox<String> ordine = new ComboBox<>();
+        ordine.getItems().addAll("Crescente", "Decrescente");
+        ordine.setPromptText("Ordine");
+        ordine.setStyle("-fx-background-color: white; " + "-fx-border-color: #1e3746; " + "-fx-background-radius: 8px; " + "-fx-border-radius: 8px; " + "-fx-text-fill: #1e3746;");
+        ordine.setPrefHeight(30);
+
+        // Bottone per applicare ordinamento
+        Button ordinaButton = new Button("Ordina");
+        ordinaButton.setStyle("-fx-background-color: #1e3746;; -fx-text-fill: white; -fx-font-family: 'Roboto Black';");
+        ordinaButton.setPrefHeight(20);
+
+        ordinamentoBox.getChildren().addAll(campoOrdinamento, ordine, ordinaButton);
+        bodyContainer.getChildren().add(ordinamentoBox);
+
+        // Metodo per caricare la tabella con lista ordinata
+        Runnable aggiornaTabella = () -> {
+            bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox); // pulisce tranne i controlli sopra
+            tabellaUtenti(titolo, utenti, textButton, Color.web("#34bccc"));
+        };
+
+        aggiornaTabella.run();
+
+        // Azione sul bottone di ordinamento
+        ordinaButton.setOnAction(e -> {
+            String campo = campoOrdinamento.getValue();
+            String tipoOrdine = ordine.getValue();
+
+            if (campo == null || tipoOrdine == null) {
+                return;
+            }
+
+            Comparator<Utente> comparator = null;
+
+            switch (campo) {
+                case "Nome":
+                    comparator = Comparator.comparing(Utente::getNome, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "Cognome":
+                    comparator = Comparator.comparing(Utente::getCognome, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "Data di nascita":
+                    comparator = Comparator.comparing(Utente::getDataNascita);
+                    break;
+                case "Sesso":
+                    comparator = Comparator.comparing(Utente::getGenere, String.CASE_INSENSITIVE_ORDER);
+                    break;
+            }
+
+            if (comparator != null) {
+                if ("Decrescente".equals(tipoOrdine)) {
+                    comparator = comparator.reversed();
+                }
+                utenti.sort(comparator);
+                aggiornaTabella.run();
+            }
+        });
+
+
+        //tabellaUtenti(titolo, utenti, textButton, Color.web("#34bccc"));
+
+        LabelBoxDashboard.setText("Lista utenti");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #1e3746; ");
     }
+
 
     public void aggiungiUtente() throws IOException {
         bodyContainer.getChildren().clear();
@@ -84,12 +157,12 @@ public class BoxDashboardController {
     }
 
 
-    public void listaFarmaci(){
+    public void listaFarmaci() {
         bodyContainer.getChildren().clear();
 
-        List<Farmaco> farmaco;
+        List<Farmaco> farmaci;
         try {
-            farmaco = List.of(ds.getFarmaci());
+            farmaci = new ArrayList<>(List.of(ds.getFarmaci()));  // lista mutabile per sort
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -97,10 +170,85 @@ public class BoxDashboardController {
 
         String textButton = "Vedi";
         String titolo = null;
-        tabellaFarmaci(titolo, farmaco, textButton, Color.web("#34bccc"));
+
+        // HBox per i controlli di ordinamento
+        HBox ordinamentoBox = new HBox(10);
+        ordinamentoBox.setAlignment(Pos.CENTER_LEFT);
+        ordinamentoBox.setPadding(new Insets(10, 0, 10, 0));
+
+        // ComboBox per scegliere il campo di ordinamento (Nome o Descrizione)
+        ComboBox<String> campoOrdinamento = new ComboBox<>();
+        campoOrdinamento.getItems().addAll("Nome", "Descrizione");
+        campoOrdinamento.setPromptText("Ordina per");
+        campoOrdinamento.setStyle(
+                "-fx-background-color: white; " +
+                        "-fx-border-color: #1e3746; " +
+                        "-fx-background-radius: 8px; " +
+                        "-fx-border-radius: 8px; " +
+                        "-fx-text-fill: #1e3746;"
+        );
+        campoOrdinamento.setPrefHeight(30);
+
+        // ComboBox per scegliere l'ordine (Crescente o Decrescente)
+        ComboBox<String> ordine = new ComboBox<>();
+        ordine.getItems().addAll("Crescente", "Decrescente");
+        ordine.setPromptText("Ordine");
+        ordine.setStyle(
+                "-fx-background-color: white; " +
+                        "-fx-border-color: #1e3746; " +
+                        "-fx-background-radius: 8px; " +
+                        "-fx-border-radius: 8px; " +
+                        "-fx-text-fill: #1e3746;"
+        );
+        ordine.setPrefHeight(30);
+
+        // Bottone per applicare ordinamento
+        Button ordinaButton = new Button("Ordina");
+        ordinaButton.setStyle("-fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-family: 'Roboto Black';");
+        ordinaButton.setPrefHeight(20);
+
+        ordinamentoBox.getChildren().addAll(campoOrdinamento, ordine, ordinaButton);
+        bodyContainer.getChildren().add(ordinamentoBox);
+
+        // Metodo per aggiornare la tabella con la lista ordinata
+        Runnable aggiornaTabella = () -> {
+            bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox);
+            tabellaFarmaci(titolo, farmaci, textButton, Color.web("#34bccc"));
+        };
+
+        aggiornaTabella.run();
+
+        // Azione sul bottone di ordinamento
+        ordinaButton.setOnAction(e -> {
+            String campo = campoOrdinamento.getValue();
+            String tipoOrdine = ordine.getValue();
+
+            if (campo == null || tipoOrdine == null) {
+                return;
+            }
+
+            Comparator<Farmaco> comparator = null;
+
+            switch (campo) {
+                case "Nome":
+                    comparator = Comparator.comparing(Farmaco::getNome, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "Descrizione":
+                    comparator = Comparator.comparing(Farmaco::getDescrizione, String.CASE_INSENSITIVE_ORDER);
+                    break;
+            }
+
+            if (comparator != null) {
+                if ("Decrescente".equals(tipoOrdine)) {
+                    comparator = comparator.reversed();
+                }
+                farmaci.sort(comparator);
+                aggiornaTabella.run();
+            }
+        });
 
         LabelBoxDashboard.setText("Tutti i farmaci");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #1e3746;");
     }
 
     public void aggiungiFarmaco() throws IOException {

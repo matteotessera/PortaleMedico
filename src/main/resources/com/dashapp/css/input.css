@@ -70,3 +70,24 @@ ComboBox:focused {
     -fx-background-color: white;
 }
 
+.check-combo-box {
+    -fx-background-color: transparent;
+}
+
+.check-combo-box .arrow-button,
+.check-combo-box .arrow-button .arrow {
+    -fx-background-color: transparent;
+}
+
+.check-combo-box .text {
+    -fx-fill: #1e3746;
+}
+
+.check-combo-box .list-cell {
+    -fx-background-color: white;
+    -fx-text-fill: #1e3746;
+}
+
+.button {
+    -fx-padding: 7 70 7 70; /* top right bottom left */
+}

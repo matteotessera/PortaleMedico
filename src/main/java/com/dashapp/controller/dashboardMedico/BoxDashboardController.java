@@ -6,12 +6,10 @@ import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -19,6 +17,8 @@ import javafx.scene.paint.Color;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +56,7 @@ public class BoxDashboardController {
 
         List<Utente> utenti;
         try {
-            utenti = List.of(ds.getUtenti());
+            utenti = new ArrayList<>(List.of(ds.getUtenti()));
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -64,19 +64,91 @@ public class BoxDashboardController {
 
         String textButton = "Vedi";
         String titolo = null;
-        tabellaUtenti(titolo, utenti, textButton, Color.web("#34bccc"));
+
+        // Tasti filtro
+        HBox ordinamentoBox = new HBox(10);
+        ordinamentoBox.setAlignment(Pos.CENTER_LEFT);
+        ordinamentoBox.setPadding(new Insets(10, 0, 10, 0));
+
+
+        // ComboBox
+        ComboBox<String> campoOrdinamento = new ComboBox<>();
+        campoOrdinamento.getItems().addAll("Nome", "Cognome", "Data di nascita", "Sesso");
+        campoOrdinamento.setPromptText("Ordina per");
+        campoOrdinamento.setStyle( "-fx-background-color: white; " + "-fx-border-color: #1e3746; " + "-fx-background-radius: 8px; " + "-fx-border-radius: 8px; " + "-fx-text-fill: #1e3746;" );
+        campoOrdinamento.setPrefHeight(30);
+
+        ComboBox<String> ordine = new ComboBox<>();
+        ordine.getItems().addAll("Crescente", "Decrescente");
+        ordine.setPromptText("Ordine");
+        ordine.setStyle( "-fx-background-color: white; " + "-fx-border-color: #1e3746; " + "-fx-background-radius: 8px; " + "-fx-border-radius: 8px; " + "-fx-text-fill: #1e3746;" );
+        ordine.setPrefHeight(30);
+
+        // Bottone per applicare ordinamento
+        Button ordinaButton = new Button("Ordina");
+        ordinaButton.setStyle("-fx-background-color: #1e3746;; -fx-text-fill: white; -fx-font-family: 'Roboto Black';");
+        ordinaButton.setPrefHeight(20);
+
+        ordinamentoBox.getChildren().addAll(campoOrdinamento, ordine, ordinaButton);
+        bodyContainer.getChildren().add(ordinamentoBox);
+
+        // Metodo per caricare la tabella con lista ordinata
+        Runnable aggiornaTabella = () -> {
+            bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox); // pulisce tranne i controlli sopra
+            tabellaUtenti(titolo, utenti, textButton, Color.web("#34bccc"));
+        };
+
+        aggiornaTabella.run();
+
+        // Azione sul bottone di ordinamento
+        ordinaButton.setOnAction(e -> {
+            String campo = campoOrdinamento.getValue();
+            String tipoOrdine = ordine.getValue();
+
+            if (campo == null || tipoOrdine == null) {
+                return;
+            }
+
+            Comparator<Utente> comparator = null;
+
+            switch (campo) {
+                case "Nome":
+                    comparator = Comparator.comparing(Utente::getNome, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "Cognome":
+                    comparator = Comparator.comparing(Utente::getCognome, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "Data di nascita":
+                    comparator = Comparator.comparing(Utente::getDataNascita);
+                    break;
+                case "Sesso":
+                    comparator = Comparator.comparing(Utente::getGenere, String.CASE_INSENSITIVE_ORDER);
+                    break;
+            }
+
+            if (comparator != null) {
+                if ("Decrescente".equals(tipoOrdine)) {
+                    comparator = comparator.reversed();
+                }
+                utenti.sort(comparator);
+                aggiornaTabella.run();
+            }
+        });
+
+
+        //tabellaUtenti(titolo, utenti, textButton, Color.web("#34bccc"));
 
         LabelBoxDashboard.setText("Lista pazienti");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #ff914d; ");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #1e3746; ");
     }
 
 
-    public void listaFarmaci(){
+    public void listaFarmaci() {
         bodyContainer.getChildren().clear();
 
-        List<Farmaco> farmaco;
+        List<Farmaco> farmaci;
         try {
-            farmaco = List.of(ds.getFarmaci());
+            farmaci = new ArrayList<>(List.of(ds.getFarmaci()));  // lista mutabile per sort
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -84,10 +156,85 @@ public class BoxDashboardController {
 
         String textButton = "Vedi";
         String titolo = null;
-        tabellaFarmaci(titolo, farmaco, textButton, Color.web("#34bccc"));
+
+        // HBox per i controlli di ordinamento
+        HBox ordinamentoBox = new HBox(10);
+        ordinamentoBox.setAlignment(Pos.CENTER_LEFT);
+        ordinamentoBox.setPadding(new Insets(10, 0, 10, 0));
+
+        // ComboBox per scegliere il campo di ordinamento (Nome o Descrizione)
+        ComboBox<String> campoOrdinamento = new ComboBox<>();
+        campoOrdinamento.getItems().addAll("Nome", "Descrizione");
+        campoOrdinamento.setPromptText("Ordina per");
+        campoOrdinamento.setStyle(
+                "-fx-background-color: white; " +
+                        "-fx-border-color: #1e3746; " +
+                        "-fx-background-radius: 8px; " +
+                        "-fx-border-radius: 8px; " +
+                        "-fx-text-fill: #1e3746;"
+        );
+        campoOrdinamento.setPrefHeight(30);
+
+        // ComboBox per scegliere l'ordine (Crescente o Decrescente)
+        ComboBox<String> ordine = new ComboBox<>();
+        ordine.getItems().addAll("Crescente", "Decrescente");
+        ordine.setPromptText("Ordine");
+        ordine.setStyle(
+                "-fx-background-color: white; " +
+                        "-fx-border-color: #1e3746; " +
+                        "-fx-background-radius: 8px; " +
+                        "-fx-border-radius: 8px; " +
+                        "-fx-text-fill: #1e3746;"
+        );
+        ordine.setPrefHeight(30);
+
+        // Bottone per applicare ordinamento
+        Button ordinaButton = new Button("Ordina");
+        ordinaButton.setStyle("-fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-family: 'Roboto Black';");
+        ordinaButton.setPrefHeight(20);
+
+        ordinamentoBox.getChildren().addAll(campoOrdinamento, ordine, ordinaButton);
+        bodyContainer.getChildren().add(ordinamentoBox);
+
+        // Metodo per aggiornare la tabella con la lista ordinata
+        Runnable aggiornaTabella = () -> {
+            bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox);
+            tabellaFarmaci(titolo, farmaci, textButton, Color.web("#34bccc"));
+        };
+
+        aggiornaTabella.run();
+
+        // Azione sul bottone di ordinamento
+        ordinaButton.setOnAction(e -> {
+            String campo = campoOrdinamento.getValue();
+            String tipoOrdine = ordine.getValue();
+
+            if (campo == null || tipoOrdine == null) {
+                return;
+            }
+
+            Comparator<Farmaco> comparator = null;
+
+            switch (campo) {
+                case "Nome":
+                    comparator = Comparator.comparing(Farmaco::getNome, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "Descrizione":
+                    comparator = Comparator.comparing(Farmaco::getDescrizione, String.CASE_INSENSITIVE_ORDER);
+                    break;
+            }
+
+            if (comparator != null) {
+                if ("Decrescente".equals(tipoOrdine)) {
+                    comparator = comparator.reversed();
+                }
+                farmaci.sort(comparator);
+                aggiornaTabella.run();
+            }
+        });
 
         LabelBoxDashboard.setText("Tutti i farmaci");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #1e3746;");
     }
 
 
@@ -95,37 +242,28 @@ public class BoxDashboardController {
     public void assegnazioneMedPaz() throws Exception {
         bodyContainer.getChildren().clear();
 
-        List<Utente> pazientiSenzaMedico = List.of(ds.getPazientiSenzaMedico());
-        int idMedico = ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getId();
-        //System.out.println("Medico: "+idMedico);
-        List<Utente> pazientiAssegnati = List.of(ds.getPazientiByMedico(idMedico));
+            List<Utente> pazientiSenzaMedico = List.of(ds.getPazientiSenzaMedico());
+            int idMedico = ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getId();
+            //System.out.println("Medico: "+idMedico);
+            List<Utente> pazientiAssegnati = List.of(ds.getPazientiByMedico(idMedico));
 
-        /*for(Utente u: pazientiAssegnati){
-            System.out.println(u.getNome()+" "+u.getCognome());
-        }
+            String textButton = "Prendi in carico";
+            String titolo = "Pazienti senza assegnazione medica";
+            tabellaUtenti(titolo, pazientiSenzaMedico, textButton, Color.web("#34bccc"));
 
-        for(Utente u: pazientiAssegnati){
-            System.out.println("PAziente: "+u.getNome() + " "+ u.getCognome()+"\n");
-        }*/
+            textButton = "A tuo carico";
+            titolo = "Pazienti assegnati a te";
+            tabellaUtenti(titolo, pazientiAssegnati, textButton, Color.web("#588157"));
 
-
-        String textButton = "Prendi in carico";
-        String titolo = "Pazienti senza assegnazione medica";
-        tabellaUtenti(titolo, pazientiSenzaMedico, textButton, Color.web("#34bccc"));
-
-        textButton = "A tuo carico";
-        titolo = "Pazienti assegnati a te";
-        tabellaUtenti(titolo, pazientiAssegnati, textButton, Color.web("#588157"));
-
-        LabelBoxDashboard.setText("Gestione assegnazione pazienti");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #ff914d; ");
+            LabelBoxDashboard.setText("Gestione assegnazione pazienti");
+            LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #1e3746; ");
     }
 
     public void aggiungiFarmaco() throws IOException {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("Aggiungi farmaco");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #1e3746; ");
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/AddFarmaci.fxml"));
@@ -139,7 +277,7 @@ public class BoxDashboardController {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("Aggiungi terapia");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #7ed957;");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #1e3746;");
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/AddTerapia.fxml"));
@@ -153,7 +291,7 @@ public class BoxDashboardController {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("\uD83E\uDC14 Torna ai pazienti");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 16px; -fx-text-fill: #1e3746;");
         LabelBoxDashboard.setOnMouseClicked(event -> listaPazienti());
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloPazientiView.fxml"));
@@ -167,7 +305,7 @@ public class BoxDashboardController {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("\uD83E\uDC14 Torna ai farmaci");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 16px; -fx-text-fill: #1e3746;");
         LabelBoxDashboard.setOnMouseClicked(event -> listaFarmaci());
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/FarmaciView.fxml"));
@@ -185,7 +323,7 @@ public class BoxDashboardController {
         if(titolo != null) {
             titoloTabella.setStyle(
                     "-fx-font-size: 18px;" +
-                            "-fx-font-weight: bold;" +
+                            "-fx-font-family: 'Roboto Black';" +
                             "-fx-text-fill: #222;" +
                             "-fx-background-color: #f0f0f0;" +
                             "-fx-padding: 10;" +
@@ -301,7 +439,7 @@ public class BoxDashboardController {
             titoloTabella.setText(titolo);
             titoloTabella.setStyle(
                     "-fx-font-size: 18px;" +
-                            "-fx-font-weight: bold;" +
+                            "-fx-font-family: 'Roboto Black';" +
                             "-fx-text-fill: #222;" +
                             "-fx-background-color: #f0f0f0;" +
                             "-fx-padding: 10;" +
@@ -464,7 +602,7 @@ public class BoxDashboardController {
     // Metodo di utilità per intestazione
     private Label creaHeader(String text, double width) {
         Label label = new Label(text);
-        label.setStyle("-fx-font-weight: bold;");
+        label.setStyle("-fx-font-family: 'Roboto Black';");
         label.setPrefWidth(width);
         label.setAlignment(Pos.CENTER_LEFT);
         return label;
@@ -493,7 +631,7 @@ public class BoxDashboardController {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("Casella Messaggi");
-        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/MessaggiView.fxml"));

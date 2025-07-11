@@ -50,6 +50,8 @@ public class DashboardMedicController {
         @FXML
         public Label numeroTerapie;
         @FXML
+        public Label numeroMessaggi;
+        @FXML
         public HBox messaggiBox;
 
         private Parent originalContent;
@@ -68,7 +70,8 @@ public class DashboardMedicController {
                 idCurrentUser = ds.getUtenteByEmail(email).getId();
                 numeroPazienti.setText(String.valueOf(ds.getPazientiByMedico(idCurrentUser).length));
                 numeroFarmaci.setText(String.valueOf(ds.getFarmaci().length));
-
+                numeroTerapie.setText(String.valueOf(ds.getTerapieMedico(idCurrentUser).length));
+                numeroMessaggi.setText(String.valueOf(ds.getMessaggiByIdReceiver(idCurrentUser).length));
                 //DA rendere dinamico, altrmenti rimane fisso da qunado si avvia il portale
 
                 mostraTextMeico();

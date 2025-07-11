@@ -13,63 +13,63 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddRilevazioneGlicemiaController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="934.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddRilevazioneGlicemiaController">
    <children>
-      <VBox prefHeight="399.0" prefWidth="934.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
+      <VBox prefWidth="934.0" spacing="20.0" style="-fx-padding: 20 30 20 0;" stylesheets="@../../css/input.css">
          <children>
             <Label text="Dati Rilevazione" textFill="#ef233c">
                <VBox.margin>
                   <Insets bottom="20.0" />
                </VBox.margin>
                <font>
-                  <Font name="System Bold" size="13.0" />
+                  <Font name="Roboto Black" size="14.0" />
                </font>
             </Label>
             <GridPane hgap="20.0" prefWidth="1000.0" vgap="30.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1000.0" minWidth="10.0" prefWidth="1000.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1000.0" minWidth="10.0" prefWidth="1000.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1000.0" minWidth="10.0" prefWidth="1000.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1000.0" minWidth="10.0" prefWidth="1000.0" />
+               </columnConstraints>
+               <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <VBox prefHeight="48.0" prefWidth="1000.0" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                  <VBox prefHeight="48.0" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <children>
-                        <Label text="Tipologia di pasto" />
-                        <ComboBox fx:id="pastoBox" prefWidth="1000.0" promptText="pasto" />
+                        <Label styleClass="labelInput" text="Tipologia di pasto" />
+                        <ComboBox fx:id="pastoBox" maxWidth="Infinity" promptText="pasto" GridPane.hgrow="ALWAYS" />
                      </children>
                      <GridPane.margin>
                         <Insets bottom="15.0" />
                      </GridPane.margin>
                   </VBox>
-                  <VBox prefHeight="47.0" prefWidth="1000.0" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                  <VBox prefHeight="47.0" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <children>
-                        <Label text="Indicare quando è stata effettuata la rilevazione" />
-                        <ComboBox fx:id="quandoBox" prefHeight="26.0" prefWidth="1000.0" promptText="Prima/Dopo (2h)" />
+                        <Label styleClass="labelInput" text="Indicare quando è stata effettuata la rilevazione" />
+                        <ComboBox fx:id="quandoBox" maxWidth="Infinity" prefHeight="26.0" promptText="Prima/Dopo (2h)" GridPane.hgrow="ALWAYS" />
                      </children>
                      <GridPane.margin>
                         <Insets bottom="15.0" />
                      </GridPane.margin>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="1000.0" spacing="5.0" GridPane.rowIndex="1">
+                  <VBox prefHeight="200.0" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <children>
-                        <Label text="Data" />
-                        <DatePicker fx:id="dataField" prefWidth="1000.0" promptText="Data rilevazione" />
+                        <Label styleClass="labelInput" text="Data" />
+                        <DatePicker fx:id="dataField" maxWidth="Infinity" promptText="Data rilevazione" GridPane.hgrow="ALWAYS" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="1000.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <VBox prefHeight="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <children>
-                        <Label text="Orario" />
-                        <TextField fx:id="orarioField" prefHeight="26.0" prefWidth="1000.0" promptText="Orario rilevazione" />
+                        <Label styleClass="labelInput" text="Orario" />
+                        <TextField fx:id="orarioField" maxWidth="Infinity" prefHeight="26.0" promptText="Orario rilevazione" GridPane.hgrow="ALWAYS" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="30.0" prefWidth="1000.0" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                  <VBox prefHeight="30.0" spacing="5.0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <children>
-                        <Label text="Valore (mg/dl)" VBox.vgrow="ALWAYS" />
-                        <TextField fx:id="valoreField" promptText="vaore rilevazione in (milligrammi / decilitro)" />
+                        <Label styleClass="labelInput" text="Valore (mg/dl)" VBox.vgrow="ALWAYS" />
+                        <TextField fx:id="valoreField" maxWidth="Infinity" promptText="vaore rilevazione in (milligrammi / decilitro)" />
                      </children>
                      <GridPane.margin>
                         <Insets top="10.0" />
@@ -80,15 +80,18 @@
                   <Insets bottom="9.0" />
                </padding>
             </GridPane>
-            <VBox alignment="CENTER" prefHeight="86.0" prefWidth="1000.0" spacing="5.0">
+            <VBox alignment="CENTER" prefWidth="1000.0" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#aggiungiRilevazione" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #ef233c; -fx-background-radius: 20;" text="Aggiungi" textFill="WHITE">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#aggiungiRilevazione" style="-fx-background-color: #ef233c; -fx-background-radius: 20;" text="Aggiungi" textFill="WHITE">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
+                     <padding>
+                        <Insets bottom="7.0" left="70.0" right="70.0" top="7.0" />
+                     </padding>
                   </Button>
                </children>
             </VBox>
@@ -96,6 +99,9 @@
                <children>
                   <Label fx:id="erroreLabel" alignment="CENTER" prefWidth="1000.0" />
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="30.0" />
+               </VBox.margin>
             </VBox>
          </children>
       </VBox>
