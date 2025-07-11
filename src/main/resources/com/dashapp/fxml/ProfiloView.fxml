@@ -21,11 +21,7 @@
                           </Label>
                           <!-- Spacer per spingere il bottone a destra -->
                           <Region HBox.hgrow="ALWAYS" />
-                          <Button fx:id="modificaButton" alignment="CENTER" mnemonicParsing="false" onAction="#modificaDati" style="-fx-background-radius: 15; -fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica">
-                        <padding>
-                           <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                        </padding>
-                     </Button>
+                          <Button fx:id="modificaButton" alignment="CENTER" mnemonicParsing="false" onAction="#modificaDati" styleClass="button-modifiche" stylesheets="@../css/input.css" text="Modifica" />
                       </children>
                   </HBox>
       
@@ -103,17 +99,12 @@
       
                   <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="20.0">
                       <children>
-                          <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaButton" style="-fx-background-radius: 15; -fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla">
-                        <padding>
-                           <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                        </padding>
-                     </Button>
-                          <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#inviaDati" style="-fx-background-radius: 15; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #1e3746;" text="Conferma modifiche">
-                        <padding>
-                           <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                        </padding>
-                     </Button>
+                          <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaButton" styleClass="button-annullaModifiche" text="Annulla" />
+                          <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#inviaDati" styleClass="button-modifiche" text="Conferma modifiche" />
                       </children>
+                  <stylesheets>
+                     <URL value="@../css/input.css" />
+                  </stylesheets>
                   </HBox>
             </children>
          </VBox>
@@ -136,11 +127,7 @@
                          </Label>
                          <!-- Spacer per spingere il bottone a destra -->
                          <Region HBox.hgrow="ALWAYS" />
-                         <Button fx:id="modificaButtonPw" alignment="CENTER" mnemonicParsing="false" onAction="#modificaPassword" style="-fx-background-radius: 15; -fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica">
-                             <padding>
-                                 <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                             </padding>
-                         </Button>
+                         <Button fx:id="modificaButtonPw" alignment="CENTER" mnemonicParsing="false" onAction="#modificaPassword" styleClass="button-modifiche" stylesheets="@../css/input.css" text="Modifica" />
                      </children>
                  </HBox>
 
@@ -187,14 +174,14 @@
 
                  </GridPane>
 
-                 <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="20.0">
+                 <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="20.0" stylesheets="@../css/input.css">
                      <children>
-                         <Button fx:id="annullaButtonPw" mnemonicParsing="false" onAction="#annullaButton" style="-fx-background-radius: 15; -fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla">
+                         <Button fx:id="annullaButtonPw" mnemonicParsing="false" onAction="#annullaButton" styleClass="button-annullaModifiche" text="Annulla">
                              <padding>
                                  <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                              </padding>
                          </Button>
-                         <Button fx:id="confermaButtonPw" mnemonicParsing="false" onAction="#inviaPassword" style="-fx-background-radius: 15; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #1e3746;" text="Conferma modifiche">
+                         <Button fx:id="confermaButtonPw" mnemonicParsing="false" onAction="#inviaPassword" styleClass="button-modifiche" text="Conferma modifiche">
                              <padding>
                                  <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                              </padding>
@@ -208,5 +195,8 @@
             </VBox.margin>
          </VBox>
         </children>
+      <padding>
+         <Insets bottom="10.0" />
+      </padding>
     </VBox>
 </AnchorPane>

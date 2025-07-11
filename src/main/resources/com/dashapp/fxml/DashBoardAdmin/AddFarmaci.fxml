@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="542.0" prefWidth="932.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardAdmin.AddFarmaciController">
+<AnchorPane prefHeight="542.0" prefWidth="932.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardAdmin.AddFarmaciController">
 
    <children>
       <VBox prefWidth="934.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
@@ -81,13 +81,13 @@
          <Button fx:id="generaDescrizioneButton" layoutX="40.0" layoutY="486.0" onMouseClicked="#generaDescrizione" prefHeight="13.0" prefWidth="149.0" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Genera descrzione" />
 
          <!-- Descrizione automatica -->
-         <VBox spacing="5">
+         <VBox spacing="5" stylesheets="@../../css/input.css">
             <Label text="Descrizione" />
             <TextArea fx:id="descrizioneArea" editable="true" prefHeight="120" />
          </VBox>
 
          <!-- Bottone -->
-         <Button fx:id="aggiungiFarmaco" onMouseClicked="#registraFarmaco" prefHeight="37.0" prefWidth="305.0" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Aggiungi" />
+         <Button fx:id="aggiungiFarmaco" onMouseClicked="#registraFarmaco" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" stylesheets="@../../css/input.css" text="Aggiungi" />
       </VBox>
    </children>
 </AnchorPane>

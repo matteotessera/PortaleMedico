@@ -10,6 +10,7 @@ module com.dashapp {
     requires java.desktop;
     requires org.apache.pdfbox;
     requires java.management;
+    requires java.compiler;
 
     opens com.dashapp.controller to javafx.fxml;
     opens com.dashapp.model to javafx.fxml, com.google.gson;  // <-- qui apri anche a Gson

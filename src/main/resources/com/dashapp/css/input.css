@@ -89,6 +89,22 @@ ComboBox:focused {
     -fx-text-fill: #1e3746;
 }
 
-.button {
-    -fx-padding: 7 70 7 70; /* top right bottom left */
+.button-invio {
+    -fx-padding: 7 60 7 60; /* top right bottom left */
+}
+
+.button-modifiche {
+    -fx-padding: 5 15 5 15;
+    -fx-background-radius: 15;
+    -fx-background-color: #1e3746;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button-annullaModifiche {
+    -fx-padding: 5 15 5 15;
+    -fx-background-radius: 15;
+    -fx-background-color: red;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
 }

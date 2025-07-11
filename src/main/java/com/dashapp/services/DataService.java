@@ -95,6 +95,24 @@ public class DataService {
         }
     }
 
+    public Utente[] getUtentiConTerapia() throws Exception {
+        String url = API_URL + "get_pazienti_con_terapie.php";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String json = response.body();
+            return parseUtentiManuale(json);
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
+        }
+    }
+
     public Utente[] getPazientiSenzaMedico() throws Exception {
 
         String url = API_URL + "get_pazienti_senza_medico.php";

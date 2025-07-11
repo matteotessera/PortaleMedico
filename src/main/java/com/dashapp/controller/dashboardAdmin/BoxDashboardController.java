@@ -1,5 +1,6 @@
 package com.dashapp.controller.dashboardAdmin;
 
+import com.dashapp.controller.ProfiloController;
 import com.dashapp.model.Farmaco;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
@@ -518,6 +519,22 @@ public class BoxDashboardController {
         alert.setHeaderText(null);
         alert.setContentText(contenuto);
         return alert.showAndWait();
+    }
+
+    public void mostraProfilo() throws IOException {
+        // Pulisco eventuale contenuto precedente
+        bodyContainer.getChildren().clear();
+
+        // Carico ProfiloView.fxml dentro il container
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloView.fxml"));
+        Parent profiloContent = loader.load();
+
+        // Se serve, prendi il controller per passare dati
+        ProfiloController profiloController = loader.getController();
+        // profiloController.setUtente(...);
+
+        // Aggiungo la vista profilo al container
+        bodyContainer.getChildren().add(profiloContent);
     }
 
 }
