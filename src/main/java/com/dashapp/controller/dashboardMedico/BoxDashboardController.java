@@ -816,9 +816,8 @@ public class BoxDashboardController {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloView.fxml"));
         Parent profiloContent = loader.load();
-        ProfiloPaziente controller = loader.getController();
-        System.out.println(dashboardController);
-        controller.setDashController(dashboardController);
+
+
 
 
         LabelBoxDashboard.setText("Profilo");
