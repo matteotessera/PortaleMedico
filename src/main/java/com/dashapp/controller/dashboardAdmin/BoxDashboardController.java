@@ -522,18 +522,14 @@ public class BoxDashboardController {
     }
 
     public void mostraProfilo() throws IOException {
-        // Pulisco eventuale contenuto precedente
         bodyContainer.getChildren().clear();
 
-        // Carico ProfiloView.fxml dentro il container
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloView.fxml"));
         Parent profiloContent = loader.load();
 
-        // Se serve, prendi il controller per passare dati
-        ProfiloController profiloController = loader.getController();
-        // profiloController.setUtente(...);
+        LabelBoxDashboard.setText("Profilo");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
 
-        // Aggiungo la vista profilo al container
         bodyContainer.getChildren().add(profiloContent);
     }
 

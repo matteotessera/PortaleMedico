@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="384.0" prefWidth="934.0" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.ProfiloPaziente">
+<AnchorPane prefHeight="384.0" prefWidth="934.0" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.ProfiloPaziente">
 
     <children>
-        <VBox prefHeight="427.0" prefWidth="934.0" style="-fx-padding: 0 30 20 0;" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" VBox.vgrow="ALWAYS">
+        <VBox style="-fx-padding: 0 30 20 0;" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" VBox.vgrow="ALWAYS">
             <HBox spacing="10" />
             <TabPane prefHeight="436.0" prefWidth="904.0" stylesheets="@../css/ProfiloPaziente.css" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                 <tabs>
@@ -24,13 +16,22 @@
                         <content>
                             <AnchorPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                                 <children>
-                                    <VBox prefHeight="355.0" prefWidth="844.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" VBox.vgrow="ALWAYS">
+                                    <VBox prefHeight="355.0" prefWidth="844.0" spacing="20.0" stylesheets="@../css/input.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" VBox.vgrow="ALWAYS">
                                         <children>
-                                            <Label text="Anagrafica paziente" textFill="#ff914d">
-                                                <font>
-                                                    <Font name="System Bold" size="16.0" />
-                                                </font>
-                                            </Label>
+                                            <HBox alignment="CENTER_LEFT" spacing="10" stylesheets="@../css/input.css">
+                                                <children>
+                                                    <Label text="Anagrafica paziente" textFill="#ff914d">
+                                                        <font>
+                                                            <Font name="Roboto Black" size="16.0" />
+                                                        </font>
+                                                    </Label>
+
+                                                    <!-- Spazio flessibile -->
+                                                    <Region HBox.hgrow="ALWAYS" />
+
+                                                    <Button fx:id="modificaButton" mnemonicParsing="false" onAction="#modificaDati" styleClass="button-modifiche" text="Modifica" />
+                                                </children>
+                                            </HBox>
                                             <GridPane hgap="20" prefHeight="244.0" prefWidth="844.0" vgap="15.0" VBox.vgrow="ALWAYS">
                                                 <columnConstraints>
                                                     <ColumnConstraints percentWidth="50" />
@@ -39,7 +40,7 @@
                                                 <children>
                                                     <!-- Riga 1 -->
                                                     <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                                        <Label text="Nome" textFill="#444">
+                                                        <Label styleClass="labelInput" text="Nome" textFill="#444">
                                                             <font>
                                                                 <Font size="14" />
                                                             </font>
@@ -47,7 +48,7 @@
                                                         <TextField fx:id="nomeField" editable="false" style="-fx-background-radius: 4;" />
                                                     </VBox>
                                                     <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                                        <Label text="Cognome" textFill="#444">
+                                                        <Label styleClass="labelInput" text="Cognome" textFill="#444">
                                                             <font>
                                                                 <Font size="14" />
                                                             </font>
@@ -57,15 +58,15 @@
 
                                                     <!-- Riga 2 -->
                                                     <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                                        <Label text="Data di Nascita" textFill="#444">
+                                                        <Label styleClass="labelInput" text="Data di Nascita" textFill="#444">
                                                             <font>
                                                                 <Font size="14" />
                                                             </font>
                                                         </Label>
-                                                        <TextField fx:id="dataNascitaField" editable="false" style="-fx-background-radius: 4;" />
+                                                        <DatePicker fx:id="dataNascitaField" prefHeight="25.0" prefWidth="600.0" />
                                                     </VBox>
                                                     <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                        <Label text="Codice Fiscale" textFill="#444">
+                                                        <Label styleClass="labelInput" text="Codice Fiscale" textFill="#444">
                                                             <font>
                                                                 <Font size="14" />
                                                             </font>
@@ -75,15 +76,15 @@
 
                                                     <!-- Riga 3 -->
                                                     <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                                                        <Label text="Genere" textFill="#444">
+                                                        <Label styleClass="labelInput" text="Genere" textFill="#444">
                                                             <font>
                                                                 <Font size="14" />
                                                             </font>
                                                         </Label>
-                                                        <TextField fx:id="genereField" editable="false" style="-fx-background-radius: 4;" />
+                                                        <ComboBox fx:id="genereField" editable="false" prefHeight="26.0" prefWidth="600.0" />
                                                     </VBox>
                                                     <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                                        <Label text="Indirizzo" textFill="#444">
+                                                        <Label styleClass="labelInput" text="Indirizzo" textFill="#444">
                                                             <font>
                                                                 <Font size="14" />
                                                             </font>
@@ -93,7 +94,7 @@
 
                                                     <!-- Riga 4 -->
                                                     <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="3">
-                                                        <Label text="Email" textFill="#444">
+                                                        <Label styleClass="labelInput" text="Email" textFill="#444">
                                                             <font>
                                                                 <Font size="14" />
                                                             </font>
@@ -101,7 +102,7 @@
                                                         <TextField fx:id="emailField" editable="false" style="-fx-background-radius: 4;" />
                                                     </VBox>
                                                     <VBox prefHeight="0.0" prefWidth="392.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                                        <Label text="Telefono" textFill="#444">
+                                                        <Label styleClass="labelInput" text="Telefono" textFill="#444">
                                                             <font>
                                                                 <Font size="14" />
                                                             </font>
@@ -115,7 +116,21 @@
                                        <RowConstraints />
                                        <RowConstraints />
                                     </rowConstraints>
+                                    <VBox.margin>
+                                       <Insets top="10.0" />
+                                    </VBox.margin>
                                             </GridPane>
+
+                                            <HBox alignment="TOP_CENTER" spacing="20.0" stylesheets="@../css/input.css">
+                                                <children>
+                                                    <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaButton" styleClass="button-annullaModifiche" text="Annulla" />
+                                                    <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#inviaDati" styleClass="button-modifiche" text="Conferma modifiche" />
+                                                </children>
+                                    <VBox.margin>
+                                       <Insets top="20.0" />
+                                    </VBox.margin>
+                                            </HBox>
+
                                         </children>
                                         <padding>
                                             <Insets left="20.0" right="20.0" />
