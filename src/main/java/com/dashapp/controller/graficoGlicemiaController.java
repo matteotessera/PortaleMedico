@@ -224,6 +224,8 @@ public class graficoGlicemiaController {
         String periodo = periodoBox.getValue();
         LocalDateTime now = LocalDateTime.now();
 
+        if (rilevazioni == null) return new ArrayList<>();
+
         return switch (periodo) {
             case "Settimana" -> lista.stream()
                     .filter(r -> r.getData().isAfter(now.minusWeeks(1)))

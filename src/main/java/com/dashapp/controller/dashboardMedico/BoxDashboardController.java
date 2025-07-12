@@ -1,5 +1,6 @@
 package com.dashapp.controller.dashboardMedico;
 
+import com.dashapp.controller.ProfiloPaziente;
 import com.dashapp.model.Farmaco;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
@@ -296,6 +297,8 @@ public class BoxDashboardController {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloPazientiView.fxml"));
         Parent addProfiloContent = loader.load();
+        ProfiloPaziente profiloController = loader.getController();
+
 
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addProfiloContent);
