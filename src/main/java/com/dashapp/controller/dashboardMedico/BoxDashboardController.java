@@ -811,16 +811,34 @@ public class BoxDashboardController {
         bodyContainer.getChildren().add(addMessContent);
     }
 
-    public void mostraProfilo() throws IOException {
+    public void mostraProfilo() throws Exception {
         bodyContainer.getChildren().clear();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloView.fxml"));
         Parent profiloContent = loader.load();
+        ProfiloPaziente controller = loader.getController();
+        System.out.println(dashboardController);
+        controller.setDashController(dashboardController);
+
 
         LabelBoxDashboard.setText("Profilo");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
 
         bodyContainer.getChildren().add(profiloContent);
+    }
+
+    public void vediRilevazione() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("\uD83E\uDC14 Torna alle rilevazioni");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/RilevazioneView.fxml"));
+        Parent content = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(content);
     }
 
 }

@@ -73,6 +73,10 @@ public class ProfiloPaziente {
         loadTabs();
     }
 
+    public void setDashController(DashboardMedicController c){
+        this.dashController = c;
+    }
+
     public void disabilitaCampi(){
 
         modificaButton.setVisible(true);
@@ -134,6 +138,18 @@ public class ProfiloPaziente {
         FascicoloPazienteController controller = loader.getController();
         controller.setPaziente(u);
         fascicoloPane.getChildren().add(fascicolo);
+
+        FXMLLoader loaderGrafico = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/graficoGlicemia.fxml"));
+        Parent grafico = loaderGrafico.load();
+        graficoGlicemiaController graficoController = loaderGrafico.getController();
+        Rilevazione[] rilevazioniUtente = ds.getRilevazioniById(u.getId());
+
+        graficoController.setRilevazioni(new ArrayList<>(Arrays.asList(rilevazioniUtente)));
+        graficoController.setDashboardControllerMedic(dashController);
+        graficoController.popolaGraficoTotale();
+
+        graficoPane.setContent(grafico);
+        graficoPane.getStylesheets().add(String.valueOf(getClass().getResource("/com/dashapp/css/grafico.css")));
     }
 
 

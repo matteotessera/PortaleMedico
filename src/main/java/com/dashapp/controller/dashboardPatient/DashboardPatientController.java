@@ -1,7 +1,6 @@
 package com.dashapp.controller.dashboardPatient;
 
 import com.dashapp.controller.ControlliSistema;
-import com.dashapp.controller.dashboardMedico.OverlayPaneAware;
 import com.dashapp.controller.graficoGlicemiaController;
 import com.dashapp.model.*;
 import com.dashapp.services.DataService;
@@ -14,11 +13,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -113,7 +110,7 @@ public class DashboardPatientController {
         graficoGlicemiaController graficoController = loader.getController();
 
         graficoController.setRilevazioni(new ArrayList<>(Arrays.asList(rilevazioniUtente)));
-        graficoController.setDashboardController(this);
+        graficoController.setDashboardControllerPatient(this);
         graficoController.popolaGraficoTotale();
 
         graficoContainer.getChildren().add(content);
@@ -130,7 +127,7 @@ public class DashboardPatientController {
     }
 
     public void setBoxControllerGrafico(graficoGlicemiaController graficoController){
-        graficoController.setBoxController(controller);
+        graficoController.setBoxControllerPatient(controller);
     }
 
     public void updateGrafico() throws Exception {

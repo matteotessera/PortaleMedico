@@ -1,7 +1,9 @@
 package com.dashapp.controller.dashboardMedico;
 
 import com.dashapp.controller.ControlliSistema;
+import com.dashapp.controller.graficoGlicemiaController;
 import com.dashapp.model.Messaggio;
+import com.dashapp.model.Rilevazione;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
@@ -20,6 +22,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -249,6 +253,7 @@ public class DashboardMedicController {
 
         public void vediProfilo() throws Exception {
                 // Pulisci il contenuto centrale
+
                 mainContent.getChildren().clear();
 
                 // Carico il BoxDashboardPatient (container)
@@ -267,6 +272,12 @@ public class DashboardMedicController {
                 // Chiamo il metodo per caricare il profilo dentro il box
                 controller.mostraProfilo();
         }
+
+        public void setBoxControllerGrafico(graficoGlicemiaController graficoController){
+                graficoController.setBoxController(controller);
+        }
+
+
 
 
         public void mostraAlert(String titolo, String contenuto) {

@@ -1,15 +1,14 @@
 package com.dashapp.controller;
 
 import com.dashapp.controller.dashboardMedico.BoxDashboardController;
+import com.dashapp.controller.dashboardMedico.DashboardMedicController;
 import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.controller.dashboardPatient.DashboardPatientController;
 import com.dashapp.model.Rilevazione;
 import com.dashapp.view.NavigatorView;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -52,17 +51,18 @@ public class graficoGlicemiaController {
         private List<Rilevazione> rilevazioniPranzo;
         private List<Rilevazione> rilevazioniCena;
 
-        private BoxDashboardControllerPatient boxController;
-        private DashboardPatientController dashboardController;
+        private BoxDashboardControllerPatient boxControllerPatient;
+        private DashboardPatientController dashboardControllerPatient;
 
 
 
         private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
+        private BoxDashboardController boxControllerMedic;
+        private DashboardMedicController dashboardControllerMedic;
 
 
-
-        @FXML
+    @FXML
         public void initialize() {
             grafico.setTitle("Andamento glicemia");
             modificaGraficaGrafico();
@@ -303,12 +303,21 @@ public class graficoGlicemiaController {
                     try {
 
 
-                        dashboardController.mostraBox();
-                        dashboardController.setBoxControllerGrafico(this);
-                        boxController.vediRilevazione();
+                        dashboardControllerPatient.mostraBox();
+                        dashboardControllerPatient.setBoxControllerGrafico(this);
+                        boxControllerPatient.vediRilevazione();
 
                     } catch (Exception ex) {
-                        throw new RuntimeException(ex);
+
+                        try {
+                            dashboardControllerMedic.mostraBox();
+                            dashboardControllerMedic.setBoxControllerGrafico(this);
+                            boxControllerMedic.vediRilevazione();
+
+                        } catch (Exception exc) {
+                            System.out.println("operazione non valida");
+                        }
+
                     }
 
                 });
@@ -318,12 +327,20 @@ public class graficoGlicemiaController {
         return dataPoint;
     }
 
-    public void setBoxController(BoxDashboardControllerPatient controller){
-        this.boxController = controller;
+    public void setBoxControllerPatient(BoxDashboardControllerPatient controller){
+        this.boxControllerPatient = controller;
     }
-    public void setDashboardController(DashboardPatientController controller){
-        this.dashboardController = controller;
+    public void setDashboardControllerPatient(DashboardPatientController controller){
+        this.dashboardControllerPatient = controller;
     }
+
+    public void setBoxController(BoxDashboardController controller){
+        this.boxControllerMedic = controller;
+    }
+    public void setDashboardControllerMedic(DashboardMedicController controller){
+        this.dashboardControllerMedic = controller;
+    }
+
 
 
 
