@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefWidth="932.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.VediAssunzioneController">
+<AnchorPane prefWidth="932.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.VediAssunzioneController">
    <children>
       <HBox stylesheets="@../../css/input.css">
          <children>
-            <VBox prefWidth="932.0" spacing="20.0" style="-fx-padding: 20 30 20 0;">
+            <VBox spacing="20.0" style="-fx-padding: 20 30 20 0;">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
+                  <HBox alignment="CENTER_LEFT" spacing="10.0" stylesheets="@../../css/input.css">
                      <children>
                         <Label style="-fx-text-fill: #cb6ce6;" text="Terapia e Farmaco">
                            <font>
@@ -19,7 +19,7 @@
                            </font>
                         </Label>
                         <Region prefWidth="655.0" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="modificaButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#modificaAssunzione" prefHeight="26.0" prefWidth="107.0" style="-fx-background-color: red; -fx-background-radius: 20; -fx-border-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica" />
+                        <Button fx:id="modificaButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#modificaAssunzione" styleClass="button-modifiche" text="Modifica" />
                      </children>
                   </HBox>
                   <VBox alignment="CENTER_LEFT" prefWidth="902.0" spacing="10.0">
@@ -60,7 +60,7 @@
                               <VBox prefWidth="150.0" spacing="5.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label styleClass="labelInput" text="Ora" />
-                                    <Spinner fx:id="oraField"  prefHeight="26.0" prefWidth="247.0" />
+                                    <Spinner fx:id="oraField" prefHeight="26.0" prefWidth="247.0" />
                                  </children>
                               </VBox>
                               <VBox prefWidth="150.0" spacing="5.0" HBox.hgrow="ALWAYS">
@@ -79,13 +79,10 @@
                         <TextField fx:id="quantitaField" editable="false" />
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" spacing="30.0">
+                  <HBox alignment="CENTER" spacing="30.0" stylesheets="@../../css/input.css">
                      <children>
-                        <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaModifica" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: red; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla" HBox.hgrow="ALWAYS">
-                           <padding>
-                              <Insets bottom="7.0" left="20.0" right="20.0" top="7.0" />
-                           </padding></Button>
-                        <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#inviaModifica" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #38b000; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Conferma modifica" HBox.hgrow="ALWAYS">
+                        <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaModifica" styleClass="button-annullaModifiche" text="Annulla" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#inviaModifica" styleClass="button-modifiche" text="Conferma modifica" HBox.hgrow="ALWAYS">
                            <padding>
                               <Insets bottom="7.0" left="20.0" right="20.0" top="7.0" />
                            </padding></Button>

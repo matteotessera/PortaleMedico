@@ -1,5 +1,6 @@
 package com.dashapp.controller.dashboardAdmin;
 
+import com.dashapp.controller.ProfiloController;
 import com.dashapp.model.Farmaco;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
@@ -518,6 +519,18 @@ public class BoxDashboardController {
         alert.setHeaderText(null);
         alert.setContentText(contenuto);
         return alert.showAndWait();
+    }
+
+    public void mostraProfilo() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloView.fxml"));
+        Parent profiloContent = loader.load();
+
+        LabelBoxDashboard.setText("Profilo");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
+
+        bodyContainer.getChildren().add(profiloContent);
     }
 
 }

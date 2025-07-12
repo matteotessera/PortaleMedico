@@ -56,7 +56,7 @@ public class messaggiController {
         u = ds.getUtenteByEmail(email);
 
         if(u.getRuolo().equals("paziente")){
-            this.setHeader2("assunzioni dimenticate");
+            this.setHeader2("Assunzioni dimenticate");
             header2.setOnMouseClicked(e -> showAssunzioniDimenticate());
             header3.setManaged(false);
             header3.setVisible(false);
@@ -161,6 +161,7 @@ public class messaggiController {
             listView.getSelectionModel().clearSelection();
             listView.setItems(FXCollections.observableArrayList(Pazienti));
 
+
             header1.setStyle("-fx-font-weight: bold; -fx-background-color: lightblue;");
             header2.setStyle("");
             header3.setStyle("");
@@ -211,59 +212,46 @@ public class messaggiController {
                     // Messaggi
                     if (item instanceof Messaggio m) {
 
-                        //crea per ogni elemento messaggio, un wrapper contenente una Vbox con il contenuto del messaggio
-
                         Label dateTimeLabel = new Label(m.getDataInvio() + " " + m.getOrarioInvio());
-                        dateTimeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16");
+                        dateTimeLabel.setStyle("-fx-font-weight: normal; -fx-font-size: 13; -fx-text-fill: #555555;");
 
                         Label oggettoLabel = new Label(m.getOggetto());
-                        oggettoLabel.setStyle("-fx-font-size: 14");
+                        oggettoLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16; -fx-text-fill: #222222;");
 
                         Label corpoLabel = new Label(m.getCorpo());
+                        corpoLabel.setWrapText(true);
+                        corpoLabel.setStyle("-fx-font-size: 14; -fx-text-fill: #333333;");
+                        corpoLabel.setMaxWidth(780);  // per far andare a capo se troppo lungo
 
-                        // Vbox con il contenuto del messaggio
                         VBox vboxMessage = new VBox(dateTimeLabel, oggettoLabel, corpoLabel);
-                        vboxMessage.setSpacing(2);
-                        vboxMessage.setMaxWidth(800); // 👈 la larghezza massima del "fumetto"
-                        vboxMessage.setStyle("-fx-background-color: inherit; -fx-padding: 10 10 10 10"); // eredita il colore dalla cella
-                        vboxMessage.setPadding(new Insets(30, 30, 30 ,30)); // padding dentro la cella
+                        vboxMessage.setSpacing(6);
+                        vboxMessage.setMaxWidth(800);
+                        vboxMessage.setPadding(new Insets(15, 20, 15, 20));
+                        vboxMessage.setStyle("-fx-background-color: inherit;");
 
-                        // Wrapper contenente Vbox
                         HBox wrapper = new HBox(vboxMessage);
-                        //wrapper.prefWidthProperty().bind(this.widthProperty());
                         wrapper.setPrefWidth(700);
-                        wrapper.setPadding(new Insets(30, 30, 30 ,30)); // padding dentro la cella
-                        wrapper.setAlignment(Pos.CENTER_RIGHT);
+                        wrapper.setPadding(new Insets(10, 20, 10, 20));
+
+                        // Allinea in base a mittente/destinatario
+                        if (m.getId_receiver() == u.getId()) {
+                            wrapper.setAlignment(Pos.CENTER_LEFT);
+                            vboxMessage.setStyle("-fx-background-color: lightgreen; -fx-background-radius: 10;");
+                        } else if (m.getId_Sender() == u.getId()) {
+                            wrapper.setAlignment(Pos.CENTER_RIGHT);
+                            vboxMessage.setStyle("-fx-background-color: lightblue; -fx-background-radius: 10;");
+                        }
+
+                        // Colori speciali in base al tipo messaggio
+                        if (m.getTipo() == 'N') {
+                            vboxMessage.setStyle("-fx-background-color: #FBA660; -fx-background-radius: 10;");
+                        }
+                        if (m.getTipo() == 'G') {
+                            vboxMessage.setStyle("-fx-background-color: #FFFC68; -fx-background-radius: 10;");
+                        }
+
                         setText(null);
                         setGraphic(wrapper);
-                        getStyleClass().setAll("list-cell");
-
-
-
-                            if(m.getId_receiver() == u.getId()) { //messaggi inviati da un utente al CurrentUser
-                                getStyleClass().add("messaggio-ricevuto");
-                                wrapper.setAlignment(Pos.CENTER_LEFT);
-                                vboxMessage.setStyle("-fx-background-color: lightgreen; -fx-background-radius: 10;");
-                            }
-                            else if(m.getId_Sender() == u.getId()){  //messaggi inviati dal CurrentUser al utente U
-                                getStyleClass().add("messaggio-inviato");
-                                wrapper.setAlignment(Pos.CENTER_RIGHT);
-                                vboxMessage.setStyle("-fx-background-color: lightblue; -fx-background-radius: 10;");
-                            }
-
-                            // N, A, G, D
-                            if(m.getTipo() == 'N'){     //se il messaggio e una avviso di Non aderenza
-
-                                    vboxMessage.setStyle("-fx-background-color: #FBA660; -fx-background-radius: 10;");
-                            }
-                            if(m.getTipo() == 'G'){     //se il messaggio e una avviso di Glicemia
-
-                                    vboxMessage.setStyle("-fx-background-color: #FFFC68; -fx-background-radius: 10;");
-                            }
-
-
-
-
 
                     }
                     // Utenti

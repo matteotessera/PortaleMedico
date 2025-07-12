@@ -11,10 +11,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="934.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddRilevazioneGlicemiaController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.AddRilevazioneGlicemiaController">
    <children>
-      <VBox prefWidth="934.0" spacing="20.0" style="-fx-padding: 20 30 20 0;" stylesheets="@../../css/input.css">
+      <VBox spacing="20.0" style="-fx-padding: 20 30 20 0;" stylesheets="@../../css/input.css">
          <children>
             <Label text="Dati Rilevazione" textFill="#ef233c">
                <VBox.margin>
@@ -79,30 +83,27 @@
                   <Insets bottom="9.0" />
                </padding>
             </GridPane>
-            <VBox alignment="CENTER" prefWidth="1000.0" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <VBox alignment="CENTER" prefWidth="1000.0" spacing="5.0" stylesheets="@../../css/input.css" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#aggiungiRilevazione" style="-fx-background-color: #ef233c; -fx-background-radius: 20;" text="Aggiungi" textFill="WHITE">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#aggiungiRilevazione" style="-fx-background-color: #ef233c; -fx-background-radius: 20;" styleClass="button-invio" text="Aggiungi" textFill="WHITE">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
-                     <padding>
-                        <Insets bottom="7.0" left="70.0" right="70.0" top="7.0" />
-                     </padding>
                   </Button>
                </children>
-               <padding>
-                  <Insets top="15.0" />
-               </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="30.0" />
+               </VBox.margin>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="12.0" prefWidth="904.0">
+            <VBox alignment="CENTER">
                <children>
-                  <Label fx:id="erroreLabel" alignment="CENTER" prefWidth="1000.0" />
+                  <Label fx:id="erroreLabel" alignment="CENTER" />
                </children>
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets />
                </VBox.margin>
             </VBox>
          </children>

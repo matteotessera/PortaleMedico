@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="443.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.VediSintomoController">
+<AnchorPane prefHeight="443.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.VediSintomoController">
    <children>
       <HBox prefHeight="443.0" prefWidth="932.0">
          <children>
@@ -25,11 +17,11 @@
             </VBox>
             <VBox layoutX="310.0" layoutY="10.0" prefHeight="200.0" prefWidth="1000.0" spacing="15.0">
                <children>
-                  <HBox alignment="CENTER_LEFT">
+                  <HBox alignment="CENTER_LEFT" stylesheets="@../../css/input.css">
                      <children>
                         <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Data" textFill="#0078ff" />
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="modificaButton" mnemonicParsing="false" onAction="#modificaSintomo" prefHeight="26.0" prefWidth="99.0" style="-fx-background-color: #bd1522; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica" />
+                        <Button fx:id="modificaButton" mnemonicParsing="false" onAction="#modificaSintomo" prefHeight="26.0" prefWidth="99.0" styleClass="button-modifiche" text="Modifica" />
                      </children>
                   </HBox>
                   <HBox>
@@ -44,11 +36,11 @@
                         <Font size="13.0" />
                      </font></Label>
                   <TextArea fx:id="descrizioneTextArea" prefHeight="200.0" prefWidth="200.0" />
-                  <HBox alignment="CENTER_RIGHT" spacing="10">
+                  <HBox alignment="CENTER_RIGHT" spacing="10" stylesheets="@../../css/input.css">
                      <children>
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaModifica" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: #a0a0a0; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla" visible="false" />
-                        <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#InviaModifica" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: #0078ff; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Conferma" visible="false" />
+                        <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaModifica" prefHeight="34.0" prefWidth="99.0" styleClass="button-annullaModifiche" text="Annulla" visible="false" />
+                        <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#InviaModifica" prefHeight="34.0" prefWidth="99.0" styleClass="button-modifiche" text="Conferma" visible="false" />
                      </children>
                   </HBox>
                </children>

@@ -1,5 +1,7 @@
 package com.dashapp.controller;
 
+import com.dashapp.Main;
+import com.dashapp.controller.dashboardMedico.DashboardMedicController;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
 import com.dashapp.view.NavigatorView;
@@ -62,6 +64,7 @@ public class ProfiloController {
         String email = NavigatorView.getAuthenticatedUser();
         idUtente = ds.getUtenteByEmail(email).getId();
         u = ds.getUtenteById(ds.getUtenteByEmail(email).getId());
+        genereField.getItems().removeAll();
         genereField.getItems().addAll("M", "F");
 
 
@@ -85,8 +88,8 @@ public class ProfiloController {
 
         nomeField.setEditable(false);
         cognomeField.setEditable(false);
-        dataNascitaField.setDisable(false);
-        codiceFiscaleField.setEditable(true);
+        dataNascitaField.setDisable(true);
+        codiceFiscaleField.setEditable(false);
         telefonoField.setEditable(false);
         emailField.setEditable(false);
         indirizzoField.setEditable(false);
@@ -141,6 +144,11 @@ public class ProfiloController {
             return;
         }
 
+        if (data.isAfter(LocalDate.now())) {
+            mostraAlert("Errore", "La data di nascita non può essere nel futuro");
+            return;
+        }
+
         // Controllo telefono: almeno 10 numeri
         if (!tel.matches("\\d{10,}")) {
             mostraAlert("Errore", "Il numero di telefono deve contenere almeno 10 cifre numeriche");
@@ -158,9 +166,26 @@ public class ProfiloController {
             return;
         }
 
-        ds.updateUtente(idUtente, null ,u.getRuolo(), nome, cognome, data, email, tel, indirizzo, genere, codFisc);
+        ds.updateUtenteSenzaPw(idUtente ,u.getRuolo(), nome, cognome, data, email, tel, indirizzo, genere, codFisc);
         mostraAlert("Successo", "Dati modificati con successo");
+        ricarica();
         initialize();
+
+    }
+
+    public void ricarica() throws Exception {
+        MainController mainController = NavigatorView.getMainController();
+
+        if(u.getRuolo().equals("admin")){
+            NavigatorView.getAdminController().reload();
+
+        } else if (u.getRuolo().equals("medico")) {
+            NavigatorView.getMedicController().reload();
+
+        } else if (u.getRuolo().equals("paziente")) {
+            NavigatorView.getPatientController().reload();
+        }
+
     }
 
     public void annullaButton() throws Exception {
@@ -190,7 +215,7 @@ public class ProfiloController {
             return;
         }
 
-        if(!pwAttuale.equals(u.getPassword())){
+        if(!ds.verificaPassword(u.getId(), pwAttuale)){
             mostraAlert("Errore", "La password attuale non è corretta");
             return;
         }
@@ -222,10 +247,18 @@ public class ProfiloController {
             return;
         }
 
+        ds.updatePassword(u.getId(), nuovaPw);
 
-        ds.updateUtente(idUtente, u.getRuolo(), nuovaPw, u.getNome(), u.getCognome(), u.getDataNascita(), u.getEmail(), u.getTelefono(), u.getIndirizzo(), u.getGenere(), u.getCodFiscale());
         mostraAlert("Successo", "Password modificata con successo");
+        pulisciCampi();
         initialize();
+    }
+
+
+    public void pulisciCampi(){
+        passwordAttualeField.setText("");
+        nuovaPasswordField.setText("");
+        confermaNuovaPasswordField.setText("");
     }
 
 

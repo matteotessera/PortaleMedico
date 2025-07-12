@@ -1,6 +1,7 @@
 package com.dashapp.controller.dashboardMedico;
 
 import com.dashapp.controller.ProfiloPaziente;
+import com.dashapp.controller.ProfiloController;
 import com.dashapp.model.Farmaco;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
@@ -238,6 +239,113 @@ public class BoxDashboardController {
         LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #1e3746;");
     }
 
+    public void listaUtentiConTerapia(){
+        bodyContainer.getChildren().clear();
+
+        List<Utente> pazientiConTerapie;
+        try {
+            pazientiConTerapie = new ArrayList<>(List.of(ds.getUtentiConTerapia()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        String textButton = "Vedi terapia";
+        String titolo = null;
+
+        // Tasti filtro
+        HBox ordinamentoBox = new HBox(10);
+        ordinamentoBox.setAlignment(Pos.CENTER_LEFT);
+        ordinamentoBox.setPadding(new Insets(10, 0, 10, 0));
+
+        // ComboBox
+        ComboBox<String> campoOrdinamento = new ComboBox<>();
+        campoOrdinamento.getItems().addAll("Nome", "Cognome");  // Solo nome e cognome
+        campoOrdinamento.setPromptText("Ordina per");
+        campoOrdinamento.setStyle(
+                "-fx-background-color: white; " +
+                        "-fx-border-color: #1e3746; " +
+                        "-fx-background-radius: 8px; " +
+                        "-fx-border-radius: 8px; " +
+                        "-fx-text-fill: #1e3746;"
+        );
+        campoOrdinamento.setPrefHeight(30);
+
+        ComboBox<String> ordine = new ComboBox<>();
+        ordine.getItems().addAll("Crescente", "Decrescente");
+        ordine.setPromptText("Ordine");
+        ordine.setStyle(
+                "-fx-background-color: white; " +
+                        "-fx-border-color: #1e3746; " +
+                        "-fx-background-radius: 8px; " +
+                        "-fx-border-radius: 8px; " +
+                        "-fx-text-fill: #1e3746;"
+        );
+        ordine.setPrefHeight(30);
+
+        // Bottone per applicare ordinamento
+        Button ordinaButton = new Button("Ordina");
+        ordinaButton.setStyle("-fx-background-color: #1e3746;; -fx-text-fill: white; -fx-font-family: 'Roboto Black';");
+        ordinaButton.setPrefHeight(20);
+
+        ordinamentoBox.getChildren().addAll(campoOrdinamento, ordine, ordinaButton);
+        bodyContainer.getChildren().add(ordinamentoBox);
+
+        // Metodo per caricare la tabella con lista ordinata
+        Runnable aggiornaTabella = () -> {
+            bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox); // pulisce tranne i controlli sopra
+            tabellaUtentiTerapie(titolo, pazientiConTerapie, textButton, Color.web("#34bccc"));
+        };
+
+        aggiornaTabella.run();
+
+        // Azione sul bottone di ordinamento
+        ordinaButton.setOnAction(e -> {
+            String campo = campoOrdinamento.getValue();
+            String tipoOrdine = ordine.getValue();
+
+            if (campo == null || tipoOrdine == null) {
+                return;
+            }
+
+            Comparator<Utente> comparator = null;
+
+            switch (campo) {
+                case "Nome":
+                    comparator = Comparator.comparing(Utente::getNome, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "Cognome":
+                    comparator = Comparator.comparing(Utente::getCognome, String.CASE_INSENSITIVE_ORDER);
+                    break;
+            }
+
+            if (comparator != null) {
+                if ("Decrescente".equals(tipoOrdine)) {
+                    comparator = comparator.reversed();
+                }
+                pazientiConTerapie.sort(comparator);
+                aggiornaTabella.run();
+            }
+        });
+
+        LabelBoxDashboard.setText("Lista pazienti con terapia");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #1e3746; ");
+    }
+
+    public void vediTerapiePaziente() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        LabelBoxDashboard.setText("\uD83E\uDC14 Torna agli utenti con terapie");
+        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 16px; -fx-text-fill: #1e3746;");
+        LabelBoxDashboard.setOnMouseClicked(event -> listaUtentiConTerapia());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/ViewTerapia.fxml"));
+        Parent addTerapiaContent = loader.load();
+
+        // Aggiungo il contenuto caricato al bodyContainer
+        bodyContainer.getChildren().add(addTerapiaContent);
+    }
+
 
 
     public void assegnazioneMedPaz() throws Exception {
@@ -297,8 +405,6 @@ public class BoxDashboardController {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloPazientiView.fxml"));
         Parent addProfiloContent = loader.load();
-        ProfiloPaziente profiloController = loader.getController();
-
 
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addProfiloContent);
@@ -592,6 +698,68 @@ public class BoxDashboardController {
         bodyContainer.getChildren().add(listaUtentiBox);
     }
 
+    private void tabellaUtentiTerapie(String titolo, List<Utente> utenti, String textButton, Color color){
+
+        VBox listaUtentiBox = new VBox(2);
+        listaUtentiBox.setPrefWidth(700);  // Larghezza adeguata
+        listaUtentiBox.setSpacing(5);
+
+        // Larghezze colonne per Nome, Cognome, Codice Fiscale, Bottone azione
+        double nomeWidth = 150;
+        double cognomeWidth = 150;
+        double cfWidth = 200;
+        double azioneWidth = 120;
+
+        HBox intestazione = new HBox(10);
+        intestazione.setStyle("-fx-background-color: #e0e0e0; -fx-padding: 8;");
+        intestazione.setAlignment(Pos.CENTER_LEFT);
+
+        Label nomeHeader = creaHeader("Nome", nomeWidth);
+        Label cognomeHeader = creaHeader("Cognome", cognomeWidth);
+        Label cfHeader = creaHeader("Codice Fiscale", cfWidth);
+        Label azioneHeader = creaHeader("Azione", azioneWidth);
+
+        intestazione.getChildren().addAll(nomeHeader, cognomeHeader, cfHeader, azioneHeader);
+
+        listaUtentiBox.getChildren().add(intestazione);
+
+        for (Utente u : utenti) {
+            HBox rigaUtente = new HBox(10);
+            rigaUtente.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
+            rigaUtente.setAlignment(Pos.CENTER_LEFT);
+
+            Label nomeLabel = creaCell(u.getNome(), nomeWidth);
+            Label cognomeLabel = creaCell(u.getCognome(), cognomeWidth);
+            Label cfLabel = creaCell(u.getCodFiscale(), cfWidth);
+
+            Button buttonUtente = new Button(textButton);
+            buttonUtente.setStyle(
+                    "-fx-background-color: " + toHex(color) + ";" +
+                            "-fx-text-fill: white;"
+            );
+            buttonUtente.setPrefWidth(azioneWidth);
+
+            buttonUtente.setOnAction(e -> {
+                NavigatorView.setUtenteSelezionato(u);
+                try {
+                    vediTerapiePaziente();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                System.out.println("Azione Vedi Terapie utente: " + u.getNome()+ " "+ u.getCognome());
+            });
+
+            rigaUtente.getChildren().addAll(nomeLabel, cognomeLabel, cfLabel, buttonUtente);
+
+            listaUtentiBox.getChildren().add(rigaUtente);
+        }
+
+        VBox.setMargin(listaUtentiBox, new javafx.geometry.Insets(0, 0, 20, 0));
+        bodyContainer.getChildren().add(listaUtentiBox);
+    }
+
+
+
     private String toHex(Color color) {
         return String.format("#%02X%02X%02X",
                 (int)(color.getRed()*255),
@@ -633,7 +801,7 @@ public class BoxDashboardController {
         bodyContainer.getChildren().clear();
 
         LabelBoxDashboard.setText("Casella Messaggi");
-        LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 22px; -fx-text-fill: #cb6ce6; ");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/MessaggiView.fxml"));
@@ -641,6 +809,18 @@ public class BoxDashboardController {
 
         // Aggiungo il contenuto caricato al bodyContainer
         bodyContainer.getChildren().add(addMessContent);
+    }
+
+    public void mostraProfilo() throws IOException {
+        bodyContainer.getChildren().clear();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloView.fxml"));
+        Parent profiloContent = loader.load();
+
+        LabelBoxDashboard.setText("Profilo");
+        LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
+
+        bodyContainer.getChildren().add(profiloContent);
     }
 
 }

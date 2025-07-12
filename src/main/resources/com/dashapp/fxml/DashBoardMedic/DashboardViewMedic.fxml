@@ -189,36 +189,6 @@
                                     <Font size="15.0" />
                                 </font></Label>
 
-                            <!--
-                            <HBox alignment="CENTER_LEFT" onMouseClicked="#listaPazienti" spacing="10">
-                                <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaPazienti">
-                                    <image>
-                                        <Image url="@../../images/occhioArancio.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Vedi tutti i pazienti">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <padding>
-                                    <Insets left="50.0" />
-                                </padding>
-                            </HBox>
-                            <HBox alignment="CENTER_LEFT" onMouseClicked="#assegnazioneMedPaz" spacing="10">
-                                <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20" onMouseClicked="#assegnazioneMedPaz">
-                                    <image>
-                                        <Image url="@../../images/piuArancio.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Prendi in carico un paziente">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>-->
-
                             <HBox alignment="CENTER_LEFT" spacing="10">
                                 <children>
                                     <Button mnemonicParsing="false" onMouseClicked="#listaPazienti" prefHeight="40" prefWidth="120" style="-fx-background-color: #ff914d; -fx-border-color: #ff914d; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Vedi">
@@ -226,7 +196,10 @@
                                             <Font name="System Bold" size="12.0" />
                                         </font></Button>
 
-                                    <Button mnemonicParsing="false" onMouseClicked="#assegnazioneMedPaz" prefHeight="40" style="-fx-background-color: #ff914d; -fx-border-color: #ff914d; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Prendi in carico" />
+                                    <Button mnemonicParsing="false" onMouseClicked="#assegnazioneMedPaz" prefHeight="40" style="-fx-background-color: #ff914d; -fx-border-color: #ff914d; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Prendi in carico">
+                              <padding>
+                                 <Insets left="20.0" right="20.0" />
+                              </padding></Button>
 
                                 </children>
                                 <VBox.margin>
@@ -262,36 +235,6 @@
                                 <font>
                                     <Font size="15.0" />
                                 </font></Label>
-
-                            <!--
-                            <HBox alignment="CENTER_LEFT" onMouseClicked="#listaFarmaci" spacing="10">
-                                <ImageView fx:id="eyeIcon2" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaFarmaci">
-                                    <image>
-                                        <Image url="@../../images/occhioViola.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Vedi tutti i farmaci">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>
-                            <HBox alignment="CENTER_LEFT" onMouseClicked="#aggiungiFarmaco" spacing="10">
-                                <ImageView fx:id="plusIcon2" fitHeight="20.0" fitWidth="20" onMouseClicked="#aggiungiFarmaco">
-                                    <image>
-                                        <Image url="@../../images/piuViola.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Aggiungi un farmaco">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>-->
 
                             <HBox alignment="CENTER_LEFT" prefWidth="249.0" spacing="10">
                                 <children>
@@ -338,40 +281,9 @@
                                 </font>
                             </Label>
 
-                            <!--
-                            <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="eyeIcon3" fitHeight="16.0" fitWidth="20">
-                                    <image>
-                                        <Image url="@../../images/occhioVerde.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Vedi tutte le terapie">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>
-                            <HBox alignment="CENTER_LEFT" spacing="10">
-                                <ImageView fx:id="plusIcon3" fitHeight="20" fitWidth="20" onMouseClicked="#aggiungiTerapia">
-                                    <image>
-                                        <Image url="@../../images/piuVerde.png" />
-                                    </image>
-                                </ImageView>
-                                <Label onMouseClicked="#aggiungiTerapia" text="Aggiungi una terapia">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>-->
-
                             <HBox alignment="CENTER_LEFT" prefWidth="249.0" spacing="10">
                                 <children>
-                                    <!-- DA INSERIRE VEDI TERAPIA ( onMouseClicked="#") -->
-                                    <Button mnemonicParsing="false" prefHeight="40" prefWidth="120" style="-fx-background-color: #7ed957; -fx-border-color: #7ed957; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Vedi">
+                                    <Button mnemonicParsing="false" onMouseClicked="#vediTerapia" prefHeight="40" prefWidth="120" style="-fx-background-color: #7ed957; -fx-border-color: #7ed957; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Vedi">
                                         <font>
                                             <Font name="System Bold" size="12.0" />
                                         </font></Button>

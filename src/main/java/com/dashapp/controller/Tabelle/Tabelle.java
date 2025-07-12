@@ -281,9 +281,6 @@ public class Tabelle {
             LocalDate dataFine = t.getDataFine();
 
 
-
-
-
             HBox rigaUtente = new HBox(10);
             rigaUtente.setStyle("-fx-padding: 5; -fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9;");
             rigaUtente.setAlignment(Pos.CENTER_LEFT);

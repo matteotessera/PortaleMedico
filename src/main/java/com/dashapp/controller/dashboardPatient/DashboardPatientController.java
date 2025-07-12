@@ -259,6 +259,10 @@ public class DashboardPatientController {
     }
 
 
+    public void reload() throws Exception {
+        initialize();
+        mostraTextPaziente();
+    }
 
 
     //Metodo per la visualizzazione del nome del medico e dell'immagine con iniziali nome e cognome

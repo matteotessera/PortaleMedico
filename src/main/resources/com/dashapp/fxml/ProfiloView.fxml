@@ -7,11 +7,11 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.ProfiloController">
-    <VBox>
-        <children>
+    <children>
+    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
          <VBox>
             <children>
-                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10">
+                  <HBox alignment="CENTER_LEFT" spacing="10">
                       <children>
                           <!-- Titolo -->
                           <Label text="I tuoi dati" textFill="#ff7b4f">
@@ -21,99 +21,74 @@
                           </Label>
                           <!-- Spacer per spingere il bottone a destra -->
                           <Region HBox.hgrow="ALWAYS" />
-                          <Button fx:id="modificaButton" alignment="CENTER" mnemonicParsing="false" onAction="#modificaDati" style="-fx-background-radius: 15; -fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica">
-                        <padding>
-                           <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                        </padding>
-                     </Button>
+                          <Button fx:id="modificaButton" alignment="CENTER" mnemonicParsing="false" onAction="#modificaDati" styleClass="button-modifiche" stylesheets="@../css/input.css" text="Modifica" />
                       </children>
                   </HBox>
-      
-                  <!-- GridPane con form -->
-                  <GridPane hgap="20" vgap="20.0">
-                      <columnConstraints>
-                          <ColumnConstraints percentWidth="50" />
-                          <ColumnConstraints percentWidth="50" />
-                      </columnConstraints>
-      
-                      <!-- Nome -->
-                      <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                          <Label styleClass="labelInput" text="Nome" />
-                          <TextField fx:id="nomeField" promptText="Inserisci nome" />
-                      </VBox>
-      
-                      <!-- Cognome -->
-                      <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                          <Label styleClass="labelInput" text="Cognome" />
-                          <TextField fx:id="cognomeField" promptText="Inserisci cognome" />
-                      </VBox>
-      
-                      <!-- Data di Nascita -->
-                      <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                          <Label styleClass="labelInput" text="Data di Nascita" />
-                          <DatePicker fx:id="dataNascitaField" prefHeight="27.0" prefWidth="320.0" promptText="gg/mm/aaaa" />
-                      </VBox>
-      
-                      <!-- Codice Fiscale -->
-                      <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                          <Label styleClass="labelInput" text="Codice Fiscale" />
-                          <TextField fx:id="codiceFiscaleField" promptText="Inserisci codice fiscale" />
-                      </VBox>
-      
-                      <!-- Telefono -->
-                      <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                          <Label styleClass="labelInput" text="Telefono" />
-                          <TextField fx:id="telefonoField" promptText="Inserisci numero" />
-                      </VBox>
-      
-                      <!-- Email -->
-                      <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                          <Label styleClass="labelInput" text="Email" />
-                          <TextField fx:id="emailField" promptText="Inserisci email" />
-                      </VBox>
-      
-                      <!-- Indirizzo -->
-                      <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="3">
-                          <Label styleClass="labelInput" text="Indirizzo" />
-                          <TextField fx:id="indirizzoField" promptText="Via, numero civico" />
-                      </VBox>
-      
-                      <!-- Genere -->
-                      <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                          <Label styleClass="labelInput" text="Genere" />
-                          <ComboBox fx:id="genereField" maxWidth="310.4" prefHeight="27.0" promptText="Inserisci genere" />
-                      </VBox>
 
-                      <rowConstraints>
-                          <RowConstraints />
-                          <RowConstraints />
-                          <RowConstraints />
-                     <RowConstraints />
-                      </rowConstraints>
-      
-                      <stylesheets>
-                          <URL value="@../css/input.css" />
-                          <URL value="@../css/input.css" />
-                      </stylesheets>
-                      <VBox.margin>
-                          <Insets bottom="40.0" top="30.0" />
-                      </VBox.margin>
-      
-                  </GridPane>
-      
-                  <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="20.0">
+                  <!-- GridPane con form -->
+                <FlowPane alignment="TOP_LEFT" hgap="20" prefWrapLength="640" stylesheets="@../css/input.css" vgap="20">
+                    <children>
+                        <!-- Nome -->
+                        <VBox prefWidth="270" spacing="5">
+                            <Label styleClass="labelInput" text="Nome" />
+                            <TextField fx:id="nomeField" promptText="Inserisci nome" />
+                        </VBox>
+
+                        <!-- Cognome -->
+                        <VBox prefWidth="270" spacing="5">
+                            <Label styleClass="labelInput" text="Cognome" />
+                            <TextField fx:id="cognomeField" promptText="Inserisci cognome" />
+                        </VBox>
+
+                        <!-- Data di Nascita -->
+                        <VBox prefWidth="270" spacing="5">
+                            <Label styleClass="labelInput" text="Data di Nascita" />
+                            <DatePicker fx:id="dataNascitaField" prefHeight="27.0" prefWidth="300.0" promptText="gg/mm/aaaa" />
+                        </VBox>
+
+                        <!-- Codice Fiscale -->
+                        <VBox prefWidth="270" spacing="5">
+                            <Label styleClass="labelInput" text="Codice Fiscale" />
+                            <TextField fx:id="codiceFiscaleField" promptText="Inserisci codice fiscale" />
+                        </VBox>
+
+                        <!-- Telefono -->
+                        <VBox prefWidth="270" spacing="5">
+                            <Label styleClass="labelInput" text="Telefono" />
+                            <TextField fx:id="telefonoField" promptText="Inserisci numero" />
+                        </VBox>
+
+                        <!-- Email -->
+                        <VBox prefWidth="270" spacing="5">
+                            <Label styleClass="labelInput" text="Email" />
+                            <TextField fx:id="emailField" promptText="Inserisci email" />
+                        </VBox>
+
+                        <!-- Indirizzo -->
+                        <VBox prefWidth="270" spacing="5">
+                            <Label styleClass="labelInput" text="Indirizzo" />
+                            <TextField fx:id="indirizzoField" promptText="Via, numero civico" />
+                        </VBox>
+
+                        <!-- Genere -->
+                        <VBox prefWidth="270" spacing="5">
+                            <Label styleClass="labelInput" text="Genere" />
+                            <ComboBox fx:id="genereField" maxWidth="310.4" prefHeight="27.0" promptText="Inserisci genere" />
+                        </VBox>
+                    </children>
+                  <VBox.margin>
+                     <Insets bottom="30.0" top="30.0" />
+                  </VBox.margin>
+                </FlowPane>
+
+                  <HBox alignment="TOP_CENTER" spacing="20.0">
                       <children>
-                          <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaButton" style="-fx-background-radius: 15; -fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla">
-                        <padding>
-                           <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                        </padding>
-                     </Button>
-                          <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#inviaDati" style="-fx-background-radius: 15; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #1e3746;" text="Conferma modifiche">
-                        <padding>
-                           <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                        </padding>
-                     </Button>
+                          <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaButton" styleClass="button-annullaModifiche" text="Annulla" />
+                          <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#inviaDati" styleClass="button-modifiche" text="Conferma modifiche" />
                       </children>
+                  <stylesheets>
+                     <URL value="@../css/input.css" />
+                  </stylesheets>
                   </HBox>
             </children>
          </VBox>
@@ -124,9 +99,9 @@
             </VBox.margin></Separator>
 
 
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox>
              <children>
-                 <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10">
+                 <HBox alignment="CENTER_LEFT" spacing="10">
                      <children>
                          <!-- Titolo -->
                          <Label text="Gestione password" textFill="#ff7b4f">
@@ -136,65 +111,42 @@
                          </Label>
                          <!-- Spacer per spingere il bottone a destra -->
                          <Region HBox.hgrow="ALWAYS" />
-                         <Button fx:id="modificaButtonPw" alignment="CENTER" mnemonicParsing="false" onAction="#modificaPassword" style="-fx-background-radius: 15; -fx-background-color: #1e3746; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica">
-                             <padding>
-                                 <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                             </padding>
-                         </Button>
+                         <Button fx:id="modificaButtonPw" alignment="CENTER" mnemonicParsing="false" onAction="#modificaPassword" styleClass="button-modifiche" stylesheets="@../css/input.css" text="Modifica" />
                      </children>
                  </HBox>
 
                  <!-- GridPane con form -->
-                 <GridPane hgap="20" vgap="20.0">
-                     <columnConstraints>
-                         <ColumnConstraints percentWidth="50.0" />
-                     <ColumnConstraints />
-                     </columnConstraints>
-
-
-                     <!-- Password -->
-                     <VBox spacing="5" stylesheets="@../css/input.css" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                         <Label styleClass="labelInput" text="Password attuale" />
-                         <PasswordField fx:id="passwordAttualeField" promptText="Inserisci password" />
-                     </VBox>
-
-
-                     <!-- Password -->
-                     <VBox spacing="5" stylesheets="@../css/input.css" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                         <Label styleClass="labelInput" text="Nuova password" />
-                         <PasswordField fx:id="nuovaPasswordField" promptText="Inserisci password" />
-                     </VBox>
-
-                     <!-- Conferma Password -->
-                     <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                         <Label styleClass="labelInput" text="Conferma nuova password" />
-                         <PasswordField fx:id="confermaNuovaPasswordField" prefHeight="27.0" prefWidth="324.0" promptText="Conferma password" styleClass="password-field" />
-                     </VBox>
-
-                     <rowConstraints>
-                         <RowConstraints />
-                         <RowConstraints />
-
-                     </rowConstraints>
-
-                     <stylesheets>
-                         <URL value="@../css/input.css" />
-                         <URL value="@../css/input.css" />
-                     </stylesheets>
-                     <VBox.margin>
-                         <Insets bottom="40.0" top="30.0" />
-                     </VBox.margin>
-
-                 </GridPane>
-
-                 <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="20.0">
+                 <FlowPane hgap="20" prefWrapLength="640" stylesheets="@../css/input.css" vgap="20">
                      <children>
-                         <Button fx:id="annullaButtonPw" mnemonicParsing="false" onAction="#annullaButton" style="-fx-background-radius: 15; -fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla">
+                         <VBox prefWidth="270" spacing="5">
+                             <Label styleClass="labelInput" text="Password attuale" />
+                             <PasswordField fx:id="passwordAttualeField" promptText="Inserisci password" />
+                         </VBox>
+
+                         <VBox prefWidth="270" spacing="5">
+                             <Label styleClass="labelInput" text="Nuova password" />
+                             <PasswordField fx:id="nuovaPasswordField" promptText="Inserisci password" />
+                         </VBox>
+
+                         <VBox prefWidth="270" spacing="5">
+                             <Label styleClass="labelInput" text="Conferma nuova password" />
+                             <PasswordField fx:id="confermaNuovaPasswordField" promptText="Conferma password" />
+                         </VBox>
+                     </children>
+                  <VBox.margin>
+                     <Insets bottom="30.0" top="30.0" />
+                  </VBox.margin>
+                 </FlowPane>
+
+
+                 <HBox alignment="TOP_CENTER" spacing="20.0" stylesheets="@../css/input.css">
+                     <children>
+                         <Button fx:id="annullaButtonPw" mnemonicParsing="false" onAction="#annullaButton" styleClass="button-annullaModifiche" text="Annulla">
                              <padding>
                                  <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                              </padding>
                          </Button>
-                         <Button fx:id="confermaButtonPw" mnemonicParsing="false" onAction="#inviaPassword" style="-fx-background-radius: 15; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #1e3746;" text="Conferma modifiche">
+                         <Button fx:id="confermaButtonPw" mnemonicParsing="false" onAction="#inviaPassword" styleClass="button-modifiche" text="Conferma modifiche">
                              <padding>
                                  <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                              </padding>
@@ -203,10 +155,10 @@
                  </HBox>
 
              </children>
-            <VBox.margin>
-               <Insets />
-            </VBox.margin>
          </VBox>
-        </children>
+         <padding>
+            <Insets top="15.0" />
+         </padding>
     </VBox>
+    </children>
 </AnchorPane>

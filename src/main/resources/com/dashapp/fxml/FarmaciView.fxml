@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="443.0" prefWidth="932.0" stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.FarmaciController">
+<AnchorPane prefHeight="443.0" prefWidth="932.0" stylesheets="@../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.FarmaciController">
 
    <children>
       <HBox prefHeight="424.0" prefWidth="892.0" spacing="20.0" AnchorPane.bottomAnchor="-28.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
@@ -25,13 +25,13 @@
          <VBox spacing="15.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
 
             <!-- Intestazione: Label Nome Farmaco + Bottone Modifica -->
-            <HBox alignment="CENTER_LEFT">
+            <HBox alignment="CENTER_LEFT" stylesheets="@../css/input.css">
                <Label text="Nome farmaco" textFill="#cb6ce6">
                   <font>
                      <Font name="Roboto Black" size="16.0" />
                   </font></Label>
                <Region HBox.hgrow="ALWAYS" />
-               <Button fx:id="modificaButton" mnemonicParsing="false" onAction="#modificaFarmaco" prefHeight="26.0" prefWidth="99.0" style="-fx-background-color: #bd1522; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Modifica" />
+               <Button fx:id="modificaButton" mnemonicParsing="false" onAction="#modificaFarmaco" prefHeight="26.0" prefWidth="99.0" styleClass="button-modifiche" text="Modifica" />
             </HBox>
 
             <!-- TextField Nome Farmaco -->
@@ -50,10 +50,10 @@
             <TextArea fx:id="descrizioneTextArea" prefHeight="200.0" prefWidth="586.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-font-size: 16px;" VBox.vgrow="NEVER" />
 
             <!-- Bottoni -->
-            <HBox alignment="CENTER_RIGHT" spacing="10">
+            <HBox alignment="CENTER_RIGHT" spacing="10" stylesheets="@../css/input.css">
                <Region HBox.hgrow="ALWAYS" />
-               <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaModifica" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: #a0a0a0; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Annulla" visible="false" />
-               <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#InviaModifica" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: #cb6ce6; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" text="Conferma" visible="false" />
+               <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaModifica" prefHeight="34.0" prefWidth="99.0" styleClass="button-annullaModifiche" text="Annulla" visible="false" />
+               <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#InviaModifica" prefHeight="34.0" prefWidth="99.0" styleClass="button-modifiche" text="Conferma" visible="false" />
             </HBox>
 
          </VBox>
