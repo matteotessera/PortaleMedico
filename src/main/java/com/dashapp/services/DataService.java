@@ -2,6 +2,8 @@ package com.dashapp.services;
 
 import com.dashapp.model.*;
 import com.google.gson.*;
+import org.json.JSONObject;
+
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -540,7 +542,6 @@ public class DataService {
             String json = response.body();
             return parseAssunzioniManuale(json);
         } else {
-            System.out.println("Corpo della risposta errore: " + response.body());
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
     }
@@ -578,7 +579,6 @@ public class DataService {
             String json = response.body();
             return parseAssunzioneManuale(json);
         } else {
-            System.out.println("Corpo della risposta errore: " + response.body());
             throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
     }
@@ -901,13 +901,18 @@ public class DataService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String oraFormattata = oraInvio.format(formatter);
 
+        JsonObject messaggio = new JsonObject();
+        messaggio.addProperty("id_sender", idSender);
+        messaggio.addProperty("id_receiver", idReceiver);
+        messaggio.addProperty("data_invio", dataInvio.toString());
+        messaggio.addProperty("ora_invio", oraFormattata);
+        messaggio.addProperty("oggetto", oggetto);
+        messaggio.addProperty("corpo", corpo);
+        messaggio.addProperty("tipo", String.valueOf(tipo));
+        messaggio.addProperty("letto", letto ? "true" : "false");
 
-        String json = String.format(
-                "{\"id_sender\":%d, \"id_receiver\":%d, \"data_invio\":\"%s\", \"ora_invio\":\"%s\", " +
-                        "\"oggetto\":\"%s\", \"corpo\":\"%s\", \"tipo\":\"%c\", \"letto\":\"%s\"}",
-                idSender, idReceiver, dataInvio.toString(), oraFormattata,
-                oggetto, corpo, tipo, letto ? "true"  : "false"
-        );
+        String json = messaggio.toString();
+
         System.out.println(json);
 
         post(url, json);
@@ -1105,6 +1110,31 @@ public class DataService {
         post(url, json);
     }
 
+    public void updateUtenteSenzaPw(int id, String ruolo, String nome, String cognome, LocalDate dataNascita, String email, String telefono, String indirizzo, String genere, String codFiscale) throws Exception {
+        String url = API_URL + "update_utente.php";
+
+        String dataNascitaStr = dataNascita.toString();
+
+        String json = String.format(
+                "{" +
+                        "\"id\": %d, " +
+                        "\"ruolo\": \"%s\", " +
+                        "\"nome\": \"%s\", " +
+                        "\"cognome\": \"%s\", " +
+                        "\"codFiscale\": \"%s\", " +
+                        "\"dataNascita\": \"%s\", " +
+                        "\"email\": \"%s\", " +
+                        "\"telefono\": \"%s\", " +
+                        "\"genere\": \"%s\", " +
+                        "\"indirizzo\": \"%s\"" +
+                        "}",
+                id, ruolo, nome, cognome, codFiscale, dataNascitaStr, email, telefono, genere, indirizzo
+        );
+
+        post(url, json);
+    }
+
+
     public void assegnazioneMedico(int idMedico, int idPaziente) throws Exception {
         String url = API_URL + "assegnazione_medico.php";
         String json = String.format(
@@ -1246,6 +1276,33 @@ public class DataService {
             System.out.println("Cancellazione avvenuta con successo: " + response.body());
         } else {
             throw new RuntimeException("Errore nella cancellazione dell'oggetto: HTTP " + response.statusCode() + json);
+        }
+    }
+
+    public boolean verificaPassword(int id, String passwordAttuale) throws Exception {
+        String url = API_URL + "verifica_password.php";
+
+        // Crea JSON
+        JSONObject requestJson = new JSONObject();
+        requestJson.put("id", id);
+        requestJson.put("passwordAttuale", passwordAttuale);
+
+        // Costruisci richiesta POST
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestJson.toString()))
+                .build();
+
+        // Manda richiesta e ricevi risposta
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return true; // password corretta
+        } else if (response.statusCode() == 401) {
+            return false; // password errata
+        } else {
+            throw new RuntimeException("Errore nella chiamata HTTP: " + response.statusCode());
         }
     }
 

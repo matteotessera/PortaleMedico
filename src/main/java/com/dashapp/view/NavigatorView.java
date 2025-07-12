@@ -2,6 +2,9 @@ package com.dashapp.view;
 
 import com.dashapp.Main;
 import com.dashapp.controller.MainController;
+import com.dashapp.controller.dashboardAdmin.DashboardAdminController;
+import com.dashapp.controller.dashboardMedico.DashboardMedicController;
+import com.dashapp.controller.dashboardPatient.DashboardPatientController;
 import com.dashapp.model.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -23,6 +26,9 @@ public class NavigatorView {
     private static Rilevazione rilevazione = null;
     private static Assunzione assunzione = null;
     private static Terapia terapia = null;
+    private static DashboardAdminController adminController;
+    private static DashboardMedicController medicController;
+    private static DashboardPatientController patientController;
 
 
     /**
@@ -47,7 +53,20 @@ public class NavigatorView {
             URL fxmlUrl = Main.class.getResource("/com/dashapp/fxml/" + fxml);
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Node view = loader.load();
+            Object controller = loader.getController();
+
+
+            if (controller instanceof DashboardMedicController) {
+                setMedicController((DashboardMedicController) controller);
+            } else if (controller instanceof DashboardAdminController) {
+                setAdminController((DashboardAdminController) controller);
+            } else if (controller instanceof DashboardPatientController) {
+                setPatientController((DashboardPatientController) controller);
+            }
+
             mainController.setContent(view);
+
+
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error loading view: " + fxml);
@@ -130,6 +149,31 @@ public class NavigatorView {
     public static Terapia getTerapiaSelezionata(){ return terapia;};
 
 
+
+
+    public static void setAdminController(DashboardAdminController controller) {
+        adminController = controller;
+    }
+
+    public static DashboardAdminController getAdminController() {
+        return adminController;
+    }
+
+    public static void setMedicController(DashboardMedicController controller) {
+        medicController = controller;
+    }
+
+    public static DashboardMedicController getMedicController() {
+        return medicController;
+    }
+
+    public static void setPatientController(DashboardPatientController controller) {
+        patientController = controller;
+    }
+
+    public static DashboardPatientController getPatientController() {
+        return patientController;
+    }
 
     public static boolean isAuthenticated() {
         return authenticatedUser != null;

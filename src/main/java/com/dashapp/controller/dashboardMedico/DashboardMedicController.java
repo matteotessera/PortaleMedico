@@ -62,10 +62,10 @@ public class DashboardMedicController {
         private int idCurrentUser;
 
 
-
-
         public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
                 ds = new DataService();
+
+                NavigatorView.setMedicController(this);
 
                 String email = NavigatorView.getAuthenticatedUser();
                 idCurrentUser = ds.getUtenteByEmail(email).getId();
@@ -89,6 +89,11 @@ public class DashboardMedicController {
                     }
                 });
 
+        }
+
+        public void reload() throws Exception {
+                initialize();
+                mostraTextMeico();
         }
 
 
@@ -222,10 +227,19 @@ public class DashboardMedicController {
 
                         if (controlli.pazienteNonAderente(p.getId()) && serveAvvisare) {
                                 mostraAlert("AVVISO", "Il paziente: " + p.getNome() + " " + p.getCognome() + " non ha aderito alle sue prescrizioni negli ultimi 3 giorni");
-                                ds.addMessaggio(p.getId(), idCurrentUser, LocalDate.now(), LocalTime.now(),
-                                        "Avviso paziente: " + p.getNome() + " " + p.getCognome() + " " + p.getEmail(),
+
+                                String oggetto = "Avviso Non Aderenza";
+                                String corpo = "Paziente:\n" + p.getNome() + " " + p.getCognome() +
+                                        "\nEmail: " + p.getEmail() +
+                                        "\n\nNon ha aderito alle prescrizioni negli ultimi 3 giorni.";
+
+                                /*ds.addMessaggio(p.getId(), idCurrentUser, LocalDate.now(), LocalTime.now(),
+                                        "Avviso paziente:" + p.getNome() + " " + p.getCognome() + "Email: " + p.getEmail(),
                                         "il paziente non ha aderito alle sue prescrizioni negli ultimi 3 giorni",
-                                        'N', false);
+                                        'N', false);*/
+
+                                ds.addMessaggio(p.getId(), idCurrentUser, LocalDate.now(), LocalTime.now(),
+                                        oggetto, corpo, 'N', false);
                                 serveAvvisare = false;
                         }
 

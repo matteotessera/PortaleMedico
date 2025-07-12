@@ -87,67 +87,6 @@
                                 </graphic>
                             </Button>
 
-
-
-                            <!--
-                            <HBox alignment="CENTER_LEFT" spacing="10">
-                                <StackPane>
-                                    <Rectangle arcHeight="20" arcWidth="20" fill="#c66fe3cc" height="60.0" width="60.0" />
-                                    <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
-                                        <image>
-                                            <Image url="@../../images/farmaco_bianco.png" />
-                                        </image></ImageView>
-                                </StackPane>
-
-                                <VBox alignment="CENTER_LEFT" prefHeight="60.0">
-                                    <Label fx:id="numeroFarmaci" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="24.0" />
-                                        </font>
-                                    </Label>
-                                    <Label fx:id="descrizioneLabel" text="Farmaci da assumere" textFill="WHITE">
-                                        <font>
-                                            <Font size="14" />
-                                        </font>
-                                    </Label>
-                                </VBox>
-                        <padding>
-                           <Insets left="70.0" />
-                        </padding>
-                            </HBox>
-                            -->
-
-                            <!--
-
-                            <HBox alignment="CENTER_LEFT" spacing="10">
-                                <StackPane>
-                                    <Rectangle arcHeight="20" arcWidth="20" fill="#83d95bcc" height="60.0" width="60.0" />
-                                    <ImageView fx:id="iconaImageView" fitHeight="30.0" fitWidth="30.0">
-                                        <image>
-                                            <Image url="@../../images/terapia_bianca.png" />
-                                        </image></ImageView>
-                                </StackPane>
-
-                                <VBox alignment="CENTER_LEFT" prefHeight="60.0">
-                                    <Label fx:id="numeroTerapie" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="24.0" />
-                                        </font>
-                                    </Label>
-                                    <Label fx:id="descrizioneLabel" text="Terapie assegnate" textFill="WHITE">
-                                        <font>
-                                            <Font size="14" />
-                                        </font>
-                                    </Label>
-                                </VBox>
-                            </HBox>
-
-                        -->
-
-
-
-
-
                         </HBox>
                   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" spacing="10">
                      <children>
@@ -224,34 +163,7 @@
                                 <font>
                                     <Font name="Roboto Regular" size="15.0" />
                                 </font></Label>
-                            <!-- <HBox alignment="CENTER_LEFT" onMouseClicked="#ListaRilevazioni" spacing="10">
-                                <ImageView fx:id="eyeIcon" fitHeight="16.0" fitWidth="20" onMouseClicked="#ListaRilevazioni">
-                                    <image>
-                                        <Image url="@../../images/occhio_rosso.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Vedi cronologia rilevazioni">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <padding>
-                                    <Insets left="50.0" />
-                                </padding>
-                            </HBox> -->
-                            <!--<HBox alignment="CENTER_LEFT" onMouseClicked="#aggiungiRilevazione" spacing="10">
-                                <ImageView fx:id="plusIcon1" fitHeight="20" fitWidth="20" onMouseClicked="#ListaRilevazioni">
-                                    <image>
-                                        <Image url="@../../images/piu_rosso.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Registra una rilevazione">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>-->
+
                             <HBox alignment="CENTER_LEFT" prefWidth="249.0" spacing="10">
                                 <children>
                                     <Button mnemonicParsing="false" onMouseClicked="#ListaRilevazioni" prefHeight="40" prefWidth="120" style="-fx-background-color: #ef233c; -fx-border-color: #ef233c; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Vedi">
@@ -300,36 +212,6 @@
                                     <Font size="15.0" />
                                 </font></Label>
 
-                            <!--
-                            <HBox alignment="CENTER_LEFT" onMouseClicked="#listaAssunzioni" spacing="10">
-                                <ImageView fx:id="eyeIcon2" fitHeight="16.0" fitWidth="20" onMouseClicked="#listaAssunzioni">
-                                    <image>
-                                        <Image url="@../../images/occhioViola.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Vedi cronologia assunzioni">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>
-                            <HBox alignment="CENTER_LEFT" onMouseClicked="#aggiungiAssunzione" spacing="10">
-                                <ImageView fx:id="plusIcon2" fitHeight="20.0" fitWidth="20">
-                                    <image>
-                                        <Image url="@../../images/piuViola.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Registra assunzione di un farmaco">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>-->
-
                             <HBox alignment="CENTER_LEFT" prefWidth="249.0" spacing="10">
                                 <children>
                                     <Button mnemonicParsing="false" onMouseClicked="#listaAssunzioni" prefHeight="40" prefWidth="120" style="-fx-background-color: #cb6ce6; -fx-border-color: #cb6ce6; -fx-border-width: 1; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 15; -fx-border-radius: 15; -fx-cursor: hand; -fx-font-family: 'Roboto Medium';" text="Vedi">
@@ -366,22 +248,6 @@
                                     </font>
                                 </Label>
                             </HBox>
-
-
-                            <!--<HBox alignment="CENTER_LEFT" onMouseClicked="#listaTerapie" spacing="10">
-                                <ImageView fx:id="eyeIcon3" fitHeight="16.0" fitWidth="20">
-                                    <image>
-                                        <Image url="@../../images/occhioVerde.png" />
-                                    </image>
-                                </ImageView>
-                                <Label text="Vedi tutte le terapie">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font></Label>
-                                <VBox.margin>
-                                    <Insets left="50.0" />
-                                </VBox.margin>
-                            </HBox>-->
 
                             <Label fx:id="" text="Vedi le terapie assegnate" wrapText="true">
                                 <VBox.margin>
@@ -434,42 +300,6 @@
                            <Font name="Roboto" size="15.0" />
                         </font>
                      </Label>
-
-                      <!--
-                     <HBox alignment="CENTER_LEFT" onMouseClicked="#listaSintomi" spacing="10">
-                        <VBox.margin>
-                           <Insets left="50.0" />
-                        </VBox.margin>
-                        <children>
-                           <ImageView fx:id="eyeIcon31" fitHeight="16.0" fitWidth="20">
-                              <image>
-                                 <Image url="@../../images/occhio_blu.png" />
-                              </image>
-                           </ImageView>
-                           <Label text="Vedi cronologia sintomi">
-                              <font>
-                                 <Font size="15.0" />
-                              </font>
-                           </Label>
-                        </children>
-                     </HBox>
-                     <HBox alignment="CENTER_LEFT" onMouseClicked="#aggiungiSintomo" spacing="10">
-                        <children>
-                           <ImageView fx:id="plusIcon22" fitHeight="20.0" fitWidth="20">
-                              <image>
-                                 <Image url="@../../images/piu_blu.png" />
-                              </image>
-                           </ImageView>
-                           <Label text="Registra sintomo">
-                              <font>
-                                 <Font size="15.0" />
-                              </font>
-                           </Label>
-                        </children>
-                        <VBox.margin>
-                           <Insets left="50.0" />
-                        </VBox.margin>
-                     </HBox>-->
 
                       <HBox alignment="CENTER_LEFT" prefWidth="249.0" spacing="10">
                           <children>

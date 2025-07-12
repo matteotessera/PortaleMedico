@@ -207,50 +207,75 @@ public class MainController {
         // da cambiare la view
     }
 
+    public DashboardMedicController getMedicController() {
+        return medicController;
+    }
+
+    public DashboardAdminController getAdminController() {
+        return adminController;
+    }
+
+    public DashboardPatientController getPatientController() {
+        return patientController;
+    }
+
+
     @FXML
     public void vediProfilo() throws Exception {
-        if (dashboardController != null) {
-            dashboardController.vediProfilo();
-        } else {
-            // Se per qualche motivo non è ancora caricato, caricalo e poi chiama vediProfilo
-            String email = NavigatorView.getAuthenticatedUser();
-            DataService ds = new DataService();
-            Utente u = ds.getUtenteByEmail(email);
-            String ruolo = u.getRuolo();
-            FXMLLoader loader = null;
+        String email = NavigatorView.getAuthenticatedUser();
+        DataService ds = new DataService();
+        Utente u = ds.getUtenteByEmail(email);
+        String ruolo = u.getRuolo();
+
+        FXMLLoader loader = null;
 
             if(ruolo.equals("admin")){
-                loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardAdmin/DashBoardViewAdmin.fxml"));
-                Parent dashboardRoot = loader.load();
-                adminController = loader.getController();
+                if(adminController != null) {
+                    adminController.vediProfilo();
+                }
+                else {
+                    loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardAdmin/DashBoardViewAdmin.fxml"));
+                    Parent dashboardRoot = loader.load();
+                    adminController = loader.getController();
 
-                stackPane.getChildren().clear();
-                stackPane.getChildren().add(dashboardRoot);
+                    stackPane.getChildren().clear();
+                    stackPane.getChildren().add(dashboardRoot);
 
-                adminController.vediProfilo();
+                    adminController.vediProfilo();
+                }
             }
             else if(ruolo.equals("medico")){
-                loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/DashBoardViewMedic.fxml")); break;
-                Parent dashboardRoot = loader.load();
-                medicController = loader.getController();
+                if(medicController != null) {
+                    medicController.vediProfilo();
+                }
+                else {
+                    loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/DashBoardViewMedic.fxml"));
+                    Parent dashboardRoot = loader.load();
+                    medicController = loader.getController();
 
-                stackPane.getChildren().clear();
-                stackPane.getChildren().add(dashboardRoot);
+                    stackPane.getChildren().clear();
+                    stackPane.getChildren().add(dashboardRoot);
 
-                medicController.vediProfilo();
+                    medicController.vediProfilo();
+                }
             }
             else if(ruolo.equals("paziente")){
-                loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/DashBoardViewPatient.fxml")); break;
-                Parent dashboardRoot = loader.load();
-                patientController = loader.getController();
+                if(patientController != null) {
+                    patientController.vediProfilo();
+                }
+                else {
+                    loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/DashBoardViewPatient.fxml"));
+                    Parent dashboardRoot = loader.load();
+                    patientController = loader.getController();
 
-                stackPane.getChildren().clear();
-                stackPane.getChildren().add(dashboardRoot);
+                    stackPane.getChildren().clear();
+                    stackPane.getChildren().add(dashboardRoot);
 
-                patientController.vediProfilo();
+                    patientController.vediProfilo();
+                }
             }
 
-        }
+
     }
 
 }

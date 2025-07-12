@@ -4,14 +4,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import org.controlsfx.control.*?>
 
-<AnchorPane stylesheets="@../../css/Structure.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.ViewTerapiaController">
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.ViewTerapiaController">
 
    <children>
       <HBox spacing="40.0">
          <children>
-            <VBox>
+            <VBox stylesheets="@../../css/input.css">
                <children>
                   <Label text="Terapia" textFill="#7ed957">
                      <font>
@@ -24,7 +23,7 @@
                   <VBox spacing="5.0" stylesheets="@../../css/input.css">
                      <children>
                         <Label styleClass="labelInput" text="Seleziona terapia" />
-                        <ComboBox onAction="#sceltaTerapia" fx:id="sceltaTerapia" prefWidth="200.0" />
+                        <ComboBox fx:id="sceltaTerapia" onAction="#sceltaTerapia" prefWidth="200.0" />
                      </children>
                      <padding>
                         <Insets left="30.0" top="20.0" />
@@ -45,7 +44,7 @@
 
                      <Region HBox.hgrow="ALWAYS" />
 
-                     <Button fx:id="modificaButton" onMouseClicked="#modifica" mnemonicParsing="false" styleClass="button-modifiche" text="Modifica" />
+                     <Button fx:id="modificaButton" mnemonicParsing="false" onMouseClicked="#modifica" styleClass="button-modifiche" text="Modifica" />
                   </children>
                </HBox>
       

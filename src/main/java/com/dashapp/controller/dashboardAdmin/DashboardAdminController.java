@@ -21,7 +21,6 @@ import javafx.scene.shape.Circle;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.WeekFields;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +80,7 @@ public class DashboardAdminController {
                 numeroUtenti.setText(String.valueOf(nUtenti));
                 numeroFarmaci.setText(String.valueOf(ds.getFarmaci().length));
 
-                mostraTextMeico();
+                mostraTextAdmin();
 
                 if (!mainContent.getChildren().isEmpty()) {
                         originalContent = (Parent) mainContent.getChildren().get(0);
@@ -223,13 +222,18 @@ public class DashboardAdminController {
                 controller = null;  // forza a ricaricare BoxDashboard quando serve
         }
 
+        public void reload() throws Exception {
+                initialize();
+                mostraTextAdmin();
+        }
+
 
         //Metodo per la visualizzazione del nome del medico e dell'immagine con iniziali nome e cognome
-        public void mostraTextMeico() throws Exception {
+        public void mostraTextAdmin() throws Exception {
                 String email = NavigatorView.getAuthenticatedUser();
 
                 Utente u = ds.getUtenteByEmail(email);
-                doctorName.setText("Dr. "+u.getNome()+" "+u.getCognome());
+                doctorName.setText(u.getNome()+" "+u.getCognome());
 
                 char nome = u.getNome().toUpperCase().charAt(0);
                 char cognome = u.getCognome().toUpperCase().charAt(0);
