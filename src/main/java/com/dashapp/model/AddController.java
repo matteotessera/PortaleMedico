@@ -13,7 +13,7 @@ public class AddController implements OverlayPaneAware {
     private Pane overlayPane;
 
     @FXML
-    private void exit(javafx.event.ActionEvent event) {
+    public void exit(javafx.event.ActionEvent event) {
         // Nasconde il nodo genitore (la finestra)
         if(overlayPane!= null) {
             overlayPane.setVisible(false);

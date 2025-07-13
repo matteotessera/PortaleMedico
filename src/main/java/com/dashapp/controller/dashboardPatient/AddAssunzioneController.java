@@ -196,13 +196,15 @@ public class AddAssunzioneController extends AddController {
     private void registraAssunzione() throws Exception {
         LocalTime ora;
         try {
-            ora = LocalTime.parse(this.oraField.getValue()+":"+this.minutiField.getValue());
+            String orarioString = String.format("%02d:%02d",
+                    this.oraField.getValue(),
+                    this.minutiField.getValue());
+            ora = LocalTime.parse(orarioString);
         } catch (DateTimeParseException e) {
             erroreLabel.setText("Errore: orario non valido, usare formato HH:mm oppure HH:mm:ss");
             erroreLabel.setStyle("-fx-text-fill: red");
             return;
         }
-
         LocalDate data;
         try {
             data = dataField.getValue();

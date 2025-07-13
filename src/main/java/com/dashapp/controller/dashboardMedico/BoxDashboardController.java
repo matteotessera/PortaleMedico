@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BoxDashboardController {
 
@@ -57,8 +58,13 @@ public class BoxDashboardController {
         bodyContainer.getChildren().clear();
 
         List<Utente> utenti;
+        List<Utente> utentiFiltrati;
         try {
             utenti = new ArrayList<>(List.of(ds.getUtenti()));
+            utentiFiltrati = utenti.stream()
+                    .filter(u -> u.getRuolo().equals("paziente"))
+                    .collect(Collectors.toList());
+
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -97,7 +103,7 @@ public class BoxDashboardController {
         // Metodo per caricare la tabella con lista ordinata
         Runnable aggiornaTabella = () -> {
             bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox); // pulisce tranne i controlli sopra
-            tabellaUtenti(titolo, utenti, textButton, Color.web("#34bccc"));
+            tabellaUtenti(titolo, utentiFiltrati, textButton, Color.web("#34bccc"));
         };
 
         aggiornaTabella.run();
