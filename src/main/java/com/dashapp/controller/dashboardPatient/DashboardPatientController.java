@@ -63,8 +63,11 @@ public class DashboardPatientController {
     public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci
         LoginService l = new LoginService();
         DataService d = new DataService();
+
+        NavigatorView.setPatientController(this);
         //terapieLabel.setText("Hai " + d.getNumeroTerapieMedico(l.getUserId()) + " terapie assegnate");
         mostraTextPaziente();
+
 
         if (!mainContent.getChildren().isEmpty()) {
             originalContent = (Parent) mainContent.getChildren().get(0);
@@ -94,6 +97,7 @@ public class DashboardPatientController {
             }
         }
 
+
         /*FlagRilevazioniLabel.setText("Oggi hai eseguito " + countRilevazioni + " rilevazion" + (countRilevazioni == 1 ? "e" : "i"));
 
         FlagAssunzioniLabel.setText("Registra eventuali Sintomi e le tue assunzioni giornaliere\n" +
@@ -122,6 +126,7 @@ public class DashboardPatientController {
         });
 
     }
+
 
     public void setBoxControllerGrafico(graficoGlicemiaController graficoController){
         graficoController.setBoxControllerPatient(controller);

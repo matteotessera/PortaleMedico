@@ -242,6 +242,7 @@ public class MainController {
                     stackPane.getChildren().add(dashboardRoot);
 
                     adminController.vediProfilo();
+
                 }
             }
             else if(ruolo.equals("medico")){

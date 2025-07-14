@@ -181,7 +181,11 @@ public class messaggiController {
                 filtrati.add(m);
             }
         }
-        filtrati.sort(Comparator.comparing(Messaggio::getDataInvio));
+        filtrati.sort(
+                Comparator
+                        .comparing(Messaggio::getDataInvio)
+                        .thenComparing(Messaggio::getOrarioInvio)
+        );
 
         listView.getSelectionModel().clearSelection();
         listView.setItems(FXCollections.observableArrayList(filtrati));

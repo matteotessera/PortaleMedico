@@ -177,13 +177,19 @@ public class ProfiloController {
         MainController mainController = NavigatorView.getMainController();
 
         if(u.getRuolo().equals("admin")){
+            mainController.getAdminController().backToDashboard();
             NavigatorView.getAdminController().reload();
-
+            mainController.vediProfilo();
         } else if (u.getRuolo().equals("medico")) {
+
+            mainController.getMedicController().backToDashboard();
             NavigatorView.getMedicController().reload();
+            mainController.vediProfilo();
 
         } else if (u.getRuolo().equals("paziente")) {
+            mainController.getPatientController().mostraBox();
             NavigatorView.getPatientController().reload();
+            mainController.vediProfilo();
         }
 
     }
