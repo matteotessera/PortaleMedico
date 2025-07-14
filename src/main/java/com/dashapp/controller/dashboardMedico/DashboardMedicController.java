@@ -84,7 +84,6 @@ public class DashboardMedicController {
                         originalContent = (Parent) mainContent.getChildren().get(0);
                 }
 
-
                 Platform.runLater(() -> {
                     try {
                         controllaPazienti();

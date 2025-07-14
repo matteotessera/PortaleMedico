@@ -28,10 +28,6 @@ public class DashboardPatientController {
     @FXML
     private Label terapieLabel;
 
-    private DataService ds;
-
-
-    private AnchorPane overlayPaneTerapia;
     @FXML
     private StackPane mainContent;
     @FXML
@@ -42,25 +38,26 @@ public class DashboardPatientController {
     private Circle cerchioNavbar;
     @FXML
     private Label utenteLabel;
-
-    private Parent originalContent;
-
-    private BoxDashboardControllerPatient controller;
-
     @FXML
     private Label numeroFarmaci;
     @FXML
     public Label FlagRilevazioniLabel;
     @FXML
     public Label FlagAssunzioniLabel;
+    @FXML
+    AnchorPane graficoContainer;
+
+    private Parent originalContent;
+
+    private BoxDashboardControllerPatient controller;
+
+    private DataService ds;
+
+    private AnchorPane overlayPaneTerapia;
 
     public Utente u;
 
     public int countRilevazioni;
-
-
-    @FXML
-    AnchorPane graficoContainer;
 
 
     public void initialize() throws Exception {              //Andra messo showAllFarmaci invece di showAddFarmaci

@@ -168,8 +168,11 @@ public class AddInfoPazienteController {
             return;
         }
 
-        JsonObject obj = note.getAsJsonObject();
+        Gson gson = new Gson();
 
+        // Converto la stringa JSON in JsonObject
+        String noteString = note.getAsString();
+        JsonObject obj = gson.fromJson(noteString, JsonObject.class);
 
         fumoComboBox.setValue(obj.has("fumo") ? obj.get("fumo").getAsString() : null);
         alcolComboBox.setValue(obj.has("alcol") ? obj.get("alcol").getAsString() : null);

@@ -55,7 +55,6 @@ public class NavigatorView {
             Node view = loader.load();
             Object controller = loader.getController();
 
-
             if (controller instanceof DashboardMedicController) {
                 setMedicController((DashboardMedicController) controller);
             } else if (controller instanceof DashboardAdminController) {
@@ -63,7 +62,6 @@ public class NavigatorView {
             } else if (controller instanceof DashboardPatientController) {
                 setPatientController((DashboardPatientController) controller);
             }
-
             mainController.setContent(view);
 
 
@@ -146,10 +144,8 @@ public class NavigatorView {
     public static Assunzione getAssunzioneSelezionata(){ return assunzione;};
 
     public static void setTerapiaSelezionata(Terapia terap){ terapia = terap;}
+
     public static Terapia getTerapiaSelezionata(){ return terapia;};
-
-
-
 
     public static void setAdminController(DashboardAdminController controller) {
         adminController = controller;
@@ -188,6 +184,5 @@ public class NavigatorView {
             m.eliminaTextNavbar(); // se non autenticato, elimina testo
         }
     }
-
 
 }

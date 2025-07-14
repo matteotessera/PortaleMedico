@@ -330,27 +330,17 @@ public class DataService {
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(response.body(), JsonObject.class);
 
-            if (jsonObject.has("success") && jsonObject.get("success").getAsBoolean()) {
-                JsonArray dataArray = jsonObject.getAsJsonArray("data");
-
-                if (dataArray != null && dataArray.size() > 0) {
-                    JsonObject infoJson = dataArray.get(0).getAsJsonObject();
-
-                    InfoPaziente info = new InfoPaziente();
-                    info.setId(infoJson.get("id").getAsInt());
-                    info.setIdPaziente(infoJson.get("id_paziente").getAsInt());
-
-                    // Qui recuperiamo "note" come JsonElement, non come stringa
-                    JsonElement noteElement = infoJson.get("note");
-                    info.setNote(noteElement);  // Assumendo che tu abbia un campo JsonElement noteElement in InfoPaziente
-
-                    return info;
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
+            if (jsonObject.has("error")) {
+                return null; // o gestisci l'errore
             }
+
+            // Creazione oggetto InfoPaziente
+            InfoPaziente info = new InfoPaziente();
+            info.setId(jsonObject.get("id").getAsInt());
+            info.setIdPaziente(jsonObject.get("id_paziente").getAsInt());
+            info.setNote(jsonObject.get("note"));  // come JsonElement
+
+            return info;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1023,17 +1013,17 @@ public class DataService {
 
     // ---=== UPDATE ===---
 
-    public void updateInfoPaziente(int id, int idPaziente, String noteJson) throws Exception {
+    public void updateInfoPaziente(int id, int idPaziente, String note) throws Exception {
         String url = API_URL + "update_info_paziente.php";
 
-        // Costruiamo il JSON con id, id_paziente e note (noteJson è già JSON valido, senza virgolette extra)
-        String json = String.format(
-                "{\"id\": %d, \"id_paziente\": %d, \"note\": %s}",
-                id, idPaziente, noteJson
-        );
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+        json.addProperty("id_paziente", idPaziente);
+        json.add("note", JsonParser.parseString(note));  // 'note' è JSON valido come stringa
 
-        post(url, json);
+        post(url, json.toString());
     }
+
     public void updatePatologia(int id, int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) throws Exception {
         String url = API_URL + "update_patologia.php";
 
