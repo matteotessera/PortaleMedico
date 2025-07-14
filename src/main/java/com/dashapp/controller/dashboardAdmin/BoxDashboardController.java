@@ -95,7 +95,7 @@ public class BoxDashboardController {
         // Metodo per caricare la tabella con lista ordinata
         Runnable aggiornaTabella = () -> {
             bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox); // pulisce tranne i controlli sopra
-            tabellaUtenti(titolo, utenti, textButton, Color.web("#34bccc"));
+            tabellaUtenti(titolo, utenti, textButton, Color.web("#1e3746"));
         };
 
         aggiornaTabella.run();
@@ -214,7 +214,7 @@ public class BoxDashboardController {
         // Metodo per aggiornare la tabella con la lista ordinata
         Runnable aggiornaTabella = () -> {
             bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox);
-            tabellaFarmaci(titolo, farmaci, textButton, Color.web("#34bccc"));
+            tabellaFarmaci(titolo, farmaci, textButton, Color.web("#1e3746"));
         };
 
         aggiornaTabella.run();
@@ -273,7 +273,7 @@ public class BoxDashboardController {
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
         LabelBoxDashboard.setOnMouseClicked(event -> listaUtenti());
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloPazientiView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/AnagraficaView.fxml"));
         Parent addFarmacoContent = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer

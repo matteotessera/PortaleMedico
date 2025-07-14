@@ -6,21 +6,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.fascicolo.FascicoloPazienteController">
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.TabProfiloController">
    <children>
       <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox fx:id="hBoxButton" alignment="TOP_CENTER" spacing="20.0" styleClass="sidebar-hbox" stylesheets="@../../../css/Fascicolo.css">
+            <HBox alignment="TOP_CENTER" spacing="20.0" styleClass="sidebar-hbox" stylesheets="@../../css/TabProfilo.css">
                <children>
-                  <Button fx:id="PatologiaButton" mnemonicParsing="false" onAction="#showPatologie" prefHeight="41.0">
+                  <Button fx:id="profiloButton" mnemonicParsing="false" onAction="#showProfilo" prefHeight="41.0">
                      <graphic>
                         <HBox alignment="CENTER_LEFT" prefHeight="34.0" spacing="10">
-                           <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
+                           <ImageView fitHeight="18.0" fitWidth="18.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
                               <image>
-                                 <Image url="@../../../images/patologie_menu.png" />
+                                 <Image url="@../../images/user_menu.png" />
                               </image>
                            </ImageView>
-                           <Label style="-fx-font-family: 'Roboto SemiBold'; -fx-font-size: 15px;" styleClass="menu-label" text="Patologie">
+                           <Label style="-fx-font-family: 'Roboto SemiBold'; -fx-font-size: 15px;" styleClass="menu-label" text="Profilo">
                               <HBox.margin>
                                  <Insets left="9.0" />
                               </HBox.margin>
@@ -38,19 +38,19 @@
                      </HBox.margin>
                   </Button>
 
-                  <Button fx:id="TerapiaButton" mnemonicParsing="false" onAction="#showTerapie" prefHeight="41.0">
+                  <Button fx:id="cartellaMedicaButton" mnemonicParsing="false" prefHeight="41.0">
                      <graphic>
                         <HBox alignment="CENTER_LEFT" spacing="10">
                            <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
                               <image>
-                                 <Image url="@../../../images/terapia_menu_2.png" />
+                                 <Image url="@../../images/fascicolo_menu.png" />
                               </image>
                            </ImageView>
-                           <Label style="-fx-font-family: 'Roboto SemiBold'; -fx-font-size: 15px;" styleClass="menu-label" text="Terapie concomitanti">
+                           <ComboBox fx:id="cartellaComboBox" promptText="Cartella medica" style="-fx-font-family: 'Roboto SemiBold'; -fx-font-size: 15px; -fx-background-color: transparent;" styleClass="menu-label">
                               <HBox.margin>
                                  <Insets left="10.0" />
                               </HBox.margin>
-                           </Label>
+                           </ComboBox>
                            <padding>
                               <Insets left="15.0" right="15.0" />
                            </padding>
@@ -58,15 +58,15 @@
                      </graphic>
                   </Button>
 
-                  <Button fx:id="SintomoButton" mnemonicParsing="false" onAction="#showSintomi" prefHeight="41.0">
+                  <Button fx:id="fattoriRischioButton" mnemonicParsing="false" onAction="#showFattoriDiRischio" prefHeight="41.0">
                      <graphic>
                         <HBox alignment="CENTER_LEFT" spacing="10">
                            <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
                               <image>
-                                 <Image url="@../../../images/sintomi_menu.png" />
+                                 <Image url="@../../images/patologie_menu.png" />
                               </image>
                            </ImageView>
-                           <Label style="-fx-font-family: 'Roboto SemiBold'; -fx-font-size: 15px;" styleClass="menu-label" text="Sintomi concomitanti">
+                           <Label style="-fx-font-family: 'Roboto SemiBold'; -fx-font-size: 15px;" styleClass="menu-label" text="Fattori di rischio">
                               <HBox.margin>
                                  <Insets left="9.0" />
                               </HBox.margin>
@@ -80,6 +80,30 @@
                         </HBox>
                      </graphic>
                   </Button>
+
+                  <Button fx:id="glicemiaButton" mnemonicParsing="false" onAction="#showGrafico" prefHeight="41.0">
+                     <graphic>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                           <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../images/grafico_menu.png" />
+                              </image>
+                           </ImageView>
+                           <Label style="-fx-font-family: 'Roboto SemiBold'; -fx-font-size: 15px;" styleClass="menu-label" text="Andamento glicemia">
+                              <HBox.margin>
+                                 <Insets left="9.0" />
+                              </HBox.margin>
+                           </Label>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="15.0" right="15.0" />
+                           </padding>
+                        </HBox>
+                     </graphic>
+                  </Button>
+
 
                </children>
                <VBox.margin>

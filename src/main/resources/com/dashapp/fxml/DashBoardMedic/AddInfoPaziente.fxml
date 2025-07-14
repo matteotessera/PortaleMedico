@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddInfoPazienteController">
+
+   <children>
+      <VBox spacing="20.0" style="-fx-padding: 20 30 20 0;" stylesheets="@../../css/input.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <HBox spacing="10" stylesheets="@../../css/input.css">
+            <children>
+               <Label text="Fattori di rischio" textFill="#ff914d">
+                  <font>
+                     <Font name="Roboto Black" size="16.0" />
+                  </font>
+               </Label>
+
+               <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
+
+               <Button fx:id="modificaButton" onAction="#modifica" mnemonicParsing="false" styleClass="button-modifiche" text="Modifica" />
+            </children>
+         </HBox>
+
+         <!-- Selezione campi -->
+         <GridPane hgap="15" vgap="15">
+            <columnConstraints>
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+            </columnConstraints>
+
+            <!-- Riga 1 -->
+            <children>
+               <VBox spacing="5" GridPane.columnIndex="0">
+                  <Label styleClass="labelInput" text="Fumo" />
+                  <ComboBox fx:id="fumoComboBox" maxWidth="Infinity" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="1">
+                  <Label styleClass="labelInput" text="Alcol" />
+                  <ComboBox fx:id="alcolComboBox" maxWidth="Infinity" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="2">
+                  <Label styleClass="labelInput" text="Obesità" />
+                  <ComboBox fx:id="obesitaComboBox" maxWidth="Infinity" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="3">
+                  <Label styleClass="labelInput" text="Ipertensione" />
+                  <ComboBox fx:id="ipertensioneComboBox" maxWidth="Infinity" />
+               </VBox>
+
+               <!-- Riga 2 -->
+               <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                  <Label styleClass="labelInput" text="Colesterolo" />
+                  <ComboBox fx:id="colesteroloComboBox" maxWidth="Infinity" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label styleClass="labelInput" text="Dipendenza stupefacenti" />
+                  <ComboBox fx:id="stupefacentiComboBox" maxWidth="Infinity" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Label styleClass="labelInput" text="Attività fisica" />
+                  <ComboBox fx:id="attivitaComboBox" maxWidth="Infinity" />
+               </VBox>
+
+               <VBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <Label styleClass="labelInput" text="Dieta non equilibrata" />
+                  <ComboBox fx:id="dietaComboBox" maxWidth="Infinity" />
+               </VBox>
+            </children>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+         </GridPane>
+
+         <VBox spacing="5" stylesheets="@../../css/input.css">
+            <Label styleClass="labelInput" text="Altro" />
+            <TextArea fx:id="descrizioneArea" editable="true" prefHeight="120" />
+         </VBox>
+
+         <!-- Bottone -->
+         <Button fx:id="aggiungiButton" onAction="#inviaDati" style="-fx-background-color: #ff914d; -fx-background-radius: 20; -fx-text-fill: white; -fx-font-weight: bold;" styleClass="button-invio" text="Aggiungi" />
+         <HBox alignment="CENTER" spacing="10.0" stylesheets="@../../css/input.css">
+            <children>
+               <Button fx:id="annullaButton" onAction="#annulla" mnemonicParsing="false" styleClass="button-annullaModifiche" text="Annulla" />
+               <Button fx:id="inviaModificheButton" onAction="#inviaModifiche" mnemonicParsing="false" styleClass="button-modifiche" text="Conferma modifiche" />
+            </children>
+         </HBox>
+      </VBox>
+   </children>
+</AnchorPane>

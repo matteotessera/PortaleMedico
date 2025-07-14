@@ -4,6 +4,7 @@ import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.TerapiaConcomitante;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
+import com.dashapp.view.NavigatorView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -42,18 +43,26 @@ public class TabTerapieController {
     }
 
 
-    private void aggiornaGrid() {
+    private void aggiornaGrid() throws Exception {
         terapieGrid.getChildren().clear();
         int col = 0, row = 0;
 
         // Card aggiunta terapia
-        VBox addCard = creaCardAggiungi();
-        terapieGrid.add(addCard, col, row);
-        col++;
+        if(ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getRuolo().equals("paziente")) {
+            VBox addCard = creaCardAggiungi();
+            if (addCard != null) {
+                terapieGrid.add(addCard, col, row);
+                col++;
+            } else {
+                System.err.println("Errore: creaCardAggiungi ha restituito null");
+            }
+        }
 
         for (TerapiaConcomitante t : listaTerapie) {
             VBox card = creaCardTerapia(t);
-            terapieGrid.add(card, col, row);
+            if (card != null) {
+                terapieGrid.add(card, col, row);
+            }
             col++;
             if (col == 5) { col = 0; row++; }
         }
@@ -74,7 +83,7 @@ public class TabTerapieController {
         return card;
     }
 
-    private VBox creaCardTerapia(TerapiaConcomitante t) {
+    private VBox creaCardTerapia(TerapiaConcomitante t) throws Exception {
         VBox card = new VBox(10);
         card.setPadding(new Insets(15, -20, 15, -20));
         card.setStyle("-fx-background-color: #f4f4f4; -fx-background-radius: 15; -fx-border-color: lightgray; -fx-border-radius: 15;");
@@ -108,29 +117,36 @@ public class TabTerapieController {
         GridPane.setColumnSpan(noteBox, 2);
 
         // Bottone elimina
-        Button eliminaButton = new Button("Elimina");
-        eliminaButton.setStyle("-fx-background-color: #e94f4f; -fx-text-fill: white; -fx-background-radius: 10; -fx-pref-height: 25; -fx-font-size: 12;");
-        eliminaButton.setOnAction(ev -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Conferma eliminazione");
-            alert.setHeaderText("Eliminare questa terapia?");
-            alert.setContentText(t.getFarmaco());
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                try {
-                    ds.deleteTerapiaConcomitante(t.getId());
-                    listaTerapie = List.of(ds.getTerapieConcomitantiByPaziente(idPaziente));
-                    aggiornaGrid();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+        Button eliminaButton = null;
+        if(ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getRuolo().equals("paziente")) {
+            eliminaButton = new Button("Elimina");
+            eliminaButton.setStyle("-fx-background-color: #e94f4f; -fx-text-fill: white; -fx-background-radius: 10; -fx-pref-height: 25; -fx-font-size: 12;");
+            eliminaButton.setOnAction(ev -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Conferma eliminazione");
+                alert.setHeaderText("Eliminare questa terapia?");
+                alert.setContentText(t.getFarmaco());
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    try {
+                        ds.deleteTerapiaConcomitante(t.getId());
+                        listaTerapie = List.of(ds.getTerapieConcomitantiByPaziente(idPaziente));
+                        aggiornaGrid();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+            VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0));
+        }
 
-        VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0));
 
         // Composizione card
-        card.getChildren().addAll(titolo, grid, eliminaButton);
+        if(eliminaButton!=null){
+            card.getChildren().addAll(titolo, grid, eliminaButton);
+        }else{
+            card.getChildren().addAll(titolo, grid);
+        }
         VBox.setVgrow(grid, Priority.ALWAYS);
 
         return card;

@@ -312,6 +312,51 @@ public class DataService {
         }
     }
 
+    public InfoPaziente getInfoPazienteByID(int idPaziente) {
+        try {
+            String url = API_URL + "get_info_paziente_by_id.php?id_paziente=" + idPaziente;
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.body() == null || response.body().isEmpty()) {
+                return null;
+            }
+
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(response.body(), JsonObject.class);
+
+            if (jsonObject.has("success") && jsonObject.get("success").getAsBoolean()) {
+                JsonArray dataArray = jsonObject.getAsJsonArray("data");
+
+                if (dataArray != null && dataArray.size() > 0) {
+                    JsonObject infoJson = dataArray.get(0).getAsJsonObject();
+
+                    InfoPaziente info = new InfoPaziente();
+                    info.setId(infoJson.get("id").getAsInt());
+                    info.setIdPaziente(infoJson.get("id_paziente").getAsInt());
+
+                    // Qui recuperiamo "note" come JsonElement, non come stringa
+                    JsonElement noteElement = infoJson.get("note");
+                    info.setNote(noteElement);  // Assumendo che tu abbia un campo JsonElement noteElement in InfoPaziente
+
+                    return info;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     public Studio getStudioMedico(int idMedico) throws Exception {
@@ -752,7 +797,15 @@ public class DataService {
 
     // ---=== SETTER ===---
 
+    public void addInfoPaziente(int idPaziente, String note) throws Exception {
+        String url = API_URL + "add_info_paziente.php";
 
+        JsonObject json = new JsonObject();
+        json.add("note", JsonParser.parseString(note));  // qui note è JSON, viene parsato
+        json.addProperty("id_paziente", idPaziente);
+
+        post(url, json.toString());
+    }
 
     public void addRilevazionePaziente(double valore, String tipo, int idPaziente, String pasto) throws Exception {
 
@@ -970,8 +1023,17 @@ public class DataService {
 
     // ---=== UPDATE ===---
 
+    public void updateInfoPaziente(int id, int idPaziente, String noteJson) throws Exception {
+        String url = API_URL + "update_info_paziente.php";
 
+        // Costruiamo il JSON con id, id_paziente e note (noteJson è già JSON valido, senza virgolette extra)
+        String json = String.format(
+                "{\"id\": %d, \"id_paziente\": %d, \"note\": %s}",
+                id, idPaziente, noteJson
+        );
 
+        post(url, json);
+    }
     public void updatePatologia(int id, int pazienteId, String nomePatologia, LocalDate dataDiagnosi, String note) throws Exception {
         String url = API_URL + "update_patologia.php";
 
@@ -1183,8 +1245,16 @@ public class DataService {
 
     // ---=== DELETE ===---
 
+    public void deleteInfoPaziente(int idInfo) throws Exception {
+        String url = API_URL + "delete_info_paziente.php";
 
+        String json = String.format(
+                "{\"id\":%d}",
+                idInfo
+        );
 
+        post(url, json);
+    }
 
     public void deleteTerapiaConcomitante(int id) throws Exception {
         String url = API_URL + "delete_terapia_concomitante.php";
@@ -1386,7 +1456,33 @@ public class DataService {
     }
 
 
+    private InfoPaziente[] parseInfoPazienteManuale(String json) {
+        JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
+        List<InfoPaziente> infos = new ArrayList<>();
 
+        for (JsonElement elem : jsonArray) {
+            JsonObject obj = elem.getAsJsonObject();
+
+            InfoPaziente info = new InfoPaziente();
+            info.setId(obj.get("id").getAsInt());
+            info.setIdPaziente(obj.get("id_paziente").getAsInt());
+            info.setNote(obj.get("note"));
+
+            infos.add(info);
+        }
+        return infos.toArray(new InfoPaziente[0]);
+    }
+
+    private InfoPaziente parseInfoPazienteSingolo(String json) {
+        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+
+        InfoPaziente info = new InfoPaziente();
+        info.setId(obj.get("id").getAsInt());
+        info.setIdPaziente(obj.get("id_paziente").getAsInt());
+        info.setNote(obj.get("note"));
+
+        return info;
+    }
 
 
     private SintomoConcomitante[] parseSintomiConcomitantiManuale(String json) {

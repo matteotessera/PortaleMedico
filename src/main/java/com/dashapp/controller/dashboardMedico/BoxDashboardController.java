@@ -1,7 +1,5 @@
 package com.dashapp.controller.dashboardMedico;
 
-import com.dashapp.controller.ProfiloPaziente;
-import com.dashapp.controller.ProfiloController;
 import com.dashapp.model.Farmaco;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
@@ -103,7 +101,7 @@ public class BoxDashboardController {
         // Metodo per caricare la tabella con lista ordinata
         Runnable aggiornaTabella = () -> {
             bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox); // pulisce tranne i controlli sopra
-            tabellaUtenti(titolo, utentiFiltrati, textButton, Color.web("#34bccc"));
+            tabellaUtenti(titolo, utentiFiltrati, textButton, Color.web("#1e3746"));
         };
 
         aggiornaTabella.run();
@@ -207,7 +205,7 @@ public class BoxDashboardController {
         // Metodo per aggiornare la tabella con la lista ordinata
         Runnable aggiornaTabella = () -> {
             bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox);
-            tabellaFarmaci(titolo, farmaci, textButton, Color.web("#34bccc"));
+            tabellaFarmaci(titolo, farmaci, textButton, Color.web("#1e3746"));
         };
 
         aggiornaTabella.run();
@@ -300,7 +298,7 @@ public class BoxDashboardController {
         // Metodo per caricare la tabella con lista ordinata
         Runnable aggiornaTabella = () -> {
             bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox); // pulisce tranne i controlli sopra
-            tabellaUtentiTerapie(titolo, pazientiConTerapie, textButton, Color.web("#34bccc"));
+            tabellaUtentiTerapie(titolo, pazientiConTerapie, textButton, Color.web("#1e3746"));
         };
 
         aggiornaTabella.run();
@@ -364,7 +362,7 @@ public class BoxDashboardController {
 
             String textButton = "Prendi in carico";
             String titolo = "Pazienti senza assegnazione medica";
-            tabellaUtenti(titolo, pazientiSenzaMedico, textButton, Color.web("#34bccc"));
+            tabellaUtenti(titolo, pazientiSenzaMedico, textButton, Color.web("#1e3746"));
 
             textButton = "A tuo carico";
             titolo = "Pazienti assegnati a te";
@@ -409,7 +407,7 @@ public class BoxDashboardController {
         LabelBoxDashboard.setStyle("-fx-font-family: 'Roboto Black'; -fx-font-size: 16px; -fx-text-fill: #1e3746;");
         LabelBoxDashboard.setOnMouseClicked(event -> listaPazienti());
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/ProfiloPazientiView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/TabProfiloPazienti.fxml"));
         Parent addProfiloContent = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer

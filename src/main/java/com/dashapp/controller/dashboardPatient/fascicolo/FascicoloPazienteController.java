@@ -9,22 +9,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.util.List;
 
 public class FascicoloPazienteController {
-
-    @FXML
-    private Label Hpatologie;
-
-    @FXML
-    private Label Hsintomi;
-
-    @FXML
-    private Label Hterapie;
-
     @FXML
     private StackPane contentPane;
 
@@ -39,17 +30,9 @@ public class FascicoloPazienteController {
 
     private Utente paziente;
 
-
-    private String activeStyle = "-fx-font-weight: bold; -fx-background-color: #F8FFBC; -fx-border-width: 1; -fx-font-size: 20px;";
-
     @FXML
-    private void initialize() throws Exception {
+    private HBox hBoxButton;
 
-        /*Hsintomi.setStyle("-fx-font-weight: bold; -fx-border-color: #0C0E02; -fx-border-width: 1; ");
-        Hterapie.setStyle("-fx-font-weight: bold;  -fx-border-color: #0C0E02; -fx-border-width: 1;");
-        Hpatologie.setStyle(activeStyle);*/
-
-    }
 
     public void setPaziente(Utente u) throws Exception {
         paziente = u;
@@ -98,23 +81,26 @@ public class FascicoloPazienteController {
     }
 
     private Image getBlueIconForButton(Button b) {
-        if (b == PatologiaButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/home_menu.png"));
-        if (b == TerapiaButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/user_menu.png"));
-        if (b == SintomoButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu.png"));
+        if (b == PatologiaButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/patologie_menu.png"));
+        if (b == TerapiaButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/terapia_menu_2.png"));
+        if (b == SintomoButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/sintomi_menu.png"));
         return null;
     }
 
     private Image getWhiteIconForButton(Button b) {
-        if (b == PatologiaButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/home_menu_w.png"));
-        if (b == TerapiaButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/user_menu_w.png"));
-        if (b == SintomoButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu_w.png"));
+        if (b == PatologiaButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/patologie_menu_w.png"));
+        if (b == TerapiaButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/terapia_menu_2_w.png"));
+        if (b == SintomoButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/sintomi_menu_w.png"));
         return null;
     }
 
+    public void mostraSoloStackPane(){
+        hBoxButton.setVisible(false);
+        hBoxButton.setManaged(false);
+    }
 
     @FXML
-    void showPatologie() throws Exception {
-        resetLabelStyles();
+    public void showPatologie() throws Exception {
         //Hpatologie.setStyle(activeStyle + "-fx-background-color: #ad343e33;");
         contentPane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/TabPatologie.fxml"));
@@ -126,8 +112,7 @@ public class FascicoloPazienteController {
     }
 
     @FXML
-    void showSintomi() throws Exception {
-        resetLabelStyles();
+    public void showSintomi() throws Exception {
         //Hsintomi.setStyle(activeStyle + "-fx-background-color: #9caf3933;");
         contentPane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/TabSintomi.fxml"));
@@ -139,8 +124,7 @@ public class FascicoloPazienteController {
     }
 
     @FXML
-    void showTerapie() throws Exception {
-        resetLabelStyles();
+    public void showTerapie() throws Exception {
         //Hterapie.setStyle(activeStyle + "-fx-background-color: #f2af2933;");
         contentPane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/Fascicolo/TabTerapie.fxml"));
@@ -150,13 +134,5 @@ public class FascicoloPazienteController {
         contentPane.getStylesheets().add(getClass().getResource("/com/dashapp/css/fascicoloPaziente.css").toExternalForm());
         contentPane.getChildren().add(showTerapieContent);
     }
-
-    private void resetLabelStyles() {
-        //Hpatologie.setStyle("");
-        //Hsintomi.setStyle("");
-        //Hterapie.setStyle("");
-    }
-
-
 
 }

@@ -4,6 +4,7 @@ import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.Patologia;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
+import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -33,23 +34,31 @@ public class TabPatologieController {
         aggiornaGrid();
     }
 
-    private void aggiornaGrid() {
+    private void aggiornaGrid() throws Exception {
         patologieGrid.getChildren().clear();
         int col = 0;
         int row = 0;
 
         // Prima card: Aggiungi Patologia
-        VBox addCard = creaCardAggiungi();
-        patologieGrid.add(addCard, col, row);
-        col++;
+        if(ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getRuolo().equals("paziente")){
+            VBox addCard = creaCardAggiungi();
+            if(addCard != null) {
+                patologieGrid.add(addCard, col, row);
+                col++;
+            } else {
+                System.err.println("Errore: creaCardAggiungi ha restituito null");
+            }
+        }
 
         // Card per ogni patologia
         for (Patologia p : listaPatologie) {
             VBox card = creaCardPatologia(p);
-            patologieGrid.add(card, col, row);
+            if (card != null) {
+                patologieGrid.add(card, col, row);
+            }
 
             col++;
-            if (col == 5) { // 4 colonne per riga
+            if (col == 5) {
                 col = 0;
                 row++;
             }
@@ -70,7 +79,7 @@ public class TabPatologieController {
         return card;
     }
 
-    private VBox creaCardPatologia(Patologia p) {
+    private VBox creaCardPatologia(Patologia p) throws Exception {
         VBox card = new VBox(12);
         card.setPrefSize(180, 200);
         card.setPadding(new Insets(15));
@@ -96,21 +105,27 @@ public class TabPatologieController {
         noteLabel.setStyle("-fx-font-size: 12;");
         noteLabel.setWrapText(true);
 
+        Button eliminaButton = null;
         // Bottone elimina
-        Button eliminaButton = new Button("Elimina");
-        eliminaButton.setStyle("-fx-background-color: #e94f4f; -fx-text-fill: white; -fx-background-radius: 10; -fx-pref-height: 25; -fx-font-size: 12;");
-        eliminaButton.setOnAction(ev -> eliminaPatologia(p));
-
+        if(ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getRuolo().equals("paziente")) {
+            eliminaButton = new Button("Elimina");
+            eliminaButton.setStyle("-fx-background-color: #e94f4f; -fx-text-fill: white; -fx-background-radius: 10; -fx-pref-height: 25; -fx-font-size: 12;");
+            eliminaButton.setOnAction(ev -> eliminaPatologia(p));
+            VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0));  // top, right, bottom, left
+        }
         VBox infoBox = new VBox(5);
         infoBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
         infoBox.getChildren().addAll(
                 diagnosiLabel, dataLabel,
                 noteLabelTitle, noteLabel
         );
-        VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0));  // top, right, bottom, left
         infoBox.setPadding(new Insets(0, 10, 0, 10));
 
-        card.getChildren().addAll(titolo, infoBox, eliminaButton);
+        if(eliminaButton!=null){
+            card.getChildren().addAll(titolo, infoBox, eliminaButton);
+        }else{
+            card.getChildren().addAll(titolo, infoBox);
+        }
         VBox.setVgrow(infoBox, Priority.ALWAYS);
 
         return card;

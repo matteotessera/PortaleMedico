@@ -4,6 +4,7 @@ import com.dashapp.controller.dashboardPatient.BoxDashboardControllerPatient;
 import com.dashapp.model.SintomoConcomitante;
 import com.dashapp.model.Utente;
 import com.dashapp.services.DataService;
+import com.dashapp.view.NavigatorView;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -34,21 +35,28 @@ public class TabSintomiController {
     }
 
 
-    private void aggiornaSintomiGrid() {
+    private void aggiornaSintomiGrid() throws Exception {
         sintomiGrid.getChildren().clear();
         int col = 0;
         int row = 0;
 
         // Card aggiunta sintomo
-        VBox addCard = creaCardAggiungi();
-        sintomiGrid.add(addCard, col, row);
-        col++;
+        if(ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getRuolo().equals("paziente")) {
+            VBox addCard = creaCardAggiungi();
+            if (addCard != null) {
+                sintomiGrid.add(addCard, col, row);
+                col++;
+            } else {
+                System.err.println("Errore: creaCardAggiungi ha restituito null");
+            }
+        }
 
         for (SintomoConcomitante s : listaSintomi) {
             VBox card = creaCardSintomo(s);
-            sintomiGrid.add(card, col, row);
+            if (card != null) {
+                sintomiGrid.add(card, col, row);
+            }
             col++;
-
             // ogni 4 colonne vai a capo
             if (col == 5) {
                 col = 0;
@@ -72,7 +80,7 @@ public class TabSintomiController {
         return card;
     }
 
-    private VBox creaCardSintomo(SintomoConcomitante s) {
+    private VBox creaCardSintomo(SintomoConcomitante s) throws Exception {
         VBox card = new VBox(12);
         card.setPrefSize(180, 200);
         card.setPadding(new Insets(15));
@@ -104,11 +112,14 @@ public class TabSintomiController {
         noteLabel.setStyle("-fx-font-size: 12;");
         noteLabel.setWrapText(true);
 
+        Button eliminaButton = null;
         // Bottone elimina
-        Button eliminaButton = new Button("Elimina");
-        eliminaButton.setStyle("-fx-background-color: #e94f4f; -fx-text-fill: white; -fx-background-radius: 10; -fx-pref-height: 25; -fx-font-size: 12;");
-        eliminaButton.setOnAction(ev -> eliminaSintomo(s));
-
+        if(ds.getUtenteByEmail(NavigatorView.getAuthenticatedUser()).getRuolo().equals("paziente")) {
+            eliminaButton = new Button("Elimina");
+            eliminaButton.setStyle("-fx-background-color: #e94f4f; -fx-text-fill: white; -fx-background-radius: 10; -fx-pref-height: 25; -fx-font-size: 12;");
+            eliminaButton.setOnAction(ev -> eliminaSintomo(s));
+            VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0));  // top, right, bottom, left
+        }
         // InfoBox
         VBox infoBox = new VBox(5);
         infoBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
@@ -120,9 +131,12 @@ public class TabSintomiController {
         infoBox.setPadding(new Insets(0, 10, 0, 10));
 
 
-        VBox.setMargin(eliminaButton, new Insets(12, 0, 0, 0)); // top, right, bottom, left
 
-        card.getChildren().addAll(titolo, infoBox, eliminaButton);
+        if(eliminaButton!=null){
+            card.getChildren().addAll(titolo, infoBox, eliminaButton);
+        }else{
+            card.getChildren().addAll(titolo, infoBox);
+        }
         VBox.setVgrow(infoBox, Priority.ALWAYS);
 
         return card;

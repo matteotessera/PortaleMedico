@@ -130,7 +130,6 @@
             <VBox.margin>
                <Insets top="20.0" />
             </VBox.margin></Button>
-         <Label fx:id="statoAggiungiUtente" prefHeight="15.0" prefWidth="260.0" visible="false" />
       </VBox>
    </children>
 </AnchorPane>

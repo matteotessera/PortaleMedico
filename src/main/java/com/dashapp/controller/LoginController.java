@@ -71,7 +71,7 @@ public class LoginController {
 
 
         statusLabel.setText("Login in corso...");
-        statusLabel.setStyle("-fx-text-fill: green;");
+        statusLabel.setStyle("-fx-text-fill: green; -fx-font-family: 'Roboto';");
 
         loginService.login(email, password).thenAccept(success -> {
             Platform.runLater(() -> {

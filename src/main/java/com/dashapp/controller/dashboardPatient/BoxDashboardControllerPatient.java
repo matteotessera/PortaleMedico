@@ -269,7 +269,7 @@ public class BoxDashboardControllerPatient {
         }
 
         String textButton = "Vedi";
-        tabella.tabellaTerapie(terapie, textButton, Color.web("#34bccc"), bodyContainer, this);
+        tabella.tabellaTerapie(terapie, textButton, Color.web("#1e3746"), bodyContainer, this);
 
         LabelBoxDashboard.setText("Terapie");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");

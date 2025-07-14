@@ -56,6 +56,19 @@ public class AddUtentiController extends AddController {
         ruoloComboBox.getItems().addAll(ruolo);
     }
 
+    public void svuotaCampi() {
+        nomeField.setText("");
+        cognomeField.setText("");
+        codiceFiscaleField.setText("");
+        dataField.setValue(null);
+        genereComboBox.setValue(null);
+        indirizzoField.setText("");
+        emailField.setText("");
+        telefonoField.setText("");
+        passwordField.setText("");
+        ruoloComboBox.setValue(null);
+    }
+
     public void aggiungiUtente() throws Exception {
         String nome = nomeField.getText();
         String cognome = cognomeField.getText();
@@ -72,36 +85,37 @@ public class AddUtentiController extends AddController {
         if (nome.isEmpty() || cognome.isEmpty() || codiceFiscale.isEmpty() || dataNascita == null ||
                 genere == null || indirizzo.isEmpty() || email.isEmpty() || telefono.isEmpty() ||
                 password.isEmpty() || ruolo == null) {
-            showError("Errore: tutti i campi devono essere compilati");
-            return;
+                mostraAlert("Errore", "Tutti i campi devono essere compilati");
+                return;
         }
 
         // Controllo telefono: almeno 10 numeri
-        if (!telefono.matches("\\d{10,}")) {
-            showError("Errore: il numero di telefono deve contenere almeno 10 cifre numeriche");
+        if (! (telefono.length() == 10)) {
+            mostraAlert("Errore", "Il numero di telefono deve contenere almeno 10 cifre numeriche");
             return;
         }
 
         // Controllo email con regex base
         if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
-            showError("Errore: l'indirizzo email non è valido");
+            mostraAlert("Errore", "L'indirizzo email non è valido");
             return;
         }
 
         if (codiceFiscale.length() != 16 || !codiceFiscale.matches("^[A-Z0-9]{16}$")) {
-            showError("Codice fiscale non valido. Deve essere lungo 16 caratteri e contenere solo lettere maiuscole e numeri.");
+            mostraAlert("Errore", "Codice fiscale non valido. Deve essere lungo 16 caratteri e contenere solo lettere maiuscole e numeri.");
             return;
         }
 
         // Controllo password: esattamente 5 caratteri
         if (password.length() != 5) {
-            showError("Errore: la password deve essere composta esattamente da 5 caratteri");
+            mostraAlert("Errore", "La password deve essere composta esattamente da 5 caratteri");
             return;
         }
 
         try {
             ds.addUtente(password, ruolo, nome, cognome, codiceFiscale, dataNascita, email, telefono, indirizzo, genere);
-            showSuccess("Utente aggiunto correttamente.");
+            mostraAlert("Successo", "L'utente "+nome+" "+cognome+" è stato aggiunto correttamente!");
+            svuotaCampi();
 
             String templatePath = "/com/dashapp/fileCredenziali/template.pdf";  // percorso nel resources
             String outputFileName = "fileCredenziali/Diary_credenziali_" + nome + cognome + ".pdf";
@@ -109,7 +123,7 @@ public class AddUtentiController extends AddController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Errore durante il salvataggio dell'utente nel database.");
+            mostraAlert("Errore", "Errore durante il salvataggio dell'utente nel database.");
         }
 
     }
@@ -147,7 +161,6 @@ public class AddUtentiController extends AddController {
         }
     }
 
-
     @FXML
     private void generaPasswordCasuale() {
         String caratteri = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -171,6 +184,14 @@ public class AddUtentiController extends AddController {
         statoAggiungiUtente.setText(message);
         statoAggiungiUtente.setStyle("-fx-text-fill: green;");
         statoAggiungiUtente.setVisible(true);
+    }
+
+    public void mostraAlert(String titolo, String contenuto) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenuto);
+        alert.showAndWait();
     }
 
 
