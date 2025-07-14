@@ -45,7 +45,7 @@ public class InfoPaziente {
     }
 
     // Metodo di utilità per ottenere la nota come stringa JSON
-    public String getNoteAsString() {
+    public String toString() {
         return note != null ? note.toString() : null;
     }
 }

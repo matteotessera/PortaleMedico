@@ -90,16 +90,12 @@ public class MainController {
 
         setActiveButton(homeButton);
 
-        homeButton.setOnAction(e -> setActiveButton(homeButton));
-        profileButton.setOnAction(e -> setActiveButton(profileButton));
-        messagesButton.setOnAction(e -> setActiveButton(messagesButton));
-        drugsButton.setOnAction(e -> setActiveButton(drugsButton));
-        therapyButton.setOnAction(e -> setActiveButton(therapyButton));
+    
     }
 
 
     private void setActiveButton(Button active) {
-        List<Button> buttons = List.of(homeButton, profileButton, messagesButton, drugsButton, therapyButton);
+        List<Button> buttons = List.of(homeButton, profileButton, messagesButton);
         for (Button b : buttons) {
             b.getStyleClass().remove("active");
             ImageView iv = (ImageView) b.getGraphic().lookup("ImageView");
@@ -120,23 +116,16 @@ public class MainController {
     private Image getBlueIconForButton(Button b) {
         if (b == homeButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/home_menu.png"));
         if (b == profileButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/user_menu.png"));
-        if (b == messagesButton)
-            return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu.png"));
-        if (b == drugsButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/farmaco_menu.png"));
-        if (b == therapyButton)
-            return new Image(getClass().getResourceAsStream("/com/dashapp/images/terapia_menu.png"));
+        if (b == messagesButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu.png"));
+
+
         return null;
     }
 
     private Image getWhiteIconForButton(Button b) {
         if (b == homeButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/home_menu_w.png"));
         if (b == profileButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/user_menu_w.png"));
-        if (b == messagesButton)
-            return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu_w.png"));
-        if (b == drugsButton)
-            return new Image(getClass().getResourceAsStream("/com/dashapp/images/farmaco_menu_w.png"));
-        if (b == therapyButton)
-            return new Image(getClass().getResourceAsStream("/com/dashapp/images/terapia_menu_w.png"));
+        if (b == messagesButton) return new Image(getClass().getResourceAsStream("/com/dashapp/images/messaggi_menu_w.png"));
         return null;
     }
 
@@ -222,6 +211,7 @@ public class MainController {
 
     @FXML
     public void vediProfilo() throws Exception {
+        setActiveButton(profileButton);
         String email = NavigatorView.getAuthenticatedUser();
         DataService ds = new DataService();
         Utente u = ds.getUtenteByEmail(email);
@@ -275,6 +265,122 @@ public class MainController {
                     patientController.vediProfilo();
                 }
             }
+    }
+
+    @FXML
+    public void vediMessaggi() throws Exception {
+        setActiveButton(messagesButton);
+        String email = NavigatorView.getAuthenticatedUser();
+        DataService ds = new DataService();
+        Utente u = ds.getUtenteByEmail(email);
+        String ruolo = u.getRuolo();
+
+        FXMLLoader loader = null;
+
+        if(ruolo.equals("admin")){
+            if(adminController != null) {
+                adminController.backToDashboard();
+            }
+            else {
+                loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardAdmin/DashBoardViewAdmin.fxml"));
+                Parent dashboardRoot = loader.load();
+                adminController = loader.getController();
+
+                stackPane.getChildren().clear();
+                stackPane.getChildren().add(dashboardRoot);
+
+                adminController.backToDashboard();
+
+            }
+        }
+        else if(ruolo.equals("medico")){
+            if(medicController != null) {
+                medicController.mostraMessaggi();
+            }
+            else {
+                loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/DashBoardViewMedic.fxml"));
+                Parent dashboardRoot = loader.load();
+                medicController = loader.getController();
+
+                stackPane.getChildren().clear();
+                stackPane.getChildren().add(dashboardRoot);
+
+                medicController.mostraMessaggi();
+            }
+        }
+        else if(ruolo.equals("paziente")){
+            if(patientController != null) {
+                patientController.mostraMessaggi();
+            }
+            else {
+                loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/DashBoardViewPatient.fxml"));
+                Parent dashboardRoot = loader.load();
+                patientController = loader.getController();
+
+                stackPane.getChildren().clear();
+                stackPane.getChildren().add(dashboardRoot);
+
+                patientController.mostraMessaggi();
+            }
+        }
+    }
+
+    @FXML
+    public void vediHome() throws Exception {
+        setActiveButton(homeButton);
+        String email = NavigatorView.getAuthenticatedUser();
+        DataService ds = new DataService();
+        Utente u = ds.getUtenteByEmail(email);
+        String ruolo = u.getRuolo();
+
+        FXMLLoader loader = null;
+
+        if(ruolo.equals("admin")){
+            if(adminController != null) {
+                adminController.backToDashboard();
+            }
+            else {
+                loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardAdmin/DashBoardViewAdmin.fxml"));
+                Parent dashboardRoot = loader.load();
+                adminController = loader.getController();
+
+                stackPane.getChildren().clear();
+                stackPane.getChildren().add(dashboardRoot);
+
+                adminController.backToDashboard();
+
+            }
+        }
+        else if(ruolo.equals("medico")){
+            if(medicController != null) {
+                medicController.backToDashboard();
+            }
+            else {
+                loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardMedic/DashBoardViewMedic.fxml"));
+                Parent dashboardRoot = loader.load();
+                medicController = loader.getController();
+
+                stackPane.getChildren().clear();
+                stackPane.getChildren().add(dashboardRoot);
+
+                medicController.backToDashboard();
+            }
+        }
+        else if(ruolo.equals("paziente")){
+            if(patientController != null) {
+                patientController.backToDashboard();
+            }
+            else {
+                loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/DashBoardViewPatient.fxml"));
+                Parent dashboardRoot = loader.load();
+                patientController = loader.getController();
+
+                stackPane.getChildren().clear();
+                stackPane.getChildren().add(dashboardRoot);
+
+                patientController.backToDashboard();
+            }
+        }
 
 
     }
