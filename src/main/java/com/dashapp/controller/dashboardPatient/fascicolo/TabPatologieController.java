@@ -89,6 +89,7 @@ public class TabPatologieController {
         // Titolo patologia
         Text titolo = new Text(p.getNomePatologia().toUpperCase());
         titolo.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
+        titolo.setFill(javafx.scene.paint.Color.web("#ad343e"));
         titolo.setWrappingWidth(160);
         titolo.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
 

@@ -38,7 +38,7 @@
                   <VBox prefHeight="48.0" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <children>
                         <Label styleClass="labelInput" text="Tipologia di pasto" />
-                        <ComboBox fx:id="pastoField" maxWidth="Infinity" promptText="pasto" GridPane.hgrow="ALWAYS" />
+                        <ComboBox fx:id="pastoField" maxWidth="Infinity" promptText="Seleziona pasto" GridPane.hgrow="ALWAYS" />
                      </children>
                      <GridPane.margin>
                         <Insets bottom="15.0" />
@@ -46,8 +46,8 @@
                   </VBox>
                   <VBox prefHeight="47.0" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <children>
-                        <Label styleClass="labelInput" text="Indicare quando è stata effettuata la rilevazione" />
-                        <ComboBox fx:id="relazioneField" maxWidth="Infinity" prefHeight="26.0" promptText="Prima/Dopo (2h)" GridPane.hgrow="ALWAYS" />
+                        <Label styleClass="labelInput" text="Momento rilevazione" />
+                        <ComboBox fx:id="relazioneField" maxWidth="Infinity" prefHeight="26.0" promptText="Seleziona momento" GridPane.hgrow="ALWAYS" />
                      </children>
                      <GridPane.margin>
                         <Insets bottom="15.0" />
@@ -82,7 +82,7 @@
                   <VBox prefHeight="30.0" spacing="5.0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <children>
                         <Label styleClass="labelInput" text="Valore (mg/dl)" VBox.vgrow="ALWAYS" />
-                        <TextField fx:id="valoreField" maxWidth="Infinity" promptText="vaore rilevazione in (milligrammi / decilitro)" />
+                        <TextField fx:id="valoreField" maxWidth="Infinity" promptText="Valore rilevazione" />
                      </children>
                      <GridPane.margin>
                         <Insets top="10.0" />

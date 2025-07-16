@@ -425,7 +425,7 @@ public class BoxDashboardControllerPatient {
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
         LabelBoxDashboard.setOnMouseClicked(event -> listaTerapie());
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/TerapiaView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/ViewTerapia.fxml"));
         Parent content = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer

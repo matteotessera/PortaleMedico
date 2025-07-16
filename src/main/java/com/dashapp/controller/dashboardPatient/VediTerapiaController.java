@@ -22,77 +22,50 @@ import java.util.List;
 
 public class VediTerapiaController {
 
-    private Terapia terapia;
+    @FXML
+    public TextField farmacoField;
+    @FXML
+    public TextField assunzioniField;
+    @FXML
+    public TextField doseField;
+    @FXML
+    private TextField dataInizio;
+    @FXML
+    private TextField dataFine;
 
-    @FXML
-    public Button annullaButton;
-    @FXML
-    public Button confermaButton;
-
-    @FXML
-    public DatePicker dataInizio;
-    @FXML
-    public DatePicker dataFine;
-    @FXML
-    public VBox listContainer;
-    @FXML
-    public TextField nome;
-
+    private Terapia t;
+    private AssociazioneFarmaco [] af;
+    private int idTerapia;
 
 
     @FXML
     public void initialize() throws Exception {
-        terapia = NavigatorView.getTerapiaSelezionata();
-
-
-        annullaButton.setVisible(false);
-        annullaButton.setManaged(false);
-        confermaButton.setVisible(false);
-        confermaButton.setManaged(false);
-
-        dataInizio.setEditable(false);
-        dataInizio.setMouseTransparent(true);
-        dataInizio.setFocusTraversable(false);
-
-        dataFine.setEditable(false);
-        dataFine.setMouseTransparent(true);
-        dataFine.setFocusTraversable(false);
-
-
-
-
-
-
-        dataFine.setStyle( "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
-        dataInizio.setStyle("-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+        idTerapia = NavigatorView.getTerapiaSelezionata().getId();
 
         caricaDati();
     }
 
     public void caricaDati() throws Exception {
+        disabilitaCampi();
+
         DataService ds = new DataService();
-        List<AssociazioneFarmaco> ass = List.of(ds.getAssociazioniFarmaciByTerapia(terapia.getId()));
+        t = ds.getTerapiaById(idTerapia);
+        af = ds.getAssociazioniFarmaciByTerapia(idTerapia);
 
-        Tabelle tab = new Tabelle();
-        tab.tabellaFarmaciTerapia(ass, "vedi", Color.web("#1e3746"), listContainer);
+        farmacoField.setText(ds.getFarmacoById(af[0].getIdFarmaco()).getNome());
+        assunzioniField.setText(Integer.toString(af[0].getNumeroAssunzioni()));
+        doseField.setText(Integer.toString(af[0].getDose()));
+        dataInizio.setText(t.getDataInizio().toString());
+        dataFine.setText(t.getDataFine().toString());
+    }
 
-        //nome.setText(farmaci.getFirst().getNome());
-        //nrAssunzioni.setText(String.valueOf(ass.getFirst().getNumeroAssunzioni()));
-        //dose.setText(String.valueOf(ass.getFirst().getDose()));
-
-        dataInizio.setValue(terapia.getDataInizio());
-        dataFine.setValue(terapia.getDataFine());
-
+    public void disabilitaCampi(){
+        farmacoField.setEditable(false);
+        assunzioniField.setEditable(false);
+        doseField.setEditable(false);
+        dataInizio.setEditable(false);
+        dataFine.setEditable(false);
     }
 
 
-
-
-    public void mostraAlert(String titolo, String contenuto) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titolo);
-        alert.setHeaderText(null);  // Puoi mettere un header se vuoi
-        alert.setContentText(contenuto);
-        alert.showAndWait();
-    }
 }

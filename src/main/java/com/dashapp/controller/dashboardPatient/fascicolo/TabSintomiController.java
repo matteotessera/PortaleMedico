@@ -68,7 +68,7 @@ public class TabSintomiController {
     private VBox creaCardAggiungi() {
         VBox card = new VBox(10);
         card.setPrefSize(180, 180);
-        card.setStyle("-fx-background-color: #9caf39; -fx-background-radius: 15; -fx-alignment: center; -fx-cursor: hand;");
+        card.setStyle("-fx-background-color: #2A7F9E; -fx-background-radius: 15; -fx-alignment: center; -fx-cursor: hand;");
 
         Text plus = new Text("+");
         plus.setStyle("-fx-font-size: 48; -fx-fill: white;");
@@ -90,6 +90,7 @@ public class TabSintomiController {
         // Titolo sintomo
         Text titolo = new Text(s.getDescrizione().toUpperCase());
         titolo.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
+        titolo.setFill(javafx.scene.paint.Color.web("#2A7F9E"));
         titolo.setWrappingWidth(160);
         titolo.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
 

@@ -91,6 +91,7 @@ public class TabTerapieController {
 
         Text titolo = new Text(t.getFarmaco().toUpperCase());
         titolo.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
+        titolo.setFill(javafx.scene.paint.Color.web("#9caf39"));
         titolo.setTextAlignment(TextAlignment.CENTER);
         titolo.setWrappingWidth(250);
 
