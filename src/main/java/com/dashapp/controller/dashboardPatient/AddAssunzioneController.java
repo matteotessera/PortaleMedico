@@ -19,6 +19,7 @@ import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -38,13 +39,10 @@ public class AddAssunzioneController extends AddController {
     private Spinner oraField;
     @FXML
     private Spinner minutiField;
-
     @FXML
     private TextField quantitaField;
-
     @FXML
     private ComboBox<Terapia> terapiaIdBox;
-
     @FXML
     private TableView<Farmaco> farmaciDaAssumere;
     @FXML
@@ -192,66 +190,76 @@ public class AddAssunzioneController extends AddController {
         }
     }
 
+
+    public boolean checkCampi() {
+        LocalDate data = dataField.getValue();
+        int ora = (int) oraField.getValue();
+        int minuti = (int) minutiField.getValue();
+
+
+        if(farmacoAssuntoBox.getValue() == null){
+            mostraAlert("Errore", "Non è stato selezionato nessun farmaco", Alert.AlertType.ERROR);
+            return false;
+        }
+        if(terapiaIdBox.getValue() == null){
+            mostraAlert("Errore", "Non è stata selezionata nessuna terapia", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (data == null) {
+            mostraAlert("Errore", "Devi inserire una data.", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (data.isAfter(LocalDate.now())) {
+            mostraAlert("Errore", "La data non può essere nel futuro", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (ora < 0 || ora > 23) {
+            mostraAlert("Errore", "L'ora ha un valore errato (deve essere tra 0 e 23)", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (minuti < 0 || minuti > 59) {
+            mostraAlert("Errore", "I minuti hanno un valore errato (deve essere tra 0 e 59)", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
+
     @FXML
     private void registraAssunzione() throws Exception {
         LocalTime ora;
-        try {
-            String orarioString = String.format("%02d:%02d",
-                    this.oraField.getValue(),
-                    this.minutiField.getValue());
-            ora = LocalTime.parse(orarioString);
-        } catch (DateTimeParseException e) {
-            erroreLabel.setText("Errore: orario non valido, usare formato HH:mm oppure HH:mm:ss");
-            erroreLabel.setStyle("-fx-text-fill: red");
-            return;
-        }
-        LocalDate data;
-        try {
-            data = dataField.getValue();
-        } catch (DateTimeParseException e) {
-            erroreLabel.setText("data non valida, usare formato YYYY-MM-DD");
-            erroreLabel.setStyle("-fx-text-fill: red");
-            return;
-        }
-        if(data.isAfter(LocalDate.now())){
-            erroreLabel.setText("data non valida, non puoi vaggiare nel futuro :)");
-            erroreLabel.setStyle("-fx-text-fill: red");
-            return;
-        }
 
-        if(farmacoAssuntoBox.getValue() == null){
-            erroreLabel.setText("selezionare un farmaco");
-            erroreLabel.setStyle("-fx-text-fill: red");
-            return;
-        }
-        if(terapiaIdBox.getValue() == null){
-            erroreLabel.setText("selezionare una Terapia");
-            erroreLabel.setStyle("-fx-text-fill: red");
-            return;
-        }
+        if(checkCampi()) {
 
-        AssociazioneFarmaco[] associazioni = ds.getAssociazioniFarmaciByTerapia(terapiaIdBox.getValue().getId());
-        Optional<AssociazioneFarmaco> risultato = Arrays.stream(associazioni)
-                .filter(a -> {
-                    try {
-                        Farmaco f = ds.getFarmacoById(a.getIdFarmaco());
-                        return f.getNome().equals(farmacoAssuntoBox.getValue());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .findFirst();
+            LocalDate data = dataField.getValue();
+            LocalTime orario = LocalTime.of((Integer) oraField.getValue(), (Integer) minutiField.getValue());
+            LocalDateTime nuovaData = LocalDateTime.of(data, orario);
 
-        if (risultato.isPresent()) {
-            ds.addAssunzione(risultato.get().getId(), data.atTime(ora), "assunto");
-            parentController.FlagAssunzioniLabel.setText("Registra eventuali Sintomi e le tue assunzioni giornaliere\n" +
-                    "Oggi hai assunto " + parentController.calcolaAssunzioniEffettuate() + " farmaci");
+
+            AssociazioneFarmaco[] associazioni = ds.getAssociazioniFarmaciByTerapia(terapiaIdBox.getValue().getId());
+            Optional<AssociazioneFarmaco> risultato = Arrays.stream(associazioni)
+                    .filter(a -> {
+                        try {
+                            Farmaco f = ds.getFarmacoById(a.getIdFarmaco());
+                            return f.getNome().equals(farmacoAssuntoBox.getValue());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .findFirst();
+
+            if (risultato.isPresent()) {
+                ds.addAssunzione(risultato.get().getId(), data.atTime(orario), "assunto");
+                mostraAlert("Successo", "Assunzione effettuata con successo!", Alert.AlertType.INFORMATION);
+
+                parentController.FlagAssunzioniLabel.setText("Oggi hai assunto " + parentController.calcolaAssunzioniEffettuate() + " farmaci");
+            }
+            parentController.backToDashboard();
         }
-        parentController.backToDashboard();
     }
 
     private void updateFarmaciComboBox(int terapiaId) throws Exception {
-
 
         List<AssociazioneFarmaco> associazioni = List.of(ds.getAssociazioniFarmaciByTerapia(terapiaId));
 
@@ -265,16 +273,15 @@ public class AddAssunzioneController extends AddController {
                 System.out.println(f.getNome() + ": " + stato.getStato());
                 farmaci.add(f.toString());
             }
-
         }
 
         ObservableList<String> options = FXCollections.observableArrayList(farmaci);
         if(options.isEmpty()) {
             farmacoAssuntoBox.setItems(null);
-            farmacoAssuntoBox.setPromptText("TUTTI I FARMACI DI QUESTA TERAPIA SONO STATI ASSUNTI");
+            farmacoAssuntoBox.setPromptText("Tutti i farmaci di questa terapia sono stati assunti");
         }else {
             farmacoAssuntoBox.setItems(options);
-            farmacoAssuntoBox.setPromptText("selezionare farmaco da assumere");
+            farmacoAssuntoBox.setPromptText("Selezionare farmaco da assumere");
         }
 
 
@@ -307,7 +314,7 @@ public class AddAssunzioneController extends AddController {
 
     public void assunzioniCompletate() throws IOException {
         if (mappaAssunzioni == null) {
-            System.err.println("mappaAssunzioni non inizializzata, annullo assunzioniCompletate");
+            //System.err.println("mappaAssunzioni non inizializzata, annullo assunzioniCompletate");
             return;
         }
 
@@ -330,6 +337,14 @@ public class AddAssunzioneController extends AddController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenuto);
+        alert.showAndWait();
     }
 
 }

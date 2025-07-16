@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardPatient.VediRilevazioneController">
+   <children>
+      <VBox spacing="20.0" style="-fx-padding: 20 30 20 0;" stylesheets="@../../css/input.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" stylesheets="@../../css/input.css">
+               <children>
+                  <Label text="Dati Rilevazione" textFill="#ef233c">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Roboto Black" size="14.0" />
+                     </font>
+                  </Label>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="modificaButton" mnemonicParsing="false" onAction="#modificaSintomo" prefHeight="26.0" prefWidth="99.0" styleClass="button-modifiche" text="Modifica" />
+               </children>
+            </HBox>
+
+            <GridPane hgap="20.0" prefWidth="1000.0" vgap="30.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1000.0" minWidth="10.0" prefWidth="1000.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1000.0" minWidth="10.0" prefWidth="1000.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <VBox prefHeight="48.0" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="labelInput" text="Tipologia di pasto" />
+                        <ComboBox fx:id="pastoField" maxWidth="Infinity" promptText="pasto" GridPane.hgrow="ALWAYS" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="15.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox prefHeight="47.0" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="labelInput" text="Indicare quando è stata effettuata la rilevazione" />
+                        <ComboBox fx:id="relazioneField" maxWidth="Infinity" prefHeight="26.0" promptText="Prima/Dopo (2h)" GridPane.hgrow="ALWAYS" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="15.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox prefHeight="200.0" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="labelInput" text="Data" />
+                        <DatePicker fx:id="dateField" maxWidth="Infinity" prefHeight="26.0" promptText="Data rilevazione" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" stylesheets="@../../css/input.css">
+                           <children>
+                              <VBox prefHeight="41.0" prefWidth="252.0">
+                                 <children>
+                                    <Label styleClass="labelInput" text="Ora" />
+                                    <Spinner fx:id="oraField" maxWidth="Infinity" prefHeight="26.0" prefWidth="333.0" promptText="Ora" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="41.0" prefWidth="244.0">
+                                 <children>
+                                    <Label styleClass="labelInput" text="Minuti" />
+                                    <Spinner fx:id="minutiField" maxWidth="Infinity" prefHeight="26.0" promptText="Ora" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="30.0" spacing="5.0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="labelInput" text="Valore (mg/dl)" VBox.vgrow="ALWAYS" />
+                        <TextField fx:id="valoreField" maxWidth="Infinity" promptText="vaore rilevazione in (milligrammi / decilitro)" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="9.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </GridPane>
+            <HBox alignment="CENTER" spacing="10" stylesheets="@../../css/input.css">
+               <children>
+                  <Button fx:id="annullaButton" mnemonicParsing="false" onAction="#annullaModifica" prefHeight="34.0" prefWidth="99.0" styleClass="button-annullaModifiche" text="Annulla" visible="false" />
+                  <Button fx:id="confermaButton" mnemonicParsing="false" onAction="#InviaModifica" prefHeight="34.0" prefWidth="99.0" styleClass="button-modifiche" text="Conferma" visible="false" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

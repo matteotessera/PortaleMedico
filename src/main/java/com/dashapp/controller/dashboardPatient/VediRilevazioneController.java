@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import javax.annotation.processing.Generated;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,21 +19,23 @@ public class VediRilevazioneController {
 
     private Rilevazione rilevazione;
     @FXML
-    public Button modificaButton;
+    private Button modificaButton;
     @FXML
-    public TextArea valoreField;
+    private TextField valoreField;
     @FXML
-    public ComboBox<String> relazioneField;
+    private ComboBox<String> relazioneField;
     @FXML
-    public ComboBox<String> pastoField;
+    private ComboBox<String> pastoField;
     @FXML
-    public Button annullaButton;
+    private Button annullaButton;
     @FXML
-    public Button confermaButton;
+    private Button confermaButton;
     @FXML
-    public DatePicker dataArea;
+    private Spinner oraField;
     @FXML
-    public TextField orarioField;
+    private Spinner minutiField;
+    @FXML
+    private DatePicker dateField;
 
     @FXML
     public void initialize(){
@@ -47,17 +50,13 @@ public class VediRilevazioneController {
         pastoField.setEditable(false);
         relazioneField.setEditable(false);
 
-        dataArea.setEditable(false);
-        dataArea.setMouseTransparent(true);
-        dataArea.setFocusTraversable(false);
+        dateField.setEditable(false);
+        dateField.setMouseTransparent(true);
+        dateField.setFocusTraversable(false);
 
-        orarioField.setEditable(false);
+        oraField.setEditable(false);
+        minutiField.setEditable(false);
 
-        valoreField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
-        relazioneField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
-        pastoField.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
-        dataArea.setStyle( "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
-        orarioField.setStyle("-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
 
         pastoField.setItems(FXCollections.observableArrayList(
                 Arrays.stream(Rilevazione.TipoPasto.values())
@@ -80,11 +79,14 @@ public class VediRilevazioneController {
         valoreField.setText(rilevazione.getValore());
         relazioneField.setValue(rilevazione.getTipo());
         pastoField.setValue(rilevazione.getPasto());
-        dataArea.setValue(rilevazione.getData().toLocalDate());
-        orarioField.setText(rilevazione.getData().toLocalTime().toString());
+        dateField.setValue(rilevazione.getData().toLocalDate());
+        oraField.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0));
+        minutiField.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0));
+
+        oraField.getValueFactory().setValue(rilevazione.getData().toLocalTime().getHour());
+        minutiField.getValueFactory().setValue(rilevazione.getData().toLocalTime().getMinute());
 
         System.out.println(relazioneField.getValue().toString());
-
     }
 
 
@@ -100,17 +102,18 @@ public class VediRilevazioneController {
         valoreField.setEditable(true);
         relazioneField.setEditable(true);
         pastoField.setEditable(true);
-        dataArea.setEditable(true);
-        dataArea.setMouseTransparent(false);
-        dataArea.setFocusTraversable(true);
-        orarioField.setEditable(true);
+        dateField.setEditable(true);
+        dateField.setMouseTransparent(false);
+        dateField.setFocusTraversable(true);
+        oraField.setEditable(true);
+        minutiField.setEditable(true);
 
-        String bordoBlu = "-fx-border-color: #0078ff; -fx-border-width: 1;";
-        valoreField.setStyle(bordoBlu + " -fx-font-size: 16px;");
-        relazioneField.setStyle(bordoBlu + " -fx-font-size: 16px;");
-        pastoField.setStyle(bordoBlu + " -fx-font-size: 16px;");
-        dataArea.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
-        orarioField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+        /*String bordoBlu = "-fx-border-color: #0078ff; -fx-border-width: 1;";
+        relazioneField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; ");
+        pastoField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; ");
+        dateField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; ");
+        oraField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; ");
+        minutiField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; ");*/
     }
 
     public void annullaModifica(){
@@ -118,42 +121,55 @@ public class VediRilevazioneController {
 
     }
 
+    public boolean checkCampi() {
+        LocalDate data = dateField.getValue();
+        int ora = (int) oraField.getValue();
+        int minuti = (int) minutiField.getValue();
+        String valore = valoreField.getText();
+
+        if (data.isAfter(LocalDate.now())) {
+            mostraAlert("Errore", "La data non può essere nel futuro", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (ora < 0 || ora > 23) {
+            mostraAlert("Errore", "L'ora ha un valore errato (deve essere tra 0 e 23)", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (minuti < 0 || minuti > 59) {
+            mostraAlert("Errore", "I minuti hanno un valore errato (deve essere tra 0 e 59)", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (!valore.matches("\\d+")) {
+            mostraAlert("Errore", "Il valore non può contenere caratteri", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
     public void InviaModifica() throws Exception {
         DataService ds = new DataService();
 
-        LocalDate data = dataArea.getValue();
-        String orarioString = orarioField.getText();
+        if(checkCampi()) {
+            LocalDate data = dateField.getValue();
+            LocalTime orario = LocalTime.of((Integer) oraField.getValue(), (Integer) minutiField.getValue());
+            LocalDateTime nuovaData = LocalDateTime.of(data, orario);
 
-        // Validazione base
-        if (data == null || orarioString == null || orarioString.isBlank()) {
-            mostraAlert("Errore", "Data o ora non validi.");
-            return;
+            ds.updateRilevazione(rilevazione.getId(), Double.parseDouble(valoreField.getText()), relazioneField.getValue(), rilevazione.getIdPaziente(),
+                    nuovaData, pastoField.getValue());
+
+            mostraAlert("Successo", "Rilevazione modificata correttamente!", Alert.AlertType.INFORMATION);
+
+            rilevazione = ds.getRilevazioneById(rilevazione.getId());
+            NavigatorView.setRilevaizoneSelezionata(rilevazione);
+            initialize();
         }
-
-        LocalTime orario;
-        try {
-            orario = LocalTime.parse(orarioString); // Assumendo formato HH:mm[:ss]
-        } catch (DateTimeParseException e) {
-            mostraAlert("Formato ora non valido", "Usa il formato HH:mm o HH:mm:ss");
-            return;
-        }
-
-        LocalDateTime nuovaData = LocalDateTime.of(data, orario);
-
-        ds.updateRilevazione(rilevazione.getId(), Double.parseDouble(valoreField.getText()), relazioneField.getValue(), rilevazione.getIdPaziente(),
-                nuovaData, pastoField.getValue());
-
-        rilevazione = ds.getRilevazioneById(rilevazione.getId());
-
-
-        NavigatorView.setRilevaizoneSelezionata(rilevazione);
-
-        mostraAlert("Successo", "Farmaco modificato correttamente!");
-        initialize();
     }
 
-    public void mostraAlert(String titolo, String contenuto) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titolo);
         alert.setHeaderText(null);  // Puoi mettere un header se vuoi
         alert.setContentText(contenuto);

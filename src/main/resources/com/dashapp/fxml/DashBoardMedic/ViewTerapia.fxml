@@ -106,8 +106,6 @@
                   </children>
                </HBox>
       
-               <Label fx:id="statusLabel" managed="true" prefHeight="26.0" styleClass="alert-danger" text="Status message goes here" visible="false" wrapText="true"> </Label>
-      
             </VBox>
          </children>
       </HBox>

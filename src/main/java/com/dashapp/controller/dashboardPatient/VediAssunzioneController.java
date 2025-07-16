@@ -112,7 +112,6 @@ public class VediAssunzioneController {
         oraField.setDisable(false);
         minutiField.setDisable(false);
 
-
         String bordoBlu = "-fx-border-color: #0078ff; -fx-border-width: 1;";
         //terapiaField.setStyle(bordoBlu + " -fx-font-size: 16px;");
         //farmacoField.setStyle(bordoBlu + " -fx-font-size: 16px;");
@@ -125,49 +124,55 @@ public class VediAssunzioneController {
 
     public void annullaModifica() throws Exception {
         initialize();
+    }
 
+    public boolean checkCampi() {
+        LocalDate data = dataField.getValue();
+        int ora = (int) oraField.getValue();
+        int minuti = (int) minutiField.getValue();
+
+        if (data.isAfter(LocalDate.now())) {
+            mostraAlert("Errore", "La data non può essere nel futuro", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (ora < 0 || ora > 23) {
+            mostraAlert("Errore", "L'ora ha un valore errato (deve essere tra 0 e 23)", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (minuti < 0 || minuti > 59) {
+            mostraAlert("Errore", "I minuti hanno un valore errato (deve essere tra 0 e 59)", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
     }
 
     public void inviaModifica() throws Exception {
         DataService ds = new DataService();
 
-        LocalDate data = dataField.getValue();
-        String orarioString = oraField.getValue()+":"+minutiField.getValue();
+        if(checkCampi()) {
 
-        // Validazione base
-        if (data == null || orarioString == null || orarioString.isBlank()) {
-            mostraAlert("Errore", "Data o ora non validi.");
-            return;
+            LocalDate data = dataField.getValue();
+            LocalTime orario = LocalTime.of((Integer) oraField.getValue(), (Integer) minutiField.getValue());
+            LocalDateTime nuovaData = LocalDateTime.of(data, orario);
+
+            if (nuovaData.equals(assunzione.getData())) {
+                annullaModifica();
+                return;
+            }
+
+            ds.updateAssunzione(assunzione.getId(), nuovaData, assunzione.getStato());
+            mostraAlert("Successo", "Assunzione modificata correttamente!", Alert.AlertType.INFORMATION);
+
+            assunzione = ds.getAssunzioneById(assunzione.getId());
+            NavigatorView.setAssunzioneSelezionata(assunzione);
+            initialize();
         }
-
-        LocalTime orario;
-        try {
-            orario = LocalTime.parse(orarioString); // Assumendo formato HH:mm[:ss]
-        } catch (DateTimeParseException e) {
-            mostraAlert("Formato ora non valido", "Usa il formato HH:mm o HH:mm:ss");
-            return;
-        }
-
-        LocalDateTime nuovaData = LocalDateTime.of(data, orario);
-
-        if (nuovaData.equals(assunzione.getData())) {
-            annullaModifica();
-            return;
-        }
-
-        ds.updateAssunzione(assunzione.getId(), nuovaData, assunzione.getStato());
-
-        assunzione = ds.getAssunzioneById(assunzione.getId());
-
-
-        NavigatorView.setAssunzioneSelezionata(assunzione);
-
-        mostraAlert("Successo", "Assunzione modificata correttamente!");
-        initialize();
     }
 
-    public void mostraAlert(String titolo, String contenuto) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titolo);
         alert.setHeaderText(null);  // Puoi mettere un header se vuoi
         alert.setContentText(contenuto);

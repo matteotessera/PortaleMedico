@@ -97,7 +97,7 @@ public class BoxDashboardControllerPatient {
         List<Rilevazione> rilevazioni = caricaRilevazioni();
 
         String textButton = "Modifica";
-        tabella.tabellaRilevazioni(rilevazioni, textButton, Color.web("#2BD18D"), tableContainer, this);
+        tabella.tabellaRilevazioni(rilevazioni, textButton, Color.web("#1e3746"), tableContainer, this);
 
         LabelBoxDashboard.setText("Rilevazioni glicemiche");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
@@ -112,12 +112,12 @@ public class BoxDashboardControllerPatient {
                     .toList();
 
             tableContainer.getChildren().clear();
-            tabella.tabellaRilevazioni(filtrateOggi, textButton, Color.web("#2BD18D"), tableContainer, this);
+            tabella.tabellaRilevazioni(filtrateOggi, textButton, Color.web("#1e3746"), tableContainer, this);
         });
 
         tutteButton.setOnAction(e -> {
             tableContainer.getChildren().clear();
-            tabella.tabellaRilevazioni(rilevazioni, textButton, Color.web("#2BD18D"), tableContainer, this);
+            tabella.tabellaRilevazioni(rilevazioni, textButton, Color.web("#1e3746"), tableContainer, this);
         });
 
         dataButton.setOnAction(e -> datePicker.show());
@@ -132,7 +132,7 @@ public class BoxDashboardControllerPatient {
                         .toList();
 
                 tableContainer.getChildren().clear();
-                tabella.tabellaRilevazioni(filtrateData, textButton, Color.web("#2BD18D"), tableContainer, this);
+                tabella.tabellaRilevazioni(filtrateData, textButton, Color.web("#1e3746"), tableContainer, this);
             }
         });
     }
@@ -196,7 +196,7 @@ public class BoxDashboardControllerPatient {
         final List<Assunzione> assunzioni = caricaAssunzioni();
 
         String textButton = "Modifica";
-        tabella.tabellaAssunzioni(assunzioni, textButton, Color.web("#2BD18D"), tableContainer, this);
+        tabella.tabellaAssunzioni(assunzioni, textButton, Color.web("#1e3746"), tableContainer, this);
 
         LabelBoxDashboard.setText("Assunzioni");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
@@ -211,7 +211,7 @@ public class BoxDashboardControllerPatient {
 
             tableContainer.getChildren().clear();
             try {
-                tabella.tabellaAssunzioni(filtrateOggi, textButton, Color.web("#2BD18D"), tableContainer, this);
+                tabella.tabellaAssunzioni(filtrateOggi, textButton, Color.web("#1e3746"), tableContainer, this);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -220,7 +220,7 @@ public class BoxDashboardControllerPatient {
         tutteButton.setOnAction(e -> {
             tableContainer.getChildren().clear();
             try {
-                tabella.tabellaAssunzioni(assunzioni, textButton, Color.web("#2BD18D"), tableContainer, this);
+                tabella.tabellaAssunzioni(assunzioni, textButton, Color.web("#1e3746"), tableContainer, this);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -239,7 +239,7 @@ public class BoxDashboardControllerPatient {
 
                 tableContainer.getChildren().clear();
                 try {
-                    tabella.tabellaAssunzioni(filtrateData, textButton, Color.web("#2BD18D"), tableContainer, this);
+                    tabella.tabellaAssunzioni(filtrateData, textButton, Color.web("#1e3746"), tableContainer, this);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -288,7 +288,7 @@ public class BoxDashboardControllerPatient {
         }
 
         String textButton = "Modifica";
-        tabella.tabellaSintomo(sintomi, textButton, Color.web("#2BD18D"), bodyContainer, this);
+        tabella.tabellaSintomo(sintomi, textButton, Color.web("#1e3746"), bodyContainer, this);
 
         LabelBoxDashboard.setText("Sintomi");
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 24px; -fx-text-alignment: center; -fx-text-fill: #1e3746; -fx-font-family: 'Roboto Black';");
@@ -380,7 +380,7 @@ public class BoxDashboardControllerPatient {
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
         LabelBoxDashboard.setOnMouseClicked(event -> listaSintomi());
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/SintomiView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/ViewSintomo.fxml"));
         Parent addFarmacoContent = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer
@@ -393,7 +393,7 @@ public class BoxDashboardControllerPatient {
         LabelBoxDashboard.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: black;");
         LabelBoxDashboard.setOnMouseClicked(event -> listaRilevazioni());
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/RilevazioneView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dashapp/fxml/DashBoardPatient/ViewRilevazione.fxml"));
         Parent content = loader.load();
 
         // Aggiungo il contenuto caricato al bodyContainer

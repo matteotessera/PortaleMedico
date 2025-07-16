@@ -140,34 +140,34 @@ public class ProfiloController {
         // Controllo campi vuoti
         if (nome.isEmpty() || cognome.isEmpty() || codFisc.isEmpty() || data == null ||
                 genere == null || indirizzo.isEmpty() || email.isEmpty() || tel.isEmpty()) {
-            mostraAlert("Errore", "Tutti i campi devono essere compilati");
+            mostraAlert("Errore", "Tutti i campi devono essere compilati", Alert.AlertType.ERROR);
             return;
         }
 
         if (data.isAfter(LocalDate.now())) {
-            mostraAlert("Errore", "La data di nascita non può essere nel futuro");
+            mostraAlert("Errore", "La data di nascita non può essere nel futuro", Alert.AlertType.ERROR);
             return;
         }
 
         // Controllo telefono: almeno 10 numeri
         if (!tel.matches("\\d{10,}")) {
-            mostraAlert("Errore", "Il numero di telefono deve contenere almeno 10 cifre numeriche");
+            mostraAlert("Errore", "Il numero di telefono deve contenere almeno 10 cifre numeriche", Alert.AlertType.ERROR);
             return;
         }
 
         // Controllo email con regex base
         if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
-            mostraAlert("Errore", "L'indirizzo email non è valido");
+            mostraAlert("Errore", "L'indirizzo email non è valido", Alert.AlertType.ERROR);
             return;
         }
 
         if (codFisc.length() != 16 || !codFisc.matches("^[A-Z0-9]{16}$")) {
-            mostraAlert("Errore", "Codice fiscale non valido. Deve essere lungo 16 caratteri e contenere solo lettere maiuscole e numeri.");
+            mostraAlert("Errore", "Codice fiscale non valido. Deve essere lungo 16 caratteri e contenere solo lettere maiuscole e numeri.", Alert.AlertType.ERROR);
             return;
         }
 
         ds.updateUtenteSenzaPw(idUtente ,u.getRuolo(), nome, cognome, data, email, tel, indirizzo, genere, codFisc);
-        mostraAlert("Successo", "Dati modificati con successo");
+        mostraAlert("Successo", "Dati modificati con successo", Alert.AlertType.INFORMATION);
         ricarica();
         initialize();
 
@@ -181,13 +181,12 @@ public class ProfiloController {
             NavigatorView.getAdminController().reload();
             mainController.vediProfilo();
         } else if (u.getRuolo().equals("medico")) {
-
             mainController.getMedicController().backToDashboard();
             NavigatorView.getMedicController().reload();
             mainController.vediProfilo();
 
         } else if (u.getRuolo().equals("paziente")) {
-            mainController.getPatientController().mostraBox();
+            mainController.getPatientController().backToDashboard();
             NavigatorView.getPatientController().reload();
             mainController.vediProfilo();
         }
@@ -217,45 +216,45 @@ public class ProfiloController {
         String confermaPw = confermaNuovaPasswordField.getText();
 
         if(pwAttuale.isEmpty() || nuovaPw.isEmpty() || confermaPw.isEmpty()){
-            mostraAlert("Errore", "Tutti i campo devono essere compilati");
+            mostraAlert("Errore", "Tutti i campo devono essere compilati", Alert.AlertType.ERROR);
             return;
         }
 
         if(!ds.verificaPassword(u.getId(), pwAttuale)){
-            mostraAlert("Errore", "La password attuale non è corretta");
+            mostraAlert("Errore", "La password attuale non è corretta", Alert.AlertType.ERROR);
             return;
         }
 
         if(!nuovaPw.equals(confermaPw)) {
-            mostraAlert("Errore", "Le nuove passoword non corrispondono");
+            mostraAlert("Errore", "Le nuove passoword non corrispondono", Alert.AlertType.ERROR);
             return;
         }
 
         if (nuovaPw.length() < 6) {
-            mostraAlert("Errore", "La password deve contenere almeno 6 caratteri");
+            mostraAlert("Errore", "La password deve contenere almeno 6 caratteri", Alert.AlertType.ERROR);
             return;
         }
 
         if (!nuovaPw.matches(".*[a-zA-Z].*")) {
-            mostraAlert("Errore", "La password deve contenere almeno una lettera");
+            mostraAlert("Errore", "La password deve contenere almeno una lettera", Alert.AlertType.ERROR);
             return;
         }
 
         // Almeno un numero
         if (!nuovaPw.matches(".*[0-9].*")) {
-            mostraAlert("Errore", "La password deve contenere almeno un numero");
+            mostraAlert("Errore", "La password deve contenere almeno un numero", Alert.AlertType.ERROR);
             return;
         }
 
         // Almeno un carattere speciale tra . * _ ? ! @
         if (!nuovaPw.matches(".*[\\.\\*\\_\\?\\!@].*")) {
-            mostraAlert("Errore","La password deve contenere almeno un carattere speciale tra . * _ ? ! @");
+            mostraAlert("Errore","La password deve contenere almeno un carattere speciale tra . * _ ? ! @", Alert.AlertType.ERROR);
             return;
         }
 
         ds.updatePassword(u.getId(), nuovaPw);
 
-        mostraAlert("Successo", "Password modificata con successo");
+        mostraAlert("Successo", "Password modificata con successo", Alert.AlertType.INFORMATION);
         pulisciCampi();
         initialize();
     }
@@ -268,8 +267,8 @@ public class ProfiloController {
     }
 
 
-    public void mostraAlert(String titolo, String contenuto) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titolo);
         alert.setHeaderText(null);
         alert.setContentText(contenuto);

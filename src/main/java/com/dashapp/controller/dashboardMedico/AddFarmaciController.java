@@ -66,7 +66,7 @@ public class AddFarmaciController extends AddController {
     @FXML
     private void registraFarmaco() {
         if (isEmpty(nomeFarmacoField.getText()) || isEmpty(descrizioneArea.getText())) {
-            mostraAlert("Attenzione", "I campi non possono essere vuoti!");
+            mostraAlert("Attenzione", "I campi non possono essere vuoti!", Alert.AlertType.ERROR);
             return;
         }
 
@@ -76,11 +76,11 @@ public class AddFarmaciController extends AddController {
         try {
             DataService ds = new DataService();
             ds.addFarmaco(nome, descrizione);
-            mostraAlert("Successo", "Farmaco aggiunto correttamente!");
+            mostraAlert("Successo", "Farmaco aggiunto correttamente!", Alert.AlertType.INFORMATION);
             pulisciCampi();
         } catch (Exception e) {
             e.printStackTrace(); // utile per debug
-            mostraAlert("Errore", "Si è verificato un errore nell'aggiunta del farmaco.");
+            mostraAlert("Errore", "Si è verificato un errore nell'aggiunta del farmaco.", Alert.AlertType.ERROR);
         }
     }
 
@@ -236,8 +236,8 @@ public class AddFarmaciController extends AddController {
         nomeComboBox.getItems().addAll(options);
     }
 
-    public void mostraAlert(String titolo, String contenuto) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titolo);
         alert.setHeaderText(null);  // Puoi mettere un header se vuoi
         alert.setContentText(contenuto);

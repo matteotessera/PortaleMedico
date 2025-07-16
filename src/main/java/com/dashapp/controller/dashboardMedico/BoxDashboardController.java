@@ -56,12 +56,12 @@ public class BoxDashboardController {
         bodyContainer.getChildren().clear();
 
         List<Utente> utenti;
-        List<Utente> utentiFiltrati;
+        //List<Utente> utentiFiltrati;
         try {
-            utenti = new ArrayList<>(List.of(ds.getUtenti()));
-            utentiFiltrati = utenti.stream()
+            utenti = new ArrayList<>(List.of(ds.getPazienti()));
+            /*utentiFiltrati = utenti.stream()
                     .filter(u -> u.getRuolo().equals("paziente"))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList());*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +101,7 @@ public class BoxDashboardController {
         // Metodo per caricare la tabella con lista ordinata
         Runnable aggiornaTabella = () -> {
             bodyContainer.getChildren().removeIf(node -> node != ordinamentoBox); // pulisce tranne i controlli sopra
-            tabellaUtenti(titolo, utentiFiltrati, textButton, Color.web("#1e3746"));
+            tabellaUtenti(titolo, utenti, textButton, Color.web("#1e3746"));
         };
 
         aggiornaTabella.run();
@@ -627,7 +627,7 @@ public class BoxDashboardController {
                 eliminaButton.setPrefWidth(azioneWidth);
                 eliminaButton.setOnAction(e -> {
 
-                    String titoloAlert = "Conferma eliminazione";
+                    String titoloAlert = "Conferma dissociazione paziente";
                     String text = "Sei sicuro di disocciare " + u.getNome() + " "+u.getCognome() +"?";
 
                     Optional<ButtonType> result = alertEliminazione(titoloAlert, text);

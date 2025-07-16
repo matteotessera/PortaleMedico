@@ -60,22 +60,15 @@ public class AddSintomoController extends AddController {
         String descrizione = descrizioneField.getText();
 
         if (descrizione == null || descrizione.trim().isEmpty()) {
-            erroreLabel.setText("Inserire una descrizione");
-            erroreLabel.setStyle("-fx-text-fill: red;");
+            mostraAlert("Errore", "Non è stata inserita nessuna descrizione", Alert.AlertType.ERROR);
             return;
         }
 
-
         ds.addSintomoPaziente(descrizione, BoxDashboardControllerPatient.u.getId());
-            erroreLabel.setText("Oggetto inviato con successo");
-            erroreLabel.setStyle("-fx-text-fill: green");
+        mostraAlert("Successo", "Sintomo registrato correttamente!", Alert.AlertType.INFORMATION);
 
-            parentController.backToDashboard();
+        parentController.backToDashboard();
     }
-
-
-
-
 
     List<String> sintomiDiabeteTipo2 = Arrays.asList(
             "Spossatezza",
@@ -94,12 +87,16 @@ public class AddSintomoController extends AddController {
             "Alito fruttato"
     );
 
-
-
     public void setParentController(DashboardPatientController controller) {
         this.parentController = controller;
     }
 
-
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenuto);
+        alert.showAndWait();
+    }
 
 }

@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import org.controlsfx.control.CheckComboBox;
 
 import javax.annotation.processing.Generated;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ViewTerapiaController {
@@ -52,12 +53,16 @@ public class ViewTerapiaController {
 
     private DataService ds;
 
+    private int idPaziente;
+    private int idTerapia;
 
     private List<Terapia> terapieUtente;
 
     @FXML
     public void initialize() throws Exception {
         this.ds = new DataService();
+
+        idPaziente = NavigatorView.getUtenteSelezionato().getId();
 
         VboxTerapia.setVisible(false);
 
@@ -68,7 +73,7 @@ public class ViewTerapiaController {
     }
 
     public void popolaCampiIniziali() throws Exception {
-        terapieUtente = List.of(ds.getTerapiePaziente(NavigatorView.getUtenteSelezionato().getId()));
+        terapieUtente = List.of(ds.getTerapiePaziente(idPaziente));
 
         sceltaTerapia.getItems().addAll(terapieUtente);
 
@@ -121,6 +126,7 @@ public class ViewTerapiaController {
         Terapia terapiaSelezionata = sceltaTerapia.getValue();
         if (terapiaSelezionata != null) {
             caricaDatiTerapia(terapiaSelezionata.getId());
+            this.idTerapia=terapiaSelezionata.getId();
         }
     }
 
@@ -137,11 +143,88 @@ public class ViewTerapiaController {
         dataFinePicker.setValue(t.getDataFine());
     }
 
-    public void annulla(){
-        disabilitaInput();
+    public boolean checkCampiAssunzione() {
+        LocalDate dataInizio = dataInizioPicker.getValue();
+        LocalDate dataFine = dataFinePicker.getValue();
+
+        String farmacoSelezionato = (String) sceltaFarmaco.getValue();
+        String nAssunzioniText = nAssunzioniField.getText();
+        String doseText = doseField.getText();
+        String noteText = note.getText();
+
+        if (farmacoSelezionato == null) {
+            mostraAlert("Errore", "Devi selezionare un farmaco.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (nAssunzioniText == null || nAssunzioniText.trim().isEmpty()) {
+            mostraAlert("Errore", "Devi inserire il numero di assunzioni.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (!nAssunzioniText.matches("\\d+")) {
+            mostraAlert("Errore", "Il numero di assunzioni deve essere un numero intero.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (doseText == null || doseText.trim().isEmpty()) {
+            mostraAlert("Errore", "Devi inserire la dose.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (!doseText.matches("\\d+")) {
+            mostraAlert("Errore", "La dose deve essere un numero intero.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (dataInizio == null) {
+            mostraAlert("Errore", "Devi selezionare una data di inizio.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (dataFine == null) {
+            mostraAlert("Errore", "Devi selezionare una data di fine.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (dataInizio.isAfter(dataFine)) {
+            mostraAlert("Errore", "La data di inizio non può essere successiva alla data di fine.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
     }
 
-    public void inviaModifiche(){
+    public void annulla() throws Exception {
+        initialize();
     }
+
+    public void inviaModifiche() throws Exception {
+        if(checkCampiAssunzione()){
+
+            int dose = Integer.parseInt(doseField.getText());
+            int nAssunzioni = Integer.parseInt(nAssunzioniField.getText());
+            int idFarmaco = ds.getFarmacoByNome(sceltaFarmaco.getSelectionModel().getSelectedItem().toString()).getId();
+            LocalDate dataInizio = dataInizioPicker.getValue();
+            LocalDate dataFine = dataFinePicker.getValue();
+            String noteTA = note.getText();
+
+            ds.updateTerapia(idTerapia, dataInizio, dataFine, noteTA, idPaziente, idFarmaco, nAssunzioni, dose);
+            mostraAlert("Successo", "Terapia modificata correttamente", Alert.AlertType.INFORMATION);
+
+            caricaDatiTerapia(idTerapia);
+            disabilitaInput();
+        }
+
+    }
+
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenuto);
+        alert.showAndWait();
+    }
+
 
 }

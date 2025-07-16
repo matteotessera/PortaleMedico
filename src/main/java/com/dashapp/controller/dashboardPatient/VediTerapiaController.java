@@ -74,7 +74,7 @@ public class VediTerapiaController {
         List<AssociazioneFarmaco> ass = List.of(ds.getAssociazioniFarmaciByTerapia(terapia.getId()));
 
         Tabelle tab = new Tabelle();
-        tab.tabellaFarmaciTerapia(ass, "vedi", Color.web("#2BD18D"), listContainer);
+        tab.tabellaFarmaciTerapia(ass, "vedi", Color.web("#1e3746"), listContainer);
 
         //nome.setText(farmaci.getFirst().getNome());
         //nrAssunzioni.setText(String.valueOf(ass.getFirst().getNumeroAssunzioni()));

@@ -263,7 +263,6 @@ public class DashboardPatientController {
         mostraTextPaziente();
     }
 
-
     //Metodo per la visualizzazione del nome del medico e dell'immagine con iniziali nome e cognome
     public void mostraTextPaziente() throws Exception {
         DataService ds = new DataService();

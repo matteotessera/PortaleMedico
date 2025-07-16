@@ -129,36 +129,38 @@ public class AnagraficaController {
 
         if (nome.isEmpty() || cognome.isEmpty() || codFisc.isEmpty() || data == null ||
                 genere == null || indirizzo.isEmpty() || email.isEmpty() || tel.isEmpty()) {
-            mostraAlert("Errore", "Tutti i campi devono essere compilati");
+            mostraAlert("Errore", "Tutti i campi devono essere compilati", Alert.AlertType.ERROR);
             return;
         }
 
         if (data.isAfter(LocalDate.now())) {
-            mostraAlert("Errore", "La data di nascita non può essere nel futuro");
+            mostraAlert("Errore", "La data di nascita non può essere nel futuro", Alert.AlertType.ERROR);
             return;
         }
 
         // Controllo telefono: almeno 10 numeri
         if (!tel.matches("\\d{10,}")) {
-            mostraAlert("Errore", "Il numero di telefono deve contenere almeno 10 cifre numeriche");
+            mostraAlert("Errore", "Il numero di telefono deve contenere almeno 10 cifre numeriche", Alert.AlertType.ERROR);
             return;
         }
 
         // Controllo email con regex base
         if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
-            mostraAlert("Errore", "L'indirizzo email non è valido");
+            mostraAlert("Errore", "L'indirizzo email non è valido", Alert.AlertType.ERROR);
             return;
         }
 
         if (codFisc.length() != 16 || !codFisc.matches("^[A-Z0-9]{16}$")) {
-            mostraAlert("Errore", "Codice fiscale non valido. Deve essere lungo 16 caratteri e contenere solo lettere maiuscole e numeri.");
+            mostraAlert("Errore", "Codice fiscale non valido. Deve essere lungo 16 caratteri e contenere solo lettere maiuscole e numeri.", Alert.AlertType.ERROR);
             return;
         }
 
         Utente newU = new Utente();
         ds.updateUtenteSenzaPw(u.getId() ,u.getRuolo(), nome, cognome, data, email, tel, indirizzo, genere, codFisc);
-        mostraAlert("Successo", "Dati modificati con successo");
+        mostraAlert("Successo", "Dati modificati con successo", Alert.AlertType.INFORMATION);
 
+        Utente utenteAggiornato = ds.getUtenteById(u.getId());
+        NavigatorView.setUtenteSelezionato(utenteAggiornato);
         initialize();
     }
 
@@ -166,8 +168,8 @@ public class AnagraficaController {
         initialize();
     }
 
-    public void mostraAlert(String titolo, String contenuto) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titolo);
         alert.setHeaderText(null);
         alert.setContentText(contenuto);

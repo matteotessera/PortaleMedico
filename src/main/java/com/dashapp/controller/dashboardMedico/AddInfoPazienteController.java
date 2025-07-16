@@ -63,6 +63,7 @@ public class AddInfoPazienteController {
 
             annullaButton.setVisible(false);
             annullaButton.setManaged(false);
+            campiEditabili(true);
 
             clearFields();
         } else {
@@ -78,6 +79,7 @@ public class AddInfoPazienteController {
 
             annullaButton.setVisible(false);
             annullaButton.setManaged(false);
+            campiEditabili(false);
 
             riempiCampi();
         }
@@ -120,7 +122,6 @@ public class AddInfoPazienteController {
     }
 
     public void modifica() {
-        // Abilita modifica: nasconde pulsante modifica e mostra inviaModifiche + annulla
         modificaButton.setVisible(false);
         modificaButton.setManaged(false);
 
@@ -129,6 +130,8 @@ public class AddInfoPazienteController {
 
         inviaModificheButton.setVisible(true);
         inviaModificheButton.setManaged(true);
+        campiEditabili(true);
+
     }
 
     private JsonObject costruisciJsonDaCampi() {
@@ -211,6 +214,19 @@ public class AddInfoPazienteController {
         attivitaComboBox.setPromptText("Seleziona attività fisica");
         dietaComboBox.setPromptText("Seleziona dieta");
     }
+
+    private void campiEditabili(boolean val) {
+        fumoComboBox.setEditable(val);
+        alcolComboBox.setEditable(val);
+        obesitaComboBox.setEditable(val);
+        ipertensioneComboBox.setEditable(val);
+        colesteroloComboBox.setEditable(val);
+        stupefacentiComboBox.setEditable(val);
+        attivitaComboBox.setEditable(val);
+        dietaComboBox.setEditable(val);
+        descrizioneArea.setEditable(val);
+    }
+
 
     private void clearFields() {
         fumoComboBox.setValue(null);

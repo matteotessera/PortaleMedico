@@ -256,8 +256,6 @@ public class DataService {
 
     public Farmaco getFarmacoByNome(String nome) throws Exception {
         String url = API_URL + "get_farmaco_by_nome.php?nome=" + URLEncoder.encode(nome, StandardCharsets.UTF_8);
-        System.out.println("URL chiamato: " + url);
-
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -1012,6 +1010,47 @@ public class DataService {
 
 
     // ---=== UPDATE ===---
+
+    public void updateTerapia(
+            int idTerapia,
+            LocalDate dataInizio,
+            LocalDate dataFine,
+            String note,
+            int idPaziente,
+            int idFarmaco,
+            int numeroAssunzioni,
+            int dose
+    ) throws Exception {
+
+        String url = API_URL + "update_terapia_by_id.php";
+
+        String dataInizioStr = dataInizio.toString();
+        String dataFineStr = dataFine.toString();
+
+        // Costruisco il JSON
+        String json = String.format(
+                "{" +
+                        "\"id_terapia\": %d, " +
+                        "\"id_paziente\": %d, " +
+                        "\"id_farmaco\": %d, " +
+                        "\"numero_assunzioni\": %d, " +
+                        "\"dose\": %d, " +
+                        "\"data_inizio\": \"%s\", " +
+                        "\"data_fine\": \"%s\", " +
+                        "\"note\": \"%s\"" +
+                        "}",
+                idTerapia,
+                idPaziente,
+                idFarmaco,
+                numeroAssunzioni,
+                dose,
+                dataInizioStr,
+                dataFineStr,
+                note.replace("\"", "\\\"")
+        );
+
+        post(url, json);
+    }
 
     public void updateInfoPaziente(int id, int idPaziente, String note) throws Exception {
         String url = API_URL + "update_info_paziente.php";

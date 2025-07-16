@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 <?import org.controlsfx.control.*?>
 
-<AnchorPane prefHeight="580.0"  xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddTerapiaController">
+<AnchorPane prefHeight="580.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardMedico.AddTerapiaController">
 
    <children>
       <VBox spacing="20.0" style="-fx-padding: 20 30 20 0;" stylesheets="@../../css/input.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -17,31 +17,19 @@
                <Font name="Roboto Black" size="14.0" />
             </font></Text>
 
-         <GridPane hgap="15" vgap="15">
-            <columnConstraints>
-               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
-               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
-               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
-               <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
-            </columnConstraints>
-
+         <HBox spacing="20.0" >
             <children>
-               <VBox spacing="5" GridPane.columnIndex="0">
+               <VBox spacing="5" HBox.hgrow="ALWAYS">
                   <Label styleClass="labelInput" text="Paziente" />
                   <ComboBox fx:id="sceltaPaziente" maxWidth="Infinity" promptText="Seleziona paziente" />
                </VBox>
 
-               <VBox spacing="5" GridPane.columnIndex="1">
+               <VBox spacing="5" HBox.hgrow="ALWAYS">
                   <Label styleClass="labelInput" text="Farmaco" />
                   <ComboBox fx:id="sceltaFarmaco" maxWidth="Infinity" promptText="Seleziona farmaco" />
                </VBox>
-
             </children>
-
-            <rowConstraints>
-               <RowConstraints />
-            </rowConstraints>
-         </GridPane>
+         </HBox>
 
          <Separator />
 
@@ -53,31 +41,31 @@
                <Font name="Roboto Black" size="14.0" />
             </font></Text>
 
-         <FlowPane alignment="TOP_LEFT" hgap="15" prefWrapLength="600" vgap="15">
+         <HBox alignment="TOP_LEFT" spacing="20.0">
 
             <children>
-               <VBox prefWidth="200.0" spacing="5">
+               <VBox spacing="5" HBox.hgrow="ALWAYS">
                   <Label styleClass="labelInput" text="Numero assunzioni giornaliere" />
                   <TextField fx:id="nAssunzioniField" maxWidth="Infinity" promptText="Inserisci n. assunzioni" />
                </VBox>
 
-               <VBox prefWidth="200.0" spacing="5">
+               <VBox spacing="5" HBox.hgrow="ALWAYS">
                   <Label styleClass="labelInput" text="Dose" />
                   <TextField fx:id="doseField" maxWidth="Infinity" promptText="Inserisci dose" />
                </VBox>
 
-               <VBox prefWidth="200.0" spacing="5">
+               <VBox spacing="5" HBox.hgrow="ALWAYS">
                   <Label styleClass="labelInput" text="Data inizio terapia" />
-                  <DatePicker fx:id="dataInizioPicker" prefHeight="30.0" prefWidth="217.0" />
+                  <DatePicker fx:id="dataInizioPicker" maxWidth="Infinity" />
                </VBox>
 
-               <VBox prefWidth="200.0" spacing="5">
+               <VBox spacing="5" HBox.hgrow="ALWAYS">
                   <Label styleClass="labelInput" text="Data fine terapia" />
-                  <DatePicker fx:id="dataFinePicker" prefHeight="30.0" prefWidth="245.0" />
+                  <DatePicker fx:id="dataFinePicker" maxWidth="Infinity" />
                </VBox>
             </children>
 
-         </FlowPane>
+         </HBox>
 
          <Separator />
 
@@ -104,8 +92,6 @@
             <VBox.margin>
                <Insets top="15.0" />
             </VBox.margin></Button>
-
-         <Label fx:id="statusLabel" managed="true" prefHeight="26.0" styleClass="alert-danger" text="Status message goes here" visible="false" wrapText="true"> </Label>
 
       </VBox>
    </children>

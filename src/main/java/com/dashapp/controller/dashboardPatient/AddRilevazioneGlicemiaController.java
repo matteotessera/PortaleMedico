@@ -53,58 +53,55 @@ public class AddRilevazioneGlicemiaController extends AddController {
     }
 
 
+    public boolean checkCampi() {
+        Rilevazione.TipoPasto tipoPasto = this.pastoBox.getValue();
+        Rilevazione.TipoRilevazione tipoRilevazione = this.quandoBox.getValue();
+        String testoValore = this.valoreField.getText();
+
+        if(tipoPasto == null){
+            mostraAlert("Errore", "Il pasto non è stato selezionato", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if(tipoRilevazione == null){
+            mostraAlert("Errore", "Il momento della rilevazione non è stato selezionato", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (testoValore == null || testoValore.isEmpty()) {
+            mostraAlert("Errore", "Il valore glicemico non è stato inserito", Alert.AlertType.ERROR);
+            return false;
+        }
+        testoValore = testoValore.replace(",", ".");
+
+        if (!testoValore.matches("\\d+(\\.\\d+)?")) {
+            mostraAlert("Errore", "Il valore glicemico ha un valore non valido", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
 
 
     @FXML
     private void aggiungiRilevazione() throws Exception {
-        // crea nuovo tipo RilevazioneGlicemia
-        Rilevazione.TipoPasto tipoPasto = this.pastoBox.getValue();
-        Rilevazione.TipoRilevazione tipoRilevazione = this.quandoBox.getValue();
 
-        Double valore;
-        try {
-            valore = Double.parseDouble(this.valoreField.getText());
-        } catch (NumberFormatException e) {
-            System.err.println("Errore: valore glicemia non valido");
-            erroreLabel.setText("Errore: valore glicemia non valido");
-            erroreLabel.setStyle("-fx-text-fill: red");
-            return; // oppure mostra un alert
+        if(checkCampi()) {
+            Rilevazione.TipoPasto tipoPasto = this.pastoBox.getValue();
+            Rilevazione.TipoRilevazione tipoRilevazione = this.quandoBox.getValue();
+
+            Double valore = Double.parseDouble(valoreField.getText().replace(",", "."));
+
+            ds.addRilevazionePaziente(valore, tipoRilevazione.toString().toLowerCase(), BoxDashboardControllerPatient.u.getId(), tipoPasto.toString().toLowerCase());
+            mostraAlert("Successo", "La registrazione glicemica è stata effettuata con successo", Alert.AlertType.INFORMATION);
+
+            parentController.FlagRilevazioniLabel.setText("Oggi hai eseguito " + (parentController.countRilevazioni + 1) + " rilevazion" + (parentController.countRilevazioni == 1 ? "e" : "i"));
+
+            inviaAvvisoAlMedico(valore, tipoRilevazione);
+            parentController.updateGrafico();
+            parentController.backToDashboard();
         }
-
-        LocalTime orario;
-        try {
-            orario = LocalTime.parse(this.orarioField.getText()); // formato: "HH:mm" o "HH:mm:ss"
-        } catch (DateTimeParseException e) {
-            System.err.println("Errore: orario non valido, formato: \"HH:mm\" o \"HH:mm:ss\"");
-            erroreLabel.setText("Errore: orario non valido, formato: \"HH:mm\" o \"HH:mm:ss\"");
-            erroreLabel.setStyle("-fx-text-fill: red");
-            return; // oppure mostra un alert per l'utente
-        }
-
-
-        if(tipoRilevazione == null){
-            System.err.println("Errore: tipo rilevazione non selezionato");
-            erroreLabel.setText("Errore: tipo rilevazione non selezionato");
-            erroreLabel.setStyle("-fx-text-fill: red");
-            return; // oppure mostra un alert per l'utente
-        }
-        if(tipoPasto == null){
-            System.err.println("Errore: pasto non selezionato");
-            erroreLabel.setText("Errore: pasto non selezionato");
-            erroreLabel.setStyle("-fx-text-fill: red");
-            return; // oppure mostra un alert per l'utente
-        }
-
-
-        ds.addRilevazionePaziente(valore, tipoRilevazione.toString().toLowerCase(), BoxDashboardControllerPatient.u.getId(), tipoPasto.toString().toLowerCase());
-        erroreLabel.setText("Oggetto inviato con successo");
-        erroreLabel.setStyle("-fx-text-fill: green");
-
-        parentController.FlagRilevazioniLabel.setText("Oggi hai eseguito " + (parentController.countRilevazioni+1) + " rilevazion" + (parentController.countRilevazioni == 1 ? "e" : "i"));
-
-        inviaAvvisoAlMedico(valore, tipoRilevazione);
-        parentController.updateGrafico();
-        parentController.backToDashboard();
 
     }
 
@@ -120,7 +117,7 @@ public class AddRilevazioneGlicemiaController extends AddController {
         LocalTime now = LocalTime.now();
         if(quando.toString().equals("PRE")){
             if(valore < 80){
-                mostraAlert("ATTENZIONE!", "il valore glicemico rilevato (" + valore + ") risulta sotto i valori previsti per le assunzioni preprandiali");
+                mostraAlert("Attenzione!", "il valore glicemico rilevato (" + valore + ") risulta sotto i valori previsti per le assunzioni preprandiali", Alert.AlertType.WARNING);
 
                 String oggetto = "⚠ Avviso Glicemia Bassa";
                 String corpo = "Paziente: " + paziente.getNome() + " " + paziente.getCognome() +
@@ -135,7 +132,7 @@ public class AddRilevazioneGlicemiaController extends AddController {
                         'G', false);*/
             }
             if(valore > 130){
-                mostraAlert("ATTENZIONE!", "Il valore glicemico rilevato (" + valore + ") è sopra i valori previsti prima dei pasti.");
+                mostraAlert("Attenzione!", "Il valore glicemico rilevato (" + valore + ") è sopra i valori previsti prima dei pasti.", Alert.AlertType.WARNING);
                 String oggetto = "⚠ Avviso Glicemia Alta";
                 String corpo = "Paziente: " + paziente.getNome() + " " + paziente.getCognome() +
                         "\nEmail: " + paziente.getEmail() +
@@ -151,7 +148,7 @@ public class AddRilevazioneGlicemiaController extends AddController {
         }
         else if(quando.toString().equals("POST")){
             if(valore > 180){
-                mostraAlert("ATTENZIONE!", "Il valore glicemico rilevato (" + valore + ") è sopra i valori previsti dopo i pasti.");
+                mostraAlert("Attenzione!", "Il valore glicemico rilevato (" + valore + ") è sopra i valori previsti dopo i pasti.", Alert.AlertType.WARNING);
 
                 String oggetto = "⚠ Avviso Glicemia Alta";
                 String corpo = "Paziente: " + paziente.getNome() + " " + paziente.getCognome() +
@@ -171,16 +168,11 @@ public class AddRilevazioneGlicemiaController extends AddController {
 
     }
 
-    public void mostraAlert(String titolo, String contenuto) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titolo);
-        alert.setHeaderText(null);  // Puoi mettere un header se vuoi
+        alert.setHeaderText(null);
         alert.setContentText(contenuto);
         alert.showAndWait();
     }
-
-
-
-
-
 }

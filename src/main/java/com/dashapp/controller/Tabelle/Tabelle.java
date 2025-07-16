@@ -140,7 +140,7 @@ public class Tabelle {
             );
             prendiInCaricoButton.setPrefWidth(azioneWidth);
             prendiInCaricoButton.setOnAction(e -> {
-                System.out.println("Preso in carico: " + r.getValore() + " " + r.getData());
+                //System.out.println("Preso in carico: " + r.getValore() + " " + r.getData());
                 try {
                     NavigatorView.setRilevaizoneSelezionata(r);
                     controller.vediRilevazione();
@@ -222,7 +222,7 @@ public class Tabelle {
             );
             visualizzaButton.setPrefWidth(azioneWidth);
             visualizzaButton.setOnAction(e -> {
-                System.out.println("Selezionata assunzione: " +a.getId());
+                //System.out.println("Selezionata assunzione: " +a.getId());
                 try {
                     NavigatorView.setAssunzioneSelezionata(a);
                     controller.vediAssunzione();
@@ -298,7 +298,7 @@ public class Tabelle {
             );
             prendiInCaricoButton.setPrefWidth(azioneWidth);
             prendiInCaricoButton.setOnAction(e -> {
-                System.out.println("Preso in carico: " + t.getNote());
+                //System.out.println("Preso in carico: " + t.getNote());
                 try {
                     NavigatorView.setTerapiaSelezionata(t);
                     controller.vediTerapia();
@@ -377,7 +377,7 @@ public class Tabelle {
             );
             prendiInCaricoButton.setPrefWidth(azioneWidth);
             prendiInCaricoButton.setOnAction(e -> {
-                System.out.println("Preso in carico: " + s.getDescrizione());
+                //System.out.println("Preso in carico: " + s.getDescrizione());
                 try {
                     NavigatorView.setSintomoSelezionato(s);
                     controller.vediSintomo();

@@ -126,44 +126,42 @@ public class AddTerapiaController extends AddController {
     }
 
     private boolean checkCampiValidi() {
-        String messaggioErrore = "";
 
         if (sceltaPaziente.getValue() == null) {
-            messaggioErrore += "Seleziona un paziente\n";
+            mostraAlert("Errore", "Seleziona un paziente", Alert.AlertType.ERROR);
+            return false;
         }
         if (sceltaFarmaco.getValue() == null) {
-            messaggioErrore += "Seleziona un farmaco\n";
+            mostraAlert("Errore", "Seleziona un farmaco", Alert.AlertType.ERROR);
+            return false;
         }
         if (nAssunzioniField.getText() == null || nAssunzioniField.getText().trim().isEmpty()) {
-            messaggioErrore += "Inserisci il numero di assunzioni\n";
+            mostraAlert("Errore", "Inserisci il numero di assunzioni", Alert.AlertType.ERROR);
+            return false;
         }
         if (doseField.getText() == null || doseField.getText().trim().isEmpty()) {
-            messaggioErrore += "Inserisci la dose\n";
+            mostraAlert("Errore", "Inserisci la dose", Alert.AlertType.ERROR);
+            return false;
         }
         if (dataInizioPicker.getValue() == null) {
-            messaggioErrore += "Seleziona una data di inizio\n";
+            mostraAlert("Errore", "Seleziona una data di inizio", Alert.AlertType.ERROR);
+            return false;
         }
         if (dataFinePicker.getValue() == null) {
-            messaggioErrore += "Seleziona una data di fine\n";
+            mostraAlert("Errore", "Seleziona una data di fine", Alert.AlertType.ERROR);
+            return false;
         }
         if (note.getText() == null || note.getText().trim().isEmpty()) {
-            messaggioErrore += "Inserisci una nota\n";
+            mostraAlert("Errore", "Note non inserite", Alert.AlertType.ERROR);
+
+            return false;
         }
         if (dataInizioPicker.getValue() != null && dataFinePicker.getValue() != null) {
             if (dataFinePicker.getValue().isBefore(dataInizioPicker.getValue())) {
-                messaggioErrore += "La data di fine deve essere successiva alla data di inizio\n";
+                mostraAlert("Errore", "La data di fine deve essere successiva alla data di inizio", Alert.AlertType.ERROR);
+                return false;
             }
         }
-
-        if (!messaggioErrore.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText("Errora");
-            alert.setContentText(messaggioErrore);
-            alert.showAndWait();
-            return false;
-        }
-
         return true;
     }
 
@@ -183,5 +181,14 @@ public class AddTerapiaController extends AddController {
         statusLabel.setStyle("-fx-text-fill: green;");
         statusLabel.setVisible(true);
     }
+
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenuto);
+        alert.showAndWait();
+    }
+
 
 }

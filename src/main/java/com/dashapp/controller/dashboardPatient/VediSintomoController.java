@@ -16,17 +16,19 @@ public class VediSintomoController {
 
     private Sintomo sintomo;
     @FXML
-    public Button modificaButton;
+    private Button modificaButton;
     @FXML
-    public TextArea descrizioneTextArea;
+    private TextArea descrizioneTextArea;
     @FXML
-    public Button annullaButton;
+    private Button annullaButton;
     @FXML
-    public Button confermaButton;
+    private Button confermaButton;
     @FXML
-    public DatePicker dataArea;
+    private DatePicker dataField;
     @FXML
-    public TextField textField;
+    private Spinner oraField;
+    @FXML
+    private Spinner minutiField;
 
     @FXML
     public void initialize(){
@@ -39,15 +41,18 @@ public class VediSintomoController {
         confermaButton.setManaged(false);
         descrizioneTextArea.setEditable(false);
 
-        dataArea.setEditable(false);
-        dataArea.setMouseTransparent(true);
-        dataArea.setFocusTraversable(false);
+        dataField.setEditable(false);
+        dataField.setMouseTransparent(true);
+        dataField.setFocusTraversable(false);
 
-        textField.setEditable(false);
+        oraField.setEditable(false);
+        minutiField.setEditable(false);
 
-        descrizioneTextArea.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
-        dataArea.setStyle( "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
-        textField.setStyle("-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+        //textField.setEditable(false);
+
+        /*descrizioneTextArea.setStyle( "-fx-background-color: transparent; -fx-font-size: 16px;");
+        dataField.setStyle( "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+        textField.setStyle("-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");*/
 
         caricaDati();
     }
@@ -56,8 +61,13 @@ public class VediSintomoController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         descrizioneTextArea.setText(sintomo.getDescrizione());
-        dataArea.setValue(sintomo.getData().toLocalDate());
-        textField.setText(sintomo.getData().toLocalTime().toString());
+        dataField.setValue(sintomo.getData().toLocalDate());
+
+        oraField.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0));
+        minutiField.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0));
+
+        oraField.getValueFactory().setValue(sintomo.getData().toLocalTime().getHour());
+        minutiField.getValueFactory().setValue(sintomo.getData().toLocalTime().getMinute());
 
     }
 
@@ -72,58 +82,69 @@ public class VediSintomoController {
         modificaButton.setVisible(false);
 
         descrizioneTextArea.setEditable(true);
-        dataArea.setEditable(true);
-        dataArea.setMouseTransparent(false);
-        dataArea.setFocusTraversable(true);
-        textField.setEditable(true);
+        dataField.setEditable(true);
+        dataField.setMouseTransparent(false);
+        dataField.setFocusTraversable(true);
+        oraField.setEditable(true);
+        minutiField.setEditable(true);
 
-        String bordoBlu = "-fx-border-color: #0078ff; -fx-border-width: 1;";
+        /*String bordoBlu = "-fx-border-color: #0078ff; -fx-border-width: 1;";
         descrizioneTextArea.setStyle(bordoBlu + " -fx-font-size: 16px;");
-        dataArea.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
-        textField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+        dataField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");
+        textField.setStyle(bordoBlu + "-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 26px;");*/
     }
 
     public void annullaModifica(){
         initialize();
-
     }
+
+    public boolean checkCampi() {
+        LocalDate data = dataField.getValue();
+        int ora = (int) oraField.getValue();
+        int minuti = (int) minutiField.getValue();
+
+        if (data == null) {
+            mostraAlert("Errore", "Devi inserire una data.", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (data.isAfter(LocalDate.now())) {
+            mostraAlert("Errore", "La data non può essere nel futuro", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (ora < 0 || ora > 23) {
+            mostraAlert("Errore", "L'ora ha un valore errato (deve essere tra 0 e 23)", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (minuti < 0 || minuti > 59) {
+            mostraAlert("Errore", "I minuti hanno un valore errato (deve essere tra 0 e 59)", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
 
     public void InviaModifica() throws Exception {
         DataService ds = new DataService();
-        LocalDate data = dataArea.getValue();
-        String orarioString = textField.getText();
 
-        // Validazione base
-        if (data == null || orarioString == null || orarioString.isBlank()) {
-            mostraAlert("Errore", "Data o ora non validi.");
-            return;
+        if(checkCampi()) {
+            LocalDate data = dataField.getValue();
+            LocalTime orario = LocalTime.of((Integer) oraField.getValue(), (Integer) minutiField.getValue());
+            LocalDateTime nuovaData = LocalDateTime.of(data, orario);
+
+            ds.updateSintomo(sintomo.getId(), descrizioneTextArea.getText(), sintomo.getIdPaziente(), nuovaData);
+            mostraAlert("Successo", "Sintomo modificato correttamente!", Alert.AlertType.INFORMATION);
+
+            sintomo = ds.getSintomoById(sintomo.getId());
+            NavigatorView.setSintomoSelezionato(sintomo);
+            initialize();
         }
-
-        LocalTime orario;
-        try {
-            orario = LocalTime.parse(orarioString); // Assumendo formato HH:mm[:ss]
-        } catch (DateTimeParseException e) {
-            mostraAlert("Formato ora non valido", "Usa il formato HH:mm o HH:mm:ss");
-            return;
-        }
-
-        LocalDateTime nuovaData = LocalDateTime.of(data, orario);
-
-        ds.updateSintomo(sintomo.getId(), descrizioneTextArea.getText(), sintomo.getIdPaziente(), nuovaData );
-
-        sintomo = ds.getSintomoById(sintomo.getId());
-
-
-        NavigatorView.setSintomoSelezionato(sintomo);
-
-        mostraAlert("Successo", "Farmaco modificato correttamente!");
-        initialize();
     }
 
-    public void mostraAlert(String titolo, String contenuto) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titolo);
-        alert.setHeaderText(null);  // Puoi mettere un header se vuoi
+        alert.setHeaderText(null);
         alert.setContentText(contenuto);
         alert.showAndWait();
     }

@@ -99,8 +99,6 @@ public class DashboardMedicController {
                 mostraTextMeico();
         }
 
-
-
         public void mostraBox() throws IOException {
                 //showOverlay("AddPazienti.fxml", overlayPanePazienti);
 
