@@ -1274,6 +1274,14 @@ public class DataService {
 
     // ---=== DELETE ===---
 
+    public void deleteUtente(int id) throws Exception {
+        String url = API_URL + "delete_utente.php";
+
+        String json = String.format("{\"id\":%d}", id);
+
+        post(url, json);
+    }
+
     public void deleteInfoPaziente(int idInfo) throws Exception {
         String url = API_URL + "delete_info_paziente.php";
 
