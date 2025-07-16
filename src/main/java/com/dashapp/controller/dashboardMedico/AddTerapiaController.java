@@ -140,8 +140,19 @@ public class AddTerapiaController extends AddController {
             mostraAlert("Errore", "Inserisci il numero di assunzioni", Alert.AlertType.ERROR);
             return false;
         }
+        String nAssunzioniText = nAssunzioniField.getText();
+
+        if (!nAssunzioniText.trim().matches("\\d+")) {
+            mostraAlert("Errore", "Il numero di assunzioni deve essere un numero intero positivo", Alert.AlertType.ERROR);
+            return false;
+        }
+        String doseText = doseField.getText();
         if (doseField.getText() == null || doseField.getText().trim().isEmpty()) {
             mostraAlert("Errore", "Inserisci la dose", Alert.AlertType.ERROR);
+            return false;
+        }
+        if (!doseText.trim().matches("\\d+")) {
+            mostraAlert("Errore", "La dose deve essere un numero intero positivo", Alert.AlertType.ERROR);
             return false;
         }
         if (dataInizioPicker.getValue() == null) {
