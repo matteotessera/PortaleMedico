@@ -265,8 +265,8 @@ public class messaggiController {
                         getStyleClass().setAll("list-cell");
 
                         Label infoUtente = new Label(uSelezionato.toString());
-                        Button scriviButton = new Button("Invia Dm");
-
+                        Button scriviButton = new Button("Invia messaggio");
+                        scriviButton.setStyle("-fx-background-color: #1e3746;");
 
                         Region spacer = new Region();
                         HBox.setHgrow(spacer, Priority.ALWAYS); // fa sì che il Region si espanda e spinga il bottone a destra
@@ -274,7 +274,6 @@ public class messaggiController {
                         HBox wrapper = new HBox(infoUtente, spacer, scriviButton);
                         wrapper.setSpacing(10);
                         wrapper.setAlignment(Pos.CENTER_LEFT); // allinea verticalmente al centro
-
 
                         setGraphic(wrapper);
 

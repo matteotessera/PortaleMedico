@@ -150,8 +150,10 @@ public class AnagraficaController {
             return;
         }
 
-        if (codFisc.length() != 16 || !codFisc.matches("^[A-Z0-9]{16}$")) {
-            mostraAlert("Errore", "Codice fiscale non valido. Deve essere lungo 16 caratteri e contenere solo lettere maiuscole e numeri.", Alert.AlertType.ERROR);
+        String patternCF = "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$";
+
+        if (!codFisc.matches(patternCF)) {
+            mostraAlert("Errore", "Codice fiscale non valido. Verifica il formato.", Alert.AlertType.ERROR);
             return;
         }
 

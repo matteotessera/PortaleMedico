@@ -26,60 +26,71 @@
                   </HBox>
 
                   <!-- GridPane con form -->
-                <FlowPane alignment="TOP_LEFT" hgap="20" prefWidth="1200.0" prefWrapLength="640" stylesheets="@../css/input.css" vgap="20">
+                <GridPane hgap="20" vgap="20" stylesheets="@../css/input.css" VBox.vgrow="ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="25"/>
+                        <ColumnConstraints percentWidth="25"/>
+                        <ColumnConstraints percentWidth="25"/>
+                        <ColumnConstraints percentWidth="25"/>
+                    </columnConstraints>
+
+                    <rowConstraints>
+                        <RowConstraints vgrow="ALWAYS"/>
+                    </rowConstraints>
+
                     <children>
                         <!-- Nome -->
-                        <VBox prefWidth="270" spacing="5">
+                        <VBox GridPane.columnIndex="0" spacing="5" HBox.hgrow="ALWAYS">
                             <Label styleClass="labelInput" text="Nome" />
-                            <TextField fx:id="nomeField" promptText="Inserisci nome" />
+                            <TextField fx:id="nomeField" promptText="Inserisci nome" maxWidth="Infinity" />
                         </VBox>
 
                         <!-- Cognome -->
-                        <VBox prefWidth="270" spacing="5">
+                        <VBox  GridPane.columnIndex="1" spacing="5" HBox.hgrow="ALWAYS">
                             <Label styleClass="labelInput" text="Cognome" />
-                            <TextField fx:id="cognomeField" promptText="Inserisci cognome" />
+                            <TextField fx:id="cognomeField" promptText="Inserisci cognome" maxWidth="Infinity" />
                         </VBox>
 
                         <!-- Data di Nascita -->
-                        <VBox prefWidth="270" spacing="5">
+                        <VBox GridPane.columnIndex="2" spacing="5" HBox.hgrow="ALWAYS">
                             <Label styleClass="labelInput" text="Data di Nascita" />
-                            <DatePicker fx:id="dataNascitaField" prefHeight="27.0" prefWidth="300.0" promptText="gg/mm/aaaa" />
+                            <DatePicker fx:id="dataNascitaField" promptText="gg/mm/aaaa"  maxWidth="Infinity"/>
                         </VBox>
 
                         <!-- Codice Fiscale -->
-                        <VBox prefWidth="270" spacing="5">
+                        <VBox GridPane.columnIndex="3" spacing="5" HBox.hgrow="ALWAYS">
                             <Label styleClass="labelInput" text="Codice Fiscale" />
-                            <TextField fx:id="codiceFiscaleField" promptText="Inserisci codice fiscale" />
+                            <TextField fx:id="codiceFiscaleField" promptText="Inserisci codice fiscale" maxWidth="Infinity" />
                         </VBox>
 
                         <!-- Telefono -->
-                        <VBox prefWidth="270" spacing="5">
+                        <VBox GridPane.rowIndex="1" GridPane.columnIndex="0" spacing="5" HBox.hgrow="ALWAYS">
                             <Label styleClass="labelInput" text="Telefono" />
-                            <TextField fx:id="telefonoField" promptText="Inserisci numero" />
+                            <TextField fx:id="telefonoField" promptText="Inserisci numero" maxWidth="Infinity"/>
                         </VBox>
 
                         <!-- Email -->
-                        <VBox prefWidth="270" spacing="5">
+                        <VBox GridPane.rowIndex="1" GridPane.columnIndex="1" spacing="5" HBox.hgrow="ALWAYS">
                             <Label styleClass="labelInput" text="Email" />
-                            <TextField fx:id="emailField" promptText="Inserisci email" />
+                            <TextField fx:id="emailField" promptText="Inserisci email" maxWidth="Infinity"/>
                         </VBox>
 
                         <!-- Indirizzo -->
-                        <VBox prefWidth="270" spacing="5">
+                        <VBox GridPane.rowIndex="1" GridPane.columnIndex="2" spacing="5" HBox.hgrow="ALWAYS">
                             <Label styleClass="labelInput" text="Indirizzo" />
-                            <TextField fx:id="indirizzoField" promptText="Via, numero civico" />
+                            <TextField fx:id="indirizzoField" promptText="Via, numero civico" maxWidth="Infinity"/>
                         </VBox>
 
                         <!-- Genere -->
-                        <VBox prefWidth="270" spacing="5">
+                        <VBox GridPane.rowIndex="1" GridPane.columnIndex="3" spacing="5" HBox.hgrow="ALWAYS">
                             <Label styleClass="labelInput" text="Genere" />
-                            <ComboBox fx:id="genereField" maxWidth="310.4" prefHeight="27.0" promptText="Inserisci genere" />
+                            <ComboBox fx:id="genereField" promptText="Inserisci genere" maxWidth="Infinity"/>
                         </VBox>
                     </children>
                   <VBox.margin>
                      <Insets bottom="30.0" top="30.0" />
                   </VBox.margin>
-                </FlowPane>
+                </GridPane>
 
                   <HBox alignment="TOP_CENTER" spacing="20.0">
                       <children>

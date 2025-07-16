@@ -8,9 +8,9 @@
 <AnchorPane prefHeight="413.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dashapp.controller.dashboardAdmin.AddUtentiController">
 
    <children>
-      <VBox prefHeight="390.0" prefWidth="934.0" spacing="20.0" style="-fx-padding: 20 30 20 0;" stylesheets="@../../css/input.css">
+      <VBox prefHeight="390.0" prefWidth="934.0" spacing="20.0" style="-fx-padding: 20 30 20 0;" stylesheets="@../../css/input.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-         <GridPane hgap="20" prefHeight="244.0" prefWidth="844.0" stylesheets="@../../css/input.css" vgap="15.0" VBox.vgrow="ALWAYS">
+         <GridPane hgap="20" stylesheets="@../../css/input.css" vgap="15.0" VBox.vgrow="ALWAYS">
             <columnConstraints>
                <ColumnConstraints percentWidth="50" />
                <ColumnConstraints percentWidth="50" />
@@ -23,7 +23,7 @@
                         <Font size="14" />
                      </font>
                   </Label>
-                  <TextField fx:id="nomeField" style="-fx-background-radius: 4;" />
+                  <TextField fx:id="nomeField" promptText="Inserisci nome" style="-fx-background-radius: 4;" />
                </VBox>
                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
                   <Label styleClass="labelInput" text="Cognome" textFill="#444">
@@ -31,7 +31,7 @@
                         <Font size="14" />
                      </font>
                   </Label>
-                  <TextField fx:id="cognomeField" style="-fx-background-radius: 4;" />
+                  <TextField fx:id="cognomeField" promptText="Inserisci cognome" style="-fx-background-radius: 4;" />
                </VBox>
 
                <!-- Riga 2 -->
@@ -41,7 +41,7 @@
                         <Font size="14" />
                      </font>
                   </Label>
-                  <DatePicker fx:id="dataField" prefHeight="23.0" prefWidth="451.0" />
+                  <DatePicker fx:id="dataField" promptText="Inserisci data di nascita" maxWidth="Infinity"/>
                </VBox>
                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   <Label styleClass="labelInput" text="Codice Fiscale" textFill="#444">
@@ -49,7 +49,7 @@
                         <Font size="14" />
                      </font>
                   </Label>
-                  <TextField fx:id="codiceFiscaleField" style="-fx-background-radius: 4;" />
+                  <TextField fx:id="codiceFiscaleField" promptText="Inserisci codice fiscale" style="-fx-background-radius: 4;" />
                </VBox>
 
                <!-- Riga 3 -->
@@ -59,7 +59,7 @@
                         <Font size="14" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="genereComboBox" prefHeight="23.0" prefWidth="461.0" />
+                  <ComboBox fx:id="genereComboBox" promptText="Inserisci genere" maxWidth="Infinity"/>
                </VBox>
                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
                   <Label styleClass="labelInput" text="Indirizzo" textFill="#444">
@@ -67,7 +67,7 @@
                         <Font size="14" />
                      </font>
                   </Label>
-                  <TextField fx:id="indirizzoField" style="-fx-background-radius: 4;" />
+                  <TextField fx:id="indirizzoField" promptText="Inserisci indirizzo" style="-fx-background-radius: 4;" />
                </VBox>
 
                <!-- Riga 4 -->
@@ -77,25 +77,25 @@
                         <Font size="14" />
                      </font>
                   </Label>
-                  <TextField fx:id="emailField" style="-fx-background-radius: 4;" />
+                  <TextField fx:id="emailField" promptText="Inserisci email" style="-fx-background-radius: 4;" />
                </VBox>
-               <VBox prefHeight="0.0" prefWidth="392.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <VBox prefHeight="0.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
                   <Label styleClass="labelInput" text="Telefono" textFill="#444">
                      <font>
                         <Font size="14" />
                      </font>
                   </Label>
-                  <TextField fx:id="telefonoField" style="-fx-background-radius: 4;" />
+                  <TextField fx:id="telefonoField" promptText="Inserisci telefono" style="-fx-background-radius: 4;" />
                </VBox>
 
                <!-- Riga 5 -->
-               <VBox prefHeight="0.0" prefWidth="392.0" spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="4">
+               <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="4">
                   <Label styleClass="labelInput" text="Ruolo" textFill="#444">
                      <font>
                         <Font size="14" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="ruoloComboBox" prefHeight="23.0" prefWidth="458.0" />
+                  <ComboBox fx:id="ruoloComboBox" promptText="Seleziona ruolo" maxWidth="Infinity" />
                </VBox>
 
                <VBox prefHeight="0.0" prefWidth="392.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="4">
@@ -104,7 +104,7 @@
                         <Font size="14" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="passwordField" disable="true" prefHeight="23.0" prefWidth="458.0" />
+                  <PasswordField fx:id="passwordField" disable="true" prefHeight="23.0" prefWidth="458.0" promptText="La password viene caricata automaticamente" />
                   <HBox alignment="CENTER_LEFT" spacing="10">
                      <Button onAction="#generaPasswordCasuale" style="-fx-background-color: #cb6ce6; -fx-text-fill: white; -fx-background-radius: 12;" text="Genera password">
                         <padding>

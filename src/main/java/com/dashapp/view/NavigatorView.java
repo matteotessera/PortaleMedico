@@ -19,7 +19,6 @@ public class NavigatorView {
 
     // Current authenticated username
     private static String authenticatedUser = null;
-
     private static Utente paziente = null;
     private static Farmaco farmaco = null;
     private static Sintomo sintomo = null;

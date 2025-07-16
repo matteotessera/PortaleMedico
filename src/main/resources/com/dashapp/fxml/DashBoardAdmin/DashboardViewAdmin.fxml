@@ -234,7 +234,7 @@
                                                     <Font name="Roboto Medium" size="14.0" />
                                                 </font>
                                             </Label>
-                                            <ComboBox fx:id="utenteComboBox" prefWidth="180.0" />
+                                            <ComboBox fx:id="utenteComboBox" prefWidth="180.0" promptText="Seleziona paziente" stylesheets="@../../css/input.css" />
                                         </children>
                                     </VBox>
 

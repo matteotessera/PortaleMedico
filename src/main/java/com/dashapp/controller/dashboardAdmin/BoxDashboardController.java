@@ -469,9 +469,35 @@ public class BoxDashboardController {
                     }
             });
 
-            rigaUtente.getChildren().addAll(
-                    nomeLabel, cognomeLabel, cfLabel, nascitaLabel, indirizzoLabel, emailLabel, telLabel, buttonUtente
+            // Bottone Elimina
+            Button eliminaButton = new Button("Elimina");
+            eliminaButton.setStyle(
+                    "-fx-background-color: #d9534f;" +
+                            "-fx-text-fill: white;"
             );
+            eliminaButton.setPrefWidth(azioneWidth);
+            eliminaButton.setOnAction(e -> {
+
+                String titoloAlert = "Conferma eliminazione";
+                String text = "Sei sicuro di eliminare l'utente " + u.getNome()+" "+u.getCognome() +" ?";
+
+                Optional<ButtonType> result = alertEliminazione(titoloAlert, text);
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    try {
+                        ds.deleteUtente(u.getId());
+                        System.out.println("utente eliminato");
+                        listaUtenti();
+
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    System.out.println("Eliminazione annullata");
+                }
+            });
+
+            rigaUtente.getChildren().addAll(
+                    nomeLabel, cognomeLabel, cfLabel, nascitaLabel, indirizzoLabel, emailLabel, telLabel, buttonUtente, eliminaButton);
 
             listaUtentiBox.getChildren().add(rigaUtente);
         }

@@ -85,36 +85,36 @@ public class AddUtentiController extends AddController {
         if (nome.isEmpty() || cognome.isEmpty() || codiceFiscale.isEmpty() || dataNascita == null ||
                 genere == null || indirizzo.isEmpty() || email.isEmpty() || telefono.isEmpty() ||
                 password.isEmpty() || ruolo == null) {
-                mostraAlert("Errore", "Tutti i campi devono essere compilati");
+                mostraAlert("Errore", "Tutti i campi devono essere compilati", Alert.AlertType.ERROR);
                 return;
         }
 
         // Controllo telefono: almeno 10 numeri
         if (! (telefono.length() == 10)) {
-            mostraAlert("Errore", "Il numero di telefono deve contenere almeno 10 cifre numeriche");
+            mostraAlert("Errore", "Il numero di telefono deve contenere almeno 10 cifre numeriche", Alert.AlertType.ERROR);
             return;
         }
 
         // Controllo email con regex base
         if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
-            mostraAlert("Errore", "L'indirizzo email non è valido");
+            mostraAlert("Errore", "L'indirizzo email non è valido", Alert.AlertType.ERROR);
             return;
         }
 
         if (codiceFiscale.length() != 16 || !codiceFiscale.matches("^[A-Z0-9]{16}$")) {
-            mostraAlert("Errore", "Codice fiscale non valido. Deve essere lungo 16 caratteri e contenere solo lettere maiuscole e numeri.");
+            mostraAlert("Errore", "Codice fiscale non valido. Deve essere lungo 16 caratteri e contenere solo lettere maiuscole e numeri.", Alert.AlertType.ERROR);
             return;
         }
 
         // Controllo password: esattamente 5 caratteri
         if (password.length() != 5) {
-            mostraAlert("Errore", "La password deve essere composta esattamente da 5 caratteri");
+            mostraAlert("Errore", "La password deve essere composta esattamente da 5 caratteri", Alert.AlertType.ERROR);
             return;
         }
 
         try {
             ds.addUtente(password, ruolo, nome, cognome, codiceFiscale, dataNascita, email, telefono, indirizzo, genere);
-            mostraAlert("Successo", "L'utente "+nome+" "+cognome+" è stato aggiunto correttamente!");
+            mostraAlert("Successo", "L'utente "+nome+" "+cognome+" è stato aggiunto correttamente!", Alert.AlertType.INFORMATION);
             svuotaCampi();
 
             String templatePath = "/com/dashapp/fileCredenziali/template.pdf";  // percorso nel resources
@@ -123,7 +123,7 @@ public class AddUtentiController extends AddController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            mostraAlert("Errore", "Errore durante il salvataggio dell'utente nel database.");
+            mostraAlert("Errore", "Errore durante il salvataggio dell'utente nel database.", Alert.AlertType.ERROR);
         }
 
     }
@@ -174,20 +174,8 @@ public class AddUtentiController extends AddController {
         passwordField.setText(password.toString());
     }
 
-    public void showError(String message) {
-        statoAggiungiUtente.setText(message);
-        statoAggiungiUtente.setStyle("-fx-text-fill: red;");
-        statoAggiungiUtente.setVisible(true);
-    }
-
-    public void showSuccess(String message) {
-        statoAggiungiUtente.setText(message);
-        statoAggiungiUtente.setStyle("-fx-text-fill: green;");
-        statoAggiungiUtente.setVisible(true);
-    }
-
-    public void mostraAlert(String titolo, String contenuto) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
         alert.setTitle(titolo);
         alert.setHeaderText(null);
         alert.setContentText(contenuto);

@@ -119,7 +119,8 @@ public class AddTerapiaController extends AddController {
             int nAssunzioni = Integer.parseInt(nAssunzioniField.getText());
             int idFarmaco = ds.getFarmacoByNome(sceltaFarmaco.getSelectionModel().getSelectedItem().toString()).getId();
             ds.addTerapia(dataInizioPicker.getValue(), dataFinePicker.getValue(), note.getText(), idPaziente, idFarmaco, nAssunzioni, dose);
-            showMessage("Terapia assegnata con successo!");
+            mostraAlert("Successo", "Terapia assegnata con successo!", Alert.AlertType.INFORMATION);
+
             clearForm();
         }
 
@@ -174,12 +175,6 @@ public class AddTerapiaController extends AddController {
         dataInizioPicker.setValue(null);
         dataFinePicker.setValue(null);
         note.clear();
-    }
-
-    private void showMessage(String message){
-        statusLabel.setText(message);
-        statusLabel.setStyle("-fx-text-fill: green;");
-        statusLabel.setVisible(true);
     }
 
     public void mostraAlert(String titolo, String contenuto, Alert.AlertType tipo) {
